@@ -1,0 +1,11 @@
+{
+  "nav": {
+    "home": "Início",
+    "about": "Sobre",
+    "projects": "Projetos"
+  },
+  "hero": {
+    "greeting": "Olá! Meu nome é",
+    "role": "Desenvolvedor Fullstack"
+  }
+}
