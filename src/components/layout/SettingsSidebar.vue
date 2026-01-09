@@ -1,6 +1,7 @@
 <script setup>
 import { useSettings } from '@/composables/useSettings'
 import { useTheme } from '@/composables/useTheme'
+import { useI18n } from 'vue-i18n'
 
 const {
     isSidebarOpen,
@@ -21,6 +22,8 @@ const languages = [
     { code: 'it', label: 'Italiano', flag: '🇮🇹' },
     { code: 'es', label: 'Español', flag: '🇪🇸' }
 ]
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -30,30 +33,32 @@ const languages = [
 
                 <aside class="sidebar-panel">
                     <header class="sidebar-header">
-                        <h3 class="sidebar-title">Configurações</h3>
-                        <button @click="closeSidebar" class="close-btn" aria-label="Fechar Menu">
-                            &times;
+                        <h3 class="sidebar-title">Configs</h3>
+                        
+                        <button @click="closeSidebar" class="close-btn" :aria-label="t('settings.close_menu')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
                         </button>
                     </header>
 
                     <div class="sidebar-content">
 
                         <div class="setting-group">
-                            <label class="group-label">Aparência</label>
+                            <label class="group-label">{{ t('settings.appearance.label') }}</label>
                             <button @click="toggleTheme" class="theme-toggle-btn" :class="theme">
                                 <div class="theme-icon">
                                     <svg v-if="theme === 'light'" xmlns="http://www.w3.org/2000/svg" width="20"
                                         height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <circle cx="12" cy="12" r="5" />
-                                        <path d="M12 1v2" />
-                                        <path d="M12 21v2" />
-                                        <path d="M4.22 4.22l1.42 1.42" />
-                                        <path d="M18.36 18.36l1.42 1.42" />
-                                        <path d="M1 12h2" />
-                                        <path d="M21 12h2" />
-                                        <path d="M4.22 19.78l1.42-1.42" />
-                                        <path d="M18.36 5.64l1.42-1.42" />
+                                        <path d="M12 1v2" /><path d="M12 21v2" />
+                                        <path d="M4.22 4.22l1.42 1.42" /><path d="M18.36 18.36l1.42 1.42" />
+                                        <path d="M1 12h2" /><path d="M21 12h2" />
+                                        <path d="M4.22 19.78l1.42-1.42" /><path d="M18.36 5.64l1.42-1.42" />
                                     </svg>
                                     <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -61,14 +66,17 @@ const languages = [
                                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                                     </svg>
                                 </div>
-                                <span>{{ theme === 'dark' ? 'Modo Escuro' : 'Modo Claro' }}</span>
+                                
+                                <span>
+                                    {{ theme === 'dark' ? t('settings.appearance.dark') : t('settings.appearance.light') }}
+                                </span>
                             </button>
                         </div>
 
                         <hr class="divider">
 
                         <div class="setting-group">
-                            <label class="group-label">Idioma</label>
+                            <label class="group-label">{{ t('settings.language') }}</label>
                             <div class="lang-grid">
                                 <button v-for="lang in languages" :key="lang.code" @click="setLanguage(lang.code)"
                                     class="lang-btn" :class="{ active: currentLang === lang.code }">
@@ -81,23 +89,22 @@ const languages = [
                         <hr class="divider">
 
                         <div class="setting-group">
-                            <label class="group-label">Acessibilidade</label>
+                            <label class="group-label">{{ t('settings.accessibility.label') }}</label>
 
                             <div class="control-row">
-                                <span>Tamanho da Fonte</span>
+                                <span>{{ t('settings.accessibility.font_size') }}</span>
                                 <div class="stepper">
                                     <button @click="changeFontSize('down')" :disabled="fontSizeLevel <= -1">-</button>
-                                    <span class="stepper-value">{{ fontSizeLevel > 0 ? '+' : '' }}{{ fontSizeLevel
-                                        }}</span>
+                                    <span class="stepper-value">{{ fontSizeLevel > 0 ? '+' : '' }}{{ fontSizeLevel }}</span>
                                     <button @click="changeFontSize('up')" :disabled="fontSizeLevel >= 3">+</button>
                                 </div>
                             </div>
 
                             <div class="control-row">
-                                <span>Animações</span>
+                                <span>{{ t('settings.accessibility.animations') }}</span>
                                 <button @click="toggleAnimations" class="toggle-btn"
                                     :class="{ active: areAnimationsEnabled }">
-                                    {{ areAnimationsEnabled ? 'ON' : 'OFF' }}
+                                    {{ areAnimationsEnabled ? t('settings.accessibility.on') : t('settings.accessibility.off') }}
                                 </button>
                             </div>
                         </div>
@@ -105,7 +112,7 @@ const languages = [
                     </div>
 
                     <footer class="sidebar-footer">
-                        <p>v1.0.0 • Portfólio Inteligente</p>
+                        <p class="copyright">© 2026 <a>NEAT</a> by Vitor.</p>
                     </footer>
                 </aside>
 
@@ -129,13 +136,16 @@ const languages = [
 
 .sidebar-panel {
     width: 100%;
-    max-width: 350px;
+    max-width: 400px;
     height: 100%;
     background-color: var(--background);
     border-left: 1px solid var(--secondary);
     display: flex;
     flex-direction: column;
-    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5);
+    padding: var(--spacing-lg);
+    position: relative;
+    overflow: hidden;
 }
 
 .sidebar-header {
@@ -148,17 +158,22 @@ const languages = [
 
 .sidebar-title {
     font-family: var(--font-heading);
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--primary);
+    opacity: 0.8;
 }
 
 .close-btn {
     background: none;
     border: none;
-    font-size: 2.5rem;
-    line-height: 1;
     color: var(--text);
     cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.close-btn:hover {
+    color: var(--accent);
+    transform: rotate(90deg);
 }
 
 .sidebar-content {
@@ -308,11 +323,20 @@ const languages = [
 }
 
 .sidebar-footer {
-    padding: 1rem;
-    text-align: center;
-    font-size: 0.9rem;
-    opacity: 0.5;
+    margin-top: auto;
+    border-top: 1px solid var(--secondary);
+    padding-top: var(--spacing-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-family: var(--font-body);
+    color: var(--text);
+    opacity: 0.6;
+}
+
+.copyright a {
+    font-weight: bold;
+    color: var(--accent);
 }
 
 .slide-fade-enter-active,

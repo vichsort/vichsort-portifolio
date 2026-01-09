@@ -1,15 +1,17 @@
 <script setup>
 import { useNavigation } from '@/composables/useNavigation'
+import { useI18n } from 'vue-i18n'
 
 const { isNavOpen, closeNav } = useNavigation()
+const { t } = useI18n()
 
 const menuItems = [
-    { label: 'Início', path: '/' },
-    { label: 'Sobre', path: '/overview' },
-    { label: 'Projetos', path: '/projects' },
-    { label: 'Pesquisas', path: '/researches' },
-    { label: 'Certificações', path: '/certifications' },
-    { label: 'Contato', path: '/contact' },
+    { labelKey: 'nav.home', path: '/' },           // Antes era: label: 'Início'
+    { labelKey: 'nav.about', path: '/overview' },  // Antes era: label: 'Sobre'
+    { labelKey: 'nav.projects', path: '/projects' },
+    { labelKey: 'nav.researches', path: '/researches' },
+    { labelKey: 'nav.certifications', path: '/certifications' },
+    { labelKey: 'nav.contact', path: '/contact' },
 ]
 </script>
 
@@ -18,9 +20,9 @@ const menuItems = [
         <transition name="slide-right">
             <div v-if="isNavOpen" class="nav-overlay" @click.self="closeNav">
 
-                <aside class="nav-panel">
-                    <header class="nav-header">
-                        <span class="nav-logo">MENU_</span>
+                <aside class="sidebar-panel">
+                    <header class="sidebar-header">
+                        <span class="sidebar-title">Menu</span>
                         <button @click="closeNav" class="close-btn" aria-label="Fechar Menu">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -31,25 +33,22 @@ const menuItems = [
                         </button>
                     </header>
 
-                    <nav class="nav-links">
-                        <ul class="links-list">
+                    <nav class="sidebar-content">
+                        <ul class="links-group">
                             <li v-for="(item, index) in menuItems" :key="item.path"
                                 :style="{ '--delay': `${index * 0.1}s` }">
                                 <router-link :to="item.path" class="nav-item">
-                                    <span class="item-text">{{ item.label }}</span>
+
+                                    <span class="item-text">{{ t(item.labelKey) }}</span>
+
                                     <span class="item-decoration"></span>
                                 </router-link>
                             </li>
                         </ul>
                     </nav>
 
-                    <footer class="nav-footer">
-                        <div class="social-mini">
-                            <a href="#" target="_blank">GH</a>
-                            <span class="separator">/</span>
-                            <a href="#" target="_blank">LN</a>
-                        </div>
-                        <p class="copyright">© 2026 Vitor.</p>
+                    <footer class="sidebar-footer">
+                        <p class="copyright">© 2026 <a>NEAT</a> by Vitor.</p>
                     </footer>
                 </aside>
 
@@ -72,7 +71,7 @@ const menuItems = [
     justify-content: flex-end;
 }
 
-.nav-panel {
+.sidebar-panel {
     width: 100%;
     max-width: 400px;
     height: 100%;
@@ -86,14 +85,15 @@ const menuItems = [
     overflow: hidden;
 }
 
-.nav-header {
+.sidebar-header {
+    padding: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-xl);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.nav-logo {
+.sidebar-title {
     font-family: var(--font-heading);
     font-size: 1.5rem;
     color: var(--primary);
@@ -113,7 +113,13 @@ const menuItems = [
     transform: rotate(90deg);
 }
 
-.links-list {
+.sidebar-content {
+    padding: 1.5rem;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.links-group {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -122,7 +128,7 @@ const menuItems = [
 .nav-item {
     position: relative;
     font-family: var(--font-heading);
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     color: var(--text);
     text-transform: uppercase;
     text-decoration: none;
@@ -135,6 +141,7 @@ const menuItems = [
 }
 
 .item-text {
+    font-size: 1.2rem;
     position: relative;
     z-index: 2;
 }
@@ -142,7 +149,7 @@ const menuItems = [
 .nav-item::before {
     content: '<';
     position: absolute;
-    right: -30px;
+    right: -40px;
     left: auto;
     opacity: 0;
     color: var(--accent);
@@ -159,7 +166,7 @@ const menuItems = [
 .nav-item:hover::before {
     opacity: 1;
     transform: translateX(0);
-    right: -25px;
+    right: -35px;
 }
 
 .router-link-active {
@@ -176,7 +183,7 @@ const menuItems = [
     background-color: var(--primary);
 }
 
-.nav-footer {
+.sidebar-footer {
     margin-top: auto;
     border-top: 1px solid var(--secondary);
     padding-top: var(--spacing-md);
@@ -188,13 +195,9 @@ const menuItems = [
     opacity: 0.6;
 }
 
-.social-mini a {
+.copyright a {
     font-weight: bold;
-    transition: color 0.2s;
-}
-
-.social-mini a:hover {
-    color: var(--primary);
+    color: var(--accent);
 }
 
 .separator {
@@ -223,16 +226,16 @@ const menuItems = [
     opacity: 0;
 }
 
-.slide-right-enter-active .nav-panel {
+.slide-right-enter-active .sidebar-panel {
     transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1);
 }
 
-.slide-right-leave-active .nav-panel {
+.slide-right-leave-active .sidebar-panel {
     transition: transform 0.3s ease-in;
 }
 
-.slide-right-enter-from .nav-panel,
-.slide-right-leave-to .nav-panel {
+.slide-right-enter-from .sidebar-panel,
+.slide-right-leave-to .sidebar-panel {
     transform: translateX(100%);
 }
 </style>
