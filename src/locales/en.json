@@ -1,11 +1,26 @@
 {
   "nav": {
     "home": "Home",
-    "about": "Overview",
-    "projects": "Projects"
+    "about": "About",
+    "projects": "Projects",
+    "researches": "Researches",
+    "certifications": "Certifications",
+    "contact": "Contact"
   },
-  "hero": {
-    "greeting": "Hello! My name is",
-    "role": "Fullstack Developer"
+  "settings": {
+    "close_menu": "Close Menu",
+    "appearance": {
+      "label": "Appearance",
+      "dark": "Dark Mode",
+      "light": "Light Mode"
+    },
+    "language": "Language",
+    "accessibility": {
+      "label": "Accessibility",
+      "font_size": "Font Size",
+      "animations": "Animations",
+      "on": "ON",
+      "off": "OFF"
+    }
   }
 }

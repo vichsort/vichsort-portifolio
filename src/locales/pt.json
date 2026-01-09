@@ -2,10 +2,25 @@
   "nav": {
     "home": "Início",
     "about": "Sobre",
-    "projects": "Projetos"
+    "projects": "Projetos",
+    "researches": "Pesquisas",
+    "certifications": "Certificações",
+    "contact": "Contato"
   },
-  "hero": {
-    "greeting": "Olá! Meu nome é",
-    "role": "Desenvolvedor Fullstack"
+  "settings": {
+    "close_menu": "Fechar Menu",
+    "appearance": {
+      "label": "Aparência",
+      "dark": "Modo Escuro",
+      "light": "Modo Claro"
+    },
+    "language": "Idioma",
+    "accessibility": {
+      "label": "Acessibilidade",
+      "font_size": "Tamanho da Fonte",
+      "animations": "Animações",
+      "on": "LIGADO",
+      "off": "DESLIGADO"
+    }
   }
 }
