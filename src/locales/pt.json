@@ -31,5 +31,13 @@
       "data_science": "Ciência de Dados,",
       "software_architecture": "Arquitetura de software."
     }
+  },
+  "about": {
+    "slide1": "Sou um aprendiz ao longo da vida e solucionador de problemas, movido por uma paixão genuína pela tecnologia. Minha jornada começou em tenra idade, enquanto tentava moldar meu primeiro computador à minha imaginação crescente. Essas primeiras experiências marcaram o início de uma carreira dedicada à engenharia de software...",
+    "slide2": "A curiosidade sempre foi a constante em minha vida, levando-me a quebrar barreiras e explorar novos horizontes. Neste próximo capítulo, convido você a ver não apenas o código, mas a arte por trás dele.",
+    "button": "Galeria",
+    "small": "Conheça um pouco",
+    "big": "SOBRE ",
+    "highlight": "MiM."
   }
 }

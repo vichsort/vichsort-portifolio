@@ -31,5 +31,13 @@
       "data_science": "Data Science,",
       "software_architecture": "Software architecture."
     }
+  },
+  "about": {
+    "slide1": "I am a lifelong learner and problem solver, driven by a genuine passion for technology. My journey began at a young age, while attempting to bend my first computer to my ever-growing imagination. Those first experiments marked the beginning of a dedicated career in software engineering...",
+    "slide2": "Curiosity has always been the constant in my life, leading me to break boundaries and explore new horizons. In this next chapter, I invite you to see not just code, but the art behind it.",
+    "button": "Gallery",
+    "small": "Get to know a bit",
+    "big": "ABOUT ",
+    "highlight": "ME."
   }
 }

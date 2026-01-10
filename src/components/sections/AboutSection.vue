@@ -1,6 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useScrollProgress } from '@/composables/useScrollProgress'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 const containerRef = ref(null)
 const { progress } = useScrollProgress(containerRef)
@@ -8,12 +10,12 @@ const { progress } = useScrollProgress(containerRef)
 const slides = [
   {
     id: 1,
-    text: "I am a lifelong learner and problem solver, driven by a genuine passion for technology. My journey began at a young age, while attempting to bend my first computer to my ever-growing imagination. Those first experiments marked the beginning of a dedicated career in software engineering...",
+    textKey: 'about.slide1',
     hasAction: false
   },
   {
     id: 2,
-    text: "Curiosity has always been the constant in my life, leading me to break boundaries and explore new horizons. In this next chapter, I invite you to see not just code, but the art behind it.",
+    textKey: 'about.slide2',
     hasAction: true
   }
 ]
@@ -45,11 +47,11 @@ const barHeight = computed(() => {
           <transition name="fade" mode="out-in">
             <div :key="currentSlide.id" class="slide-content">
               <p class="bio-text">
-                {{ currentSlide.text }}
+                {{ t(currentSlide.textKey) }}
               </p>
 
               <router-link v-if="currentSlide.hasAction" to="/gallery" class="action-btn">
-                galeria
+                {{ t('about.button') }}
               </router-link>
             </div>
           </transition>
@@ -58,8 +60,8 @@ const barHeight = computed(() => {
 
       <div class="content-right">
         <div class="title-group">
-          <span class="small-label">Conheça um pouco</span>
-          <h2 class="section-title">SOBRE <span class="highlight">MiM.</span></h2>
+          <span class="small-label"> {{ t('about.small') }}</span>
+          <h2 class="section-title"> {{ t('about.big') }}<span class="highlight"> {{ t('about.highlight') }}</span></h2>
         </div>
 
         <div class="decorative-circle"></div>
@@ -125,6 +127,17 @@ const barHeight = computed(() => {
   margin-bottom: var(--spacing-lg);
 }
 
+.bio-text::selection, .small-label::selection {
+  background-color: var(--accent);
+  color: var(--background);
+}
+
+.title-group::selection {
+  background-color: var(--primary);
+  color: var(--background);
+} 
+
+
 .action-btn {
   display: inline-block;
   background-color: var(--primary);
@@ -133,7 +146,6 @@ const barHeight = computed(() => {
   border-radius: 50px;
   font-family: var(--font-body);
   font-size: 1.5rem;
-  text-transform: lowercase;
   transition: transform 0.2s, background-color 0.2s;
 }
 
