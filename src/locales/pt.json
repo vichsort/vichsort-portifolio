@@ -39,5 +39,14 @@
     "small": "Conheça um pouco",
     "big": "SOBRE ",
     "highlight": "MiM."
+  },
+  "leads": {
+    "stats": {
+      "projects": "Projetos Publicados",
+      "experience": "Anos Codando",
+      "researches": "Premiações",
+      "certs": "Certificações"
+    },
+    "action": "Explorar"
   }
 }

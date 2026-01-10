@@ -39,5 +39,14 @@
     "small": "Get to know a bit",
     "big": "ABOUT ",
     "highlight": "ME."
+  },
+  "leads": {
+    "stats": {
+      "projects": "Shipped Projects",
+      "experience": "Years Coding",
+      "researches": "Prizes",
+      "certs": "Certifications"
+    },
+    "action": "Explore"
   }
 }
