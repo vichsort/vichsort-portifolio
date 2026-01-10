@@ -48,5 +48,42 @@
       "certs": "Certifications"
     },
     "action": "Explore"
+  },
+  "projects_section": {
+    "title": "Alguns projetos que me orgulho:",
+    "action_view_all": "Ver todos os projetos",
+    "card": {
+      "view_more": "Veja mais"
+    },
+    "list": [
+      {
+        "id": "plante",
+        "name": "PLANTE",
+        "tags": "App, API",
+        "date": "Dezembro, 2024",
+        "image": "/images/plante-cover.jpg",
+        "short_description": "Um sistema completo de **gestão agrícola**. Utiliza *Plant.id* e **Gemini AI**.",
+        "link_github": "https://github.com/vitor/plante",
+        "link_live": "https://plante.app"
+      },
+      {
+        "id": "tera_docs",
+        "name": "TERA DOCS",
+        "tags": "CLI, Website",
+        "date": "Novembro, 2024",
+        "short_description": "Ferramenta de **documentação automática** para APIs Python.",
+        "link_github": "https://github.com/vitor/tera",
+        "link_live": ""
+      },
+      {
+        "id": "cemiterio",
+        "name": "CEMITÉRIO CABOCLO",
+        "tags": "Frontend, Vue",
+        "date": "Outubro, 2024",
+        "short_description": "Projeto de **resgate histórico** digital e mapeamento interativo.",
+        "link_github": "",
+        "link_live": "https://cemiterio.com"
+      }
+    ]
   }
 }
