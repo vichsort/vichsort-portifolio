@@ -3,6 +3,7 @@ import HeroSection from '@/components/sections/HeroSection.vue'
 import AboutSection from '@/components/sections/AboutSection.vue'
 import LeadsSection from '@/components/sections/LeadsSection.vue';
 import ProjectShowcaseSection from '@/components/sections/ProjectShowcaseSection.vue';
+import TestimonialsSection from '../components/sections/TestimonialsSection.vue';
 import { useTheme } from '@/composables/useTheme'
 
 const { theme } = useTheme()
@@ -14,5 +15,6 @@ const { theme } = useTheme()
     <AboutSection />
     <LeadsSection />
     <ProjectShowcaseSection />
+    <TestimonialsSection />
   </main>
 </template>

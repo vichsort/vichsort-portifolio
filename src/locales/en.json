@@ -85,5 +85,28 @@
         "link_live": "https://cemiterio.com"
       }
     ]
+  },
+  "testimonials_section": {
+    "title": "Some feedback from people I've worked with:",
+    "list": [
+      {
+        "id": 1,
+        "name": "HEITOR S.",
+        "role": "Professor",
+        "text": "Vitor has an incredible ability to transform complex requirements into clean code. The architecture he proposed saved our deadline."
+      },
+      {
+        "id": 2,
+        "name": "PABLO S.",
+        "role": "Professor",
+        "text": "One of the most dedicated students I've ever had. His curiosity goes far beyond the classroom, always seeking the 'why' of things."
+      },
+      {
+        "id": 3,
+        "name": "RÔMULO N.",
+        "role": "Professor",
+        "text": "Working with Vitor guarantees a robust delivery. He doesn't just write code, he thinks about the product."
+      }
+    ]
   }
 }
