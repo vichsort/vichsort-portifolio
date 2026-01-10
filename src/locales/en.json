@@ -22,5 +22,14 @@
       "on": "ON",
       "off": "OFF"
     }
+  },
+  "hero": {
+    "introduction": "Hello! My name is",
+    "roles": {
+      "web_development": "Web development,",
+      "app_development": "App development,",
+      "data_science": "Data Science,",
+      "software_architecture": "Software architecture."
+    }
   }
 }

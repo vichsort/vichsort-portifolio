@@ -22,5 +22,14 @@
       "on": "LIGADO",
       "off": "DESLIGADO"
     }
+  },
+  "hero": {
+    "introduction": "Olá! Meu nome é",
+    "roles": {
+      "web_development": "Desenvolvimento Web,",
+      "app_development": "Desenvolvimento de Apps,",
+      "data_science": "Ciência de Dados,",
+      "software_architecture": "Arquitetura de software."
+    }
   }
 }

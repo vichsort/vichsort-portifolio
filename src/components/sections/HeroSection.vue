@@ -1,5 +1,8 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, hydrateOnIdle } from 'vue';
+import { useI18n } from 'vue-i18n'
+const { t, tm, rt } = useI18n()
+const roles = computed(() => tm('hero.roles'))
 
 const props = defineProps({
   currentTheme: {
@@ -23,22 +26,16 @@ const logoSrc = computed(() => {
     </div>
 
     <div class="hero-content">
-      <p class="intro-text">Olá! Meu nome é</p>
+      <p class="intro-text">{{ t('hero.introduction') }}</p>
 
       <h1 class="main-title">
         VITOR<span class="highlight">.</span>
       </h1>
 
       <div class="roles-container">
-        <p>Desenvolvimento,</p>
-        <p>Ciência de Dados,</p>
-        <p>Arquitetura de software.</p>
-      </div>
-
-      <div class="hero-socials">
-        <a href="https://github.com" target="_blank" class="social-item">GitHub</a>
-        <span class="separator">•</span>
-        <a href="https://linkedin.com" target="_blank" class="social-item">LinkedIn</a>
+        <p v-for="(role, key) in roles" :key="key">
+          {{ rt(role) }}
+        </p>
       </div>
     </div>
     <!-- TODO: ARRUMAR ESSES QUADRADINHOS AQUII -->
@@ -65,15 +62,13 @@ const logoSrc = computed(() => {
   overflow: hidden;
 }
 
-.hero-branding {
-  position: absolute;
-  top: var(--spacing-lg);
-  left: var(--spacing-xl);
-  z-index: 10;
+.hero-container::selection {
+  background-color: var(--accent);
+  color: var(--background);
 }
 
 .brand-logo {
-  width: 60px;
+  width: 120px;
   height: auto;
   display: block;
 }
@@ -84,7 +79,7 @@ const logoSrc = computed(() => {
   justify-content: center;
   height: 100%;
   z-index: 10;
-  margin-top: 2rem;
+  margin-top: -2rem;
 }
 
 .intro-text {
@@ -102,6 +97,10 @@ const logoSrc = computed(() => {
   margin-left: -5px;
 }
 
+.main-title::selection {
+  background-color: var(--primary)
+}
+
 .highlight {
   color: var(--primary);
 }
@@ -113,45 +112,7 @@ const logoSrc = computed(() => {
   font-style: italic;
   color: var(--text);
   opacity: 0.9;
-  line-height: 1.4;
-}
-
-.hero-socials {
-  margin-top: var(--spacing-lg);
-  font-family: var(--font-body);
-  font-size: 1.4rem;
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  opacity: 0.7;
-}
-
-.social-item {
-  position: relative;
-  transition: color 0.3s;
-}
-
-.social-item::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 1px;
-  bottom: -2px;
-  left: 0;
-  background-color: var(--accent);
-  transition: width 0.3s;
-}
-
-.social-item:hover {
-  color: var(--accent);
-}
-
-.social-item:hover::after {
-  width: 100%;
-}
-
-.separator {
-  color: var(--primary);
+  line-height: 1;
 }
 
 .decorative-corner {
