@@ -49,7 +49,7 @@
     },
     "action": "Explorar"
   },
-"projects_section": {
+  "projects_section": {
     "title": "Alguns projetos que me orgulho:",
     "action_view_all": "Ver todos os projetos",
     "card": {
@@ -108,5 +108,8 @@
         "text": "Trabalhar com o Vitor é ter a certeza de que a entrega será robusta. Ele não apenas escreve código, ele pensa no produto."
       }
     ]
+  },
+  "tech_stack": {
+    "label": "Essa é a minha"
   }
 }
