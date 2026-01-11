@@ -50,10 +50,10 @@
     "action": "Explore"
   },
   "projects_section": {
-    "title": "Alguns projetos que me orgulho:",
-    "action_view_all": "Ver todos os projetos",
+    "title": "Some of the projects that I am proud:",
+    "action_view_all": "See all projects",
     "card": {
-      "view_more": "Veja mais"
+      "view_more": "See more"
     },
     "list": [
       {

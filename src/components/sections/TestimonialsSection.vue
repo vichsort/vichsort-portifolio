@@ -62,6 +62,10 @@ const scrollRight = () => {
   max-width: 600px;
 }
 
+.section-title::selection {
+  background-color: var(--primary)
+}
+
 .controls-top {
   display: flex;
   gap: 1rem;

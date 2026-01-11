@@ -65,8 +65,11 @@ const scrollRight = () => {
     font-family: var(--font-body);
     font-size: 1.5rem;
     color: var(--text);
-    ;
     opacity: 0.8;
+}
+
+.section-title::selection {
+    background-color: var(--primary)
 }
 
 .controls-top {

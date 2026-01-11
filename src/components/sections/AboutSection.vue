@@ -127,22 +127,15 @@ const barHeight = computed(() => {
   margin-bottom: var(--spacing-lg);
 }
 
-.bio-text::selection, .small-label::selection {
-  background-color: var(--accent);
-  color: var(--background);
+.title-group::selection, .bio-text::selection, .small-label::selection {
+  background-color: var(--primary)
 }
-
-.title-group::selection {
-  background-color: var(--primary);
-  color: var(--background);
-} 
-
 
 .action-btn {
   display: inline-block;
   background-color: var(--primary);
   color: #fff;
-  padding: 1rem 3rem;
+  padding: 0.5rem 4rem;
   border-radius: 50px;
   font-family: var(--font-body);
   font-size: 1.5rem;
@@ -172,7 +165,7 @@ const barHeight = computed(() => {
 .small-label {
   display: block;
   font-family: var(--font-body);
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   margin-bottom: 0.5rem;
   opacity: 0.8;
 }
@@ -186,6 +179,10 @@ const barHeight = computed(() => {
 
 .highlight {
   color: var(--primary);
+}
+
+.highlight::selection {
+    background-color: var(--text);
 }
 
 .decorative-circle {

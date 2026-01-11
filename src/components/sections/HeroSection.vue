@@ -63,8 +63,7 @@ const logoSrc = computed(() => {
 }
 
 .hero-container::selection {
-  background-color: var(--accent);
-  color: var(--background);
+  background-color: var(--primary)
 }
 
 .brand-logo {
@@ -95,10 +94,6 @@ const logoSrc = computed(() => {
   line-height: 1;
   letter-spacing: -0.02em;
   margin-left: -5px;
-}
-
-.main-title::selection {
-  background-color: var(--primary)
 }
 
 .highlight {
