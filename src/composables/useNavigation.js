@@ -1,18 +1,19 @@
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref } from 'vue'
 
 const isNavOpen = ref(false)
 
 export function useNavigation() {
-  const route = useRoute()
+  const openNav = () => {
+    isNavOpen.value = true
+  }
 
-  const openNav = () => isNavOpen.value = true
-  const closeNav = () => isNavOpen.value = false
-  const toggleNav = () => isNavOpen.value = !isNavOpen.value
-  
-  watch(route, () => {
-    closeNav()
-  })
+  const closeNav = () => {
+    isNavOpen.value = false
+  }
+
+  const toggleNav = () => {
+    isNavOpen.value = !isNavOpen.value
+  }
 
   return {
     isNavOpen,

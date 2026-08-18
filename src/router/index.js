@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useNavigation } from '@/composables/useNavigation'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +52,12 @@ const router = createRouter({
     //   component: () => import('@/views/ContactView.vue')
     // }
   ]
+})
+
+router.afterEach(() => {
+  // Automatically close navigation sidebar on route change
+  const { closeNav } = useNavigation()
+  closeNav()
 })
 
 export default router

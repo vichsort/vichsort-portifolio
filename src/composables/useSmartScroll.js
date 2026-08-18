@@ -4,26 +4,32 @@ export function useSmartScroll() {
   const isVisible = ref(true)
   const isAtTop = ref(true)
   let lastScrollY = 0
+  let ticking = false
 
-  const handleScroll = () => {
-    const currentScrollY = window.scrollY
-    
-    // Verifica se estamos no topo absoluto
+  const updateScrollState = () => {
+    const currentScrollY = window.scrollY || window.pageYOffset || 0
     isAtTop.value = currentScrollY < 50
 
-    // Se scrolou para baixo e já passou do topo -> Esconde
     if (currentScrollY > lastScrollY && currentScrollY > 50) {
       isVisible.value = false
-    } 
-    // Se scrolou para cima -> Mostra
-    else {
+    } else {
       isVisible.value = true
     }
 
     lastScrollY = currentScrollY
+    ticking = false
+  }
+
+  const handleScroll = () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateScrollState)
+      ticking = true
+    }
   }
 
   onMounted(() => {
+    lastScrollY = window.scrollY || window.pageYOffset || 0
+    isAtTop.value = lastScrollY < 50
     window.addEventListener('scroll', handleScroll, { passive: true })
   })
 

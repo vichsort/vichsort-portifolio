@@ -2,36 +2,44 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 export function useScrollProgress(targetRef) {
   const progress = ref(0)
+  let rafId = null
 
-  const handleScroll = () => {
+  const calculateProgress = () => {
     if (!targetRef.value) return
 
     const el = targetRef.value
     const rect = el.getBoundingClientRect()
     const windowHeight = window.innerHeight
-
-    // Calcula quanto do elemento já passou pelo topo
-    // Quando rect.top é 0, estamos no início.
-    // O scroll total disponível é (altura do elemento - altura da janela)
     const scrollableDistance = el.scrollHeight - windowHeight
-    const scrolled = -rect.top // Inverte porque rect.top fica negativo ao descer
+    const scrolled = -rect.top
 
-    if (scrolled < 0) {
+    if (scrolled <= 0) {
       progress.value = 0
-    } else if (scrolled > scrollableDistance) {
+    } else if (scrolled >= scrollableDistance) {
       progress.value = 1
-    } else {
+    } else if (scrollableDistance > 0) {
       progress.value = scrolled / scrollableDistance
     }
   }
 
+  const handleScroll = () => {
+    if (rafId) return
+    rafId = window.requestAnimationFrame(() => {
+      calculateProgress()
+      rafId = null
+    })
+  }
+
   onMounted(() => {
+    calculateProgress()
     window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
+    window.addEventListener('resize', handleScroll, { passive: true })
   })
 
   onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll)
+    window.removeEventListener('resize', handleScroll)
+    if (rafId) window.cancelAnimationFrame(rafId)
   })
 
   return { progress }

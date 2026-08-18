@@ -1,40 +1,44 @@
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 export function useDraggableScroll() {
   const containerRef = ref(null)
-  const isDown = ref(false)
-  const startX = ref(0)
-  const scrollLeft = ref(0)
+  const isDragging = ref(false)
+  let startX = 0
+  let scrollLeft = 0
 
   const startDrag = (e) => {
-    isDown.value = true
-    const slider = containerRef.value
-    slider.classList.add('active')
-
-    startX.value = e.pageX - slider.offsetLeft
-    scrollLeft.value = slider.scrollLeft
+    if (!containerRef.value) return
+    isDragging.value = true
+    const pageX = e.pageX ?? (e.touches && e.touches[0] ? e.touches[0].pageX : 0)
+    startX = pageX - containerRef.value.offsetLeft
+    scrollLeft = containerRef.value.scrollLeft
   }
 
   const stopDrag = () => {
-    isDown.value = false
-    if (containerRef.value) {
-      containerRef.value.classList.remove('active')
-    }
+    isDragging.value = false
   }
 
   const moveDrag = (e) => {
-    if (!isDown.value) return
-    
-    e.preventDefault()
-    const slider = containerRef.value
-    const x = e.pageX - slider.offsetLeft
-
-    const walk = (x - startX.value) * 1.5 
-    slider.scrollLeft = scrollLeft.value - walk
+    if (!isDragging.value || !containerRef.value) return
+    const pageX = e.pageX ?? (e.touches && e.touches[0] ? e.touches[0].pageX : 0)
+    const x = pageX - containerRef.value.offsetLeft
+    const walk = (x - startX) * 1.5
+    containerRef.value.scrollLeft = scrollLeft - walk
   }
+
+  onMounted(() => {
+    window.addEventListener('mouseup', stopDrag)
+    window.addEventListener('touchend', stopDrag)
+  })
+
+  onUnmounted(() => {
+    window.removeEventListener('mouseup', stopDrag)
+    window.removeEventListener('touchend', stopDrag)
+  })
 
   return {
     containerRef,
+    isDragging,
     startDrag,
     stopDrag,
     moveDrag

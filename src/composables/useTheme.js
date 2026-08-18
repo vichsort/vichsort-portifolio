@@ -1,44 +1,31 @@
-import { ref } from 'vue'
+import { useColorMode } from '@vueuse/core'
 
-const theme = ref('dark')
+const mode = useColorMode({
+  attribute: 'data-theme',
+  modes: {
+    dark: 'dark',
+    light: 'light'
+  },
+  storageKey: 'user-theme-preference'
+})
 
 export function useTheme() {
-
-  const STORAGE_KEY = 'user-theme-preference'
-
-  const applyTheme = (newTheme) => {
-    theme.value = newTheme
-    document.documentElement.setAttribute('data-theme', newTheme)
-    localStorage.setItem(STORAGE_KEY, newTheme)
-  }
-
   const toggleTheme = () => {
-    const newTheme = theme.value === 'dark' ? 'light' : 'dark'
-    applyTheme(newTheme)
+    mode.value = mode.value === 'dark' ? 'light' : 'dark'
   }
 
   const initTheme = () => {
-    const savedTheme = localStorage.getItem(STORAGE_KEY)
-    
-    if (savedTheme) {
-      applyTheme(savedTheme)
-      return
+    if (!mode.value) {
+      mode.value = 'dark'
     }
-
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    applyTheme(systemPrefersDark ? 'dark' : 'light')
   }
 
   const listenToSystemChanges = () => {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem(STORAGE_KEY)) {
-        applyTheme(e.matches ? 'dark' : 'light')
-      }
-    })
+    // VueUse's useColorMode handles system media query listeners automatically
   }
 
   return {
-    theme,
+    theme: mode,
     toggleTheme,
     initTheme,
     listenToSystemChanges
