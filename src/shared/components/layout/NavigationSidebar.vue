@@ -1,10 +1,26 @@
 <script setup>
+import { watch } from 'vue'
+import { useScrollLock, onKeyStroke } from '@vueuse/core'
 import { useNavigation } from '@/shared/composables/useNavigation'
 import { useI18n } from 'vue-i18n'
 import { X } from 'lucide-vue-next'
 
 const { isNavOpen, closeNav } = useNavigation()
 const { t } = useI18n()
+
+// Lock background scroll when navigation drawer is open
+const isLocked = useScrollLock(typeof document !== 'undefined' ? document.body : null)
+watch(isNavOpen, (open) => {
+  isLocked.value = open
+})
+
+// Close with ESC key
+onKeyStroke('Escape', (e) => {
+  if (isNavOpen.value) {
+    e.preventDefault()
+    closeNav()
+  }
+})
 
 const menuItems = [
   { labelKey: 'nav.home', path: '/' },

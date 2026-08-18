@@ -1,4 +1,6 @@
 <script setup>
+import { watch } from 'vue'
+import { useScrollLock, onKeyStroke } from '@vueuse/core'
 import { useSettings } from '@/shared/composables/useSettings'
 import { useTheme } from '@/shared/composables/useTheme'
 import { useI18n } from 'vue-i18n'
@@ -16,6 +18,20 @@ const {
 } = useSettings()
 
 const { theme, toggleTheme } = useTheme()
+
+// Lock background scroll when drawer is open
+const isLocked = useScrollLock(typeof document !== 'undefined' ? document.body : null)
+watch(isSidebarOpen, (open) => {
+  isLocked.value = open
+})
+
+// Close with ESC key
+onKeyStroke('Escape', (e) => {
+  if (isSidebarOpen.value) {
+    e.preventDefault()
+    closeSidebar()
+  }
+})
 
 const languages = [
   { code: 'pt', label: 'Português', flag: '🇧🇷' },
