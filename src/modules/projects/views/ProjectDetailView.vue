@@ -1,21 +1,38 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, computed, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useProjects } from '../composables/useProjects'
-import { ArrowLeft, ExternalLink, Github, Calendar, Tag } from 'lucide-vue-next'
+import { ArrowLeft, ArrowRight, ExternalLink, Github, Calendar, Tag } from 'lucide-vue-next'
 
 const props = defineProps({
   slug: { type: String, default: '' }
 })
 
 const route = useRoute()
-const router = useRouter()
-const { t, locale } = useI18n()
+const { t, locale, tm, rt } = useI18n()
 const { loadProject, isLoading, error } = useProjects()
 
 const projectData = ref(null)
 const projectId = ref(props.slug || route.params.slug)
+
+const allProjects = computed(() => tm('projects_section.list') || [])
+
+const currentIndex = computed(() => {
+  return allProjects.value.findIndex(p => rt(p.id) === projectId.value)
+})
+
+const nextProject = computed(() => {
+  if (allProjects.value.length === 0 || currentIndex.value === -1) return null
+  const nextIdx = (currentIndex.value + 1) % allProjects.value.length
+  return allProjects.value[nextIdx]
+})
+
+const prevProject = computed(() => {
+  if (allProjects.value.length === 0 || currentIndex.value === -1) return null
+  const prevIdx = (currentIndex.value - 1 + allProjects.value.length) % allProjects.value.length
+  return allProjects.value[prevIdx]
+})
 
 const fetchProject = async () => {
   if (!projectId.value) return
@@ -30,6 +47,16 @@ onMounted(() => {
 watch(locale, () => {
   fetchProject()
 })
+
+watch(
+  () => route.params.slug,
+  (newSlug) => {
+    if (newSlug) {
+      projectId.value = newSlug
+      fetchProject()
+    }
+  }
+)
 </script>
 
 <template>
@@ -103,6 +130,27 @@ watch(locale, () => {
         </div>
 
         <section class="markdown-content surface-card" v-html="projectData.html"></section>
+
+        <!-- Next / Previous Navigation -->
+        <nav class="project-pagination" aria-label="Navegação entre projetos">
+          <router-link
+            v-if="prevProject"
+            :to="`/projects/${rt(prevProject.id)}`"
+            class="pagination-card prev surface-card"
+          >
+            <span class="pagination-label">&larr; {{ t('project_detail.prev_project') }}</span>
+            <span class="pagination-title">{{ rt(prevProject.name) }}</span>
+          </router-link>
+
+          <router-link
+            v-if="nextProject"
+            :to="`/projects/${rt(nextProject.id)}`"
+            class="pagination-card next surface-card"
+          >
+            <span class="pagination-label">{{ t('project_detail.next_project') }} &rarr;</span>
+            <span class="pagination-title">{{ rt(nextProject.name) }}</span>
+          </router-link>
+        </nav>
       </div>
 
       <div v-else class="not-found-state surface-card">
@@ -241,6 +289,7 @@ watch(locale, () => {
   font-size: var(--text-base);
   line-height: 1.8;
   color: var(--text-secondary);
+  margin-bottom: var(--spacing-2xl);
 }
 
 .markdown-content :deep(h2) {
@@ -278,6 +327,44 @@ watch(locale, () => {
   color: var(--text-primary);
 }
 
+.project-pagination {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+}
+
+.pagination-card {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-decoration: none;
+}
+
+.pagination-card.next {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.pagination-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.pagination-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+}
+
+.pagination-card:hover .pagination-title {
+  color: var(--primary);
+}
+
 .loading-state,
 .not-found-state {
   padding: var(--spacing-2xl);
@@ -292,6 +379,15 @@ watch(locale, () => {
 
   .markdown-content {
     padding: var(--spacing-md);
+  }
+
+  .project-pagination {
+    grid-template-columns: 1fr;
+  }
+
+  .pagination-card.next {
+    text-align: left;
+    align-items: flex-start;
   }
 }
 </style>

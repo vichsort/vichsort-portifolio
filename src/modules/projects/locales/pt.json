@@ -48,6 +48,8 @@
     "live_demo": "Acessar Aplicação",
     "view_source": "Código Fonte",
     "techs_used": "Tecnologias Utilizadas",
+    "next_project": "Próximo Projeto",
+    "prev_project": "Projeto Anterior",
     "project_not_found": "Projeto não encontrado.",
     "not_found_desc": "O projeto que você está procurando não existe ou foi movido."
   }

@@ -48,6 +48,8 @@
     "live_demo": "Live Demo",
     "view_source": "Source Code",
     "techs_used": "Technologies Used",
+    "next_project": "Next Project",
+    "prev_project": "Previous Project",
     "project_not_found": "Project not found.",
     "not_found_desc": "The project you are looking for does not exist or has been moved."
   }
