@@ -28,5 +28,11 @@
     "explore": "Explorar",
     "view_more": "Ver mais",
     "loading": "Carregando..."
+  },
+  "not_found": {
+    "title": "404",
+    "subtitle": "Página não encontrada",
+    "description": "O link que você tentou acessar não existe, foi alterado ou foi movido.",
+    "back_home": "Voltar para o Início"
   }
 }

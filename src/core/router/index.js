@@ -48,7 +48,9 @@ const routes = [
   },
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/'
+    name: 'not-found',
+    component: () => import('@/shared/views/NotFoundView.vue'),
+    meta: { titleKey: 'not_found.subtitle' }
   }
 ]
 

@@ -28,5 +28,11 @@
     "explore": "Explore",
     "view_more": "See more",
     "loading": "Loading..."
+  },
+  "not_found": {
+    "title": "404",
+    "subtitle": "Page Not Found",
+    "description": "The link you tried to access does not exist, was changed or has been moved.",
+    "back_home": "Back to Home"
   }
 }
