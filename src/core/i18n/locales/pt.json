@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "home": "Início",
+    "about": "Sobre",
+    "projects": "Projetos",
+    "researches": "Pesquisas",
+    "certifications": "Certificações",
+    "contact": "Contato"
+  },
+  "settings": {
+    "close_menu": "Fechar Menu",
+    "appearance": {
+      "label": "Aparência",
+      "dark": "Modo Escuro",
+      "light": "Modo Claro"
+    },
+    "language": "Idioma",
+    "accessibility": {
+      "label": "Acessibilidade",
+      "font_size": "Tamanho da Fonte",
+      "animations": "Animações",
+      "on": "LIGADO",
+      "off": "DESLIGADO"
+    }
+  },
+  "common": {
+    "back_to_home": "Voltar ao Início",
+    "explore": "Explorar",
+    "view_more": "Ver mais",
+    "loading": "Carregando..."
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "projects_section": {
+    "title": "Some of the projects that I am proud:",
+    "action_view_all": "See all projects",
+    "card": {
+      "view_more": "See more"
+    },
+    "list": [
+      {
+        "id": "plante",
+        "name": "PLANTE",
+        "tags": "App, API",
+        "date": "December, 2024",
+        "image": "/images/plante-cover.jpg",
+        "short_description": "A complete **agricultural management system**. Built with *Plant.id* and **Gemini AI**.",
+        "link_github": "https://github.com/vitor/plante",
+        "link_live": "https://plante.app"
+      },
+      {
+        "id": "tera",
+        "name": "TERA DOCS",
+        "tags": "CLI, Website",
+        "date": "November, 2024",
+        "short_description": "Automated **documentation tool** for Python APIs.",
+        "link_github": "https://github.com/vitor/tera",
+        "link_live": ""
+      },
+      {
+        "id": "cemiterio",
+        "name": "CEMITÉRIO CABOCLO",
+        "tags": "Frontend, Vue",
+        "date": "October, 2024",
+        "short_description": "Digital **historical preservation** project and interactive mapping.",
+        "link_github": "",
+        "link_live": "https://cemiterio.com"
+      }
+    ]
+  },
+  "projects_page": {
+    "title": "All Projects",
+    "subtitle": "A collection of software systems, tools and applications I've built.",
+    "filter_all": "All",
+    "no_projects_found": "No projects found.",
+    "back_to_list": "Back to projects list"
+  },
+  "project_detail": {
+    "back_btn": "Back",
+    "live_demo": "Live Demo",
+    "view_source": "Source Code",
+    "techs_used": "Technologies Used",
+    "project_not_found": "Project not found.",
+    "not_found_desc": "The project you are looking for does not exist or has been moved."
+  }
+}

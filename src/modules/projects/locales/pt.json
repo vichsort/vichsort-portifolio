@@ -1,0 +1,54 @@
+{
+  "projects_section": {
+    "title": "Alguns projetos que me orgulho:",
+    "action_view_all": "Ver todos os projetos",
+    "card": {
+      "view_more": "Veja mais"
+    },
+    "list": [
+      {
+        "id": "plante",
+        "name": "PLANTE",
+        "tags": "App, API",
+        "date": "Dezembro, 2024",
+        "image": "/images/plante-cover.jpg",
+        "short_description": "Um sistema completo de **gestão agrícola**. Utiliza *Plant.id* e **Gemini AI**.",
+        "link_github": "https://github.com/vitor/plante",
+        "link_live": "https://plante.app"
+      },
+      {
+        "id": "tera",
+        "name": "TERA DOCS",
+        "tags": "CLI, Website",
+        "date": "Novembro, 2024",
+        "short_description": "Ferramenta de **documentação automática** para APIs Python.",
+        "link_github": "https://github.com/vitor/tera",
+        "link_live": ""
+      },
+      {
+        "id": "cemiterio",
+        "name": "CEMITÉRIO CABOCLO",
+        "tags": "Frontend, Vue",
+        "date": "Outubro, 2024",
+        "short_description": "Projeto de **resgate histórico** digital e mapeamento interativo.",
+        "link_github": "",
+        "link_live": "https://cemiterio.com"
+      }
+    ]
+  },
+  "projects_page": {
+    "title": "Todos os Projetos",
+    "subtitle": "Uma coletânea de sistemas, bibliotecas e aplicações desenvolvidas por mim.",
+    "filter_all": "Todos",
+    "no_projects_found": "Nenhum projeto encontrado.",
+    "back_to_list": "Voltar para lista de projetos"
+  },
+  "project_detail": {
+    "back_btn": "Voltar",
+    "live_demo": "Acessar Aplicação",
+    "view_source": "Código Fonte",
+    "techs_used": "Tecnologias Utilizadas",
+    "project_not_found": "Projeto não encontrado.",
+    "not_found_desc": "O projeto que você está procurando não existe ou foi movido."
+  }
+}

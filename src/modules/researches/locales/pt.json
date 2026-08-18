@@ -1,0 +1,24 @@
+{
+  "researches_page": {
+    "title": "Pesquisas & Prêmios",
+    "subtitle": "Artigos acadêmicos, premiações e projetos de iniciação científica.",
+    "list": [
+      {
+        "id": 1,
+        "title": "Mapeamento Digital e Salvaguarda do Patrimônio Arqueológico",
+        "category": "Iniciação Científica & GIS",
+        "award": "1º Lugar — Apresentação Técnica",
+        "year": "2024",
+        "description": "Desenvolvimento de plataforma interativa para catalogação espacial de sítios históricos e patrimônio cultural com arquitetura distribuída."
+      },
+      {
+        "id": 2,
+        "title": "Otimização de Redes Neurais para Diagnóstico Foliar em Dispositivos Edge",
+        "category": "Inteligência Artificial & Agritech",
+        "award": "Menção Honrosa",
+        "year": "2024",
+        "description": "Quantização e compressão de modelos computacionais para inferência de pragas em plantações diretamente no smartphone do produtor."
+      }
+    ]
+  }
+}

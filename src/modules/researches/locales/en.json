@@ -1,0 +1,24 @@
+{
+  "researches_page": {
+    "title": "Researches & Awards",
+    "subtitle": "Academic papers, prizes and scientific research contributions.",
+    "list": [
+      {
+        "id": 1,
+        "title": "Digital Mapping and Safeguarding of Archaeological Heritage",
+        "category": "Scientific Research & GIS",
+        "award": "1st Place — Technical Presentation",
+        "year": "2024",
+        "description": "Development of an interactive platform for spatial cataloging of historical sites with distributed architecture."
+      },
+      {
+        "id": 2,
+        "title": "Neural Network Optimization for Crop Diagnostics on Edge Devices",
+        "category": "Artificial Intelligence & Agritech",
+        "award": "Honorable Mention",
+        "year": "2024",
+        "description": "Quantization and compression of neural models for on-device pest inference directly on mobile hardware."
+      }
+    ]
+  }
+}

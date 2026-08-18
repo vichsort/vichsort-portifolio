@@ -1,10 +1,10 @@
 <script setup>
 import { onMounted } from 'vue'
-import { useTheme } from '@/composables/useTheme'
-import { useSettings } from '@/composables/useSettings'
-import TheNavbar from '@/components/layout/NavbarComponent.vue'
-import SettingsSidebar from '@/components/layout/SettingsSidebar.vue'
-import NavigationSidebar from '@/components/layout/NavigationSidebar.vue'
+import { useTheme } from '@/shared/composables/useTheme'
+import { useSettings } from '@/shared/composables/useSettings'
+import TheNavbar from '@/shared/components/layout/TheNavbar.vue'
+import SettingsSidebar from '@/shared/components/layout/SettingsSidebar.vue'
+import NavigationSidebar from '@/shared/components/layout/NavigationSidebar.vue'
 
 const { initTheme, listenToSystemChanges } = useTheme()
 const { initSettings } = useSettings()
@@ -26,22 +26,21 @@ onMounted(() => {
       <component :is="Component" />
     </transition>
   </router-view>
-
 </template>
 
 <style>
 .page-fade-enter-active,
 .page-fade-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .page-fade-enter-from {
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(12px);
 }
 
 .page-fade-leave-to {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-12px);
 }
 </style>

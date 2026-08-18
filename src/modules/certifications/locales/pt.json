@@ -1,0 +1,29 @@
+{
+  "certifications_page": {
+    "title": "Certificações & Cursos",
+    "subtitle": "Validações técnicas, certificações e especializações concluídas.",
+    "list": [
+      {
+        "id": 1,
+        "name": "AWS Certified Cloud Practitioner",
+        "issuer": "Amazon Web Services",
+        "date": "2024",
+        "credential_url": "https://aws.amazon.com"
+      },
+      {
+        "id": 2,
+        "name": "Vue.js & Modern Frontend Architecture",
+        "issuer": "Vue Mastery / Certification",
+        "date": "2024",
+        "credential_url": ""
+      },
+      {
+        "id": 3,
+        "name": "PostgreSQL High Performance & Modeling",
+        "issuer": "Database Institute",
+        "date": "2023",
+        "credential_url": ""
+      }
+    ]
+  }
+}

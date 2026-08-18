@@ -1,0 +1,14 @@
+{
+  "about_page": {
+    "title": "Sobre Mim",
+    "subtitle": "Conheça um pouco da minha trajetória profissional, visão técnica e interesses.",
+    "intro_title": "Engenharia de Software com Propósito",
+    "intro_p1": "Sou um engenheiro de software focado na construção de arquiteturas escaláveis, seguras e com excelente experiência de usuário. Acredito que o melhor código é aquele que resolve problemas reais com simplicidade e robustez.",
+    "intro_p2": "Com experiência que abrange desde o desenvolvimento web e mobile fullstack até ciência de dados e engenharia de plataformas em nuvem, busco sempre elevar a barra técnica em cada projeto que entrego.",
+    "skills_title": "Pilares Técnicos",
+    "skill_arch": "Arquitetura Modular & Clean Code",
+    "skill_frontend": "Frontend Moderno & Acessibilidade",
+    "skill_backend": "APIs Robustas & Microsserviços",
+    "skill_cloud": "Cloud, DevOps & CI/CD"
+  }
+}

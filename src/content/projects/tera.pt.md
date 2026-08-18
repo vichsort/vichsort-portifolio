@@ -1,2 +1,0 @@
-# tera - portugues
-hello

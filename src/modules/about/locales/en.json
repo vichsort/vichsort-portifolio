@@ -1,0 +1,14 @@
+{
+  "about_page": {
+    "title": "About Me",
+    "subtitle": "Learn more about my professional journey, technical philosophy and background.",
+    "intro_title": "Purpose-Driven Software Engineering",
+    "intro_p1": "I am a software engineer focused on building scalable, resilient architectures paired with exceptional user experiences. I believe the best code is the one that solves real-world challenges with simplicity and robustness.",
+    "intro_p2": "With experience spanning fullstack web and mobile engineering, data science, and cloud platforms, I consistently strive to raise the technical benchmark on every project I deliver.",
+    "skills_title": "Core Pillars",
+    "skill_arch": "Modular Architecture & Clean Code",
+    "skill_frontend": "Modern Frontend & Accessibility",
+    "skill_backend": "Robust APIs & Microservices",
+    "skill_cloud": "Cloud, DevOps & CI/CD"
+  }
+}

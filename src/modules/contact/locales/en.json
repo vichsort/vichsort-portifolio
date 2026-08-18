@@ -1,0 +1,12 @@
+{
+  "contact_page": {
+    "title": "Let's Connect",
+    "subtitle": "Always open to new projects, technical partnerships and engineering challenges.",
+    "email_label": "Direct Email",
+    "github_label": "GitHub",
+    "linkedin_label": "LinkedIn",
+    "telegram_label": "Telegram",
+    "copy_email": "Copy Email",
+    "copied": "Copied!"
+  }
+}

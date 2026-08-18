@@ -1,0 +1,132 @@
+/* ==========================================================================
+   DESIGN TOKENS - LIGHT & DARK THEMES
+   ========================================================================== */
+:root {
+  /* Font Families */
+  --font-heading: 'Arcade Gamer', monospace, sans-serif;
+  --font-body: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Typography Scale (16px base) */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 2rem;      /* 32px */
+  --text-4xl: 2.75rem;   /* 44px */
+  --text-5xl: 3.75rem;   /* 60px */
+
+  /* Spacing Scale */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+  --spacing-2xl: 6rem;
+
+  /* Border Radii */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   DARK THEME (Default / Signature Experience)
+   -------------------------------------------------------------------------- */
+:root[data-theme="dark"],
+:root:not([data-theme]) {
+  /* Brand Core Colors */
+  --primary: #3a31d8;
+  --primary-hover: #4f46e5;
+  --primary-glow: rgba(58, 49, 216, 0.4);
+  --primary-subtle: rgba(58, 49, 216, 0.15);
+  --primary-border: rgba(94, 86, 240, 0.35);
+
+  --accent: #5d1de7;
+  --accent-hover: #7433ff;
+  --accent-glow: rgba(93, 29, 231, 0.35);
+  --accent-subtle: rgba(93, 29, 231, 0.15);
+
+  /* Layered Surfaces */
+  --background: #080711;
+  --bg-canvas: #080711;
+  --bg-surface-1: #110f22;
+  --bg-surface-2: #191632;
+  --bg-surface-elevated: rgba(17, 15, 34, 0.85);
+  --bg-glass: rgba(17, 15, 34, 0.7);
+
+  /* Legacy Secondary mapping */
+  --secondary: #110f22;
+
+  /* Text & Contrast Hierarchy */
+  --text: #f8fafc;
+  --text-primary: #f8fafc;
+  --text-secondary: rgba(248, 250, 252, 0.75);
+  --text-muted: rgba(248, 250, 252, 0.45);
+  --icon-color: #f8fafc;
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.15);
+  --border-strong: rgba(255, 255, 255, 0.25);
+  --border-accent: rgba(93, 29, 231, 0.4);
+
+  /* Shadows */
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+  --shadow-card-hover: 0 20px 40px -15px rgba(58, 49, 216, 0.25), 0 0 25px rgba(93, 29, 231, 0.15);
+  --shadow-glow: 0 0 30px rgba(58, 49, 216, 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   LIGHT THEME
+   -------------------------------------------------------------------------- */
+:root[data-theme="light"] {
+  /* Brand Core Colors */
+  --primary: #2f27ce;
+  --primary-hover: #261fa8;
+  --primary-glow: rgba(47, 39, 206, 0.25);
+  --primary-subtle: rgba(47, 39, 206, 0.08);
+  --primary-border: rgba(47, 39, 206, 0.2);
+
+  --accent: #5818e2;
+  --accent-hover: #4812be;
+  --accent-glow: rgba(88, 24, 226, 0.2);
+  --accent-subtle: rgba(88, 24, 226, 0.08);
+
+  /* Layered Surfaces */
+  --background: #f8f9fe;
+  --bg-canvas: #f8f9fe;
+  --bg-surface-1: #ffffff;
+  --bg-surface-2: #f0f2fa;
+  --bg-surface-elevated: rgba(255, 255, 255, 0.9);
+  --bg-glass: rgba(255, 255, 255, 0.8);
+
+  /* Legacy Secondary mapping */
+  --secondary: #eef0fc;
+
+  /* Text & Contrast Hierarchy */
+  --text: #0f172a;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --icon-color: #0f172a;
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-medium: rgba(15, 23, 42, 0.15);
+  --border-strong: rgba(15, 23, 42, 0.25);
+  --border-accent: rgba(88, 24, 226, 0.3);
+
+  /* Shadows */
+  --shadow-card: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --shadow-card-hover: 0 20px 35px -10px rgba(47, 39, 206, 0.15), 0 0 15px rgba(88, 24, 226, 0.08);
+  --shadow-glow: 0 0 25px rgba(47, 39, 206, 0.2);
+}
