@@ -1,17 +1,9 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
+import { ArrowUpRight } from 'lucide-vue-next'
 
 const { t } = useI18n()
 
-/*
-  Configuração dos Cards:
-  - value: O número de destaque (fixo).
-  - unit: Opcional (ex: '+', '%').
-  - labelKey: Chave de tradução do título.
-  - route: Para onde o clique leva.
-  - gridClass: Tamanho no grid (span-7, span-3, etc).
-  - themeClass: Cor do card (definida no CSS abaixo).
-*/
 const statsCards = [
   {
     id: 'projects',
@@ -20,7 +12,7 @@ const statsCards = [
     labelKey: 'leads.stats.projects',
     route: '/projects',
     gridClass: 'span-7',
-    themeClass: 'card-primary' 
+    glowClass: 'glow-primary'
   },
   {
     id: 'experience',
@@ -29,7 +21,7 @@ const statsCards = [
     labelKey: 'leads.stats.experience',
     route: '/overview',
     gridClass: 'span-3',
-    themeClass: 'card-secondary'
+    glowClass: 'glow-accent'
   },
   {
     id: 'researches',
@@ -38,7 +30,7 @@ const statsCards = [
     labelKey: 'leads.stats.researches',
     route: '/researches',
     gridClass: 'span-5',
-    themeClass: 'card-dark'
+    glowClass: 'glow-surface'
   },
   {
     id: 'certs',
@@ -47,7 +39,7 @@ const statsCards = [
     labelKey: 'leads.stats.certs',
     route: '/certifications',
     gridClass: 'span-5',
-    themeClass: 'card-accent'
+    glowClass: 'glow-accent'
   }
 ]
 </script>
@@ -55,41 +47,39 @@ const statsCards = [
 <template>
   <section class="leads-container">
     <div class="grid-wrapper">
-      
-      <router-link 
-        v-for="card in statsCards" 
+      <router-link
+        v-for="card in statsCards"
         :key="card.id"
         :to="card.route"
-        class="stat-card"
-        :class="[card.gridClass, card.themeClass]"
+        class="stat-card surface-card"
+        :class="[card.gridClass, card.glowClass]"
       >
         <div class="card-inner">
           <div class="stat-header">
             <span class="stat-value">
               {{ card.value }}<span class="stat-unit" v-if="card.unit">{{ card.unit }}</span>
             </span>
-            
-            <span class="arrow-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+
+            <span class="arrow-wrapper">
+              <ArrowUpRight :size="24" class="arrow-icon" />
             </span>
           </div>
 
           <div class="stat-footer">
             <h3 class="stat-label">{{ t(card.labelKey) }}</h3>
-            <span class="hover-label">{{ t('leads.action') }}</span>
+            <span class="hover-label">{{ t('leads.action') }} &rarr;</span>
           </div>
         </div>
 
-        <div class="pixel-deco"></div>
+        <div class="pixel-deco" aria-hidden="true"></div>
       </router-link>
-
     </div>
   </section>
 </template>
 
 <style scoped>
 .leads-container {
-  padding: var(--spacing-xl);
+  padding: var(--spacing-2xl) var(--spacing-xl);
   width: 100%;
 }
 
@@ -98,32 +88,36 @@ const statsCards = [
   grid-template-columns: repeat(10, 1fr);
   gap: var(--spacing-md);
   width: 100%;
-  max-width: 1400px;
+  max-width: 1300px;
   margin: 0 auto;
 }
 
-/* --- Grid Spans --- */
+/* Grid Spans */
 .span-7 { grid-column: span 7; }
 .span-3 { grid-column: span 3; }
 .span-5 { grid-column: span 5; }
 
-/* --- Estilo Base do Card --- */
+/* Stat Card */
 .stat-card {
-  border-radius: 16px;
   padding: var(--spacing-lg);
   position: relative;
-  text-decoration: none;
   overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
   display: flex;
   flex-direction: column;
-  min-height: 280px; /* Altura generosa */
+  min-height: 240px;
+  text-decoration: none;
 }
 
-.stat-card:hover {
-  transform: translateY(-8px) scale(1.01);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-  z-index: 2;
+.glow-primary {
+  background: radial-gradient(circle at top right, var(--primary-subtle), var(--bg-surface-1) 70%);
+}
+
+.glow-accent {
+  background: radial-gradient(circle at top right, var(--accent-subtle), var(--bg-surface-1) 70%);
+}
+
+.glow-surface {
+  background: var(--bg-surface-1);
 }
 
 .card-inner {
@@ -135,39 +129,6 @@ const statsCards = [
   height: 100%;
 }
 
-/* --- Temas de Cores (Themes) --- */
-
-/* Primary: Azulão (Projetos) */
-.card-primary {
-  background-color: var(--primary);
-  color: #fff;
-}
-
-/* Secondary: Fundo claro/escuro dependendo do tema (Experience) */
-.card-secondary {
-  background-color: var(--secondary);
-  color: var(--text);
-  border: 1px solid rgba(128,128,128, 0.2);
-}
-
-/* Accent: Roxo vibrante (Certs) */
-.card-accent {
-  background-color: var(--accent);
-  color: #fff;
-}
-
-/* Dark: Quase preto (Researches) */
-.card-dark {
-  background-color: #1a1a1a; /* Cor fixa ou var(--text) invertido */
-  color: #fff;
-}
-/* Ajuste se estiver no tema light, talvez queira inverter */
-:root[data-theme="light"] .card-dark {
-  background-color: #000;
-  color: #fff;
-}
-
-/* --- Tipografia e Layout Interno --- */
 .stat-header {
   display: flex;
   justify-content: space-between;
@@ -176,24 +137,32 @@ const statsCards = [
 
 .stat-value {
   font-family: var(--font-heading);
-  font-size: clamp(4rem, 6vw, 6rem);
+  font-size: clamp(3.5rem, 5.5vw, 5.5rem);
   line-height: 0.9;
+  color: var(--text-primary);
 }
 
 .stat-unit {
   font-size: 0.5em;
-  opacity: 0.8;
+  color: var(--primary);
   vertical-align: super;
 }
 
-.arrow-icon {
-  opacity: 0.6;
-  transition: transform 0.3s, opacity 0.3s;
+.arrow-wrapper {
+  color: var(--text-secondary);
+  padding: 0.4rem;
+  border-radius: var(--radius-full);
+  background-color: var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
 }
 
-.stat-card:hover .arrow-icon {
-  opacity: 1;
-  transform: translate(5px, -5px);
+.stat-card:hover .arrow-wrapper {
+  background-color: var(--primary);
+  color: #ffffff;
+  transform: translate(2px, -2px);
 }
 
 .stat-footer {
@@ -202,22 +171,24 @@ const statsCards = [
 
 .stat-label {
   font-family: var(--font-heading);
-  font-size: 1.8rem;
-  font-weight: bold;
+  font-size: var(--text-lg);
+  color: var(--text-primary);
   letter-spacing: -0.5px;
   margin: 0;
 }
 
 .hover-label {
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: var(--text-xs);
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-top: 10px;
+  color: var(--primary);
+  margin-top: 0.5rem;
   display: block;
   opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
+  transform: translateY(6px);
+  transition: all var(--transition-fast);
 }
 
 .stat-card:hover .hover-label {
@@ -229,11 +200,11 @@ const statsCards = [
   position: absolute;
   bottom: -20px;
   right: -20px;
-  width: 100px;
-  height: 100px;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.1) 2px, transparent 2.5px);
-  background-size: 10px 10px;
-  opacity: 0.5;
+  width: 120px;
+  height: 120px;
+  background-image: radial-gradient(circle, var(--border-medium) 1.5px, transparent 2px);
+  background-size: 12px 12px;
+  opacity: 0.4;
   pointer-events: none;
 }
 
@@ -244,12 +215,12 @@ const statsCards = [
   }
 
   .stat-card {
-    min-height: 200px;
+    min-height: 180px;
     width: 100%;
   }
 
   .stat-value {
-    font-size: 4rem;
+    font-size: 3.5rem;
   }
 }
 </style>

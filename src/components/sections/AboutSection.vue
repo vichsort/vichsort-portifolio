@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useScrollProgress } from '@/composables/useScrollProgress'
 import { useI18n } from 'vue-i18n'
+
 const { t } = useI18n()
 
 const containerRef = ref(null)
@@ -26,7 +27,6 @@ const currentSlideIndex = computed(() => {
 
 const currentSlide = computed(() => slides[currentSlideIndex.value])
 
-
 const barHeight = computed(() => {
   return Math.max(10, Math.min(progress.value * 100, 100)) + '%'
 })
@@ -34,12 +34,9 @@ const barHeight = computed(() => {
 
 <template>
   <section ref="containerRef" class="scroll-container">
-
     <div class="sticky-wrapper">
-
       <div class="content-left">
-
-        <div class="progress-track">
+        <div class="progress-track" aria-hidden="true">
           <div class="progress-fill" :style="{ height: barHeight }"></div>
         </div>
 
@@ -50,8 +47,12 @@ const barHeight = computed(() => {
                 {{ t(currentSlide.textKey) }}
               </p>
 
-              <router-link v-if="currentSlide.hasAction" to="/gallery" class="action-btn">
-                {{ t('about.button') }}
+              <router-link
+                v-if="currentSlide.hasAction"
+                to="/overview"
+                class="action-btn"
+              >
+                {{ t('about.button') }} &rarr;
               </router-link>
             </div>
           </transition>
@@ -60,13 +61,14 @@ const barHeight = computed(() => {
 
       <div class="content-right">
         <div class="title-group">
-          <span class="small-label"> {{ t('about.small') }}</span>
-          <h2 class="section-title"> {{ t('about.big') }}<span class="highlight"> {{ t('about.highlight') }}</span></h2>
+          <span class="small-label">{{ t('about.small') }}</span>
+          <h2 class="section-title">
+            {{ t('about.big') }}<span class="highlight">{{ t('about.highlight') }}</span>
+          </h2>
         </div>
 
-        <div class="decorative-circle"></div>
+        <div class="decorative-circle" aria-hidden="true"></div>
       </div>
-
     </div>
   </section>
 </template>
@@ -83,7 +85,7 @@ const barHeight = computed(() => {
   height: 100vh;
   width: 100%;
   display: flex;
-  background-color: var(--background);
+  background-color: var(--bg-canvas);
   overflow: hidden;
   padding: 0 var(--spacing-xl);
 }
@@ -98,11 +100,11 @@ const barHeight = computed(() => {
 
 .progress-track {
   width: 4px;
-  height: 300px;
-  background-color: rgba(255, 255, 255, 0.1);
+  height: 260px;
+  background-color: var(--border-subtle);
   margin-right: var(--spacing-lg);
   position: relative;
-  border-radius: 2px;
+  border-radius: var(--radius-full);
 }
 
 .progress-fill {
@@ -111,40 +113,43 @@ const barHeight = computed(() => {
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: 2px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 10px var(--primary);
   transition: height 0.1s linear;
 }
 
 .text-area {
-  max-width: 600px;
+  max-width: 580px;
 }
 
 .bio-text {
   font-family: var(--font-body);
-  font-size: 1.8rem;
-  line-height: 1.4;
-  color: var(--text);
+  font-size: var(--text-lg);
+  line-height: 1.7;
+  color: var(--text-secondary);
   margin-bottom: var(--spacing-lg);
 }
 
-.title-group::selection, .bio-text::selection, .small-label::selection {
-  background-color: var(--primary)
-}
-
 .action-btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   background-color: var(--primary);
-  color: #fff;
-  padding: 0.5rem 4rem;
-  border-radius: 50px;
+  color: #ffffff;
+  padding: 0.75rem 2.5rem;
+  border-radius: var(--radius-full);
   font-family: var(--font-body);
-  font-size: 1.5rem;
-  transition: transform 0.2s, background-color 0.2s;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-glow);
 }
 
 .action-btn:hover {
-  background-color: var(--accent);
-  transform: scale(1.05);
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
 }
 
 .content-right {
@@ -159,54 +164,55 @@ const barHeight = computed(() => {
 .title-group {
   text-align: right;
   z-index: 2;
-  margin-bottom: 2rem;
+  margin-bottom: var(--spacing-lg);
 }
 
 .small-label {
   display: block;
   font-family: var(--font-body);
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  opacity: 0.8;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--spacing-xs);
 }
 
 .section-title {
   font-family: var(--font-heading);
-  font-size: 5rem;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
   line-height: 1;
   text-transform: uppercase;
+  color: var(--text-primary);
 }
 
 .highlight {
   color: var(--primary);
 }
 
-.highlight::selection {
-    background-color: var(--text);
-}
-
 .decorative-circle {
-  width: 300px;
-  height: 300px;
-  background-color: var(--accent);
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, var(--accent) 0%, var(--accent-hover) 100%);
   border-radius: 50%;
-  margin-right: 50px;
-  box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.2);
+  margin-right: 40px;
+  box-shadow: 0 20px 50px var(--accent-glow);
+  opacity: 0.85;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .fade-enter-from {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(15px);
 }
 
 .fade-leave-to {
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(-15px);
 }
 
 @media (max-width: 768px) {
@@ -219,7 +225,11 @@ const barHeight = computed(() => {
   .content-right {
     flex: 0;
     align-items: flex-start;
-    margin-bottom: 2rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .title-group {
+    text-align: left;
   }
 
   .decorative-circle {
@@ -227,11 +237,11 @@ const barHeight = computed(() => {
   }
 
   .section-title {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 
   .progress-track {
-    height: 150px;
+    height: 120px;
   }
 }
 </style>

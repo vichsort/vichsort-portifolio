@@ -2,363 +2,392 @@
 import { useSettings } from '@/composables/useSettings'
 import { useTheme } from '@/composables/useTheme'
 import { useI18n } from 'vue-i18n'
+import { X, Sun, Moon, Minus, Plus } from 'lucide-vue-next'
 
 const {
-    isSidebarOpen,
-    closeSidebar,
-    currentLang,
-    setLanguage,
-    areAnimationsEnabled,
-    toggleAnimations,
-    changeFontSize,
-    fontSizeLevel
+  isSidebarOpen,
+  closeSidebar,
+  currentLang,
+  setLanguage,
+  areAnimationsEnabled,
+  toggleAnimations,
+  changeFontSize,
+  fontSizeLevel
 } = useSettings()
 
 const { theme, toggleTheme } = useTheme()
 
 const languages = [
-    { code: 'pt', label: 'Português', flag: '🇧🇷' },
-    { code: 'en', label: 'English', flag: '🇺🇸' },
-    { code: 'it', label: 'Italiano', flag: '🇮🇹' },
-    { code: 'es', label: 'Español', flag: '🇪🇸' }
+  { code: 'pt', label: 'Português', flag: '🇧🇷' },
+  { code: 'en', label: 'English', flag: '🇺🇸' }
 ]
 
 const { t } = useI18n()
 </script>
 
 <template>
-    <teleport to="body">
-        <transition name="slide-fade">
-            <div v-if="isSidebarOpen" class="sidebar-overlay" @click.self="closeSidebar">
+  <teleport to="body">
+    <transition name="slide-fade">
+      <div
+        v-if="isSidebarOpen"
+        class="sidebar-overlay"
+        @click.self="closeSidebar"
+      >
+        <aside class="sidebar-panel glass-panel">
+          <header class="sidebar-header">
+            <h3 class="sidebar-title">Configs</h3>
 
-                <aside class="sidebar-panel">
-                    <header class="sidebar-header">
-                        <h3 class="sidebar-title">Configs</h3>
-                        
-                        <button @click="closeSidebar" class="close-btn" :aria-label="t('settings.close_menu')">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </button>
-                    </header>
+            <button
+              @click="closeSidebar"
+              class="close-btn"
+              :aria-label="t('settings.close_menu')"
+            >
+              <X :size="22" />
+            </button>
+          </header>
 
-                    <div class="sidebar-content">
-
-                        <div class="setting-group">
-                            <label class="group-label">{{ t('settings.appearance.label') }}</label>
-                            <button @click="toggleTheme" class="theme-toggle-btn" :class="theme">
-                                <div class="theme-icon">
-                                    <svg v-if="theme === 'light'" xmlns="http://www.w3.org/2000/svg" width="20"
-                                        height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="5" />
-                                        <path d="M12 1v2" /><path d="M12 21v2" />
-                                        <path d="M4.22 4.22l1.42 1.42" /><path d="M18.36 18.36l1.42 1.42" />
-                                        <path d="M1 12h2" /><path d="M21 12h2" />
-                                        <path d="M4.22 19.78l1.42-1.42" /><path d="M18.36 5.64l1.42-1.42" />
-                                    </svg>
-                                    <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                                    </svg>
-                                </div>
-                                
-                                <span>
-                                    {{ theme === 'dark' ? t('settings.appearance.dark') : t('settings.appearance.light') }}
-                                </span>
-                            </button>
-                        </div>
-
-                        <hr class="divider">
-
-                        <div class="setting-group">
-                            <label class="group-label">{{ t('settings.language') }}</label>
-                            <div class="lang-grid">
-                                <button v-for="lang in languages" :key="lang.code" @click="setLanguage(lang.code)"
-                                    class="lang-btn" :class="{ active: currentLang === lang.code }">
-                                    <span class="flag">{{ lang.flag }}</span>
-                                    <span class="lang-name">{{ lang.label }}</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <hr class="divider">
-
-                        <div class="setting-group">
-                            <label class="group-label">{{ t('settings.accessibility.label') }}</label>
-
-                            <div class="control-row">
-                                <span>{{ t('settings.accessibility.font_size') }}</span>
-                                <div class="stepper">
-                                    <button @click="changeFontSize('down')" :disabled="fontSizeLevel <= -1">-</button>
-                                    <span class="stepper-value">{{ fontSizeLevel > 0 ? '+' : '' }}{{ fontSizeLevel }}</span>
-                                    <button @click="changeFontSize('up')" :disabled="fontSizeLevel >= 3">+</button>
-                                </div>
-                            </div>
-
-                            <div class="control-row">
-                                <span>{{ t('settings.accessibility.animations') }}</span>
-                                <button @click="toggleAnimations" class="toggle-btn"
-                                    :class="{ active: areAnimationsEnabled }">
-                                    {{ areAnimationsEnabled ? t('settings.accessibility.on') : t('settings.accessibility.off') }}
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <footer class="sidebar-footer">
-                        <p class="copyright">© 2026 <a>NEAT</a> by Vitor.</p>
-                    </footer>
-                </aside>
-
+          <div class="sidebar-content">
+            <!-- Appearance / Theme -->
+            <div class="setting-group">
+              <label class="group-label">{{ t('settings.appearance.label') }}</label>
+              <button
+                @click="toggleTheme"
+                class="theme-toggle-btn"
+                :class="theme"
+              >
+                <div class="theme-icon">
+                  <Sun v-if="theme === 'light'" :size="18" />
+                  <Moon v-else :size="18" />
+                </div>
+                <span>
+                  {{ theme === 'dark' ? t('settings.appearance.dark') : t('settings.appearance.light') }}
+                </span>
+              </button>
             </div>
-        </transition>
-    </teleport>
+
+            <hr class="divider" />
+
+            <!-- Language -->
+            <div class="setting-group">
+              <label class="group-label">{{ t('settings.language') }}</label>
+              <div class="lang-grid">
+                <button
+                  v-for="lang in languages"
+                  :key="lang.code"
+                  @click="setLanguage(lang.code)"
+                  class="lang-btn"
+                  :class="{ active: currentLang === lang.code }"
+                >
+                  <span class="flag">{{ lang.flag }}</span>
+                  <span class="lang-name">{{ lang.label }}</span>
+                </button>
+              </div>
+            </div>
+
+            <hr class="divider" />
+
+            <!-- Accessibility -->
+            <div class="setting-group">
+              <label class="group-label">{{ t('settings.accessibility.label') }}</label>
+
+              <div class="control-row">
+                <span class="control-label">{{ t('settings.accessibility.font_size') }}</span>
+                <div class="stepper">
+                  <button
+                    @click="changeFontSize('down')"
+                    :disabled="fontSizeLevel <= -1"
+                    aria-label="Diminuir fonte"
+                  >
+                    <Minus :size="14" />
+                  </button>
+                  <span class="stepper-value">
+                    {{ fontSizeLevel > 0 ? '+' : '' }}{{ fontSizeLevel }}
+                  </span>
+                  <button
+                    @click="changeFontSize('up')"
+                    :disabled="fontSizeLevel >= 3"
+                    aria-label="Aumentar fonte"
+                  >
+                    <Plus :size="14" />
+                  </button>
+                </div>
+              </div>
+
+              <div class="control-row">
+                <span class="control-label">{{ t('settings.accessibility.animations') }}</span>
+                <button
+                  @click="toggleAnimations"
+                  class="toggle-btn"
+                  :class="{ active: areAnimationsEnabled }"
+                >
+                  {{ areAnimationsEnabled ? t('settings.accessibility.on') : t('settings.accessibility.off') }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <footer class="sidebar-footer">
+            <p class="copyright">© 2026 <a>NEAT</a> by Vitor.</p>
+          </footer>
+        </aside>
+      </div>
+    </transition>
+  </teleport>
 </template>
 
 <style scoped>
 .sidebar-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-    display: flex;
-    justify-content: flex-end;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .sidebar-panel {
-    width: 100%;
-    max-width: 400px;
-    height: 100%;
-    background-color: var(--background);
-    border-left: 1px solid var(--secondary);
-    display: flex;
-    flex-direction: column;
-    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5);
-    padding: var(--spacing-lg);
-    position: relative;
-    overflow: hidden;
+  width: 100%;
+  max-width: 380px;
+  height: 100%;
+  background-color: var(--bg-surface-elevated);
+  border-left: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+  padding: var(--spacing-md);
+  position: relative;
+  overflow: hidden;
 }
 
 .sidebar-header {
-    padding: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: var(--spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .sidebar-title {
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    color: var(--primary);
-    opacity: 0.8;
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
 }
 
 .close-btn {
-    background: none;
-    border: none;
-    color: var(--text);
-    cursor: pointer;
-    transition: color 0.2s, transform 0.2s;
+  color: var(--text-secondary);
+  padding: 0.4rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
 }
 
 .close-btn:hover {
-    color: var(--accent);
-    transform: rotate(90deg);
+  color: var(--primary);
+  background-color: var(--primary-subtle);
+  transform: rotate(90deg);
 }
 
 .sidebar-content {
-    padding: 1.5rem;
-    flex: 1;
-    overflow-y: auto;
+  padding: var(--spacing-md);
+  flex: 1;
+  overflow-y: auto;
 }
 
 .setting-group {
-    margin-bottom: 2rem;
+  margin-bottom: var(--spacing-lg);
 }
 
 .group-label {
-    display: block;
-    font-family: var(--font-body);
-    font-weight: bold;
-    opacity: 0.7;
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-sm);
 }
 
 .divider {
-    border: 0;
-    height: 1px;
-    background: var(--secondary);
-    margin: 0 0 2rem 0;
-    opacity: 0.3;
+  border: 0;
+  height: 1px;
+  background-color: var(--border-subtle);
+  margin: 0 0 var(--spacing-lg) 0;
 }
 
 .theme-toggle-btn {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    border-radius: 8px;
-    background-color: var(--secondary);
-    color: var(--text);
-    border: 2px solid transparent;
-    cursor: pointer;
-    font-family: var(--font-body);
-    font-size: 1.2rem;
-    transition: all 0.2s;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-surface-2);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition: all var(--transition-fast);
 }
 
 .theme-toggle-btn:hover {
-    border-color: var(--primary);
-    background-color: var(--background);
+  border-color: var(--primary-border);
+  background-color: var(--primary-subtle);
 }
 
-.theme-toggle-btn.dark .theme-icon {
-    color: var(--accent);
+.theme-icon {
+  color: var(--primary);
+  display: flex;
+  align-items: center;
 }
 
 .lang-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
 }
 
 .lang-btn {
-    background: var(--secondary);
-    border: 2px solid transparent;
-    color: var(--text);
-    padding: 0.8rem;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    transition: all 0.2s;
+  background-color: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  padding: 0.75rem 0.5rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all var(--transition-fast);
 }
 
 .lang-btn:hover {
-    border-color: var(--primary);
+  border-color: var(--primary-border);
+  color: var(--text-primary);
 }
 
 .lang-btn.active {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--accent);
+  background-color: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
 }
 
 .flag {
-    font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 .lang-name {
-    font-size: 1rem;
-    font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 600;
 }
 
 .control-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    font-family: var(--font-body);
-    font-size: 1.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.control-label {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
 }
 
 .stepper {
-    display: flex;
-    align-items: center;
-    background: var(--secondary);
-    border-radius: 20px;
-    overflow: hidden;
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  overflow: hidden;
 }
 
 .stepper button {
-    background: none;
-    border: none;
-    color: var(--text);
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    font-size: 1.2rem;
+  color: var(--text-primary);
+  padding: 0.4rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast);
+}
+
+.stepper button:hover:not(:disabled) {
+  background-color: var(--primary-subtle);
+  color: var(--primary);
 }
 
 .stepper button:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 .stepper-value {
-    min-width: 30px;
-    text-align: center;
-    font-weight: bold;
+  min-width: 28px;
+  text-align: center;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .toggle-btn {
-    background: var(--secondary);
-    color: var(--text);
-    border: none;
-    padding: 0.5rem 1.5rem;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s;
+  background-color: var(--bg-surface-2);
+  color: var(--text-muted);
+  border: 1px solid var(--border-subtle);
+  padding: 0.35rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: all var(--transition-fast);
 }
 
 .toggle-btn.active {
-    background: var(--primary);
-    color: white;
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
 }
 
 .sidebar-footer {
-    margin-top: auto;
-    border-top: 1px solid var(--secondary);
-    padding-top: var(--spacing-md);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: var(--font-body);
-    color: var(--text);
-    opacity: 0.6;
+  margin-top: auto;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: var(--spacing-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
 }
 
 .copyright a {
-    font-weight: bold;
-    color: var(--accent);
+  font-weight: bold;
+  color: var(--accent);
 }
 
+/* Transitions */
 .slide-fade-enter-active,
 .slide-fade-leave-active {
-    transition: opacity 0.3s ease;
+  transition: opacity var(--transition-base);
 }
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-    opacity: 0;
+  opacity: 0;
 }
 
 .slide-fade-enter-active .sidebar-panel {
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform var(--transition-base);
 }
 
 .slide-fade-leave-active .sidebar-panel {
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform var(--transition-base);
 }
 
 .slide-fade-enter-from .sidebar-panel,
 .slide-fade-leave-to .sidebar-panel {
-    transform: translateX(100%);
+  transform: translateX(100%);
 }
 </style>
