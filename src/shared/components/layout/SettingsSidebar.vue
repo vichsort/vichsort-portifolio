@@ -49,7 +49,7 @@ const { t } = useI18n()
         class="sidebar-overlay"
         @click.self="closeSidebar"
       >
-        <aside class="sidebar-panel glass-panel">
+        <aside class="sidebar-panel">
           <header class="sidebar-header">
             <h3 class="sidebar-title">Configs</h3>
 
@@ -155,9 +155,7 @@ const { t } = useI18n()
 .sidebar-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.65);
   z-index: 9999;
   display: flex;
   justify-content: flex-end;
@@ -167,14 +165,15 @@ const { t } = useI18n()
   width: 100%;
   max-width: 380px;
   height: 100%;
-  background-color: var(--bg-surface-elevated);
+  background-color: var(--bg-surface-1);
   border-left: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.4);
   padding: var(--spacing-md);
   position: relative;
   overflow: hidden;
+  will-change: transform;
 }
 
 .sidebar-header {
@@ -395,15 +394,15 @@ const { t } = useI18n()
 }
 
 .slide-fade-enter-active .sidebar-panel {
-  transition: transform var(--transition-base);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .slide-fade-leave-active .sidebar-panel {
-  transition: transform var(--transition-base);
+  transition: transform 0.22s ease-in;
 }
 
 .slide-fade-enter-from .sidebar-panel,
 .slide-fade-leave-to .sidebar-panel {
-  transform: translateX(100%);
+  transform: translate3d(100%, 0, 0);
 }
 </style>

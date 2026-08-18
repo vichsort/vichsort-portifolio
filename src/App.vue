@@ -4,7 +4,6 @@ import { useTheme } from '@/shared/composables/useTheme'
 import { useSettings } from '@/shared/composables/useSettings'
 import TheNavbar from '@/shared/components/layout/TheNavbar.vue'
 import SettingsSidebar from '@/shared/components/layout/SettingsSidebar.vue'
-import NavigationSidebar from '@/shared/components/layout/NavigationSidebar.vue'
 
 const { initTheme, listenToSystemChanges } = useTheme()
 const { initSettings } = useSettings()
@@ -18,7 +17,6 @@ onMounted(() => {
 
 <template>
   <TheNavbar />
-  <NavigationSidebar />
   <SettingsSidebar />
   
   <router-view v-slot="{ Component }">
