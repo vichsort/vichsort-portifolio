@@ -35,6 +35,11 @@ const stack = [
     { name: 'SQLite', icon: 'sqlite.svg' },
     { name: 'Tailwind CSS', icon: 'tailwindcss.svg' },
     { name: 'Vite', icon: 'vite.svg' },
+    { name: 'Railway', icon: 'railway.svg' },
+    { name: 'ExpressJS', icon: 'express.svg' },
+    { name: 'NeonDB', icon: 'neon.svg' },
+    { name: 'Nginx', icon: 'nginx.svg' },
+    { name: 'Raspberry PI', icon: 'raspberrypi.svg' },
 ]
 </script>
 
