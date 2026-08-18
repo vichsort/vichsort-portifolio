@@ -15,30 +15,44 @@ const getAssetUrl = (name) => {
 }
 
 const stack = [
-  { name: 'Vue.js', icon: 'vuedotjs.svg' },
+  // Core Languages
+  { name: 'TypeScript', icon: 'typescript.svg' },
   { name: 'JavaScript', icon: 'javascript.svg' },
   { name: 'Python', icon: 'python.svg' },
-  { name: 'React', icon: 'react.svg' },
-  { name: 'TypeScript', icon: 'typescript.svg' },
-  { name: 'Node.js', icon: 'nodedotjs.svg' },
-  { name: 'AWS', icon: 'aws.svg' },
-  { name: 'PostgreSQL', icon: 'postgresql.svg' },
-  { name: 'Angular', icon: 'angular.svg' },
-  { name: 'Flask', icon: 'flask.svg' },
-  { name: 'Flutter', icon: 'flutter.svg' },
-  { name: 'Git', icon: 'git.svg' },
-  { name: 'MongoDB', icon: 'mongodb.svg' },
-  { name: 'MySQL', icon: 'mysql.svg' },
   { name: 'PHP', icon: 'php.svg' },
-  { name: 'Redis', icon: 'redis.svg' },
-  { name: 'Sass', icon: 'sass.svg' },
-  { name: 'SQLite', icon: 'sqlite.svg' },
+
+  // Frontend & Mobile
+  { name: 'Vue.js', icon: 'vuedotjs.svg' },
+  { name: 'React', icon: 'react.svg' },
+  { name: 'Angular', icon: 'angular.svg' },
+  { name: 'Flutter', icon: 'flutter.svg' },
+
+  // UI, Styling & Build
   { name: 'Tailwind CSS', icon: 'tailwindcss.svg' },
+  { name: 'Sass', icon: 'sass.svg' },
   { name: 'Vite', icon: 'vite.svg' },
-  { name: 'Railway', icon: 'railway.svg' },
+
+  // Backend & Frameworks
+  { name: 'Node.js', icon: 'nodedotjs.svg' },
   { name: 'ExpressJS', icon: 'express.svg' },
+  { name: 'Flask', icon: 'flask.svg' },
+  { name: 'Pocketbase', icon: 'pocketbase.svg' },
+
+  // Databases & Caching
+  { name: 'PostgreSQL', icon: 'postgresql.svg' },
   { name: 'NeonDB', icon: 'neon.svg' },
+  { name: 'MySQL', icon: 'mysql.svg' },
+  { name: 'SQLite', icon: 'sqlite.svg' },
+  { name: 'MongoDB', icon: 'mongodb.svg' },
+  { name: 'Redis', icon: 'redis.svg' },
+
+  // Cloud, DevOps & Infrastructure
+  { name: 'Docker', icon: 'docker.svg' },
   { name: 'Nginx', icon: 'nginx.svg' },
+  { name: 'AWS', icon: 'aws.svg' },
+  { name: 'Cloudflare', icon: 'cloudflare.svg' },
+  { name: 'Railway', icon: 'railway.svg' },
+  { name: 'Git', icon: 'git.svg' },
   { name: 'Raspberry PI', icon: 'raspberrypi.svg' }
 ]
 </script>
