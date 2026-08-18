@@ -1,8 +1,9 @@
 ---
 id: plante
-title: PlantE — Gestão Agrícola Inteligente
-date: Dezembro, 2024
-tags: [App, Vue, API, Gemini AI]
+title: PlantE
+category: App
+techs: [Vue.js, Python, Flask, Gemini AI, PostgreSQL, Redis]
+date: ["08/2024", "12/2024"]
 image: /images/plante-cover.jpg
 github: https://github.com/vitor/plante
 live: https://plante.app

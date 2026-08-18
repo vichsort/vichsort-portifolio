@@ -1,13 +1,28 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useDraggableScroll } from '@/shared/composables/useDraggableScroll'
+import { useProjects } from '../composables/useProjects'
 import ProjectCard from './ProjectCard.vue'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-vue-next'
 
-const { t, tm } = useI18n()
+const { t, locale } = useI18n()
+const { loadAllProjects } = useProjects()
 const { containerRef, isDragging, startDrag, stopDrag, moveDrag } = useDraggableScroll()
-const projects = computed(() => tm('projects_section.list'))
+
+const projects = ref([])
+
+const fetchProjects = async () => {
+  projects.value = await loadAllProjects(locale.value)
+}
+
+onMounted(() => {
+  fetchProjects()
+})
+
+watch(locale, () => {
+  fetchProjects()
+})
 
 const scrollAmount = 880
 
@@ -58,6 +73,7 @@ const scrollRight = () => {
         v-for="(proj, index) in projects"
         :key="index"
         :project="proj"
+        variant="carousel"
       />
 
       <router-link to="/projects" class="see-all-card surface-card">

@@ -1,11 +1,12 @@
 ---
 id: cemiterio
-title: Caboclo Cemetery — Digital Historical Preservation
-date: October, 2024
-tags: [Frontend, Vue, OpenSource, GIS]
+title: Caboclo Cemetery
+category: Website
+techs: [Vue.js, GIS, OpenStreetMap, TypeScript]
+date: ["05/2024", "10/2024"]
 github: ""
 live: https://cemiterio.com
-summary: Interactive digital catalog and GIS mapping platform for cultural heritage preservation.
+summary: Historical cataloging and interactive mapping platform for cultural heritage preservation.
 ---
 
 ## About Caboclo Cemetery

@@ -1,8 +1,9 @@
 ---
 id: cemiterio
-title: Cemitério Caboclo — Resgate Histórico Digital
-date: Outubro, 2024
-tags: [Frontend, Vue, OpenSource, GIS]
+title: Cemitério Caboclo
+category: Website
+techs: [Vue.js, GIS, OpenStreetMap, TypeScript]
+date: ["05/2024", "10/2024"]
 github: ""
 live: https://cemiterio.com
 summary: Plataforma de catalogação histórica e mapeamento interativo para preservação cultural.

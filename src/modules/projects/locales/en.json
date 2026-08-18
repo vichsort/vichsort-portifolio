@@ -4,43 +4,21 @@
     "action_view_all": "See all projects",
     "card": {
       "view_more": "See more"
-    },
-    "list": [
-      {
-        "id": "plante",
-        "name": "PLANTE",
-        "tags": "App, API",
-        "date": "December, 2024",
-        "image": "/images/plante-cover.jpg",
-        "short_description": "A complete **agricultural management system**. Built with *Plant.id* and **Gemini AI**.",
-        "link_github": "https://github.com/vitor/plante",
-        "link_live": "https://plante.app"
-      },
-      {
-        "id": "tera",
-        "name": "TERA DOCS",
-        "tags": "CLI, Website",
-        "date": "November, 2024",
-        "short_description": "Automated **documentation tool** for Python APIs.",
-        "link_github": "https://github.com/vitor/tera",
-        "link_live": ""
-      },
-      {
-        "id": "cemiterio",
-        "name": "CEMITÉRIO CABOCLO",
-        "tags": "Frontend, Vue",
-        "date": "October, 2024",
-        "short_description": "Digital **historical preservation** project and interactive mapping.",
-        "link_github": "",
-        "link_live": "https://cemiterio.com"
-      }
-    ]
+    }
   },
   "projects_page": {
     "title": "All Projects",
     "subtitle": "A collection of software systems, tools and applications I've built.",
-    "filter_all": "All",
-    "no_projects_found": "No projects found.",
+    "search_placeholder": "Search by name or description...",
+    "filter_category": "Category",
+    "filter_tech": "Technology",
+    "filter_year": "Year",
+    "all_categories": "All Categories",
+    "all_techs": "All Technologies",
+    "all_years": "All Years",
+    "clear_filters": "Clear filters",
+    "showing_count": "Showing {count} of {total} projects",
+    "no_projects_found": "No projects found matching the selected filters.",
     "back_to_list": "Back to projects list"
   },
   "project_detail": {
@@ -48,6 +26,8 @@
     "live_demo": "Live Demo",
     "view_source": "Source Code",
     "techs_used": "Technologies Used",
+    "category": "Category",
+    "period": "Period",
     "next_project": "Next Project",
     "prev_project": "Previous Project",
     "project_not_found": "Project not found.",

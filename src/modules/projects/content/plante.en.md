@@ -1,12 +1,13 @@
 ---
 id: plante
-title: PlantE — Smart Agricultural Management
-date: December, 2024
-tags: [App, Vue, API, Gemini AI]
+title: PlantE
+category: App
+techs: [Vue.js, Python, Flask, Gemini AI, PostgreSQL, Redis]
+date: ["08/2024", "12/2024"]
 image: /images/plante-cover.jpg
 github: https://github.com/vitor/plante
 live: https://plante.app
-summary: A complete ecosystem for real-time greenhouse and crop monitoring powered by AI.
+summary: A complete ecosystem for crop and greenhouse monitoring and management using AI.
 ---
 
 ## About the Project

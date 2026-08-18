@@ -1,11 +1,12 @@
 ---
 id: tera
-title: Tera Docs — Python API Documentation Generator
-date: November, 2024
-tags: [CLI, Python, Tooling, Docs]
+title: Tera Docs
+category: CLI
+techs: [Python, AST, OpenAPI, Markdown]
+date: ["10/2024", "11/2024"]
 github: https://github.com/vitor/tera
 live: ""
-summary: Intelligent CLI tool for automated documentation and schema introspection for Python APIs.
+summary: Intelligent CLI tool for automated documentation and introspection of Python APIs.
 ---
 
 ## About Tera Docs

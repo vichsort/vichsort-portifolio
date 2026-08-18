@@ -1,51 +1,43 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useProjects } from '../composables/useProjects'
-import { ArrowLeft, ArrowRight, ExternalLink, Github, Calendar, Tag } from 'lucide-vue-next'
+import ProjectPagination from '../components/ProjectPagination.vue'
+import { ArrowLeft, ExternalLink, Github, Calendar } from 'lucide-vue-next'
 
 const props = defineProps({
   slug: { type: String, default: '' }
 })
 
 const route = useRoute()
-const { t, locale, tm, rt } = useI18n()
-const { loadProject, isLoading, error } = useProjects()
+const { t, locale } = useI18n()
+const { loadProject, getAdjacentProjects, formatDateRange, isLoading, error } = useProjects()
 
-const projectData = ref(null)
+const project = ref(null)
+const prevProject = ref(null)
+const nextProject = ref(null)
 const projectId = ref(props.slug || route.params.slug)
 
-const allProjects = computed(() => tm('projects_section.list') || [])
-
-const currentIndex = computed(() => {
-  return allProjects.value.findIndex(p => rt(p.id) === projectId.value)
-})
-
-const nextProject = computed(() => {
-  if (allProjects.value.length === 0 || currentIndex.value === -1) return null
-  const nextIdx = (currentIndex.value + 1) % allProjects.value.length
-  return allProjects.value[nextIdx]
-})
-
-const prevProject = computed(() => {
-  if (allProjects.value.length === 0 || currentIndex.value === -1) return null
-  const prevIdx = (currentIndex.value - 1 + allProjects.value.length) % allProjects.value.length
-  return allProjects.value[prevIdx]
-})
-
-const fetchProject = async () => {
+const fetchProjectData = async () => {
   if (!projectId.value) return
-  const data = await loadProject(projectId.value, locale.value)
-  projectData.value = data
+
+  const [data, adjacent] = await Promise.all([
+    loadProject(projectId.value, locale.value),
+    getAdjacentProjects(projectId.value, locale.value)
+  ])
+
+  project.value = data
+  prevProject.value = adjacent.prev
+  nextProject.value = adjacent.next
 }
 
 onMounted(() => {
-  fetchProject()
+  fetchProjectData()
 })
 
 watch(locale, () => {
-  fetchProject()
+  fetchProjectData()
 })
 
 watch(
@@ -53,7 +45,8 @@ watch(
   (newSlug) => {
     if (newSlug) {
       projectId.value = newSlug
-      fetchProject()
+      fetchProjectData()
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 )
@@ -71,35 +64,37 @@ watch(
         <p>{{ t('common.loading') }}</p>
       </div>
 
-      <div v-else-if="projectData && projectData.attributes" class="project-article">
+      <div v-else-if="project" class="project-article">
         <header class="detail-header">
           <div class="meta-row">
-            <span v-if="projectData.attributes.date" class="meta-item">
+            <span v-if="project.date" class="meta-item">
               <Calendar :size="16" />
-              <span>{{ projectData.attributes.date }}</span>
+              <span>{{ formatDateRange(project.date) }}</span>
+            </span>
+            <span v-if="project.category" class="badge badge-accent">
+              {{ project.category }}
             </span>
           </div>
 
-          <h1 class="project-title">{{ projectData.attributes.title || projectData.attributes.name }}</h1>
-          <p v-if="projectData.attributes.summary" class="project-summary">
-            {{ projectData.attributes.summary }}
+          <h1 class="project-title">{{ project.title }}</h1>
+          <p v-if="project.summary" class="project-summary">
+            {{ project.summary }}
           </p>
 
-          <div v-if="projectData.attributes.tags" class="tags-row">
+          <div v-if="project.techs && project.techs.length > 0" class="tags-row">
             <span
-              v-for="tag in projectData.attributes.tags"
-              :key="tag"
+              v-for="tech in project.techs"
+              :key="tech"
               class="badge"
             >
-              <Tag :size="12" />
-              {{ tag }}
+              {{ tech }}
             </span>
           </div>
 
           <div class="action-buttons">
             <a
-              v-if="projectData.attributes.live"
-              :href="projectData.attributes.live"
+              v-if="project.live"
+              :href="project.live"
               target="_blank"
               rel="noopener noreferrer"
               class="btn-primary"
@@ -109,8 +104,8 @@ watch(
             </a>
 
             <a
-              v-if="projectData.attributes.github"
-              :href="projectData.attributes.github"
+              v-if="project.github"
+              :href="project.github"
               target="_blank"
               rel="noopener noreferrer"
               class="btn-secondary"
@@ -121,36 +116,21 @@ watch(
           </div>
         </header>
 
-        <div v-if="projectData.attributes.image" class="cover-image-wrapper surface-card">
+        <div v-if="project.image" class="cover-image-wrapper surface-card">
           <img
-            :src="projectData.attributes.image"
-            :alt="projectData.attributes.title"
+            :src="project.image"
+            :alt="project.title"
             class="cover-img"
           />
         </div>
 
-        <section class="markdown-content surface-card" v-html="projectData.html"></section>
+        <section class="markdown-content surface-card" v-html="project.html"></section>
 
-        <!-- Next / Previous Navigation -->
-        <nav class="project-pagination" aria-label="Navegação entre projetos">
-          <router-link
-            v-if="prevProject"
-            :to="`/projects/${rt(prevProject.id)}`"
-            class="pagination-card prev surface-card"
-          >
-            <span class="pagination-label">&larr; {{ t('project_detail.prev_project') }}</span>
-            <span class="pagination-title">{{ rt(prevProject.name) }}</span>
-          </router-link>
-
-          <router-link
-            v-if="nextProject"
-            :to="`/projects/${rt(nextProject.id)}`"
-            class="pagination-card next surface-card"
-          >
-            <span class="pagination-label">{{ t('project_detail.next_project') }} &rarr;</span>
-            <span class="pagination-title">{{ rt(nextProject.name) }}</span>
-          </router-link>
-        </nav>
+        <!-- Next / Previous Navigation Component -->
+        <ProjectPagination
+          :prev-project="prevProject"
+          :next-project="nextProject"
+        />
       </div>
 
       <div v-else class="not-found-state surface-card">
@@ -208,9 +188,11 @@ watch(
 }
 
 .project-title {
-  font-family: var(--font-heading);
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
-  line-height: 1.05;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.5px;
   color: var(--text-primary);
   margin-bottom: var(--spacing-sm);
 }
@@ -293,8 +275,10 @@ watch(
 }
 
 .markdown-content :deep(h2) {
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
+  font-weight: 700;
   font-size: var(--text-2xl);
+  letter-spacing: -0.3px;
   color: var(--text-primary);
   margin-top: var(--spacing-lg);
   margin-bottom: var(--spacing-sm);
