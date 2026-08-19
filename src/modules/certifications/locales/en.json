@@ -2,11 +2,23 @@
   "certifications_page": {
     "title": "Certifications & Credentials",
     "subtitle": "Technical validations, certifications, and specialized courses completed.",
+    "search_placeholder": "Search by certification, issuer or skill...",
+    "filter_skill": "Skill",
+    "all_skills": "All Skills",
+    "filter_issuer": "Issuer",
+    "all_issuers": "All Issuers",
+    "filter_year": "Year",
+    "all_years": "All Years",
+    "clear_filters": "Clear filters",
+    "showing_count": "Showing {count} of {total} certifications",
+    "no_certifications_found": "No certifications found matching the selected filters.",
+    "view_credential": "View Credential",
     "list": [
       {
         "id": 1,
         "name": "AWS Certified Cloud Practitioner",
         "issuer": "Amazon Web Services",
+        "skills": ["AWS", "Cloud Computing", "IAM", "Serverless"],
         "date": "2024",
         "credential_url": "https://aws.amazon.com"
       },
@@ -14,6 +26,7 @@
         "id": 2,
         "name": "Vue.js & Modern Frontend Architecture",
         "issuer": "Vue Mastery / Certification",
+        "skills": ["Vue.js", "Vite", "Pinia", "Frontend Architecture"],
         "date": "2024",
         "credential_url": ""
       },
@@ -21,6 +34,7 @@
         "id": 3,
         "name": "PostgreSQL High Performance & Modeling",
         "issuer": "Database Institute",
+        "skills": ["PostgreSQL", "Query Optimization", "Database Modeling", "Indexing"],
         "date": "2023",
         "credential_url": ""
       }

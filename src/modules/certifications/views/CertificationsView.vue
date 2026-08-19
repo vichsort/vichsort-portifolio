@@ -1,10 +1,28 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, CheckCircle2, ExternalLink, Calendar } from 'lucide-vue-next'
+import { useCertificationsFilter } from '../composables/useCertificationsFilter'
+import BaseSearchInput from '@/shared/components/ui/BaseSearchInput.vue'
+import BaseSelect from '@/shared/components/ui/BaseSelect.vue'
+import { ArrowLeft, CheckCircle2, ExternalLink, Calendar, RotateCcw, Sparkles } from 'lucide-vue-next'
 
 const { t, tm, rt } = useI18n()
-const certifications = computed(() => tm('certifications_page.list') || [])
+const rawCertifications = computed(() => tm('certifications_page.list') || [])
+
+const {
+  searchQuery,
+  selectedIssuer,
+  selectedSkill,
+  selectedYear,
+  availableIssuers,
+  availableSkills,
+  availableYears,
+  hasActiveFilters,
+  filteredCertifications,
+  resultsCount,
+  totalCount,
+  clearFilters
+} = useCertificationsFilter(rawCertifications, rt)
 </script>
 
 <template>
@@ -18,11 +36,67 @@ const certifications = computed(() => tm('certifications_page.list') || [])
       <header class="page-header">
         <h1 class="page-title">{{ t('certifications_page.title') }}</h1>
         <p class="page-subtitle">{{ t('certifications_page.subtitle') }}</p>
+
+        <!-- Advanced Multi-Filter Toolbar -->
+        <div class="filters-toolbar">
+          <div class="search-box">
+            <BaseSearchInput
+              v-model="searchQuery"
+              :placeholder="t('certifications_page.search_placeholder')"
+            />
+          </div>
+
+          <div class="dropdowns-group">
+            <BaseSelect
+              v-model="selectedSkill"
+              :options="availableSkills"
+              :all-label="t('certifications_page.all_skills')"
+              :placeholder="t('certifications_page.filter_skill')"
+              :label="t('certifications_page.filter_skill')"
+            />
+
+            <BaseSelect
+              v-model="selectedIssuer"
+              :options="availableIssuers"
+              :all-label="t('certifications_page.all_issuers')"
+              :placeholder="t('certifications_page.filter_issuer')"
+              :label="t('certifications_page.filter_issuer')"
+            />
+
+            <BaseSelect
+              v-model="selectedYear"
+              :options="availableYears"
+              :all-label="t('certifications_page.all_years')"
+              :placeholder="t('certifications_page.filter_year')"
+              :label="t('certifications_page.filter_year')"
+            />
+
+            <button
+              v-if="hasActiveFilters"
+              @click="clearFilters"
+              class="clear-filters-btn"
+              type="button"
+              :aria-label="t('certifications_page.clear_filters')"
+            >
+              <RotateCcw :size="14" />
+              <span>{{ t('certifications_page.clear_filters') }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Results Meta Counter -->
+        <div class="results-meta">
+          <span class="count-badge">
+            <Sparkles :size="13" class="sparkle-icon" />
+            {{ t('certifications_page.showing_count', { count: resultsCount, total: totalCount }) }}
+          </span>
+        </div>
       </header>
 
-      <div class="certifications-grid">
+      <!-- Certifications Grid -->
+      <div v-if="filteredCertifications.length > 0" class="certifications-grid">
         <article
-          v-for="cert in certifications"
+          v-for="cert in filteredCertifications"
           :key="rt(cert.id)"
           class="cert-card surface-card"
         >
@@ -41,18 +115,43 @@ const certifications = computed(() => tm('certifications_page.list') || [])
 
             <h2 class="cert-name">{{ rt(cert.name) }}</h2>
 
+            <!-- Skills Badges -->
+            <div v-if="cert.skills && cert.skills.length > 0" class="skills-container">
+              <span
+                v-for="skill in cert.skills"
+                :key="rt(skill)"
+                class="badge"
+              >
+                {{ rt(skill) }}
+              </span>
+            </div>
+
             <a
-              v-if="cert.credential_url"
+              v-if="cert.credential_url && String(rt(cert.credential_url)).trim().length > 0"
               :href="rt(cert.credential_url)"
               target="_blank"
               rel="noopener noreferrer"
               class="credential-link"
             >
-              <span>Ver Credencial</span>
+              <span>{{ t('certifications_page.view_credential') }}</span>
               <ExternalLink :size="14" />
             </a>
           </div>
         </article>
+      </div>
+
+      <!-- Empty State -->
+      <div v-else class="empty-state surface-card">
+        <p class="empty-text">{{ t('certifications_page.no_certifications_found') }}</p>
+        <button
+          v-if="hasActiveFilters"
+          @click="clearFilters"
+          class="clear-filters-btn empty-action"
+          type="button"
+        >
+          <RotateCcw :size="14" />
+          <span>{{ t('certifications_page.clear_filters') }}</span>
+        </button>
       </div>
     </div>
   </main>
@@ -65,7 +164,7 @@ const certifications = computed(() => tm('certifications_page.list') || [])
 }
 
 .page-container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -98,11 +197,79 @@ const certifications = computed(() => tm('certifications_page.list') || [])
 .page-subtitle {
   font-size: var(--text-base);
   color: var(--text-secondary);
+  margin-bottom: var(--spacing-xl);
 }
 
+/* Filters Toolbar */
+.filters-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.search-box {
+  flex: 1;
+  min-width: 280px;
+  max-width: 440px;
+}
+
+.dropdowns-group {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.clear-filters-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  height: 40px;
+}
+
+.clear-filters-btn:hover {
+  color: #ffffff;
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Results Meta */
+.results-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: var(--spacing-xs);
+}
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.sparkle-icon {
+  color: var(--primary);
+}
+
+/* Certifications Grid */
 .certifications-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: var(--spacing-md);
 }
 
@@ -111,6 +278,13 @@ const certifications = computed(() => tm('certifications_page.list') || [])
   display: flex;
   gap: var(--spacing-md);
   align-items: flex-start;
+  border-radius: var(--radius-lg);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.cert-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary-border);
 }
 
 .cert-icon-wrapper {
@@ -130,6 +304,7 @@ const certifications = computed(() => tm('certifications_page.list') || [])
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  min-width: 0;
 }
 
 .cert-meta {
@@ -137,6 +312,7 @@ const certifications = computed(() => tm('certifications_page.list') || [])
   justify-content: space-between;
   align-items: center;
   font-size: var(--text-xs);
+  gap: 0.5rem;
 }
 
 .issuer {
@@ -144,6 +320,9 @@ const certifications = computed(() => tm('certifications_page.list') || [])
   color: var(--primary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .date {
@@ -151,13 +330,23 @@ const certifications = computed(() => tm('certifications_page.list') || [])
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
+  flex-shrink: 0;
 }
 
 .cert-name {
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
+  font-weight: 700;
   font-size: var(--text-base);
   color: var(--text-primary);
-  line-height: 1.3;
+  line-height: 1.35;
+}
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+  margin-bottom: 0.2rem;
 }
 
 .credential-link {
@@ -165,6 +354,7 @@ const certifications = computed(() => tm('certifications_page.list') || [])
   align-items: center;
   gap: 0.35rem;
   font-size: var(--text-xs);
+  font-weight: 600;
   color: var(--text-muted);
   margin-top: 0.5rem;
   transition: color var(--transition-fast);
@@ -172,6 +362,47 @@ const certifications = computed(() => tm('certifications_page.list') || [])
 
 .credential-link:hover {
   color: var(--primary);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  color: var(--text-muted);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.empty-text {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+}
+
+.empty-action {
+  margin-top: var(--spacing-xs);
+}
+
+@media (max-width: 900px) {
+  .filters-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box {
+    max-width: 100%;
+  }
+
+  .dropdowns-group {
+    width: 100%;
+  }
+
+  .dropdowns-group > * {
+    flex: 1;
+    min-width: 140px;
+  }
 }
 
 @media (max-width: 768px) {

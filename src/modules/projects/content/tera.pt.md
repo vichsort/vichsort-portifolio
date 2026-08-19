@@ -1,6 +1,6 @@
 ---
 id: tera
-title: Tera Docs
+title: Tera Docsm
 category: CLI
 techs: [Python, AST, OpenAPI, Markdown]
 date: ["10/2024", "11/2024"]
