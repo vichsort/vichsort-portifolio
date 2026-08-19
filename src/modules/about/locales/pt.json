@@ -1,14 +1,187 @@
 {
   "about_page": {
     "title": "Sobre Mim",
-    "subtitle": "Conheça um pouco da minha trajetória profissional, visão técnica e interesses.",
-    "intro_title": "Engenharia de Software com Propósito",
-    "intro_p1": "Sou um engenheiro de software focado na construção de arquiteturas escaláveis, seguras e com excelente experiência de usuário. Acredito que o melhor código é aquele que resolve problemas reais com simplicidade e robustez.",
-    "intro_p2": "Com experiência que abrange desde o desenvolvimento web e mobile fullstack até ciência de dados e engenharia de plataformas em nuvem, busco sempre elevar a barra técnica em cada projeto que entrego.",
-    "skills_title": "Pilares Técnicos",
-    "skill_arch": "Arquitetura Modular & Clean Code",
-    "skill_frontend": "Frontend Moderno & Acessibilidade",
-    "skill_backend": "APIs Robustas & Microsserviços",
-    "skill_cloud": "Cloud, DevOps & CI/CD"
+    "subtitle": "Trajetória, mentalidade técnica e evolução na engenharia de software.",
+    "s1_profile": {
+      "name": "Vitor Mignoni",
+      "role": "Software Engineer — Fullstack & Systems",
+      "location": "Santa Maria, RS — Brasil",
+      "education": "Ciência da Computação — UFSM",
+      "years_old": "anos",
+      "bio_short": "Engenheiro de software focado em sistemas desacoplados, interfaces reativas e arquiteturas orientadas a domínio. Conectando performance de baixo nível a experiências de usuário fluidas."
+    },
+    "s2_stack": {
+      "title": "Core Stack & Ambiente",
+      "subtitle": "As principais tecnologias e ferramentas que utilizo no dia a dia para construir produtos confiáveis.",
+      "frontend_label": "Frontend Core",
+      "backend_label": "Backend & Dados",
+      "ecosystem_label": "Ambiente & Workflow"
+    },
+    "s3_readme": {
+      "left_title": "Pra fugir um pouco do convencional...",
+      "left_p1": "Construir software para mim nunca foi apenas escrever linhas de código ou empilhar bibliotecas da moda. É sobre entender o problema a fundo, modelar o domínio com precisão e entregar algo que funcione com leveza — da tela do usuário até a infraestrutura.",
+      "left_p2": "Gosto de sistemas previsíveis, que não escondem complexidade sob camadas mágicas e que respeitam a performance do dispositivo de quem está usando.",
+      "window_title": "profile.md",
+      "readme_header": "Olá, eu sou o Vitor 👋",
+      "readme_intro": "Engenheiro de Software com base acadêmica sólida pela UFSM e vivência prática na concepção e entrega de produtos escaláveis e sistemas offline-first.",
+      "quick_specs_title": "Especificações & Ambiente",
+      "spec_os": "Sistema: Linux Mint (Cinnamon / Debian)",
+      "spec_editor": "Editor: VS Code & CLI Tools",
+      "spec_focus": "Foco: Arquitetura Modular & Web Systems",
+      "readme_pillars_title": "Filosofia de Engenharia",
+      "readme_pillar_1": "Offline-First & Resiliência: Softwares projetados para funcionar perfeitamente mesmo com conexão instável.",
+      "readme_pillar_2": "Arquitetura por Domínio: Separação rigorosa de responsabilidades e contratos previsíveis entre camadas.",
+      "readme_pillar_3": "Performance & Acessibilidade: Interfaces fluidas com contraste refinado e respeito a movimento reduzido.",
+      "readme_pillar_4": "Pragmatismo Técnico: A melhor solução é aquela que resolve a dor real sem introduzir dívida técnica oculta.",
+      "readme_now_title": "O que estou explorando agora",
+      "readme_now_text": "Aprofundando em microsserviços distribuídos, inferência de modelos neurais em dispositivos edge e novas primitivas reativas do ecossistema Vue 3."
+    },
+    "s4_timeline": {
+      "title": "Linha do Tempo",
+      "subtitle": "A jornada cronológica dos meus estudos, pesquisas acadêmicas, empresas e projetos.",
+      "interactive_hint": "Role para explorar a trajetória ano a ano",
+      "year_label": "Ano"
+    },
+    "s5_timeline": {
+      "title": "Trajetória Consolidada",
+      "subtitle": "Visão geral e completa de todos os marcos, conquistas e experiências profissionais.",
+      "sort_oldest": "Mais antigos primeiro",
+      "sort_newest": "Mais recentes primeiro",
+      "all_events": "Todos os marcos",
+      "category_work": "Empresa & Atuação",
+      "category_project": "Projeto Autoral",
+      "category_research": "Pesquisa & Academia",
+      "category_education": "Formação & Base",
+      "view_project": "Ver Projeto",
+      "view_research": "Ver Pesquisa",
+      "events": [
+        {
+          "id": "event-1",
+          "year": "2021",
+          "date": "2021",
+          "type": "education",
+          "title": "Ingresso na Ciência da Computação — UFSM",
+          "organization": "Universidade Federal de Santa Maria",
+          "description": "Início da graduação em Ciência da Computação. Base sólida em algoritmos, estruturas de dados, lógica matemática e arquitetura de computadores.",
+          "tags": ["C", "Algoritmos", "Estruturas de Dados", "Linux"],
+          "link_type": "",
+          "link_url": ""
+        },
+        {
+          "id": "event-2",
+          "year": "2022",
+          "date": "2022",
+          "type": "research",
+          "title": "Bolsista de Pesquisa em GIS & Dados Espaciais",
+          "organization": "Laboratório de Computação Aplicada — UFSM",
+          "description": "Pesquisa e desenvolvimento de plataformas interativas para catalogação e análise espacial de sítios históricos com bancos geográficos.",
+          "tags": ["PostGIS", "Python", "QGIS", "Leaflet", "Pesquisa"],
+          "link_type": "research",
+          "link_url": "/researches"
+        },
+        {
+          "id": "event-3",
+          "year": "2023",
+          "date": "2023",
+          "type": "work",
+          "title": "Desenvolvedor de Software Fullstack",
+          "organization": "Projetos Comerciais & Soluções Web",
+          "description": "Atuação no desenvolvimento de sistemas web empresariais de ponta a ponta, modelagem de banco de dados PostgreSQL e SPAs reativas com Vue.js.",
+          "tags": ["Vue.js", "Python", "FastAPI", "PostgreSQL", "Docker"],
+          "link_type": "",
+          "link_url": ""
+        },
+        {
+          "id": "event-4",
+          "year": "2024",
+          "date": "2024",
+          "type": "research",
+          "title": "1º Lugar Técnico & Pesquisa em Edge AI",
+          "organization": "Simpósio Técnico / UFSM",
+          "description": "Premiação técnica em salvaguarda patrimonial e desenvolvimento de modelos neurais quantizados para diagnóstico foliar em dispositivos edge.",
+          "tags": ["Edge AI", "PyTorch", "Computer Vision", "1º Lugar"],
+          "link_type": "research",
+          "link_url": "/researches"
+        },
+        {
+          "id": "event-5",
+          "year": "2024",
+          "date": "2024",
+          "type": "project",
+          "title": "Lançamento do PlantE — Gestão Agrícola",
+          "organization": "Projeto Autoral",
+          "description": "Construção de um ecossistema com IA embarcada para monitoramento de safras, diagnóstico foliar offline e relatórios automatizados.",
+          "tags": ["Vue 3", "Python", "Gemini AI", "Mobile", "Agritech"],
+          "link_type": "project",
+          "link_url": "/projects/plante"
+        },
+        {
+          "id": "event-6",
+          "year": "2026",
+          "date": "2026",
+          "type": "work",
+          "title": "Engenharia de Plataforma & Arquitetura Modular",
+          "organization": "Atuação Fullstack & Sistemas",
+          "description": "Desenvolvimento de sistemas escaláveis com separação rigorosa de domínios, design systems modernos e observabilidade ponta a ponta.",
+          "tags": ["Vue 3", "Node.js", "PostgreSQL", "Docker", "Domain-Driven"],
+          "link_type": "",
+          "link_url": ""
+        }
+      ]
+    },
+    "s6_gallery": {
+      "title": "Registros & Em Campo",
+      "subtitle": "Apresentações técnicas, testes em campo e bastidores da jornada.",
+      "view_full_gallery": "Ver Galeria Completa",
+      "photo_badge": "Foto",
+      "items": [
+        {
+          "id": "gallery-1",
+          "title": "Apresentação Técnica no Simpósio",
+          "category": "Pesquisa & Premiação",
+          "date": "2024",
+          "location": "UFSM — Santa Maria, RS",
+          "caption": "Apresentação sobre plataformas espaciais distribuídas e premiação de 1º lugar.",
+          "image": "/images/gallery/apresentacao-simposio.jpg",
+          "format": "portrait"
+        },
+        {
+          "id": "gallery-2",
+          "title": "Validação em Campo do PlantE",
+          "category": "Agritech & Edge AI",
+          "date": "2024",
+          "location": "Lavoura Experimental",
+          "caption": "Testes de inferência neural offline direto no smartphone de produtores locais.",
+          "image": "/images/gallery/plante-campo.jpg",
+          "format": "landscape"
+        },
+        {
+          "id": "gallery-3",
+          "title": "Hackathon & Imersão",
+          "category": "Competição",
+          "date": "2023",
+          "location": "Pólo Tecnológico",
+          "caption": "Madrugada de prototipagem rápida e desenvolvimento colaborativo.",
+          "image": "/images/gallery/hackathon.jpg",
+          "format": "square"
+        },
+        {
+          "id": "gallery-4",
+          "title": "Bancada de Laboratório & Hardware",
+          "category": "Engenharia & IoT",
+          "date": "2023",
+          "location": "Lab. de Computação Aplicada",
+          "caption": "Configuração de microcontroladores e testes de rede em dispositivos edge.",
+          "image": "/images/gallery/laboratorio.jpg",
+          "format": "square"
+        }
+      ]
+    },
+    "cta": {
+      "title": "Vamos construir algo juntos?",
+      "subtitle": "Seja para um novo projeto, consultoria técnica ou oportunidade profissional, estou sempre aberto a boas conversas.",
+      "projects_btn": "Ver Todos os Projetos",
+      "contact_btn": "Entrar em Contato"
+    }
   }
 }

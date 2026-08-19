@@ -1,50 +1,93 @@
 <script setup>
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, Code2, Layers, Cpu, Cloud } from 'lucide-vue-next'
+import { useTimeline } from '../composables/useTimeline'
+import { useSettings } from '@/shared/composables/useSettings'
 
-const { t } = useI18n()
+import ProfileSummarySection from '../components/ProfileSummarySection.vue'
+import CoreStackSection from '../components/CoreStackSection.vue'
+import DescriptionSection from '../components/DescriptionSection.vue'
+import TimelineScrollSection from '../components/TimelineScrollSection.vue'
+import TimelineFullSection from '../components/TimelineFullSection.vue'
+import GallerySection from '../components/GallerySection.vue'
 
-const pillars = [
-  { icon: Layers, titleKey: 'about_page.skill_arch', desc: 'Sistemas desacoplados, contratos bem definidos e manutenibilidade a longo prazo.' },
-  { icon: Code2, titleKey: 'about_page.skill_frontend', desc: 'Interfaces reativas com Vue 3, micro-animações a 60fps e acessibilidade de ponta.' },
-  { icon: Cpu, titleKey: 'about_page.skill_backend', desc: 'Pipelines de dados rápidos, serviços escaláveis em Python e Node.js com PostgreSQL/Redis.' },
-  { icon: Cloud, titleKey: 'about_page.skill_cloud', desc: 'Infraestrutura automatizada, containers Docker e deploy contínuo em cloud providers.' }
-]
+import { ArrowLeft, FolderGit2, Mail, ArrowUpRight } from 'lucide-vue-next'
+
+const { t, tm, rt } = useI18n()
+const { reduceMotion } = useSettings()
+
+const rawEvents = computed(() => tm('about_page.s5_timeline.events') || [])
+
+const {
+  sortOrder,
+  selectedCategory,
+  eventsByYear,
+  consolidatedEvents,
+  toggleSortOrder,
+  setCategory
+} = useTimeline(rawEvents, rt)
 </script>
 
 <template>
-  <main class="about-page">
+  <main class="overview-page">
     <div class="page-container">
+      <!-- Botão Voltar -->
       <router-link to="/" class="back-link">
         <ArrowLeft :size="18" />
         <span>{{ t('common.back_to_home') }}</span>
       </router-link>
 
+      <!-- Cabeçalho Principal -->
       <header class="page-header">
         <h1 class="page-title">{{ t('about_page.title') }}</h1>
         <p class="page-subtitle">{{ t('about_page.subtitle') }}</p>
       </header>
 
-      <section class="bio-section surface-card">
-        <h2 class="bio-heading">{{ t('about_page.intro_title') }}</h2>
-        <p class="bio-paragraph">{{ t('about_page.intro_p1') }}</p>
-        <p class="bio-paragraph">{{ t('about_page.intro_p2') }}</p>
-      </section>
+      <!-- s1: Perfil & Informações Básicas -->
+      <ProfileSummarySection />
 
-      <section class="pillars-section">
-        <h2 class="section-title">{{ t('about_page.skills_title') }}</h2>
-        <div class="pillars-grid">
-          <div
-            v-for="(pillar, idx) in pillars"
-            :key="idx"
-            class="pillar-card surface-card"
-          >
-            <div class="pillar-icon">
-              <component :is="pillar.icon" :size="24" />
-            </div>
-            <h3 class="pillar-title">{{ t(pillar.titleKey) }}</h3>
-            <p class="pillar-desc">{{ pillar.desc }}</p>
-          </div>
+      <!-- s2: Core Stack & Ecossistema -->
+      <CoreStackSection />
+
+      <!-- s3: Janela macOS + README GitHub -->
+      <DescriptionSection />
+
+      <!-- s4: Timeline Interativa com Scroll Lock (Ocultada se movimento reduzido ativo) -->
+      <TimelineScrollSection
+        v-if="!reduceMotion && eventsByYear.length > 0"
+        :events-by-year="eventsByYear"
+      />
+
+      <!-- s5: Timeline Completa Consolidada -->
+      <TimelineFullSection
+        :events="consolidatedEvents"
+        :sort-order="sortOrder"
+        :selected-category="selectedCategory"
+        @toggle-sort="toggleSortOrder"
+        @select-category="setCategory"
+      />
+
+      <!-- s6: Galeria Bento Grid (Registros & Em Campo) -->
+      <GallerySection />
+
+      <!-- Bloco Final de CTA -->
+      <section class="cta-section surface-card">
+        <div class="cta-content">
+          <h2 class="cta-title">{{ t('about_page.cta.title') }}</h2>
+          <p class="cta-subtitle">{{ t('about_page.cta.subtitle') }}</p>
+        </div>
+
+        <div class="cta-actions">
+          <router-link to="/projects" class="btn-primary">
+            <FolderGit2 :size="16" />
+            <span>{{ t('about_page.cta.projects_btn') }}</span>
+            <ArrowUpRight :size="14" />
+          </router-link>
+
+          <router-link to="/contact" class="btn-secondary">
+            <Mail :size="16" />
+            <span>{{ t('about_page.cta.contact_btn') }}</span>
+          </router-link>
         </div>
       </section>
     </div>
@@ -52,14 +95,17 @@ const pillars = [
 </template>
 
 <style scoped>
-.about-page {
+.overview-page {
   min-height: 100vh;
   padding: 6rem var(--spacing-xl) var(--spacing-2xl) var(--spacing-xl);
 }
 
 .page-container {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
 }
 
 .back-link {
@@ -68,8 +114,8 @@ const pillars = [
   gap: 0.5rem;
   font-size: var(--text-sm);
   color: var(--text-muted);
-  margin-bottom: var(--spacing-lg);
   transition: color var(--transition-fast);
+  width: fit-content;
 }
 
 .back-link:hover {
@@ -77,7 +123,7 @@ const pillars = [
 }
 
 .page-header {
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-md);
 }
 
 .page-title {
@@ -93,84 +139,111 @@ const pillars = [
   color: var(--text-secondary);
 }
 
-.bio-section {
-  padding: var(--spacing-xl);
-  margin-bottom: var(--spacing-2xl);
-}
-
-.bio-heading {
-  font-family: var(--font-heading);
-  font-size: var(--text-xl);
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-md);
-}
-
-.bio-paragraph {
-  font-size: var(--text-base);
-  line-height: 1.8;
-  color: var(--text-secondary);
-  margin-bottom: var(--spacing-md);
-}
-
-.bio-paragraph:last-child {
-  margin-bottom: 0;
-}
-
-.pillars-section {
+/* CTA Section */
+.cta-section {
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-xl);
   margin-top: var(--spacing-2xl);
+  background: radial-gradient(circle at bottom left, var(--primary-subtle), var(--bg-surface-1) 70%);
+  border: 1px solid var(--border-subtle);
 }
 
-.section-title {
+.cta-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 550px;
+}
+
+.cta-title {
   font-family: var(--font-heading);
   font-size: var(--text-2xl);
   color: var(--text-primary);
-  margin-bottom: var(--spacing-lg);
+  letter-spacing: -0.5px;
 }
 
-.pillars-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--spacing-md);
-}
-
-.pillar-card {
-  padding: var(--spacing-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.pillar-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
-  background-color: var(--primary-subtle);
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.5rem;
-}
-
-.pillar-title {
-  font-family: var(--font-heading);
+.cta-subtitle {
   font-size: var(--text-base);
-  color: var(--text-primary);
-}
-
-.pillar-desc {
-  font-size: var(--text-sm);
   color: var(--text-secondary);
   line-height: 1.6;
 }
 
+.cta-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-full);
+  background-color: var(--primary);
+  color: #ffffff;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-glow);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-2px);
+}
+
 @media (max-width: 768px) {
-  .about-page {
+  .overview-page {
     padding: 5rem var(--spacing-md) var(--spacing-xl) var(--spacing-md);
   }
 
-  .bio-section {
-    padding: var(--spacing-md);
+  .cta-section {
+    padding: var(--spacing-lg);
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cta-actions {
+    width: 100%;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
   }
 }
 </style>

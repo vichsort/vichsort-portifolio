@@ -1,14 +1,187 @@
 {
   "about_page": {
     "title": "About Me",
-    "subtitle": "Learn more about my professional journey, technical philosophy and background.",
-    "intro_title": "Purpose-Driven Software Engineering",
-    "intro_p1": "I am a software engineer focused on building scalable, resilient architectures paired with exceptional user experiences. I believe the best code is the one that solves real-world challenges with simplicity and robustness.",
-    "intro_p2": "With experience spanning fullstack web and mobile engineering, data science, and cloud platforms, I consistently strive to raise the technical benchmark on every project I deliver.",
-    "skills_title": "Core Pillars",
-    "skill_arch": "Modular Architecture & Clean Code",
-    "skill_frontend": "Modern Frontend & Accessibility",
-    "skill_backend": "Robust APIs & Microservices",
-    "skill_cloud": "Cloud, DevOps & CI/CD"
+    "subtitle": "Journey, technical mindset and software engineering evolution.",
+    "s1_profile": {
+      "name": "Vitor Mignoni",
+      "role": "Software Engineer — Fullstack & Systems",
+      "location": "Santa Maria, RS — Brazil",
+      "education": "Computer Science — UFSM",
+      "years_old": "years old",
+      "bio_short": "Software engineer focused on decoupled systems, reactive interfaces, and domain-driven architectures. Bridging low-level performance with seamless user experiences."
+    },
+    "s2_stack": {
+      "title": "Core Stack & Environment",
+      "subtitle": "The primary technologies and tools I rely on daily to build reliable software products.",
+      "frontend_label": "Frontend Core",
+      "backend_label": "Backend & Data",
+      "ecosystem_label": "Environment & Workflow"
+    },
+    "s3_readme": {
+      "left_title": "Stepping outside the ordinary...",
+      "left_p1": "Building software has never been just about writing lines of code or chasing the latest framework hype. It's about deeply understanding the core problem, modeling domain boundaries accurately, and delivering solutions that feel effortless — from pixel to cloud infrastructure.",
+      "left_p2": "I appreciate predictable systems that avoid hiding complexity beneath magic layers, and that genuinely respect the device resources of whoever is using them.",
+      "window_title": "profile.md",
+      "readme_header": "Hi, I'm Vitor 👋",
+      "readme_intro": "Software Engineer with a solid academic background from UFSM and hands-on experience architecting scalable applications and offline-first systems.",
+      "quick_specs_title": "Specifications & Workflow",
+      "spec_os": "OS: Linux Mint (Cinnamon / Debian)",
+      "spec_editor": "Editor: VS Code & CLI Tools",
+      "spec_focus": "Focus: Modular Architecture & Web Systems",
+      "readme_pillars_title": "Engineering Philosophy",
+      "readme_pillar_1": "Offline-First & Resilience: Software designed to operate seamlessly without depending on a perfect connection.",
+      "readme_pillar_2": "Domain-Driven Architecture: Strict separation of concerns and predictable contracts across layers.",
+      "readme_pillar_3": "Performance & Accessibility: 60fps responsive interfaces with crisp typography and reduced-motion support.",
+      "readme_pillar_4": "Technical Pragmatism: The best solution is the one that solves the real bottleneck without accumulating hidden technical debt.",
+      "readme_now_title": "What I'm currently exploring",
+      "readme_now_text": "Deepening into distributed microservices, on-device edge neural inference, and reactive primitives in Vue 3."
+    },
+    "s4_timeline": {
+      "title": "Timeline",
+      "subtitle": "The chronological journey through studies, academic research, industry roles, and projects.",
+      "interactive_hint": "Scroll to explore the journey year by year",
+      "year_label": "Year"
+    },
+    "s5_timeline": {
+      "title": "Consolidated Journey",
+      "subtitle": "A full, comprehensive overview of all milestones, achievements, and work experiences.",
+      "sort_oldest": "Oldest first",
+      "sort_newest": "Newest first",
+      "all_events": "All milestones",
+      "category_work": "Company & Industry",
+      "category_project": "Personal Project",
+      "category_research": "Research & Academia",
+      "category_education": "Education & Core",
+      "view_project": "View Project",
+      "view_research": "View Research",
+      "events": [
+        {
+          "id": "event-1",
+          "year": "2021",
+          "date": "2021",
+          "type": "education",
+          "title": "Admitted to Computer Science — UFSM",
+          "organization": "Federal University of Santa Maria",
+          "description": "Started the Computer Science BSc degree. Established solid foundations in algorithms, data structures, discrete mathematics, and computer architecture.",
+          "tags": ["C", "Algorithms", "Data Structures", "Linux"],
+          "link_type": "",
+          "link_url": ""
+        },
+        {
+          "id": "event-2",
+          "year": "2022",
+          "date": "2022",
+          "type": "research",
+          "title": "Undergraduate Researcher in GIS & Spatial Data",
+          "organization": "Applied Computing Lab — UFSM",
+          "description": "Researched and engineered interactive platforms for spatial cataloging and historical site analysis using spatial relational databases.",
+          "tags": ["PostGIS", "Python", "QGIS", "Leaflet", "Research"],
+          "link_type": "research",
+          "link_url": "/researches"
+        },
+        {
+          "id": "event-3",
+          "year": "2023",
+          "date": "2023",
+          "type": "work",
+          "title": "Fullstack Software Developer",
+          "organization": "Commercial Projects & Web Solutions",
+          "description": "Built end-to-end web applications, PostgreSQL database modeling, and reactive single-page applications with Vue.js.",
+          "tags": ["Vue.js", "Python", "FastAPI", "PostgreSQL", "Docker"],
+          "link_type": "",
+          "link_url": ""
+        },
+        {
+          "id": "event-4",
+          "year": "2024",
+          "date": "2024",
+          "type": "research",
+          "title": "1st Place Technical Presentation & Edge AI",
+          "organization": "Technical Symposium / UFSM",
+          "description": "Awarded top technical prize for digital heritage platform and conducted research on quantized neural models for on-device plant pathology.",
+          "tags": ["Edge AI", "PyTorch", "Computer Vision", "1st Place"],
+          "link_type": "research",
+          "link_url": "/researches"
+        },
+        {
+          "id": "event-5",
+          "year": "2024",
+          "date": "2024",
+          "type": "project",
+          "title": "Launched PlantE — Smart Agritech",
+          "organization": "Personal Project",
+          "description": "Engineered an AI-assisted ecosystem for crop management, offline leaf disease diagnostics, and automated reporting.",
+          "tags": ["Vue 3", "Python", "Gemini AI", "Mobile", "Agritech"],
+          "link_type": "project",
+          "link_url": "/projects/plante"
+        },
+        {
+          "id": "event-6",
+          "year": "2026",
+          "date": "2026",
+          "type": "work",
+          "title": "Platform Engineering & Modular Architecture",
+          "organization": "Fullstack & Systems Engineering",
+          "description": "Architecting resilient, modular applications with domain-driven design, modern design tokens, and end-to-end observability.",
+          "tags": ["Vue 3", "Node.js", "PostgreSQL", "Docker", "Domain-Driven"],
+          "link_type": "",
+          "link_url": ""
+        }
+      ]
+    },
+    "s6_gallery": {
+      "title": "Field Work & Highlights",
+      "subtitle": "Technical presentations, field experiments, and behind-the-scenes moments.",
+      "view_full_gallery": "View Full Gallery",
+      "photo_badge": "Photo",
+      "items": [
+        {
+          "id": "gallery-1",
+          "title": "Technical Symposium Presentation",
+          "category": "Research & Award",
+          "date": "2024",
+          "location": "UFSM — Santa Maria, Brazil",
+          "caption": "Presenting the distributed spatial cataloging platform and winning 1st place award.",
+          "image": "/images/gallery/apresentacao-simposio.jpg",
+          "format": "portrait"
+        },
+        {
+          "id": "gallery-2",
+          "title": "PlantE Field Validation",
+          "category": "Agritech & Edge AI",
+          "date": "2024",
+          "location": "Experimental Crop Field",
+          "caption": "Testing offline neural inference directly on farmers' smartphones in rural areas.",
+          "image": "/images/gallery/plante-campo.jpg",
+          "format": "landscape"
+        },
+        {
+          "id": "gallery-3",
+          "title": "Hackathon & Immersive Sprint",
+          "category": "Competition",
+          "date": "2023",
+          "location": "Tech Hub",
+          "caption": "Overnight rapid prototyping and collaborative architecture building.",
+          "image": "/images/gallery/hackathon.jpg",
+          "format": "square"
+        },
+        {
+          "id": "gallery-4",
+          "title": "Lab Workbench & Hardware",
+          "category": "Engineering & IoT",
+          "date": "2023",
+          "location": "Applied Computing Lab",
+          "caption": "Microcontroller setup, Raspberry Pi configuration, and edge telemetry testing.",
+          "image": "/images/gallery/laboratorio.jpg",
+          "format": "square"
+        }
+      ]
+    },
+    "cta": {
+      "title": "Let's build something together",
+      "subtitle": "Whether for a new project, technical consulting, or engineering roles, I'm always open to meaningful collaborations.",
+      "projects_btn": "View All Projects",
+      "contact_btn": "Get in Touch"
+    }
   }
 }
