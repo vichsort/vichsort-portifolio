@@ -13,13 +13,11 @@ const rawResearches = computed(() => tm('researches_page.list') || [])
 const {
   searchQuery,
   selectedCategory,
-  selectedYear,
   selectedAward,
-  selectedTag,
+  selectedYear,
   availableCategories,
-  availableYears,
   availableAwards,
-  availableTags,
+  availableYears,
   hasActiveFilters,
   filteredResearches,
   resultsCount,
@@ -27,12 +25,12 @@ const {
   clearFilters
 } = useResearchesFilter(rawResearches, rt)
 
-const handleSelectTag = (tag) => {
-  selectedTag.value = tag
-}
-
 const handleSelectCategory = (category) => {
   selectedCategory.value = category
+}
+
+const handleSelectTag = (tag) => {
+  searchQuery.value = tag
 }
 </script>
 
@@ -48,7 +46,7 @@ const handleSelectCategory = (category) => {
         <h1 class="page-title">{{ t('researches_page.title') }}</h1>
         <p class="page-subtitle">{{ t('researches_page.subtitle') }}</p>
 
-        <!-- Multi-Filter Toolbar -->
+        <!-- Advanced Multi-Filter Toolbar -->
         <div class="filters-toolbar">
           <div class="search-box">
             <BaseSearchInput
@@ -67,14 +65,6 @@ const handleSelectCategory = (category) => {
             />
 
             <BaseSelect
-              v-model="selectedYear"
-              :options="availableYears"
-              :all-label="t('researches_page.all_years')"
-              :placeholder="t('researches_page.filter_year')"
-              :label="t('researches_page.filter_year')"
-            />
-
-            <BaseSelect
               v-model="selectedAward"
               :options="availableAwards"
               :all-label="t('researches_page.all_awards')"
@@ -83,11 +73,11 @@ const handleSelectCategory = (category) => {
             />
 
             <BaseSelect
-              v-model="selectedTag"
-              :options="availableTags"
-              :all-label="t('researches_page.all_tags')"
-              :placeholder="t('researches_page.filter_tag')"
-              :label="t('researches_page.filter_tag')"
+              v-model="selectedYear"
+              :options="availableYears"
+              :all-label="t('researches_page.all_years')"
+              :placeholder="t('researches_page.filter_year')"
+              :label="t('researches_page.filter_year')"
             />
 
             <button
@@ -196,7 +186,7 @@ const handleSelectCategory = (category) => {
 .search-box {
   flex: 1;
   min-width: 280px;
-  max-width: 400px;
+  max-width: 440px;
 }
 
 .dropdowns-group {
@@ -293,7 +283,7 @@ const handleSelectCategory = (category) => {
 
   .dropdowns-group > * {
     flex: 1;
-    min-width: 130px;
+    min-width: 140px;
   }
 }
 
