@@ -2,22 +2,60 @@
   "researches_page": {
     "title": "Researches & Awards",
     "subtitle": "Academic papers, prizes and scientific research contributions.",
+    "search_placeholder": "Search by title, category, award or technology...",
+    "filter_category": "Category",
+    "all_categories": "All Categories",
+    "filter_year": "Year",
+    "all_years": "All Years",
+    "filter_award": "Award",
+    "all_awards": "All Awards",
+    "filter_tag": "Technology / Field",
+    "all_tags": "All Technologies",
+    "clear_filters": "Clear filters",
+    "showing_count": "Showing {count} of {total} researches",
+    "no_researches_found": "No researches found with the selected filters.",
+    "view_paper": "View Paper",
+    "view_award": "View Award",
+    "read_more": "Read full abstract",
+    "read_less": "Collapse abstract",
+    "authors_label": "Authors",
+    "institution_label": "Institution",
     "list": [
       {
         "id": 1,
         "title": "Digital Mapping and Safeguarding of Archaeological Heritage",
         "category": "Scientific Research & GIS",
+        "institution": "UFSM — Federal University of Santa Maria",
+        "authors": "Vitor Mignoni, et al.",
         "award": "1st Place — Technical Presentation",
         "year": "2024",
-        "description": "Development of an interactive platform for spatial cataloging of historical sites with distributed architecture."
+        "description": "Development of an interactive spatial cataloging platform for historical sites with distributed architecture and dynamic maps.",
+        "paper_url": "",
+        "tags": ["GIS", "PostGIS", "Leaflet", "Spatial Analysis", "Vue.js"]
       },
       {
         "id": 2,
         "title": "Neural Network Optimization for Crop Diagnostics on Edge Devices",
         "category": "Artificial Intelligence & Agritech",
+        "institution": "UFSM — Applied Computing Lab",
+        "authors": "Vitor Mignoni, et al.",
         "award": "Honorable Mention",
         "year": "2024",
-        "description": "Quantization and compression of neural models for on-device pest inference directly on mobile hardware."
+        "description": "Quantization and compression of neural models for on-device agricultural pest inference directly on mobile hardware without active internet connection.",
+        "paper_url": "",
+        "tags": ["Edge Computing", "PyTorch", "Computer Vision", "Agritech", "Python"]
+      },
+      {
+        "id": 3,
+        "title": "Performance and Energy Efficiency Analysis in Distributed Microservices",
+        "category": "Distributed Systems",
+        "institution": "UFSM — Computer Science Dept.",
+        "authors": "Vitor Mignoni, et al.",
+        "award": "",
+        "year": "2023",
+        "description": "Comparative evaluation of resource consumption and latency in containerized architectures using Docker, Prometheus telemetry and distributed tracing.",
+        "paper_url": "",
+        "tags": ["Docker", "Prometheus", "Microservices", "Go", "Benchmarking"]
       }
     ]
   }
