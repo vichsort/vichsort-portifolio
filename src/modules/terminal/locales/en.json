@@ -1,0 +1,57 @@
+{
+  "terminal": {
+    "title": "Terminal",
+    "welcome": "VSH (Vitor Shell) — v1.0.0",
+    "help_hint": "Type 'help' to list available commands.",
+    "prompt_user": "vitor",
+    "prompt_host": "vichos",
+    "placeholder": "Type a command...",
+    "commands": {
+      "help": {
+        "description": "Lists available commands or details about a command",
+        "usage": "help [command]"
+      },
+      "ls": {
+        "description": "Lists directory contents and files",
+        "usage": "ls [-la] [path]"
+      },
+      "cd": {
+        "description": "Changes the current working directory in the VFS",
+        "usage": "cd [path]"
+      },
+      "cat": {
+        "description": "Concatenates and displays file contents",
+        "usage": "cat <file>"
+      },
+      "pwd": {
+        "description": "Prints current working directory",
+        "usage": "pwd"
+      },
+      "clear": {
+        "description": "Clears screen command history",
+        "usage": "clear"
+      },
+      "whoami": {
+        "description": "Displays current logged-in user information",
+        "usage": "whoami"
+      },
+      "echo": {
+        "description": "Prints text to standard output",
+        "usage": "echo <text>"
+      },
+      "date": {
+        "description": "Displays current system date and time",
+        "usage": "date"
+      }
+    },
+    "errors": {
+      "command_not_found": "command not found: {cmd}",
+      "did_you_mean": "Did you mean: {suggestion}?",
+      "no_such_file": "{cmd}: {path}: No such file or directory",
+      "is_a_directory": "{cmd}: {path}: Is a directory",
+      "not_a_directory": "{cmd}: {path}: Not a directory",
+      "missing_arg": "{cmd}: missing required argument: {arg}"
+    }
+  }
+}
+

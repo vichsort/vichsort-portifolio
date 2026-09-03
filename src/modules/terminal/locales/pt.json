@@ -1,0 +1,57 @@
+{
+  "terminal": {
+    "title": "Terminal",
+    "welcome": "VSH (Vitor Shell) — v1.0.0",
+    "help_hint": "Digite 'help' para listar os comandos disponíveis.",
+    "prompt_user": "vitor",
+    "prompt_host": "vichos",
+    "placeholder": "Digite um comando...",
+    "commands": {
+      "help": {
+        "description": "Lista os comandos disponíveis ou detalhes de um comando",
+        "usage": "help [comando]"
+      },
+      "ls": {
+        "description": "Lista arquivos e diretórios do caminho atual",
+        "usage": "ls [-la] [caminho]"
+      },
+      "cd": {
+        "description": "Navega entre os diretórios do VFS",
+        "usage": "cd [caminho]"
+      },
+      "cat": {
+        "description": "Exibe o conteúdo de um arquivo",
+        "usage": "cat <arquivo>"
+      },
+      "pwd": {
+        "description": "Imprime o diretório de trabalho atual",
+        "usage": "pwd"
+      },
+      "clear": {
+        "description": "Limpa o histórico de comandos da tela",
+        "usage": "clear"
+      },
+      "whoami": {
+        "description": "Exibe informações do usuário logado",
+        "usage": "whoami"
+      },
+      "echo": {
+        "description": "Imprime texto na saída padrão",
+        "usage": "echo <texto>"
+      },
+      "date": {
+        "description": "Exibe a data e hora atual do sistema",
+        "usage": "date"
+      }
+    },
+    "errors": {
+      "command_not_found": "comando não encontrado: {cmd}",
+      "did_you_mean": "Você quis dizer: {suggestion}?",
+      "no_such_file": "{cmd}: {path}: Arquivo ou diretório inexistente",
+      "is_a_directory": "{cmd}: {path}: É um diretório",
+      "not_a_directory": "{cmd}: {path}: Não é um diretório",
+      "missing_arg": "{cmd}: argumento obrigatório ausente: {arg}"
+    }
+  }
+}
+

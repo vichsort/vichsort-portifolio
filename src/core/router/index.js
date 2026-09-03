@@ -47,6 +47,12 @@ const routes = [
     meta: { titleKey: 'nav.contact' }
   },
   {
+    path: '/terminal',
+    name: 'terminal',
+    component: () => import('@/modules/terminal/views/TerminalView.vue'),
+    meta: { titleKey: 'terminal.title' }
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('@/shared/views/NotFoundView.vue'),
