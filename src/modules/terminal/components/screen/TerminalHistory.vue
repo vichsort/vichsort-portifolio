@@ -1,5 +1,6 @@
 <script setup>
 import OutputText from '../outputs/OutputText.vue'
+import OutputMarkdown from '../outputs/OutputMarkdown.vue'
 
 defineProps({
   history: {
@@ -34,6 +35,11 @@ defineProps({
           v-if="typeof entry.output === 'string'"
           :content="entry.output"
           :is-error="entry.isError"
+        />
+        <OutputMarkdown
+          v-else-if="entry.output.type === 'markdown'"
+          :content="entry.output.payload"
+          :filename="entry.output.filename"
         />
         <OutputText
           v-else-if="entry.output.payload !== undefined"

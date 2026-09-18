@@ -6,6 +6,17 @@ import helpCommand from './system/help.js'
 import pwdCommand from './fs/pwd.js'
 import cdCommand from './fs/cd.js'
 import lsCommand from './fs/ls.js'
+import catCommand from './fs/cat.js'
+import treeCommand from './fs/tree.js'
+import findCommand from './fs/find.js'
+import grepCommand from './fs/grep.js'
+import aboutCommand from './portfolio/about.js'
+import skillsCommand from './portfolio/skills.js'
+import projectsCommand from './portfolio/projects.js'
+import certificationsCommand from './portfolio/certifications.js'
+import researchesCommand from './portfolio/researches.js'
+import contactCommand from './portfolio/contact.js'
+import resumeCommand from './portfolio/resume.js'
 
 /**
  * Catálogo de registro de comandos do Vitor Shell (vsh).
@@ -28,12 +39,14 @@ export class CommandRegistry {
       throw new Error('Comando inválido: objeto deve conter uma propriedade "name".')
     }
 
-    const name = command.name.toLowerCase()
-    this.commands.set(name, command)
+    const primaryName = command.name.toLowerCase()
+    this.commands.set(primaryName, command)
 
     if (Array.isArray(command.aliases)) {
       for (const alias of command.aliases) {
-        this.aliases.set(alias.toLowerCase(), command)
+        if (alias && typeof alias === 'string') {
+          this.aliases.set(alias.toLowerCase(), command)
+        }
       }
     }
 
@@ -41,9 +54,9 @@ export class CommandRegistry {
   }
 
   /**
-   * Obtém um comando a partir do nome ou alias.
+   * Obtém a definição de um comando por nome primário ou alias.
    *
-   * @param {string} nameOrAlias - Nome ou alias do comando.
+   * @param {string} nameOrAlias
    * @returns {Object|null}
    */
   get(nameOrAlias) {
@@ -86,7 +99,7 @@ export class CommandRegistry {
 }
 
 /**
- * Cria e inicializa o registro padrão de comandos do Nódulo 1.
+ * Cria e inicializa o catálogo padrão com todos os comandos de sistema, VFS e portfólio.
  *
  * @returns {CommandRegistry}
  */
@@ -104,6 +117,19 @@ export function createDefaultRegistry() {
   registry.register(pwdCommand)
   registry.register(cdCommand)
   registry.register(lsCommand)
+  registry.register(catCommand)
+  registry.register(treeCommand)
+  registry.register(findCommand)
+  registry.register(grepCommand)
+
+  // Comandos de Portfólio (Domínio)
+  registry.register(aboutCommand)
+  registry.register(skillsCommand)
+  registry.register(projectsCommand)
+  registry.register(certificationsCommand)
+  registry.register(researchesCommand)
+  registry.register(contactCommand)
+  registry.register(resumeCommand)
 
   return registry
 }
@@ -112,4 +138,3 @@ export default {
   CommandRegistry,
   createDefaultRegistry
 }
-

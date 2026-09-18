@@ -42,6 +42,46 @@
       "date": {
         "description": "Displays current system date and time",
         "usage": "date"
+      },
+      "tree": {
+        "description": "Renders visual hierarchical tree of the VFS",
+        "usage": "tree [path]"
+      },
+      "about": {
+        "description": "Displays biographical summary and education",
+        "usage": "about"
+      },
+      "projects": {
+        "description": "Lists projects or displays project details",
+        "usage": "projects [--stack=x] [--featured] [slug]"
+      },
+      "skills": {
+        "description": "Displays technology stack matrix",
+        "usage": "skills"
+      },
+      "certifications": {
+        "description": "Lists verified certifications and credentials",
+        "usage": "certifications"
+      },
+      "researches": {
+        "description": "Lists academic research papers and awards",
+        "usage": "researches"
+      },
+      "contact": {
+        "description": "Displays contact channels and email",
+        "usage": "contact"
+      },
+      "resume": {
+        "description": "Triggers resume PDF download",
+        "usage": "resume"
+      },
+      "find": {
+        "description": "Searches for files or directories by name",
+        "usage": "find <term> [path]"
+      },
+      "grep": {
+        "description": "Searches for text patterns inside files",
+        "usage": "grep <term> [path]"
       }
     },
     "errors": {

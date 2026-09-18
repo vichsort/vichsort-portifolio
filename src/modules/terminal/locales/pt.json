@@ -42,6 +42,46 @@
       "date": {
         "description": "Exibe a data e hora atual do sistema",
         "usage": "date"
+      },
+      "tree": {
+        "description": "Renderiza a árvore visual hierárquica do VFS",
+        "usage": "tree [caminho]"
+      },
+      "about": {
+        "description": "Exibe o resumo biográfico e formação",
+        "usage": "about"
+      },
+      "projects": {
+        "description": "Lista projetos ou exibe metadados de projeto",
+        "usage": "projects [--stack=x] [--featured] [slug]"
+      },
+      "skills": {
+        "description": "Exibe a matriz de tecnologias agrupadas por stack",
+        "usage": "skills"
+      },
+      "certifications": {
+        "description": "Lista as certificações e credenciais registradas",
+        "usage": "certifications"
+      },
+      "researches": {
+        "description": "Lista os artigos científicos e pesquisas acadêmicas",
+        "usage": "researches"
+      },
+      "resume": {
+        "description": "Dispara o download do PDF do currículo",
+        "usage": "resume"
+      },
+      "contact": {
+        "description": "Exibe os links de redes sociais e e-mail",
+        "usage": "contact"
+      },
+      "find": {
+        "description": "Localiza arquivos ou diretórios por nome",
+        "usage": "find <termo> [caminho]"
+      },
+      "grep": {
+        "description": "Realiza busca por padrão de texto dentro dos arquivos",
+        "usage": "grep <termo> [caminho]"
       }
     },
     "errors": {

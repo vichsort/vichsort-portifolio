@@ -118,7 +118,7 @@ export function parseCommand(input) {
       continue
     }
 
-    // Flag longa: --nome ou --nome=valor
+    // Flag longa: --nome ou --nome=valor (ou --stack valor)
     if (token.startsWith('--') && token.length > 2) {
       const flagBody = token.slice(2)
       const eqIdx = flagBody.indexOf('=')
@@ -127,13 +127,15 @@ export function parseCommand(input) {
         const key = flagBody.slice(0, eqIdx)
         const val = flagBody.slice(eqIdx + 1)
         flags[key] = val
+      } else if (i + 1 < tokens.length && !tokens[i + 1].startsWith('-') && (flagBody === 'stack' || flagBody === 'depth')) {
+        flags[flagBody] = tokens[++i]
       } else {
         flags[flagBody] = true
       }
       continue
     }
 
-    // Flag curta: -a ou combinadas como -la ou com valor -s=vue
+    // Flag curta: -a ou combinadas como -la ou com valor -s=vue / -L 2
     if (token.startsWith('-') && token.length > 1) {
       const flagBody = token.slice(1)
       const eqIdx = flagBody.indexOf('=')
@@ -147,6 +149,8 @@ export function parseCommand(input) {
         if (keys.length > 0) {
           flags[keys[keys.length - 1]] = val
         }
+      } else if (flagBody.length === 1 && (flagBody === 'L' || flagBody === 's') && i + 1 < tokens.length && !tokens[i + 1].startsWith('-')) {
+        flags[flagBody] = tokens[++i]
       } else {
         for (let j = 0; j < flagBody.length; j++) {
           flags[flagBody[j]] = true
