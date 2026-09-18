@@ -18,6 +18,8 @@ import certificationsCommand from './portfolio/certifications.js'
 import researchesCommand from './portfolio/researches.js'
 import contactCommand from './portfolio/contact.js'
 import resumeCommand from './portfolio/resume.js'
+import cowsayCommand from './easter/cowsay.js'
+import sudoCommand from './easter/sudo.js'
 
 /**
  * Catálogo de registro de comandos do Vitor Shell (vsh).
@@ -132,6 +134,10 @@ export function createDefaultRegistry() {
   registry.register(researchesCommand)
   registry.register(contactCommand)
   registry.register(resumeCommand)
+
+  // Comandos Easter Eggs
+  registry.register(cowsayCommand)
+  registry.register(sudoCommand)
 
   return registry
 }

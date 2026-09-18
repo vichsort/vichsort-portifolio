@@ -71,6 +71,14 @@
         "description": "Lista os artigos científicos e pesquisas acadêmicas",
         "usage": "researches"
       },
+      "cowsay": {
+        "description": "Gera a vaca falante do Unix com mensagem personalizada",
+        "usage": "cowsay [mensagem]"
+      },
+      "sudo": {
+        "description": "Tenta executar comando como superusuário",
+        "usage": "sudo <comando>"
+      },
       "resume": {
         "description": "Dispara o download do PDF do currículo",
         "usage": "resume"

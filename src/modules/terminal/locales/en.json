@@ -71,6 +71,14 @@
         "description": "Lists academic research papers and awards",
         "usage": "researches"
       },
+      "cowsay": {
+        "description": "Generates Unix talking cow with customizable message",
+        "usage": "cowsay [message]"
+      },
+      "sudo": {
+        "description": "Attempts to execute command as superuser",
+        "usage": "sudo <command>"
+      },
       "contact": {
         "description": "Displays contact channels and email",
         "usage": "contact"

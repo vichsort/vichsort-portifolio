@@ -38,6 +38,35 @@ const handleInput = (event) => {
   emit('update:modelValue', event.target.value)
 }
 
+const handlePaste = (event) => {
+  event.preventDefault()
+  const clipboardData = event.clipboardData || window.clipboardData
+  const text = clipboardData ? clipboardData.getData('text') : ''
+  if (!text) return
+
+  // Converte quebras de linha em espaços simples
+  const sanitized = text.replace(/[\r\n]+/g, ' ')
+  const input = inputRef.value
+  if (!input) {
+    emit('update:modelValue', sanitized)
+    return
+  }
+
+  const start = input.selectionStart ?? 0
+  const end = input.selectionEnd ?? 0
+  const current = props.modelValue || ''
+  const updated = current.slice(0, start) + sanitized + current.slice(end)
+
+  emit('update:modelValue', updated)
+
+  const nextPos = start + sanitized.length
+  requestAnimationFrame(() => {
+    if (inputRef.value) {
+      inputRef.value.setSelectionRange(nextPos, nextPos)
+    }
+  })
+}
+
 const handleKeydown = (event) => {
   emit('keydown', event)
   if (event.key === 'Enter' && !event.shiftKey) {
@@ -78,6 +107,7 @@ defineExpose({
         spellcheck="false"
         aria-label="Terminal input prompt"
         @input="handleInput"
+        @paste="handlePaste"
         @keydown="handleKeydown"
       />
     </div>
