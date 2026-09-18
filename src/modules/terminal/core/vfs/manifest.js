@@ -1,4 +1,16 @@
 import { VfsNodeType, VfsMimeType } from './types.js'
+import {
+  getAboutProfile,
+  getAboutStack,
+  getAboutTimeline,
+  getCertificationsList,
+  getResearchesList,
+  getContact
+} from './connectors.js'
+import {
+  loadProjectContent,
+  getProjectMetadataJson
+} from './projectsLoader.js'
 
 // Importação segura e em lote dos arquivos Markdown com ?raw
 const mdModules =
@@ -50,24 +62,24 @@ export function createVfsManifest(services = {}) {
             type: VfsNodeType.FILE,
             mime: VfsMimeType.TEXT_PLAIN,
             getContent: (locale) => {
-              if (i18n?.getAboutProfile) return i18n.getAboutProfile(locale)
-              return 'Vitor — Software Engineer\nGraduando em Engenharia de Computação.\nFocado em arquitetura modular, Vue 3 e sistemas web escaláveis.'
+              if (typeof i18n?.getAboutProfile === 'function') return i18n.getAboutProfile(locale)
+              return getAboutProfile(locale)
             }
           },
           'stack.txt': {
             type: VfsNodeType.FILE,
             mime: VfsMimeType.TEXT_PLAIN,
             getContent: (locale) => {
-              if (i18n?.getAboutStack) return i18n.getAboutStack(locale)
-              return 'Frontend: Vue 3, Vite, TypeScript, JavaScript, CSS Tokens\nBackend: Node.js, Python, PostgreSQL, REST APIs\nTools: Docker, Git, Linux, Vimbo'
+              if (typeof i18n?.getAboutStack === 'function') return i18n.getAboutStack(locale)
+              return getAboutStack(locale)
             }
           },
           'timeline.txt': {
             type: VfsNodeType.FILE,
             mime: VfsMimeType.TEXT_PLAIN,
             getContent: (locale) => {
-              if (i18n?.getAboutTimeline) return i18n.getAboutTimeline(locale)
-              return 'Trajetória profissional e acadêmica:\n• Desenvolvimento web & interfaces interativas\n• Pesquisa em visão computacional & automação'
+              if (typeof i18n?.getAboutTimeline === 'function') return i18n.getAboutTimeline(locale)
+              return getAboutTimeline(locale)
             }
           }
         }
@@ -81,24 +93,15 @@ export function createVfsManifest(services = {}) {
               'README.md': {
                 type: VfsNodeType.FILE,
                 mime: VfsMimeType.TEXT_MARKDOWN,
-                loader: (locale) => loadProjectMarkdown('plante', locale)
+                getContent: async (locale) => {
+                  const proj = await loadProjectContent('plante', locale)
+                  return proj?.raw || ''
+                }
               },
               'info.json': {
                 type: VfsNodeType.FILE,
                 mime: VfsMimeType.APPLICATION_JSON,
-                getContent: (locale) => {
-                  if (projects?.getProjectMeta) return projects.getProjectMeta('plante', locale)
-                  return JSON.stringify(
-                    {
-                      id: 'plante',
-                      name: 'PlantE',
-                      tags: ['Vue 3', 'Vite', 'Gemini AI', 'IoT'],
-                      date: '2024'
-                    },
-                    null,
-                    2
-                  )
-                }
+                getContent: (locale) => getProjectMetadataJson('plante', locale)
               }
             }
           },
@@ -108,7 +111,15 @@ export function createVfsManifest(services = {}) {
               'README.md': {
                 type: VfsNodeType.FILE,
                 mime: VfsMimeType.TEXT_MARKDOWN,
-                loader: (locale) => loadProjectMarkdown('cemiterio', locale)
+                getContent: async (locale) => {
+                  const proj = await loadProjectContent('cemiterio', locale)
+                  return proj?.raw || ''
+                }
+              },
+              'info.json': {
+                type: VfsNodeType.FILE,
+                mime: VfsMimeType.APPLICATION_JSON,
+                getContent: (locale) => getProjectMetadataJson('cemiterio', locale)
               }
             }
           },
@@ -118,7 +129,15 @@ export function createVfsManifest(services = {}) {
               'README.md': {
                 type: VfsNodeType.FILE,
                 mime: VfsMimeType.TEXT_MARKDOWN,
-                loader: (locale) => loadProjectMarkdown('tera', locale)
+                getContent: async (locale) => {
+                  const proj = await loadProjectContent('tera', locale)
+                  return proj?.raw || ''
+                }
+              },
+              'info.json': {
+                type: VfsNodeType.FILE,
+                mime: VfsMimeType.APPLICATION_JSON,
+                getContent: (locale) => getProjectMetadataJson('tera', locale)
               }
             }
           }
@@ -131,8 +150,8 @@ export function createVfsManifest(services = {}) {
             type: VfsNodeType.FILE,
             mime: VfsMimeType.TEXT_PLAIN,
             getContent: (locale) => {
-              if (i18n?.getCertificationsList) return i18n.getCertificationsList(locale)
-              return 'Certificações e credenciais técnicas ativas.'
+              if (typeof i18n?.getCertificationsList === 'function') return i18n.getCertificationsList(locale)
+              return getCertificationsList(locale)
             }
           }
         }
@@ -144,8 +163,8 @@ export function createVfsManifest(services = {}) {
             type: VfsNodeType.FILE,
             mime: VfsMimeType.TEXT_PLAIN,
             getContent: (locale) => {
-              if (i18n?.getResearchesList) return i18n.getResearchesList(locale)
-              return 'Artigos científicos e pesquisas acadêmicas publicadas.'
+              if (typeof i18n?.getResearchesList === 'function') return i18n.getResearchesList(locale)
+              return getResearchesList(locale)
             }
           }
         }
@@ -154,8 +173,8 @@ export function createVfsManifest(services = {}) {
         type: VfsNodeType.FILE,
         mime: VfsMimeType.TEXT_PLAIN,
         getContent: (locale) => {
-          if (i18n?.getContact) return i18n.getContact(locale)
-          return 'E-mail: vitor@example.com\nGitHub: https://github.com\nLinkedIn: https://linkedin.com'
+          if (typeof i18n?.getContact === 'function') return i18n.getContact(locale)
+          return getContact(locale)
         }
       },
       'resume.pdf': {
