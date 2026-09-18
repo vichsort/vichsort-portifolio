@@ -43,6 +43,10 @@
         "description": "Displays current system date and time",
         "usage": "date"
       },
+      "header": {
+        "description": "Displays styled portfolio banner with color gradient",
+        "usage": "header"
+      },
       "tree": {
         "description": "Renders visual hierarchical tree of the VFS",
         "usage": "tree [path]"

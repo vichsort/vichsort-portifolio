@@ -43,6 +43,10 @@
         "description": "Exibe a data e hora atual do sistema",
         "usage": "date"
       },
+      "header": {
+        "description": "Exibe o banner estilizado do portfólio com gradiente de cor",
+        "usage": "header"
+      },
       "tree": {
         "description": "Renderiza a árvore visual hierárquica do VFS",
         "usage": "tree [caminho]"

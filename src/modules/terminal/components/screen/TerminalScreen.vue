@@ -1,7 +1,9 @@
 <script setup>
-import { ref, watch, nextTick } from 'vue'
+import { ref, watch, nextTick, onMounted } from 'vue'
 import TerminalHistory from './TerminalHistory.vue'
 import TerminalPrompt from './TerminalPrompt.vue'
+import OutputBanner from '../outputs/OutputBanner.vue'
+import { getRandomHeader } from '../../core/banner/headers.js'
 
 const props = defineProps({
   history: {
@@ -38,6 +40,14 @@ const emit = defineEmits(['submit', 'update:modelValue', 'keydown'])
 
 const screenRef = ref(null)
 const promptRef = ref(null)
+const headerBanner = ref('')
+
+onMounted(() => {
+  const random = getRandomHeader()
+  if (random) {
+    headerBanner.value = random.content
+  }
+})
 
 const scrollToBottom = () => {
   nextTick(() => {
@@ -79,8 +89,9 @@ defineExpose({
     tabindex="-1"
     @click="handleScreenClick"
   >
-    <div v-if="welcomeMessage" class="terminal-welcome">
-      <pre class="welcome-text">{{ welcomeMessage }}</pre>
+    <div class="terminal-welcome">
+      <OutputBanner v-if="headerBanner" :content="headerBanner" />
+      <pre v-if="welcomeMessage" class="welcome-text">{{ welcomeMessage }}</pre>
     </div>
 
     <TerminalHistory :history="history" />

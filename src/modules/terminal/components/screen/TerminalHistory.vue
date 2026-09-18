@@ -1,6 +1,7 @@
 <script setup>
 import OutputText from '../outputs/OutputText.vue'
 import OutputMarkdown from '../outputs/OutputMarkdown.vue'
+import OutputBanner from '../outputs/OutputBanner.vue'
 
 defineProps({
   history: {
@@ -35,6 +36,10 @@ defineProps({
           v-if="typeof entry.output === 'string'"
           :content="entry.output"
           :is-error="entry.isError"
+        />
+        <OutputBanner
+          v-else-if="entry.output.type === 'banner'"
+          :content="entry.output.payload"
         />
         <OutputMarkdown
           v-else-if="entry.output.type === 'markdown'"

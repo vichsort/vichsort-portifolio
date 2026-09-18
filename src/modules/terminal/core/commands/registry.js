@@ -3,6 +3,7 @@ import whoamiCommand from './system/whoami.js'
 import echoCommand from './system/echo.js'
 import dateCommand from './system/date.js'
 import helpCommand from './system/help.js'
+import headerCommand from './system/header.js'
 import pwdCommand from './fs/pwd.js'
 import cdCommand from './fs/cd.js'
 import lsCommand from './fs/ls.js'
@@ -112,6 +113,7 @@ export function createDefaultRegistry() {
   registry.register(echoCommand)
   registry.register(dateCommand)
   registry.register(helpCommand)
+  registry.register(headerCommand)
 
   // Comandos de Filesystem (VFS)
   registry.register(pwdCommand)
