@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { useScrollLock, onKeyStroke } from '@vueuse/core'
 import { useSmartScroll } from '@/shared/composables/useSmartScroll'
 import { useSettings } from '@/shared/composables/useSettings'
+import { useHeroPresence } from '@/shared/composables/useHeroPresence'
 import { useI18n } from 'vue-i18n'
 import { Github, Linkedin, Settings, Menu, X } from 'lucide-vue-next'
 
@@ -11,6 +12,7 @@ const route = useRoute()
 const { t } = useI18n()
 const { isVisible, isAtTop } = useSmartScroll()
 const { toggleSidebar } = useSettings()
+const { isHeroActive } = useHeroPresence()
 
 const isMobileNavOpen = ref(false)
 
@@ -56,7 +58,8 @@ onKeyStroke('Escape', (e) => {
     class="smart-navbar"
     :class="{
       'hidden': !isVisible && !isMobileNavOpen,
-      'scrolled': !isAtTop || isMobileNavOpen
+      'scrolled': !isAtTop || isMobileNavOpen,
+      'on-hero': isHeroActive
     }"
   >
     <div class="navbar-container">
@@ -267,6 +270,10 @@ onKeyStroke('Escape', (e) => {
 }
 
 .nav-pill-link {
+  /* inline-block para o ::before do item ativo ficar sobre o fundo do link;
+     a margem negativa anula o padding vertical na altura, como no modo inline */
+  display: inline-block;
+  margin-block: -0.4rem;
   font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.4px;
@@ -286,6 +293,64 @@ onKeyStroke('Escape', (e) => {
   color: #ffffff;
   background-color: var(--primary);
   box-shadow: 0 2px 10px var(--primary-glow);
+}
+
+/* --------------------------------------------------------------------------
+   Sobre o hero: o item ativo passeia entre as cores neon do hero, uma de
+   cada vez (A -> B -> C -> A), com ease-in-out em cada passagem.
+   A cor fica num ::before para o fade de entrada/saída do hero ser suave
+   sem disputar com a animação.
+   -------------------------------------------------------------------------- */
+.nav-pill-link.router-link-active,
+.mobile-nav-link.router-link-active {
+  position: relative;
+  isolation: isolate;
+}
+
+.nav-pill-link.router-link-active::before,
+.mobile-nav-link.router-link-active::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background-color: var(--neon-pink);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  animation: hero-pill-cycle 6s ease-in-out infinite;
+}
+
+.on-hero .nav-pill-link.router-link-active,
+.on-hero .mobile-nav-link.router-link-active {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+  animation: hero-pill-glow 6s ease-in-out infinite;
+}
+
+.on-hero .nav-pill-link.router-link-active::before,
+.on-hero .mobile-nav-link.router-link-active::before {
+  opacity: 1;
+}
+
+/* Mesma sequência e ritmo nas duas animações: o brilho acompanha a cor */
+@keyframes hero-pill-cycle {
+  0%, 100% { background-color: var(--neon-pink); }
+  33.333% { background-color: var(--neon-magenta); }
+  66.666% { background-color: var(--neon-cyan); }
+}
+
+@keyframes hero-pill-glow {
+  0%, 100% { box-shadow: 0 2px 14px var(--neon-pink); }
+  33.333% { box-shadow: 0 2px 14px var(--neon-magenta); }
+  66.666% { box-shadow: 0 2px 14px var(--neon-cyan); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-pill-link.router-link-active::before,
+  .mobile-nav-link.router-link-active::before,
+  .on-hero .nav-pill-link.router-link-active,
+  .on-hero .mobile-nav-link.router-link-active {
+    animation: none;
+  }
 }
 
 /* Actions Group */

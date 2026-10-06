@@ -1,6 +1,15 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useIntersectionObserver } from '@vueuse/core'
+import { useAsciiField } from '@/shared/composables/useAsciiField'
+import { useHeroPresence } from '@/shared/composables/useHeroPresence'
+import { HERO_TOKENS, createHeroLayers } from '../hero/heroField'
+import HeroAsciiTitle from './hero/HeroAsciiTitle.vue'
+import vitorArt from '../ascii/vitor.txt?raw'
+
+// Ponto final do "VITOR." no estilo 4max
+const TITLE_DOT = 'db\nYP'
 
 const { t, tm, rt } = useI18n()
 const roles = computed(() => tm('hero.roles'))
@@ -17,34 +26,44 @@ const logoSrc = computed(() => {
     ? '/images/neat-logo-dark.png'
     : '/images/neat-logo-light.png'
 })
+
+const fieldCanvas = ref(null)
+const { active, motion } = useAsciiField(fieldCanvas, {
+  tokens: HERO_TOKENS,
+  createLayers: createHeroLayers
+})
+
+// Avisa a navbar enquanto o hero estiver atrás dela (faixa dos 5% do topo da tela)
+const heroSection = ref(null)
+const { setHeroActive } = useHeroPresence()
+useIntersectionObserver(
+  heroSection,
+  ([entry]) => setHeroActive(entry?.isIntersecting ?? false),
+  { rootMargin: '0px 0px -95% 0px' }
+)
+onBeforeUnmount(() => setHeroActive(false))
 </script>
 
 <template>
-  <section class="hero-container">
-    <div class="hero-branding">
+  <section ref="heroSection" class="hero-container">
+    <canvas ref="fieldCanvas" class="hero-field" aria-hidden="true"></canvas>
+
+    <div class="hero-branding" data-ascii-safe>
       <img :src="logoSrc" alt="Logo NEAT" class="brand-logo" />
     </div>
 
     <div class="hero-content">
-      <p class="intro-text">{{ t('hero.introduction') }}</p>
+      <p class="intro-text" data-ascii-safe>{{ t('hero.introduction') }}</p>
 
-      <h1 class="main-title">
-        VITOR<span class="highlight">.</span>
+      <h1 class="main-title" data-ascii-safe>
+        <span class="sr-only">VITOR.</span>
+        <HeroAsciiTitle :art="vitorArt" :accent="TITLE_DOT" :active="active" :motion="motion" />
       </h1>
 
-      <div class="roles-container">
+      <div class="roles-container" data-ascii-safe>
         <p v-for="(role, key) in roles" :key="key" class="role-line">
           {{ rt(role) }}
         </p>
-      </div>
-    </div>
-
-    <div class="decorative-corner" aria-hidden="true">
-      <div class="pixel-grid">
-        <div class="pixel p1"></div>
-        <div class="pixel p2"></div>
-        <div class="pixel p3"></div>
-        <div class="pixel p4"></div>
       </div>
     </div>
   </section>
@@ -61,7 +80,37 @@ const logoSrc = computed(() => {
   padding: var(--spacing-xl);
   overflow: hidden;
   background: radial-gradient(circle at 10% 20%, var(--primary-subtle) 0%, transparent 40%),
-              radial-gradient(circle at 90% 80%, var(--accent-subtle) 0%, transparent 50%);
+              radial-gradient(circle at 90% 80%, var(--accent-subtle) 0%, transparent 50%),
+              linear-gradient(180deg, var(--hero-bg-top) 0%, var(--hero-bg-bottom) 100%);
+}
+
+/* Scanlines de CRT: acima do canvas, abaixo do conteúdo */
+.hero-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    var(--hero-scanline) 2px 3px
+  );
+}
+
+.hero-field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-branding {
+  position: relative;
+  z-index: 2;
+  align-self: flex-start;
 }
 
 .brand-logo {
@@ -73,6 +122,7 @@ const logoSrc = computed(() => {
 .hero-content {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
   flex: 1;
   z-index: 10;
@@ -86,21 +136,25 @@ const logoSrc = computed(() => {
   font-size: var(--text-lg);
   font-weight: 500;
   color: var(--text-secondary);
-  margin-bottom: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
   letter-spacing: 0.5px;
 }
 
 .main-title {
-  font-family: var(--font-heading);
-  font-size: clamp(3.5rem, 11vw, 8.5rem);
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  margin-left: -4px;
-  color: var(--text-primary);
+  margin: 0;
+  line-height: 1;
 }
 
-.highlight {
-  color: var(--primary);
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .roles-container {
@@ -116,39 +170,9 @@ const logoSrc = computed(() => {
   margin-bottom: 0.2rem;
 }
 
-.decorative-corner {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: clamp(120px, 15vw, 220px);
-  height: clamp(120px, 15vw, 220px);
-  opacity: 0.85;
-}
-
-.pixel-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 100%;
-  height: 100%;
-}
-
-.pixel {
-  width: 100%;
-  height: 100%;
-}
-
-.p1 { background-color: var(--accent); }
-.p2 { background-color: var(--bg-surface-2); }
-.p3 { background-color: var(--primary); }
-.p4 { background-color: var(--bg-surface-1); }
-
 @media (max-width: 768px) {
   .hero-container {
     padding: var(--spacing-md);
-  }
-
-  .main-title {
-    font-size: clamp(3rem, 15vw, 4.5rem);
   }
 }
 </style>

@@ -5,6 +5,7 @@
   /* Font Families */
   --font-heading: 'Arcade Gamer', monospace, sans-serif;
   --font-body: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   /* Typography Scale (16px base) */
   --text-xs: 0.75rem;    /* 12px */
@@ -83,6 +84,19 @@
   --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
   --shadow-card-hover: 0 20px 40px -15px rgba(58, 49, 216, 0.25), 0 0 25px rgba(93, 29, 231, 0.15);
   --shadow-glow: 0 0 30px rgba(58, 49, 216, 0.35);
+
+  /* Hero (synthwave noturno) */
+  --hero-bg-top: #1a0838;
+  --hero-bg-bottom: #080711;
+  --hero-glow: 6; /* raio do brilho dos glifos no canvas, em px (0 desliga) */
+  --hero-title-shadow: -2px 0 rgba(58, 49, 216, 0.55), 2px 0 rgba(93, 29, 231, 0.45), 0 0 18px rgba(93, 29, 231, 0.35);
+  --hero-scanline: rgba(0, 0, 0, 0.22);
+
+  --neon-pink: #ff2e97;
+  --neon-cyan: #00e5ff;
+  --neon-yellow: #ffd23f;
+  --neon-orange: #ff7a1a;
+  --neon-magenta: #c51bff;
 }
 
 /* --------------------------------------------------------------------------
@@ -129,4 +143,17 @@
   --shadow-card: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
   --shadow-card-hover: 0 20px 35px -10px rgba(47, 39, 206, 0.15), 0 0 15px rgba(88, 24, 226, 0.08);
   --shadow-glow: 0 0 25px rgba(47, 39, 206, 0.2);
+
+  /* Hero (synthwave amanhecer) */
+  --hero-bg-top: #ece3ff;
+  --hero-bg-bottom: #f8f9fe;
+  --hero-glow: 0;
+  --hero-title-shadow: -1.5px 0 rgba(47, 39, 206, 0.25), 1.5px 0 rgba(88, 24, 226, 0.25);
+  --hero-scanline: rgba(88, 24, 226, 0.04);
+
+  --neon-pink: #d1006b;
+  --neon-cyan: #0086a3;
+  --neon-yellow: #b97700;
+  --neon-orange: #d9480f;
+  --neon-magenta: #8a12d6;
 }

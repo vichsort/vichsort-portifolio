@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vitor Mignoni /// Portfólio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Montserrat:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000; --bg2:#0b0620; --ink:#fafaff; --dim:#9a93b8;
+  --lilac:#a78bfa; --lilac2:#c4b5fd; --white:#fafaff; --blue:#7b78ff; --violet:#5b1be6;
+  --mono:'JetBrains Mono','Fira Code','Geist Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono)}
+
+.hero{
+  position:relative; min-height:100vh; overflow:hidden;
+  display:flex; flex-direction:column; align-items:center; gap:28px;
+  padding:48px 20px 64px;
+  background:radial-gradient(120% 80% at 50% 0%,var(--bg2),var(--bg) 70%);
+}
+#field{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0}
+.hero > *:not(#field){position:relative; z-index:1}
+
+/* O motor lê a posição deste elemento para centralizar o ASCII art */
+#art-slot{width:min(100%,900px); height:clamp(140px,26vw,260px)}
+
+h1{margin:0; font-family:'Montserrat',var(--mono); font-style:italic; font-size:clamp(32px,6vw,58px); font-weight:700; text-align:center; letter-spacing:-.01em}
+.roles{margin:0; text-align:center; color:var(--dim); line-height:1.7; font-size:15px; font-family:'Montserrat',var(--mono); font-style:italic}
+.stack{display:flex; gap:8px; flex-wrap:wrap; justify-content:center}
+.stack span{font-size:12px; padding:5px 10px; border:1px solid #33267a; border-radius:999px; color:var(--ink); background:rgba(91,27,230,.15)}
+
+.cta{display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+.btn{
+  font:inherit; font-size:14px; padding:11px 18px; border-radius:6px; cursor:pointer;
+  border:1px solid var(--violet); background:var(--violet); color:#fff; text-decoration:none;
+}
+.btn.ghost{background:transparent; color:var(--ink); border-color:#33267a}
+.btn:hover{filter:brightness(1.15)}
+
+/* Terminal */
+.term{
+  width:min(100%,640px); border:1px solid #241a52; border-radius:10px; overflow:hidden;
+  background:rgba(0,0,0,.88); box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+.term-bar{display:flex; align-items:center; gap:7px; padding:10px 14px; border-bottom:1px solid #241a52; font-size:12px; color:var(--dim)}
+.term-bar i{width:10px; height:10px; border-radius:50%; background:#33267a; display:inline-block}
+.term-bar span{margin-left:8px}
+.term-body{margin:0; padding:16px 18px; font:inherit; font-size:13.5px; line-height:1.7; white-space:pre-wrap}
+.c-dim{color:var(--dim)} .c-lilac{color:var(--lilac)} .c-white{color:var(--white)}
+.c-blue{color:var(--blue)} .c-lilac2{color:var(--lilac2)}
+.cursor{display:inline-block; width:.6em; height:1.1em; vertical-align:text-bottom; margin-left:2px; background:var(--blue); animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+.term-foot{display:flex; align-items:center; gap:12px; padding:9px 14px; background:var(--violet); color:#fff; font-size:13px}
+#mascot{width:40px; height:32px; image-rendering:pixelated; image-rendering:crisp-edges; flex:none}
+
+@media (prefers-reduced-motion:reduce){ .cursor{animation:none} }
+</style>
+</head>
+<body>
+
+<section class="hero" id="hero">
+  <canvas id="field" aria-hidden="true"></canvas>
+
+  <div id="art-slot" aria-hidden="true"></div>
+
+  <h1 data-ascii-safe>Vitor Mignoni</h1>
+  <p class="roles" data-ascii-safe>Desenvolvimento Web<br>Desenvolvimento de APPs<br>Ciência de Dados<br>Arquitetura na Nuvem</p>
+  <div class="stack" data-ascii-safe>
+    <span>PostgreSQL</span><span>JavaScript</span><span>Python</span><span>Flutter</span><span>AWS</span>
+  </div>
+  <div class="cta" data-ascii-safe>
+    <a class="btn" href="#projetos">Ver projetos</a>
+    <a class="btn ghost" href="#contato">Contato</a>
+  </div>
+
+  <div class="term" data-ascii-safe>
+    <div class="term-bar"><i></i><i></i><i></i><span>~/vitor — portfólio</span></div>
+<pre class="term-body"><span class="c-dim"># portfólio</span>
+<span class="c-lilac">$</span> whoami
+<span class="c-white">vitor mignoni</span>
+<span class="c-blue">✔</span> web · apps · ciência de dados · nuvem
+<span class="c-blue">✔</span> stack carregada <span class="c-dim">(5 tecnologias)</span>
+<span class="c-lilac2">▸</span> carregando projetos<span class="cursor"></span></pre>
+    <div class="term-foot">
+      <canvas id="mascot" width="10" height="8"></canvas>
+      <span id="status">Loading: projetos/web</span>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ============================================================
+   AsciiField — motor de grade de caracteres (canvas único)
+   - Tudo se move em passos de célula, sem interpolação.
+   - Desacoplado do layout: lê #art-slot e [data-ascii-safe].
+   ============================================================ */
+
+const PALETTE = ['#5b1be6', '#3a2bf0', '#fafaff', '#8b5cf6', '#a78bfa'];
+const DRIFT_CHARS = 'MKWN@:.';
+const SCRAMBLE_CHARS = 'MKWN@:.#%&$?/\\<>+=*';
+const ART_CHARS = 'MKWN@';
+const INK = '#fafaff';
+
+// Fonte bitmap 5x5 (original) para montar o ASCII art a partir de uma palavra.
+const FONT = {
+  A:[".###.","#...#","#####","#...#","#...#"], C:[".####","#....","#....","#....",".####"],
+  D:["####.","#...#","#...#","#...#","####."], E:["#####","#....","####.","#....","#####"],
+  G:[".####","#....","#..##","#...#",".###."], H:["#...#","#...#","#####","#...#","#...#"],
+  I:["#####","..#..","..#..","..#..","#####"], L:["#....","#....","#....","#....","#####"],
+  M:["#...#","##.##","#.#.#","#...#","#...#"], N:["#...#","##..#","#.#.#","#..##","#...#"],
+  O:[".###.","#...#","#...#","#...#",".###."], P:["####.","#...#","####.","#....","#...."],
+  R:["####.","#...#","####.","#.#..","#..##"], S:[".####","#....",".###.","....#","####."],
+  T:["#####","..#..","..#..","..#..","..#.."], U:["#...#","#...#","#...#","#...#",".###."],
+  V:["#...#","#...#","#...#",".#.#.","..#.."]
+};
+const BLANK = [".....",".....",".....",".....","....."];
+// Tamanho do "pixel" do logo em células [colunas, linhas], do maior para o menor.
+const UNITS = [[6,4],[3,2],[2,1],[1,1]];
+
+const rnd = (n) => Math.floor(Math.random() * n);
+const pick = (s) => s[rnd(s.length)];
+
+class AsciiField {
+  constructor(canvas, { word = 'VITOR', slot, motion = true, fontSize = 16 } = {}) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.word = word;
+    this.slot = slot;
+    this.motion = motion;
+    this.fontSize = fontSize;
+    this.running = false;
+    this.setup();
+  }
+
+  /* ---------- montagem da grade ---------- */
+  setup() {
+    const { canvas, ctx } = this;
+    const host = canvas.parentElement.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(host.width * dpr);
+    canvas.height = Math.round(host.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const fs = host.width < 520 ? 12 : this.fontSize;
+    ctx.font = `${fs}px "JetBrains Mono", "Fira Code", ui-monospace, monospace`;
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'left';
+    this.cw = ctx.measureText('M').width;
+    this.ch = Math.round(fs * 1.4);
+    this.cols = Math.floor(host.width / this.cw);
+    this.rows = Math.floor(host.height / this.ch);
+    this.W = host.width; this.H = host.height;
+
+    this.blocked = new Uint8Array(this.cols * this.rows);
+    this.occ = new Uint8Array(this.cols * this.rows);
+
+    this.buildArt(host);
+    this.blockSafeAreas(host);
+    this.initGlyphs();
+
+    this.pos = 0; this.rev = 0; this.pause = 0;
+    if (!this.motion) { this.art.revealed.fill(1); this.rev = this.art.total; }
+    this.draw();
+  }
+
+  buildArt(host) {
+    const sr = this.slot.getBoundingClientRect();
+    const slotCols = Math.floor(sr.width / this.cw);
+    const slotRows = Math.floor(sr.height / this.ch);
+    const letters = [...this.word.toUpperCase()];
+    const wPx = letters.length * 5 + (letters.length - 1);
+
+    let unit = UNITS[UNITS.length - 1];
+    for (const u of UNITS) {
+      if (wPx * u[0] <= slotCols && 5 * u[1] <= slotRows) { unit = u; break; }
+    }
+    const [ux, uy] = unit;
+    const cols = wPx * ux, rows = 5 * uy;
+    const cells = new Array(cols * rows).fill(' ');
+
+    letters.forEach((L, li) => {
+      const glyph = FONT[L] || BLANK;
+      for (let r = 0; r < 5; r++) for (let c = 0; c < 5; c++) {
+        if (glyph[r][c] !== '#') continue;
+        for (let dy = 0; dy < uy; dy++) for (let dx = 0; dx < ux; dx++) {
+          const x = (li * 6 + c) * ux + dx, y = r * uy + dy;
+          cells[y * cols + x] = ART_CHARS[(x * 7 + y * 13 + li * 3) % ART_CHARS.length];
+        }
+      }
+    });
+
+    const slotX = sr.left - host.left, slotY = sr.top - host.top;
+    const x = Math.max(0, Math.floor(slotX / this.cw + (slotCols - cols) / 2));
+    const y = Math.max(0, Math.floor(slotY / this.ch + (slotRows - rows) / 2));
+
+    this.art = { x, y, cols, rows, cells, total: cols * rows, revealed: new Uint8Array(cols * rows) };
+    this.speed = Math.max(2, Math.ceil(this.art.total / 90));
+    this.trail = 4;
+    this.blockRect(x - 2, y - 1, cols + 4, rows + 2);
+  }
+
+  blockRect(x, y, w, h) {
+    for (let j = Math.max(0, y); j < Math.min(this.rows, y + h); j++)
+      for (let i = Math.max(0, x); i < Math.min(this.cols, x + w); i++)
+        this.blocked[j * this.cols + i] = 1;
+  }
+
+  blockSafeAreas(host) {
+    document.querySelectorAll('[data-ascii-safe]').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      const x0 = Math.floor((r.left - host.left) / this.cw) - 1;
+      const y0 = Math.floor((r.top - host.top) / this.ch) - 1;
+      const x1 = Math.ceil((r.right - host.left) / this.cw) + 1;
+      const y1 = Math.ceil((r.bottom - host.top) / this.ch) + 1;
+      this.blockRect(x0, y0, x1 - x0, y1 - y0);
+    });
+  }
+
+  /* ---------- glifos errantes ---------- */
+  initGlyphs() {
+    const target = Math.max(20, Math.min(120, Math.round((this.cols * this.rows) / 90)));
+    this.glyphs = [];
+    for (let n = 0; n < target; n++) {
+      const idx = this.freeCell();
+      if (idx < 0) break;
+      this.occ[idx] = 1;
+      this.glyphs.push({ idx, ch: pick(DRIFT_CHARS), color: pick(PALETTE) });
+    }
+  }
+
+  freeCell() {
+    for (let t = 0; t < 40; t++) {
+      const idx = rnd(this.cols * this.rows);
+      if (!this.blocked[idx] && !this.occ[idx]) return idx;
+    }
+    return -1;
+  }
+
+  tickGlyphs() {
+    const { cols, rows } = this;
+    for (const g of this.glyphs) {
+      const r = Math.random();
+      if (r < 0.03) {                                   // some e reaparece em outra célula
+        const to = this.freeCell();
+        if (to >= 0) { this.occ[g.idx] = 0; this.occ[to] = 1; g.idx = to; }
+        continue;
+      }
+      if (r < 0.38) {                                   // passo de 1 célula (ortogonal ou diagonal curta)
+        const x = g.idx % cols, y = (g.idx / cols) | 0;
+        const nx = x + rnd(3) - 1, ny = y + rnd(3) - 1;
+        if ((nx !== x || ny !== y) && nx >= 0 && ny >= 0 && nx < cols && ny < rows) {
+          const to = ny * cols + nx;
+          if (!this.blocked[to] && !this.occ[to]) { this.occ[g.idx] = 0; this.occ[to] = 1; g.idx = to; }
+        }
+      }
+      if (Math.random() < 0.22) g.ch = pick(DRIFT_CHARS);       // muta o glifo
+      if (Math.random() < 0.18) g.color = pick(PALETTE);        // muda de cor
+    }
+  }
+
+  /* ---------- scanner do ASCII art ---------- */
+  tickHead() {
+    const a = this.art;
+    if (this.pause > 0) { if (--this.pause === 0) this.pos = 0; return; }
+    this.pos += this.speed;
+    const lim = Math.min(a.total, Math.max(0, this.pos - this.trail));
+    for (; this.rev < lim; this.rev++) a.revealed[this.rev] = 1;
+    if (this.pos - this.trail >= a.total) this.pause = 70;     // ~3s parado, depois varre de novo
+  }
+
+  /* ---------- desenho ---------- */
+  draw() {
+    const { ctx, cw, ch, cols } = this;
+    ctx.clearRect(0, 0, this.W, this.H);
+
+    ctx.globalAlpha = 0.6;
+    for (const g of this.glyphs) {
+      ctx.fillStyle = g.color;
+      ctx.fillText(g.ch, (g.idx % cols) * cw, ((g.idx / cols | 0) + 0.5) * ch);
+    }
+    ctx.globalAlpha = 1;
+
+    const a = this.art;
+    const scanning = this.motion && this.pause === 0;
+    for (let i = 0; i < a.total; i++) {
+      const target = a.cells[i];
+      if (target === ' ') continue;
+      const px = (a.x + (i % a.cols)) * cw, py = (a.y + (i / a.cols | 0) + 0.5) * ch;
+      const inTrail = scanning && i >= this.pos - this.trail && i < this.pos;
+      if (inTrail) {
+        ctx.fillStyle = Math.random() < 0.5 ? '#7b78ff' : '#a78bfa';
+        ctx.fillText(pick(SCRAMBLE_CHARS), px, py);
+      } else if (a.revealed[i]) {
+        ctx.fillStyle = INK;
+        ctx.fillText(target, px, py);
+      }
+    }
+
+    if (scanning && this.pos < a.total) {                      // cursor em bloco invertido
+      const i = this.pos;
+      const px = (a.x + (i % a.cols)) * cw, row = a.y + (i / a.cols | 0);
+      ctx.fillStyle = '#fafaff';
+      ctx.fillRect(px, row * ch, cw, ch);
+      ctx.fillStyle = '#000';
+      ctx.fillText(a.cells[i] === ' ' ? '@' : a.cells[i], px, (row + 0.5) * ch);
+    }
+  }
+
+  /* ---------- loop ---------- */
+  start() {
+    if (!this.motion || this.running) return;
+    this.running = true;
+    this.last = performance.now(); this.accA = 0; this.accB = 0;
+    const loop = (t) => {
+      if (!this.running) return;
+      const dt = Math.min(t - this.last, 250); this.last = t;
+      this.accA += dt; this.accB += dt;
+      let dirty = false;
+      if (this.accA >= 45)  { this.accA %= 45;  this.tickHead();   dirty = true; }
+      if (this.accB >= 150) { this.accB %= 150; this.tickGlyphs(); dirty = true; }
+      if (dirty) this.draw();
+      this.raf = requestAnimationFrame(loop);
+    };
+    this.raf = requestAnimationFrame(loop);
+  }
+  stop() { this.running = false; cancelAnimationFrame(this.raf); }
+}
+
+/* ============================================================
+   Boot
+   ============================================================ */
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hero = document.getElementById('hero');
+let field = null;
+
+async function boot() {
+  try { await Promise.race([document.fonts.load('16px "JetBrains Mono"'), new Promise(r => setTimeout(r, 1500))]); } catch (e) {}
+  const make = () => {
+    if (field) field.stop();
+    field = new AsciiField(document.getElementById('field'), {
+      word: 'VITOR',                                   // letras disponíveis: A C D E G H I L M N O P R S T U V
+      slot: document.getElementById('art-slot'),
+      motion: !reduced
+    });
+    field.start();
+  };
+  make();
+
+  let t;
+  new ResizeObserver(() => { clearTimeout(t); t = setTimeout(make, 150); }).observe(hero);
+
+  new IntersectionObserver(([e]) => { e.isIntersecting ? field.start() : field.stop(); }).observe(hero);
+  document.addEventListener('visibilitychange', () => { document.hidden ? field.stop() : field.start(); });
+}
+boot();
+
+/* ============================================================
+   Rodapé: mascote pixel art (2 frames) + status
+   ============================================================ */
+const MASCOT_COLORS = { '#': '#fafaff', y: '#a78bfa', d: '#000', w: '#ffffff' };
+const MASCOT_FRAMES = [
+  ["....yy....",".....y....",".########.","##########","##dd##dd##","##########",".########.","..##..##.."],
+  ["....yy....",".....y....",".########.","##########","##########","##########",".########.",".##....##."]
+];
+const mc = document.getElementById('mascot').getContext('2d');
+function drawMascot(f) {
+  mc.clearRect(0, 0, 10, 8);
+  MASCOT_FRAMES[f].forEach((row, y) => [...row].forEach((c, x) => {
+    if (c === '.') return;
+    mc.fillStyle = MASCOT_COLORS[c]; mc.fillRect(x, y, 1, 1);
+  }));
+}
+drawMascot(0);
+
+const STATUS = ['Loading: projetos/web', 'Loading: projetos/apps', 'Loading: dados/notebooks', 'Deploying: aws/cloud', 'Ready: portfolio'];
+const statusEl = document.getElementById('status');
+if (!reduced) {
+  let f = 0, s = 0;
+  setInterval(() => { f ^= 1; drawMascot(f); }, 380);
+  setInterval(() => { s = (s + 1) % STATUS.length; statusEl.textContent = STATUS[s]; }, 2200);
+}
+</script>
+</body>
+</html>
