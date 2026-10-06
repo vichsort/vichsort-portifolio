@@ -198,6 +198,28 @@ const barHeight = computed(() => {
   margin-right: 40px;
   box-shadow: 0 20px 50px var(--accent-glow);
   opacity: 0.85;
+  /* Durações primas entre si: os ciclos quase nunca se alinham e o movimento não parece repetir */
+  animation:
+    circle-drift 9s ease-in-out infinite,
+    circle-breathe 7s ease-in-out infinite;
+}
+
+@keyframes circle-drift {
+  0%, 100% { translate: 0 0; }
+  25% { translate: 6px -14px; }
+  50% { translate: -4px -22px; }
+  75% { translate: -8px -8px; }
+}
+
+@keyframes circle-breathe {
+  0%, 100% { scale: 1; box-shadow: 0 20px 50px var(--accent-glow); }
+  50% { scale: 1.04; box-shadow: 0 32px 70px var(--accent-glow); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .decorative-circle {
+    animation: none;
+  }
 }
 
 .fade-enter-active,
