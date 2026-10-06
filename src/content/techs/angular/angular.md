@@ -1,0 +1,5 @@
+---
+name: Angular
+techs:
+  - "[[typescript]]"
+---

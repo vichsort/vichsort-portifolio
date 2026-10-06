@@ -1,0 +1,5 @@
+---
+name: PostgreSQL
+aliases:
+  - Postgres
+---

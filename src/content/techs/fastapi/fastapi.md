@@ -1,0 +1,5 @@
+---
+name: FastAPI
+techs:
+  - "[[python]]"
+---

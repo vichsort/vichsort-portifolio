@@ -1,0 +1,5 @@
+---
+name: Go
+aliases:
+  - Golang
+---

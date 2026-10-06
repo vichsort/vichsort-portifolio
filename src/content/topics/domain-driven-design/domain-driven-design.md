@@ -1,0 +1,5 @@
+---
+aliases:
+  - DDD
+  - Domain-Driven
+---

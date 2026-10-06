@@ -1,0 +1,5 @@
+---
+name: PostGIS
+techs:
+  - "[[postgresql]]"
+---

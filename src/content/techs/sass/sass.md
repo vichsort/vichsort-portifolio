@@ -1,0 +1,5 @@
+---
+name: Sass
+aliases:
+  - SCSS
+---

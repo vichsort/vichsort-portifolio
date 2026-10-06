@@ -1,0 +1,5 @@
+---
+name: JavaScript
+aliases:
+  - JS
+---

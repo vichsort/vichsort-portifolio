@@ -1,0 +1,4 @@
+---
+techs:
+  - "[[postgresql]]"
+---

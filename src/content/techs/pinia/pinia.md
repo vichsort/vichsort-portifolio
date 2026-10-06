@@ -1,0 +1,5 @@
+---
+name: Pinia
+techs:
+  - "[[vue]]"
+---

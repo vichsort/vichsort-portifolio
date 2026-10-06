@@ -1,0 +1,5 @@
+---
+name: OpenStreetMap
+aliases:
+  - OSM
+---
