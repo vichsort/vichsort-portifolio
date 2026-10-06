@@ -1,10 +1,17 @@
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useLocalStorage, usePreferredReducedMotion } from '@vueuse/core'
 import i18n from '@/core/i18n'
 
 const isSidebarOpen = ref(false)
 const currentLang = useLocalStorage('user-lang', 'pt')
-const areAnimationsEnabled = useLocalStorage('user-animations-enabled', true)
+// writeDefaults: false — sem isso o valor padrão é gravado na hora e o initSettings
+// nunca percebe que é a primeira visita (e não aplica a preferência do sistema)
+const areAnimationsEnabled = useLocalStorage('user-animations-enabled', true, { writeDefaults: false })
+const systemMotion = usePreferredReducedMotion()
+
+// Mesma regra do CSS (utilities.css): sem movimento se o usuário desligou as
+// animações no site ou se o sistema operacional pede movimento reduzido
+const isMotionAllowed = computed(() => areAnimationsEnabled.value && systemMotion.value !== 'reduce')
 const fontSizeLevel = useLocalStorage('user-font-size-level', 0)
 
 export function useSettings() {
@@ -58,8 +65,7 @@ export function useSettings() {
   const initSettings = () => {
     setLanguage(currentLang.value)
 
-    const prefersReduced = usePreferredReducedMotion()
-    if (prefersReduced.value && localStorage.getItem('user-animations-enabled') === null) {
+    if (systemMotion.value === 'reduce' && localStorage.getItem('user-animations-enabled') === null) {
       areAnimationsEnabled.value = false
     }
 
@@ -78,6 +84,7 @@ export function useSettings() {
     currentLang,
     setLanguage,
     areAnimationsEnabled,
+    isMotionAllowed,
     toggleAnimations,
     changeFontSize,
     fontSizeLevel,

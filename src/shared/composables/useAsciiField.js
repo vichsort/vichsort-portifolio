@@ -4,18 +4,20 @@ import {
   useDocumentVisibility,
   useIntersectionObserver,
   useMutationObserver,
-  usePreferredReducedMotion,
   useResizeObserver
 } from '@vueuse/core'
 import { AsciiField } from '@/shared/ascii/AsciiField'
 import { readPalette } from '@/shared/ascii/palette'
+import { useSettings } from '@/shared/composables/useSettings'
 
 /**
  * Liga um AsciiField ao ciclo de vida do componente.
  *
  * - Refaz a grade quando o container muda de tamanho ou as fontes terminam de carregar.
  * - Relê a paleta quando o tema (`data-theme` no <html>) muda.
- * - Pausa o loop fora da tela, com a aba oculta ou com `prefers-reduced-motion`.
+ * - Pausa o loop fora da tela ou com a aba oculta.
+ * - Congela o desenho (estático) quando as animações estão desligadas no site
+ *   ou o sistema pede movimento reduzido.
  *
  * @param {import('vue').Ref<HTMLCanvasElement|null>} canvasRef - canvas dentro do container animado
  * @param {{ createLayers: () => object[], tokens: object, options?: object }} config
@@ -27,9 +29,7 @@ export function useAsciiField(canvasRef, { createLayers, tokens, options = {} })
   const host = computed(() => canvasRef.value?.parentElement ?? null)
   const isVisible = ref(false)
   const documentVisibility = useDocumentVisibility()
-  const reducedMotion = usePreferredReducedMotion()
-
-  const motion = computed(() => reducedMotion.value !== 'reduce')
+  const { isMotionAllowed: motion } = useSettings()
   const active = computed(() => isVisible.value && documentVisibility.value === 'visible')
 
   const syncLoop = () => {
