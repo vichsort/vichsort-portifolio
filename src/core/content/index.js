@@ -1,0 +1,37 @@
+import { buildGraph } from './graph.js'
+import { validateGraph } from './validate.js'
+import { createQueries } from './queries.js'
+
+/**
+ * Carrega o vault em src/content/ e monta o grafo uma única vez.
+ * Fora do Vite (Node puro) o grafo fica vazio; o script de validação
+ * monta o seu próprio a partir do disco.
+ */
+
+const ROOT = '/src/content/'
+const hasGlob = typeof import.meta.glob === 'function'
+
+const markdown = hasGlob
+  ? import.meta.glob('/src/content/**/*.md', { query: '?raw', import: 'default', eager: true })
+  : {}
+
+const files = hasGlob
+  ? import.meta.glob(['/src/content/**/*', '!/src/content/**/*.md'], { query: '?url', import: 'default', eager: true })
+  : {}
+
+const strip = (path) => path.slice(ROOT.length)
+
+export const graph = buildGraph(
+  Object.entries(markdown).map(([path, raw]) => ({ path: strip(path), raw })),
+  Object.entries(files).map(([path, url]) => ({ path: strip(path), url }))
+)
+
+export const issues = [...graph.issues, ...validateGraph(graph)]
+
+if (import.meta.env?.DEV && issues.length) {
+  for (const { level, where, message } of issues) {
+    console[level === 'error' ? 'error' : 'warn'](`[content] ${where}: ${message}`)
+  }
+}
+
+export const content = createQueries(graph)

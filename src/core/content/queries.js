@@ -1,0 +1,102 @@
+import { renderBody } from './markdown.js'
+
+/**
+ * Consultas sobre o grafo, com o idioma passado explicitamente.
+ * O composable useContent envolve estas funções com o idioma ativo.
+ *
+ * @param {ReturnType<import('./graph.js').buildGraph>} graph
+ */
+export function createQueries(graph) {
+  const htmlCache = new Map()
+
+  const node = (id) => graph.nodes.get(id) || null
+
+  const text = (id, lang) => node(id)?.texts[lang] || {}
+
+  /** Nome de exibição: nome próprio da estrutura, ou nome/título traduzido. */
+  const label = (id, lang) => {
+    const n = node(id)
+    if (!n) return id
+    const t = n.texts[lang] || {}
+    return n.data.name || t.name || t.title || id
+  }
+
+  const ofType = (type) => [...graph.nodes.values()].filter((n) => n.type === type)
+
+  /** Ids ligados por um campo (sempre lista, mesmo para ligação única). */
+  const linked = (id, field) => {
+    const value = node(id)?.links[field]
+    if (!value) return []
+    return Array.isArray(value) ? value : [value]
+  }
+
+  /**
+   * Quem aponta para o nó, agrupado por tipo.
+   * Coleções ficam de fora por padrão: listar um nó num stack não é "usá-lo".
+   *
+   * @param {string} id
+   * @param {{ lang?: string, includeCollections?: boolean }} [options]
+   *   lang: considera wikilinks do corpo só desse idioma
+   * @returns {Record<string, object[]>}
+   */
+  const backlinks = (id, { lang, includeCollections = false } = {}) => {
+    const grouped = {}
+    const seen = new Set()
+    for (const edge of graph.backlinks.get(id) || []) {
+      if (edge.lang && lang && edge.lang !== lang) continue
+      if (seen.has(edge.from)) continue
+      const source = node(edge.from)
+      if (source.type === 'collection' && !includeCollections) continue
+      seen.add(edge.from)
+      ;(grouped[source.type] ||= []).push(source)
+    }
+    return grouped
+  }
+
+  /** Nós que compartilham ligações de estrutura, do mais ao menos parecido. */
+  const related = (id) => {
+    const own = new Set(Object.values(node(id)?.links || {}).flat().filter(Boolean))
+    const scores = new Map()
+    for (const target of own) {
+      for (const edge of graph.backlinks.get(target) || []) {
+        if (edge.from === id || edge.lang || edge.field === 'items' || edge.field === 'group') continue
+        scores.set(edge.from, (scores.get(edge.from) || 0) + 1)
+      }
+    }
+    return [...scores.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([from, shared]) => ({ node: node(from), shared }))
+  }
+
+  /** Grupos de uma coleção, com os nós já resolvidos e na ordem declarada. */
+  const collection = (id) =>
+    (node(id)?.groups || []).map(({ group, items }) => ({
+      group: group ? node(group) : null,
+      items: items.map(node)
+    }))
+
+  const asset = (id, file) => node(id)?.assets[file] || ''
+  const icon = (id) => asset(id, 'icon.svg')
+  const cover = (id) => {
+    const assets = node(id)?.assets || {}
+    const file = Object.keys(assets).find((f) => f.startsWith('cover.'))
+    return file ? assets[file] : ''
+  }
+
+  const html = (id, lang) => {
+    const key = `${id}.${lang}`
+    if (!htmlCache.has(key)) {
+      const body = text(id, lang).body || ''
+      htmlCache.set(key, renderBody(body, {
+        assets: node(id)?.assets,
+        label: (target) => {
+          const resolved = graph.resolve(target)
+          return resolved ? label(resolved, lang) : target
+        }
+      }))
+    }
+    return htmlCache.get(key)
+  }
+
+  return { node, text, label, ofType, linked, backlinks, related, collection, asset, icon, cover, html }
+}

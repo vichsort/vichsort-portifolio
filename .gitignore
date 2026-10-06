@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 terminal.md
+
+# Obsidian (vault em src/content)
+.obsidian/
