@@ -34,5 +34,14 @@
     "subtitle": "Página não encontrada",
     "description": "O link que você tentou acessar não existe, foi alterado ou foi movido.",
     "back_home": "Voltar para o Início"
+  },
+  "footer": {
+    "tagline": "Web, apps, ciência de dados e nuvem.",
+    "navigation": "Navegação",
+    "contact": "Contato",
+    "copy_email": "Copiar e-mail",
+    "copied": "Copiado!",
+    "back_to_top": "Voltar ao topo",
+    "rights": "© {year} NEAT by Vitor."
   }
 }

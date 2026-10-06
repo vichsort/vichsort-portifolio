@@ -1,9 +1,13 @@
 <script setup>
 import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { useTheme } from '@/shared/composables/useTheme'
 import { useSettings } from '@/shared/composables/useSettings'
 import TheNavbar from '@/shared/components/layout/TheNavbar.vue'
 import SettingsSidebar from '@/shared/components/layout/SettingsSidebar.vue'
+import TheFooter from '@/shared/components/layout/TheFooter.vue'
+
+const route = useRoute()
 
 const { initTheme, listenToSystemChanges } = useTheme()
 const { initSettings } = useSettings()
@@ -24,6 +28,8 @@ onMounted(() => {
       <component :is="Component" />
     </transition>
   </router-view>
+
+  <TheFooter v-if="route.path !== '/terminal'" />
 </template>
 
 <style>

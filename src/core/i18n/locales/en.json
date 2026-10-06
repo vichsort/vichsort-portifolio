@@ -34,5 +34,14 @@
     "subtitle": "Page Not Found",
     "description": "The link you tried to access does not exist, was changed or has been moved.",
     "back_home": "Back to Home"
+  },
+  "footer": {
+    "tagline": "Web, apps, data science and cloud.",
+    "navigation": "Navigation",
+    "contact": "Contact",
+    "copy_email": "Copy e-mail",
+    "copied": "Copied!",
+    "back_to_top": "Back to top",
+    "rights": "© {year} NEAT by Vitor."
   }
 }
