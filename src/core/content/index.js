@@ -4,20 +4,19 @@ import { createQueries } from './queries.js'
 
 /**
  * Carrega o vault em src/content/ e monta o grafo uma única vez.
- * Fora do Vite (Node puro) o grafo fica vazio; o script de validação
- * monta o seu próprio a partir do disco.
+ * Depende do Vite (import.meta.glob); o script de validação monta o seu
+ * próprio grafo a partir do disco.
  */
 
 const ROOT = '/src/content/'
-const hasGlob = typeof import.meta.glob === 'function'
 
-const markdown = hasGlob
-  ? import.meta.glob('/src/content/**/*.md', { query: '?raw', import: 'default', eager: true })
-  : {}
+const markdown = import.meta.glob('/src/content/**/*.md', { query: '?raw', import: 'default', eager: true })
 
-const files = hasGlob
-  ? import.meta.glob(['/src/content/**/*', '!/src/content/**/*.md'], { query: '?url', import: 'default', eager: true })
-  : {}
+const files = import.meta.glob(['/src/content/**/*', '!/src/content/**/*.md'], {
+  query: '?url',
+  import: 'default',
+  eager: true
+})
 
 const strip = (path) => path.slice(ROOT.length)
 

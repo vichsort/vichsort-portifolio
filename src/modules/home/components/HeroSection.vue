@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onBeforeUnmount, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useContent } from '@/core/content/useContent'
 import { useIntersectionObserver } from '@vueuse/core'
 import { useAsciiField } from '@/shared/composables/useAsciiField'
 import { useHeroPresence } from '@/shared/composables/useHeroPresence'
@@ -12,8 +13,17 @@ import vitorArt from '../ascii/vitor.txt?raw'
 // Ponto final do "VITOR." no estilo 4max
 const TITLE_DOT = 'db\nYP'
 
-const { t, tm, rt } = useI18n()
-const roles = computed(() => tm('hero.roles'))
+const { t } = useI18n()
+const { collection, label } = useContent()
+
+// Cargos na ordem da coleção; a pontuação é da apresentação, não do conteúdo
+const roles = computed(() => {
+  const items = collection('hero-roles').flatMap((g) => g.items)
+  return items.map((role, i) => ({
+    id: role.id,
+    text: label(role.id) + (i === items.length - 1 ? '.' : ',')
+  }))
+})
 
 const props = defineProps({
   currentTheme: {
@@ -62,8 +72,8 @@ onBeforeUnmount(() => setHeroActive(false))
       </h1>
 
       <div class="roles-container" data-ascii-safe>
-        <p v-for="(role, key) in roles" :key="key" class="role-line">
-          {{ rt(role) }}
+        <p v-for="role in roles" :key="role.id" class="role-line">
+          {{ role.text }}
         </p>
       </div>
     </div>

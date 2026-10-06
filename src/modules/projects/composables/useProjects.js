@@ -1,110 +1,68 @@
 import { ref } from 'vue'
-import { parseMarkdown } from '@/core/utils/markdown'
+import { content } from '@/core/content'
 
-const projectCache = new Map()
-const catalogCache = new Map()
+// 'AAAA-MM' → 'MM/AAAA'; 'AAAA' fica como está
+const formatDate = (value) => {
+  const text = String(value || '').trim()
+  const match = text.match(/^(\d{4})-(\d{2})$/)
+  return match ? `${match[2]}/${match[1]}` : text
+}
 
 export const formatDateRange = (dateVal) => {
   if (!dateVal) return ''
   if (Array.isArray(dateVal)) {
-    const start = String(dateVal[0] || '').trim()
-    const end = String(dateVal[1] || '').trim()
+    const start = formatDate(dateVal[0])
+    const end = formatDate(dateVal[1])
     if (start && end && start !== end) {
       return `${start} — ${end}`
     }
     return start || end
   }
-  return String(dateVal).trim()
+  return formatDate(dateVal)
+}
+
+/**
+ * Projeto no formato que as views consomem, montado a partir do nó do grafo.
+ * Techs e categoria vêm como nomes de exibição; os ids ficam em techIds/categoryId.
+ */
+export function toProject(id, locale = 'pt') {
+  const node = content.node(id)
+  if (!node || node.type !== 'project') return null
+
+  const text = content.text(id, locale)
+  const techIds = content.linked(id, 'techs')
+  const categoryId = node.links.category || ''
+
+  return {
+    id,
+    title: text.title || id,
+    summary: text.summary || '',
+    category: categoryId ? content.label(categoryId, locale) : '',
+    categoryId,
+    techs: techIds.map((t) => content.label(t, locale)),
+    techIds,
+    date: node.data.date || [],
+    image: content.cover(id),
+    github: node.data.github || '',
+    live: node.data.live || '',
+    body: text.body || '',
+    html: content.html(id, locale)
+  }
 }
 
 export function useProjects() {
   const isLoading = ref(false)
   const error = ref(null)
 
-  const modules = import.meta.glob('@/modules/projects/content/*.md', { query: '?raw', import: 'default' })
-
+  // A API continua assíncrona para as views não dependerem de como o conteúdo é carregado
   const loadProject = async (id, locale = 'pt') => {
-    const cacheKey = `${id}.${locale}`
-    if (projectCache.has(cacheKey)) {
-      return projectCache.get(cacheKey)
-    }
-
-    isLoading.value = true
-    error.value = null
-
-    try {
-      const path = `/src/modules/projects/content/${id}.${locale}.md`
-      const loader = modules[path]
-
-      if (!loader) {
-        throw new Error(`Markdown not found for: ${path}`)
-      }
-
-      const rawContent = await loader()
-      const parsed = parseMarkdown(rawContent)
-
-      const project = {
-        id,
-        ...parsed.attributes,
-        body: parsed.body,
-        html: parsed.html
-      }
-
-      projectCache.set(cacheKey, project)
-      return project
-    } catch (e) {
-      console.error(e)
-      error.value = e
-      return null
-    } finally {
-      isLoading.value = false
-    }
+    const project = toProject(id, locale)
+    error.value = project ? null : new Error(`Project not found: ${id}`)
+    return project
   }
 
   const loadAllProjects = async (locale = 'pt') => {
-    if (catalogCache.has(locale)) {
-      return catalogCache.get(locale)
-    }
-
-    isLoading.value = true
-    error.value = null
-
-    try {
-      const projectsList = []
-      const suffix = `.${locale}.md`
-
-      for (const [path, loader] of Object.entries(modules)) {
-        if (path.endsWith(suffix)) {
-          const rawContent = await loader()
-          const parsed = parseMarkdown(rawContent)
-          const fileName = path.split('/').pop().replace(suffix, '')
-          const id = parsed.attributes.id || fileName
-
-          projectsList.push({
-            id,
-            title: parsed.attributes.title || id,
-            summary: parsed.attributes.summary || '',
-            category: parsed.attributes.category || 'App',
-            techs: Array.isArray(parsed.attributes.techs) ? parsed.attributes.techs : [],
-            date: parsed.attributes.date || [],
-            image: parsed.attributes.image || '',
-            github: parsed.attributes.github || '',
-            live: parsed.attributes.live || '',
-            body: parsed.body,
-            html: parsed.html
-          })
-        }
-      }
-
-      catalogCache.set(locale, projectsList)
-      return projectsList
-    } catch (e) {
-      console.error(e)
-      error.value = e
-      return []
-    } finally {
-      isLoading.value = false
-    }
+    return content.ofType('project').map((node) => toProject(node.id, locale))
   }
 
   const getAdjacentProjects = async (currentId, locale = 'pt') => {
@@ -132,4 +90,3 @@ export function useProjects() {
     error
   }
 }
-

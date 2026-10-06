@@ -19,44 +19,6 @@
     "read_more": "Ler resumo completo",
     "read_less": "Recolher resumo",
     "authors_label": "Autores",
-    "institution_label": "Instituição",
-    "list": [
-      {
-        "id": 1,
-        "title": "Mapeamento Digital e Salvaguarda do Patrimônio Arqueológico",
-        "category": "Iniciação Científica & GIS",
-        "institution": "UFSM — Universidade Federal de Santa Maria",
-        "authors": "Vitor Mignoni, et al.",
-        "award": "1º Lugar — Apresentação Técnica",
-        "year": "2024",
-        "description": "Desenvolvimento de plataforma interativa para catalogação espacial de sítios históricos e patrimônio cultural com arquitetura distribuída e mapas interativos.",
-        "paper_url": "",
-        "tags": ["GIS", "PostGIS", "Leaflet", "Spatial Analysis", "Vue.js"]
-      },
-      {
-        "id": 2,
-        "title": "Otimização de Redes Neurais para Diagnóstico Foliar em Dispositivos Edge",
-        "category": "Inteligência Artificial & Agritech",
-        "institution": "UFSM — Núcleo de Computação Aplicada",
-        "authors": "Vitor Mignoni, et al.",
-        "award": "Menção Honrosa",
-        "year": "2024",
-        "description": "Quantização e compressão de modelos computacionais para inferência de pragas em plantações diretamente no smartphone do produtor rural sem necessidade de internet.",
-        "paper_url": "",
-        "tags": ["Edge Computing", "PyTorch", "Computer Vision", "Agritech", "Python"]
-      },
-      {
-        "id": 3,
-        "title": "Análise de Desempenho e Eficiência Energética em Microserviços Distribuídos",
-        "category": "Sistemas Distribuídos",
-        "institution": "UFSM — Depto. de Ciência da Computação",
-        "authors": "Vitor Mignoni, et al.",
-        "award": "",
-        "year": "2023",
-        "description": "Estudo comparativo de consumo de recursos e latência em arquiteturas conteinerizadas utilizando Docker, monitoramento Prometheus e traces OpenTelemetry.",
-        "paper_url": "",
-        "tags": ["Docker", "Prometheus", "Microservices", "Go", "Benchmarking"]
-      }
-    ]
+    "institution_label": "Instituição"
   }
 }

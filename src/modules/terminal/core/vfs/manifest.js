@@ -8,38 +8,39 @@ import {
   getContact
 } from './connectors.js'
 import {
-  loadProjectContent,
+  getProjectSlugs,
+  loadRawMarkdown,
   getProjectMetadataJson
 } from './projectsLoader.js'
-
-// Importação segura e em lote dos arquivos Markdown com ?raw
-const mdModules =
-  typeof import.meta.glob === 'function'
-    ? import.meta.glob('/src/modules/projects/content/*.md', {
-        query: '?raw',
-        import: 'default'
-      })
-    : {}
 
 /**
  * Carregador assíncrono de Markdown de projetos.
  *
  * @param {string} slug - Identificador do projeto (ex: plante, cemiterio, tera).
  * @param {string} [locale='pt'] - Código do idioma.
- * @returns {Promise<string|null>} Conteúdo em texto Markdown bruto.
+ * @returns {Promise<string|null>} Conteúdo em texto Markdown.
  */
-export async function loadProjectMarkdown(slug, locale = 'pt') {
-  const primaryKey = `/src/modules/projects/content/${slug}.${locale}.md`
-  if (mdModules[primaryKey]) {
-    return await mdModules[primaryKey]()
-  }
+export const loadProjectMarkdown = loadRawMarkdown
 
-  const fallbackKey = `/src/modules/projects/content/${slug}.pt.md`
-  if (mdModules[fallbackKey]) {
-    return await mdModules[fallbackKey]()
+/**
+ * Pasta de um projeto no VFS: README.md (artigo) e info.json (metadados).
+ */
+function projectDir(slug) {
+  return {
+    type: VfsNodeType.DIR,
+    children: {
+      'README.md': {
+        type: VfsNodeType.FILE,
+        mime: VfsMimeType.TEXT_MARKDOWN,
+        getContent: async (locale) => (await loadRawMarkdown(slug, locale)) || ''
+      },
+      'info.json': {
+        type: VfsNodeType.FILE,
+        mime: VfsMimeType.APPLICATION_JSON,
+        getContent: (locale) => getProjectMetadataJson(slug, locale)
+      }
+    }
   }
-
-  return null
 }
 
 /**
@@ -86,62 +87,7 @@ export function createVfsManifest(services = {}) {
       },
       projects: {
         type: VfsNodeType.DIR,
-        children: {
-          plante: {
-            type: VfsNodeType.DIR,
-            children: {
-              'README.md': {
-                type: VfsNodeType.FILE,
-                mime: VfsMimeType.TEXT_MARKDOWN,
-                getContent: async (locale) => {
-                  const proj = await loadProjectContent('plante', locale)
-                  return proj?.raw || ''
-                }
-              },
-              'info.json': {
-                type: VfsNodeType.FILE,
-                mime: VfsMimeType.APPLICATION_JSON,
-                getContent: (locale) => getProjectMetadataJson('plante', locale)
-              }
-            }
-          },
-          cemiterio: {
-            type: VfsNodeType.DIR,
-            children: {
-              'README.md': {
-                type: VfsNodeType.FILE,
-                mime: VfsMimeType.TEXT_MARKDOWN,
-                getContent: async (locale) => {
-                  const proj = await loadProjectContent('cemiterio', locale)
-                  return proj?.raw || ''
-                }
-              },
-              'info.json': {
-                type: VfsNodeType.FILE,
-                mime: VfsMimeType.APPLICATION_JSON,
-                getContent: (locale) => getProjectMetadataJson('cemiterio', locale)
-              }
-            }
-          },
-          tera: {
-            type: VfsNodeType.DIR,
-            children: {
-              'README.md': {
-                type: VfsNodeType.FILE,
-                mime: VfsMimeType.TEXT_MARKDOWN,
-                getContent: async (locale) => {
-                  const proj = await loadProjectContent('tera', locale)
-                  return proj?.raw || ''
-                }
-              },
-              'info.json': {
-                type: VfsNodeType.FILE,
-                mime: VfsMimeType.APPLICATION_JSON,
-                getContent: (locale) => getProjectMetadataJson('tera', locale)
-              }
-            }
-          }
-        }
+        children: Object.fromEntries(getProjectSlugs().map((slug) => [slug, projectDir(slug)]))
       },
       certifications: {
         type: VfsNodeType.DIR,

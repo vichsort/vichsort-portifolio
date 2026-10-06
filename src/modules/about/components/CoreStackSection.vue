@@ -1,53 +1,26 @@
 <script setup>
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useContent } from '@/core/content/useContent'
 import { useTheme } from '@/shared/composables/useTheme'
 import { Code2, Server, Terminal } from 'lucide-vue-next'
 
 const { t } = useI18n()
 const { isDark } = useTheme()
 
-const getAssetUrl = (name) => {
-  return new URL(`../../../assets/techs/${name}`, import.meta.url).href
-}
+const { collection, label, icon } = useContent()
 
-const stackGroups = [
-  {
-    id: 'frontend',
-    titleKey: 'about_page.s2_stack.frontend_label',
-    icon: Code2,
-    techs: [
-      { name: 'Vue.js', icon: 'vuedotjs.svg' },
-      { name: 'TypeScript', icon: 'typescript.svg' },
-      { name: 'Vite', icon: 'vite.svg' },
-      { name: 'Tailwind CSS', icon: 'tailwindcss.svg' },
-      { name: 'JavaScript', icon: 'javascript.svg' }
-    ]
-  },
-  {
-    id: 'backend',
-    titleKey: 'about_page.s2_stack.backend_label',
-    icon: Server,
-    techs: [
-      { name: 'Python', icon: 'python.svg' },
-      { name: 'Node.js', icon: 'nodedotjs.svg' },
-      { name: 'PostgreSQL', icon: 'postgresql.svg' },
-      { name: 'Docker', icon: 'docker.svg' },
-      { name: 'Redis', icon: 'redis.svg' }
-    ]
-  },
-  {
-    id: 'ecosystem',
-    titleKey: 'about_page.s2_stack.ecosystem_label',
-    icon: Terminal,
-    techs: [
-      { name: 'Linux Mint', icon: 'linuxmint.svg' },
-      { name: 'VS Code', icon: 'vscode.svg' },
-      { name: 'Git', icon: 'git.svg' },
-      { name: 'Railway', icon: 'railway.svg' },
-      { name: 'Nginx', icon: 'nginx.svg' }
-    ]
-  }
-]
+// Ícones Lucide aceitos no campo `lucide` dos grupos
+const GROUP_ICONS = { 'code-2': Code2, server: Server, terminal: Terminal }
+
+const stackGroups = computed(() =>
+  collection('about-stack').map(({ group, items }) => ({
+    id: group.id,
+    title: label(group.id),
+    icon: GROUP_ICONS[group.data.lucide] || Code2,
+    techs: items.map((tech) => ({ id: tech.id, name: label(tech.id), icon: icon(tech.id) }))
+  }))
+)
 </script>
 
 <template>
@@ -67,18 +40,18 @@ const stackGroups = [
           <div class="group-icon-wrapper">
             <component :is="group.icon" :size="20" />
           </div>
-          <h3 class="group-title">{{ t(group.titleKey) }}</h3>
+          <h3 class="group-title">{{ group.title }}</h3>
         </div>
 
         <div class="tech-items-row">
           <div
             v-for="tech in group.techs"
-            :key="tech.name"
+            :key="tech.id"
             class="tech-item"
           >
             <div class="icon-wrapper">
               <img
-                :src="getAssetUrl(tech.icon)"
+                :src="tech.icon"
                 :alt="tech.name"
                 loading="lazy"
                 class="tech-icon"

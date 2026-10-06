@@ -1,13 +1,25 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useContent } from '@/core/content/useContent'
 import { useCertificationsFilter } from '../composables/useCertificationsFilter'
 import BaseSearchInput from '@/shared/components/ui/BaseSearchInput.vue'
 import BaseSelect from '@/shared/components/ui/BaseSelect.vue'
 import { ArrowLeft, CheckCircle2, ExternalLink, Calendar, RotateCcw, Sparkles } from 'lucide-vue-next'
 
-const { t, tm, rt } = useI18n()
-const rawCertifications = computed(() => tm('certifications_page.list') || [])
+const { t } = useI18n()
+const { ofType, text, label, linked } = useContent()
+
+const rawCertifications = computed(() =>
+  ofType('certification', { recent: true }).map((node) => ({
+    id: node.id,
+    name: text(node.id).name,
+    issuer: node.data.issuer,
+    date: String(node.data.date),
+    credential_url: node.data.credential_url || '',
+    skills: [...linked(node.id, 'techs'), ...linked(node.id, 'topics')].map(label)
+  }))
+)
 
 const {
   searchQuery,
@@ -22,7 +34,7 @@ const {
   resultsCount,
   totalCount,
   clearFilters
-} = useCertificationsFilter(rawCertifications, rt)
+} = useCertificationsFilter(rawCertifications)
 </script>
 
 <template>
@@ -97,7 +109,7 @@ const {
       <div v-if="filteredCertifications.length > 0" class="certifications-grid">
         <article
           v-for="cert in filteredCertifications"
-          :key="rt(cert.id)"
+          :key="cert.id"
           class="cert-card surface-card"
         >
           <div class="cert-icon-wrapper">
@@ -106,29 +118,29 @@ const {
 
           <div class="cert-content">
             <div class="cert-meta">
-              <span class="issuer">{{ rt(cert.issuer) }}</span>
+              <span class="issuer">{{ cert.issuer }}</span>
               <span class="date">
                 <Calendar :size="12" />
-                {{ rt(cert.date) }}
+                {{ cert.date }}
               </span>
             </div>
 
-            <h2 class="cert-name">{{ rt(cert.name) }}</h2>
+            <h2 class="cert-name">{{ cert.name }}</h2>
 
             <!-- Skills Badges -->
             <div v-if="cert.skills && cert.skills.length > 0" class="skills-container">
               <span
                 v-for="skill in cert.skills"
-                :key="rt(skill)"
+                :key="skill"
                 class="badge"
               >
-                {{ rt(skill) }}
+                {{ skill }}
               </span>
             </div>
 
             <a
-              v-if="cert.credential_url && String(rt(cert.credential_url)).trim().length > 0"
-              :href="rt(cert.credential_url)"
+              v-if="cert.credential_url && cert.credential_url.trim().length > 0"
+              :href="cert.credential_url"
               target="_blank"
               rel="noopener noreferrer"
               class="credential-link"

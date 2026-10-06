@@ -1,12 +1,6 @@
 {
   "hero": {
-    "introduction": "Olá! Meu nome é",
-    "roles": {
-      "web_development": "Desenvolvimento Web,",
-      "app_development": "Desenvolvimento de Apps,",
-      "data_science": "Ciência de Dados,",
-      "software_architecture": "Arquitetura de software."
-    }
+    "introduction": "Olá! Meu nome é"
   },
   "about": {
     "slide1": "Sou um aprendiz ao longo da vida e solucionador de problemas, movido por uma paixão genuína pela tecnologia. Minha jornada começou em tenra idade, enquanto tentava moldar meu primeiro computador à minha imaginação crescente. Essas primeiras experiências marcaram o início de uma carreira dedicada à engenharia de software...",

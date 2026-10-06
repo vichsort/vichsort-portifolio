@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useContent } from '@/core/content/useContent'
 import { useTimeline } from '../composables/useTimeline'
 import { useSettings } from '@/shared/composables/useSettings'
 
@@ -13,10 +14,33 @@ import GallerySection from '../components/GallerySection.vue'
 
 import { ArrowLeft, FolderGit2, Mail, ArrowUpRight } from 'lucide-vue-next'
 
-const { t, tm, rt } = useI18n()
+const { t } = useI18n()
 const { reduceMotion } = useSettings()
+const { ofType, node, text, label, linked } = useContent()
 
-const rawEvents = computed(() => tm('about_page.s5_timeline.events') || [])
+// Rota de cada tipo que um evento pode citar em `link`
+const LINK_ROUTES = {
+  project: (id) => `/projects/${id}`,
+  research: () => '/researches',
+  certification: () => '/certifications'
+}
+
+const rawEvents = computed(() =>
+  ofType('timeline').map((event) => {
+    const target = event.links.link ? node(event.links.link) : null
+    const route = target && LINK_ROUTES[target.type]
+    return {
+      id: event.id,
+      year: String(event.data.date).slice(0, 4),
+      date: String(event.data.date),
+      type: event.data.kind,
+      ...text(event.id),
+      link_type: route ? target.type : '',
+      link_url: route ? route(target.id) : '',
+      tags: [...linked(event.id, 'techs'), ...linked(event.id, 'topics')].map(label)
+    }
+  })
+)
 
 const {
   sortOrder,
@@ -25,7 +49,7 @@ const {
   consolidatedEvents,
   toggleSortOrder,
   setCategory
-} = useTimeline(rawEvents, rt)
+} = useTimeline(rawEvents)
 </script>
 
 <template>

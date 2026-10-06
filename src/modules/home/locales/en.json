@@ -1,12 +1,6 @@
 {
   "hero": {
-    "introduction": "Hello! My name is",
-    "roles": {
-      "web_development": "Web development,",
-      "app_development": "App development,",
-      "data_science": "Data Science,",
-      "software_architecture": "Software architecture."
-    }
+    "introduction": "Hello! My name is"
   },
   "about": {
     "slide1": "I am a lifelong learner and problem solver, driven by a genuine passion for technology. My journey began at a young age, while attempting to bend my first computer to my ever-growing imagination. Those first experiments marked the beginning of a dedicated career in software engineering...",

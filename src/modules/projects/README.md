@@ -6,8 +6,8 @@ Módulo responsável pela listagem, filtragem, vitrine (*showcase*) e páginas d
 
 ## Arquitetura & Fonte Única da Verdade (SST)
 
-* **Single Source of Truth (SST)**: Toda a informação de um projeto reside exclusivamente nos arquivos Markdown com Frontmatter em `content/`.
-* **Zero Config para Novos Projetos**: Não é necessário registrar rotas manualmente ou editar arquivos JSON para adicionar projetos. O loader dinâmico (`useProjects.js`) escaneia `content/*.md` automaticamente via `import.meta.glob`.
+* **Single Source of Truth (SST)**: Os projetos são nós do grafo de conteúdo, em `src/content/projects/<id>/`. Formato, campos e ligações estão no [GRAPH.md](../../../GRAPH.md).
+* **Zero Config para Novos Projetos**: Não é necessário registrar rotas nem editar JSON. `useProjects.js` lê os projetos do grafo e os entrega às views no formato abaixo.
 * **Separação de Textos de UI**: Os arquivos `locales/*.json` contêm estritamente rótulos de interface (placeholders, títulos de seção, botões de ação e contadores).
 
 ---
@@ -21,11 +21,8 @@ src/modules/projects/
 │   ├── ProjectPagination.vue       # Navegação simétrica (← Anterior / Próximo →) para a página de detalhes
 │   └── ProjectShowcaseSection.vue  # Carrossel horizontal da Home page com suporte a drag scroll
 ├── composables/
-│   ├── useProjects.js              # Loader SST de Markdowns, cache em memória e formatador de datas
+│   ├── useProjects.js              # Projetos do grafo de conteúdo no formato das views + formatador de datas
 │   └── useProjectsFilter.js        # Lógica reativa de busca textual e multi-filtros (categoria, tech, ano)
-├── content/
-│   ├── <slug>.pt.md                # Conteúdo e metadados em Português
-│   └── <slug>.en.md                # Conteúdo e metadados em Inglês
 ├── locales/
 │   ├── pt.json                     # Textos de UI em Português
 │   └── en.json                     # Textos de UI em Inglês
@@ -38,65 +35,22 @@ src/modules/projects/
 
 ## Como Cadastrar um Novo Projeto
 
-Para adicionar um novo projeto ao portfólio, crie o par de arquivos Markdown em `content/`:
-1. `src/modules/projects/content/<id>.pt.md`
-2. `src/modules/projects/content/<id>.en.md`
+Crie a pasta `src/content/projects/<id>/` com:
+1. `<id>.md` — estrutura: `category`, `date`, `techs`, `topics`, `roles`, `github`, `live`
+2. `<id>.pt.md` e `<id>.en.md` — `title`, `summary` e o artigo completo no corpo
+3. `cover.jpg` (opcional) — imagem de capa
 
-### Template de Exemplo (`meu-projeto.pt.md`)
-
-```markdown
----
-id: meu-projeto
-title: Nome do Projeto em Destaque
-summary: Resumo curto e direto em Markdown com **destaques** para exibição no card.
-category: App
-techs: [Vue.js, Python, PostgreSQL, Docker]
-date: ["01/2024", "06/2024"]
-image: /images/meu-projeto-cover.jpg
-github: https://github.com/vitor/meu-projeto
-live: https://meu-projeto.com
----
-
-## Sobre o Projeto
-
-Descrição detalhada do projeto, desafios técnicos enfrentados e arquitetura da solução.
-
-### Principais Funcionalidades
-
-- **Funcionalidade 1**: Descrição breve.
-- **Funcionalidade 2**: Descrição breve.
-
-### Tecnologias e Ferramentas
-
-- **Frontend**: Vue 3, Vite, Pinia
-- **Backend**: Python, FastAPI
-```
-
----
-
-## Especificação do Schema Frontmatter
-
-| Campo | Tipo | Obrigatório | Descrição / Exemplo |
-| :--- | :--- | :---: | :--- |
-| `id` | `String` | **Sim** | Identificador único / slug da URL (ex: `plante`). Deve coincidir com o nome do arquivo (`plante.pt.md`). |
-| `title` | `String` | **Sim** | Nome completo do projeto (ex: `PlantE — Gestão Agrícola`). |
-| `summary` | `String` | **Sim** | Resumo curto para o card. Aceita Markdown inline (`**negrito**`, `*itálico*`). |
-| `category` | `String` | **Sim** | Categoria única para o badge de destaque e dropdown (ex: `App`, `CLI`, `Website`, `API`, `Library`). |
-| `techs` | `Array<String>` | **Sim** | Lista de tecnologias utilizadas (ex: `[Vue.js, Python, Flask, Redis]`). Alimentam o dropdown de tecnologias. |
-| `date` | `Array<String>` | **Sim** | Range no formato `["MM/AAAA", "MM/AAAA"]`. Ex: `["08/2024", "12/2024"]`. Extrai o ano automaticamente para o filtro. |
-| `image` | `String` | Não | Caminho público da imagem de capa (ex: `/images/cover.jpg`). Se vazio (`""`), usa gradiente de fallback. |
-| `github` | `String` | Não | URL do repositório no GitHub. Se vazio (`""`), o botão de código fonte é omitido automaticamente. |
-| `live` | `String` | Não | URL da aplicação online. Se vazio (`""`), o botão de Live Demo é omitido automaticamente. |
+O formato completo, com exemplo, está no [GRAPH.md](../../../GRAPH.md) (seções 4.5 e 5.3). Depois rode `npm run check:content` e `npm run content:index`.
 
 ---
 
 ## Composables e Funções Utilitárias
 
 ### 1. `useProjects()`
-* `loadAllProjects(locale = 'pt')`: Retorna array com todos os projetos do catálogo contendo metadados parseados e cache em memória.
+* `loadAllProjects(locale = 'pt')`: Retorna array com todos os projetos do grafo. `category` e `techs` vêm como nomes de exibição; os ids ficam em `categoryId` e `techIds`.
 * `loadProject(id, locale = 'pt')`: Retorna o projeto específico com HTML compilado em `.html`.
 * `getAdjacentProjects(currentId, locale = 'pt')`: Retorna `{ prev, next }` com os projetos vizinhos para paginação circular.
-* `formatDateRange(dateVal)`: Helper que formata `["08/2024", "12/2024"]` para `"08/2024 — 12/2024"`.
+* `formatDateRange(dateVal)`: Helper que formata `["2024-08", "2024-12"]` para `"08/2024 — 12/2024"`.
 
 ### 2. `useProjectsFilter(projectsRef)`
 * Gerencia o estado reativo de busca e filtros:
@@ -111,7 +65,7 @@ Descrição detalhada do projeto, desafios técnicos enfrentados e arquitetura d
 
 ## Boas Práticas & Dicas de Manutenção
 
-1. **Paridade de Idiomas**: Sempre crie ou edite simultaneamente o par `.pt.md` e `.en.md` para manter a paridade do catálogo.
-2. **Formato de Datas**: Mantenha estritamente o formato `["MM/AAAA", "MM/AAAA"]` com 2 dígitos para mês e 4 dígitos para ano, garantindo a extração de anos e ordenação do filtro.
+1. **Paridade de Idiomas**: O `npm run check:content` acusa campos obrigatórios ausentes e textos que existem num idioma e não no outro.
+2. **Formato de Datas**: `AAAA-MM` (ou só `AAAA`); a validação recusa outros formatos.
 3. **Links Ausentes**: Para projetos de código fechado ou sem demo ativa, mantenha `github: ""` ou `live: ""`. Não insira links fictícios (`#`).
 4. **Tipografia**: Os títulos de projetos utilizam a fonte **Montserrat** (`var(--font-body)`). A fonte arcade (`var(--font-heading)`) é reservada para títulos globais da aplicação.

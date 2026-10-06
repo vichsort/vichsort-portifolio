@@ -1,5 +1,7 @@
 import { renderBody } from './markdown.js'
 
+const startDate = (node) => String([node.data.date].flat()[0] ?? '')
+
 /**
  * Consultas sobre o grafo, com o idioma passado explicitamente.
  * O composable useContent envolve estas funções com o idioma ativo.
@@ -21,7 +23,16 @@ export function createQueries(graph) {
     return n.data.name || t.name || t.title || id
   }
 
-  const ofType = (type) => [...graph.nodes.values()].filter((n) => n.type === type)
+  /**
+   * Nós de um tipo, em ordem de id; com { recent: true }, do mais recente
+   * para o mais antigo pelo campo date (início do período), depois por id.
+   */
+  const ofType = (type, { recent = false } = {}) => {
+    const list = [...graph.nodes.values()].filter((n) => n.type === type)
+    list.sort((a, b) => a.id.localeCompare(b.id))
+    if (recent) list.sort((a, b) => startDate(b).localeCompare(startDate(a)))
+    return list
+  }
 
   /** Ids ligados por um campo (sempre lista, mesmo para ligação única). */
   const linked = (id, field) => {
@@ -98,5 +109,6 @@ export function createQueries(graph) {
     return htmlCache.get(key)
   }
 
-  return { node, text, label, ofType, linked, backlinks, related, collection, asset, icon, cover, html }
+  // resolve: id de um alvo de wikilink (id ou alias, sem diferenciar maiúsculas), ou null
+  return { resolve: graph.resolve, node, text, label, ofType, linked, backlinks, related, collection, asset, icon, cover, html }
 }

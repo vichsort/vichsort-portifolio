@@ -30,9 +30,10 @@ src/
 ├── App.vue                         # Shell principal da aplicação (Layout, Modais, RouterView)
 ├── main.js                         # Entry point e bootstrap dos plugins (Router, i18n, Tokens)
 │
+├── content/                        # Vault de conteúdo (um nó por pasta; ícones e capas junto)
+│
 ├── assets/                         # Assets estáticos binários
-│   ├── fonts/                      # Fontes locais (Arcade Gamer, Montserrat)
-│   └── techs/                      # SVGs monocromáticos do Simple Icons
+│   └── fonts/                      # Fontes locais (Arcade Gamer, Montserrat)
 │
 ├── core/                           # Camada de Infraestrutura & Fundamentos
 │   ├── i18n/                       # Configuração central do Vue-i18n
@@ -48,6 +49,7 @@ src/
 │   │   ├── reset.css               # CSS Reset e base
 │   │   ├── utilities.css           # .surface-card, .glass-panel, .badge, reduce-motion
 │   │   └── index.css               # Agregador de estilos
+│   ├── content/                    # Grafo de conteúdo: loader, validação, consultas (ver GRAPH.md)
 │   └── utils/                      # Utilitários puros
 │       └── markdown.js             # Singleton Markdown-it + parser Frontmatter
 │
@@ -106,22 +108,10 @@ src/
 O arquivo [`src/core/i18n/index.js`](file:///home/vitor/projects/vichsort-portifolio/src/core/i18n/index.js) utiliza `import.meta.glob` para escanear `src/core/i18n/locales/*.json` e todos os `src/modules/**/locales/*.json`.
 Em tempo de build e execução, ele executa um algoritmo recursivo de *Deep Merge*, agrupando automaticamente todas as chaves nos namespaces de idioma (`pt` e `en`).
 
-### B. Gestão de Conteúdo de Projetos (Markdown + Frontmatter)
-Os projetos residem em `src/modules/projects/content/*.md`. Cada arquivo possui cabeçalho YAML Front-matter:
-```markdown
----
-id: plante
-title: PlantE — Gestão Agrícola Inteligente
-date: Dezembro, 2024
-tags: [App, Vue, API, Gemini AI]
-image: /images/plante-cover.jpg
-github: https://github.com/vitor/plante
-live: https://plante.app
-summary: Um ecossistema completo para monitoramento com IA.
----
-## Conteúdo em Markdown...
-```
-O composable [`useProjects.js`](file:///home/vitor/projects/vichsort-portifolio/src/modules/projects/composables/useProjects.js) processa os metadados através do utilitário [`src/core/utils/markdown.js`](file:///home/vitor/projects/vichsort-portifolio/src/core/utils/markdown.js), armazenando o resultado em um cache em memória (`Map`) para navegações instantâneas.
+### B. Grafo de Conteúdo (`src/content/`)
+Projetos, certificações, pesquisas, timeline, techs, tópicos, cargos do hero e stacks vivem em `src/content/`, um nó por pasta, num formato compatível com o Obsidian (frontmatter YAML + wikilinks). O núcleo em [`src/core/content/`](src/core/content/) monta o grafo com backlinks, e as views leem dele via `useContent()`.
+
+Formato, regras e API completos em [GRAPH.md](GRAPH.md). Validação: `npm run check:content`.
 
 ### C. Gestão de Estado & Acessibilidade
 - O tema é persistido e sincronizado reativamente via `@vueuse/core` (`useColorMode`), injetando `data-theme="dark"` ou `data-theme="light"` na raiz `<html>`.

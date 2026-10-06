@@ -1,14 +1,31 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useContent } from '@/core/content/useContent'
 import { useResearchesFilter } from '../composables/useResearchesFilter'
 import ResearchCard from '../components/ResearchCard.vue'
 import BaseSearchInput from '@/shared/components/ui/BaseSearchInput.vue'
 import BaseSelect from '@/shared/components/ui/BaseSelect.vue'
 import { ArrowLeft, RotateCcw, Sparkles } from 'lucide-vue-next'
 
-const { t, tm, rt } = useI18n()
-const rawResearches = computed(() => tm('researches_page.list') || [])
+const { t } = useI18n()
+const { ofType, text, label, linked } = useContent()
+
+const rawResearches = computed(() =>
+  ofType('research', { recent: true }).map((node) => {
+    const topics = linked(node.id, 'topics')
+    return {
+      id: node.id,
+      ...text(node.id),
+      // O primeiro tópico faz o papel da antiga categoria da pesquisa
+      category: topics.length ? label(topics[0]) : '',
+      authors: node.data.authors || '',
+      year: String(node.data.date),
+      paper_url: node.data.paper_url || '',
+      tags: [...linked(node.id, 'techs'), ...topics].map(label)
+    }
+  })
+)
 
 const {
   searchQuery,
@@ -23,7 +40,7 @@ const {
   resultsCount,
   totalCount,
   clearFilters
-} = useResearchesFilter(rawResearches, rt)
+} = useResearchesFilter(rawResearches)
 
 const handleSelectCategory = (category) => {
   selectedCategory.value = category
@@ -106,7 +123,7 @@ const handleSelectTag = (tag) => {
       <div v-if="filteredResearches.length > 0" class="researches-list">
         <ResearchCard
           v-for="item in filteredResearches"
-          :key="rt(item.id)"
+          :key="item.id"
           :research="item"
           @select-tag="handleSelectTag"
           @select-category="handleSelectCategory"

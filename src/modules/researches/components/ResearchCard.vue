@@ -12,17 +12,9 @@ const props = defineProps({
 
 const emit = defineEmits(['selectTag', 'selectCategory'])
 
-const { t, rt } = useI18n()
+const { t } = useI18n()
 
-const resolve = (val) => {
-  if (val === undefined || val === null) return ''
-  try {
-    const res = rt(val)
-    return res !== undefined && res !== null ? String(res).trim() : ''
-  } catch {
-    return String(val).trim()
-  }
-}
+const resolve = (val) => (val === undefined || val === null ? '' : String(val).trim())
 
 const title = computed(() => resolve(props.research.title))
 const category = computed(() => resolve(props.research.category))

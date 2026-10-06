@@ -1,100 +1,67 @@
-import { parseMarkdown } from '../../../../core/utils/markdown.js'
+import { content } from '../../../../core/content/index.js'
+import { replaceBodyLinks } from '../../../../core/content/links.js'
 
-// Importação estática em lote via Vite com query ?raw
-const mdModules =
-  typeof import.meta.glob === 'function'
-    ? import.meta.glob('/src/modules/projects/content/*.md', {
-        query: '?raw',
-        import: 'default'
-      })
-    : {}
-
-// Leitor fallback para execução em ambiente Node puro
-let nodeFileReader = null
-if (typeof process !== 'undefined' && process?.versions?.node) {
-  try {
-    const fsMod = 'node:fs/promises'
-    const pathMod = 'node:path'
-    const fs = await import(/* @vite-ignore */ fsMod)
-    const path = await import(/* @vite-ignore */ pathMod)
-    nodeFileReader = async (slug, loc) => {
-      try {
-        const filePath = path.resolve(process.cwd(), `src/modules/projects/content/${slug}.${loc}.md`)
-        return await fs.readFile(filePath, 'utf-8')
-      } catch {
-        const fallbackPath = path.resolve(process.cwd(), `src/modules/projects/content/${slug}.pt.md`)
-        try {
-          return await fs.readFile(fallbackPath, 'utf-8')
-        } catch {
-          return null
-        }
-      }
-    }
-  } catch {
-    // Ambiente sem acesso a fs
-  }
-}
-
-const projectCache = new Map()
+const normalizeLocale = (locale) => (locale === 'en' ? 'en' : 'pt')
 
 /**
- * Carrega a string Markdown bruta de um projeto no idioma selecionado.
+ * Lista os ids dos projetos do grafo de conteúdo.
  *
- * @param {string} slug - Identificador do projeto (ex: plante, cemiterio, tera).
+ * @returns {string[]}
+ */
+export function getProjectSlugs() {
+  return content.ofType('project').map((node) => node.id)
+}
+
+/**
+ * Monta o Markdown do projeto para o terminal: título, resumo e corpo,
+ * com wikilinks trocados pelo nome do nó.
+ *
+ * @param {string} slug - Identificador do projeto.
  * @param {string} [locale='pt'] - Idioma solicitado ('pt' ou 'en').
  * @returns {Promise<string|null>}
  */
 export async function loadRawMarkdown(slug, locale = 'pt') {
-  const loc = locale === 'en' ? 'en' : 'pt'
-  const primaryKey = `/src/modules/projects/content/${slug}.${loc}.md`
-
-  if (mdModules[primaryKey]) {
-    return await mdModules[primaryKey]()
-  }
-
-  const fallbackKey = `/src/modules/projects/content/${slug}.pt.md`
-  if (mdModules[fallbackKey]) {
-    return await mdModules[fallbackKey]()
-  }
-
-  if (nodeFileReader) {
-    return await nodeFileReader(slug, loc)
-  }
-
-  return null
+  const project = await loadProjectContent(slug, locale)
+  return project ? project.raw : null
 }
 
 /**
- * Carrega e faz o parse do projeto extraindo frontmatter e corpo em Markdown.
+ * Carrega o projeto do grafo de conteúdo.
  *
  * @param {string} slug - Identificador do projeto.
  * @param {string} [locale='pt'] - Idioma.
  * @returns {Promise<{ id: string, attributes: Object, body: string, html: string, raw: string }|null>}
  */
 export async function loadProjectContent(slug, locale = 'pt') {
-  const loc = locale === 'en' ? 'en' : 'pt'
-  const cacheKey = `${slug}:${loc}`
+  const loc = normalizeLocale(locale)
+  const node = content.node(slug)
+  if (!node || node.type !== 'project') return null
 
-  if (projectCache.has(cacheKey)) {
-    return projectCache.get(cacheKey)
+  const text = content.text(slug, loc)
+  const label = (target) => {
+    const id = content.resolve(target)
+    return id ? content.label(id, loc) : target
+  }
+  const body = replaceBodyLinks(text.body, (target, alias, embed) => (embed ? '' : alias || label(target)))
+
+  const attributes = {
+    title: text.title || slug,
+    category: node.links.category ? content.label(node.links.category, loc) : '',
+    techs: content.linked(slug, 'techs').map((id) => content.label(id, loc)),
+    date: node.data.date || [],
+    image: content.cover(slug),
+    github: node.data.github || '',
+    live: node.data.live || '',
+    summary: text.summary || ''
   }
 
-  const raw = await loadRawMarkdown(slug, loc)
-  if (!raw) {
-    return null
-  }
-
-  const parsed = parseMarkdown(raw)
-  const result = {
+  return {
     id: slug,
-    attributes: parsed.attributes || {},
-    body: parsed.body || '',
-    html: parsed.html || '',
-    raw
+    attributes,
+    body,
+    html: content.html(slug, loc),
+    raw: [`# ${attributes.title}`, attributes.summary ? `> ${attributes.summary}` : '', body.trim()].filter(Boolean).join('\n\n')
   }
-
-  projectCache.set(cacheKey, result)
-  return result
 }
 
 /**
@@ -111,20 +78,7 @@ export async function getProjectMetadataJson(slug, locale = 'pt') {
     return JSON.stringify({ error: `Projeto '${slug}' não encontrado.` }, null, 2)
   }
 
-  const { attributes } = project
-  const meta = {
-    id: slug,
-    title: attributes.title || slug,
-    category: attributes.category || 'App',
-    techs: Array.isArray(attributes.techs) ? attributes.techs : [],
-    date: attributes.date || [],
-    image: attributes.image || '',
-    github: attributes.github || '',
-    live: attributes.live || '',
-    summary: attributes.summary || ''
-  }
-
-  return JSON.stringify(meta, null, 2)
+  return JSON.stringify({ id: slug, ...project.attributes }, null, 2)
 }
 
 /**
@@ -134,10 +88,9 @@ export async function getProjectMetadataJson(slug, locale = 'pt') {
  * @returns {Promise<Array<Object>>}
  */
 export async function getAllProjects(locale = 'pt') {
-  const slugs = ['plante', 'cemiterio', 'tera']
   const projects = []
 
-  for (const slug of slugs) {
+  for (const slug of getProjectSlugs()) {
     const data = await loadProjectContent(slug, locale)
     if (data) {
       projects.push({
@@ -153,6 +106,7 @@ export async function getAllProjects(locale = 'pt') {
 }
 
 export default {
+  getProjectSlugs,
   loadRawMarkdown,
   loadProjectContent,
   getProjectMetadataJson,

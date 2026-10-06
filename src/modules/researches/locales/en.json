@@ -19,44 +19,6 @@
     "read_more": "Read full abstract",
     "read_less": "Collapse abstract",
     "authors_label": "Authors",
-    "institution_label": "Institution",
-    "list": [
-      {
-        "id": 1,
-        "title": "Digital Mapping and Safeguarding of Archaeological Heritage",
-        "category": "Scientific Research & GIS",
-        "institution": "UFSM — Federal University of Santa Maria",
-        "authors": "Vitor Mignoni, et al.",
-        "award": "1st Place — Technical Presentation",
-        "year": "2024",
-        "description": "Development of an interactive spatial cataloging platform for historical sites with distributed architecture and dynamic maps.",
-        "paper_url": "",
-        "tags": ["GIS", "PostGIS", "Leaflet", "Spatial Analysis", "Vue.js"]
-      },
-      {
-        "id": 2,
-        "title": "Neural Network Optimization for Crop Diagnostics on Edge Devices",
-        "category": "Artificial Intelligence & Agritech",
-        "institution": "UFSM — Applied Computing Lab",
-        "authors": "Vitor Mignoni, et al.",
-        "award": "Honorable Mention",
-        "year": "2024",
-        "description": "Quantization and compression of neural models for on-device agricultural pest inference directly on mobile hardware without active internet connection.",
-        "paper_url": "",
-        "tags": ["Edge Computing", "PyTorch", "Computer Vision", "Agritech", "Python"]
-      },
-      {
-        "id": 3,
-        "title": "Performance and Energy Efficiency Analysis in Distributed Microservices",
-        "category": "Distributed Systems",
-        "institution": "UFSM — Computer Science Dept.",
-        "authors": "Vitor Mignoni, et al.",
-        "award": "",
-        "year": "2023",
-        "description": "Comparative evaluation of resource consumption and latency in containerized architectures using Docker, Prometheus telemetry and distributed tracing.",
-        "paper_url": "",
-        "tags": ["Docker", "Prometheus", "Microservices", "Go", "Benchmarking"]
-      }
-    ]
+    "institution_label": "Institution"
   }
 }

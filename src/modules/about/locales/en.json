@@ -12,10 +12,7 @@
     },
     "s2_stack": {
       "title": "Core Stack & Environment",
-      "subtitle": "The primary technologies and tools I rely on daily to build reliable software products.",
-      "frontend_label": "Frontend Core",
-      "backend_label": "Backend & Data",
-      "ecosystem_label": "Environment & Workflow"
+      "subtitle": "The primary technologies and tools I rely on daily to build reliable software products."
     },
     "s3_readme": {
       "left_title": "Stepping outside the ordinary...",
@@ -53,81 +50,7 @@
       "category_research": "Research & Academia",
       "category_education": "Education & Core",
       "view_project": "View Project",
-      "view_research": "View Research",
-      "events": [
-        {
-          "id": "event-1",
-          "year": "2021",
-          "date": "2021",
-          "type": "education",
-          "title": "Admitted to Computer Science — UFSM",
-          "organization": "Federal University of Santa Maria",
-          "description": "Started the Computer Science BSc degree. Established solid foundations in algorithms, data structures, discrete mathematics, and computer architecture.",
-          "tags": ["C", "Algorithms", "Data Structures", "Linux"],
-          "link_type": "",
-          "link_url": ""
-        },
-        {
-          "id": "event-2",
-          "year": "2022",
-          "date": "2022",
-          "type": "research",
-          "title": "Undergraduate Researcher in GIS & Spatial Data",
-          "organization": "Applied Computing Lab — UFSM",
-          "description": "Researched and engineered interactive platforms for spatial cataloging and historical site analysis using spatial relational databases.",
-          "tags": ["PostGIS", "Python", "QGIS", "Leaflet", "Research"],
-          "link_type": "research",
-          "link_url": "/researches"
-        },
-        {
-          "id": "event-3",
-          "year": "2023",
-          "date": "2023",
-          "type": "work",
-          "title": "Fullstack Software Developer",
-          "organization": "Commercial Projects & Web Solutions",
-          "description": "Built end-to-end web applications, PostgreSQL database modeling, and reactive single-page applications with Vue.js.",
-          "tags": ["Vue.js", "Python", "FastAPI", "PostgreSQL", "Docker"],
-          "link_type": "",
-          "link_url": ""
-        },
-        {
-          "id": "event-4",
-          "year": "2024",
-          "date": "2024",
-          "type": "research",
-          "title": "1st Place Technical Presentation & Edge AI",
-          "organization": "Technical Symposium / UFSM",
-          "description": "Awarded top technical prize for digital heritage platform and conducted research on quantized neural models for on-device plant pathology.",
-          "tags": ["Edge AI", "PyTorch", "Computer Vision", "1st Place"],
-          "link_type": "research",
-          "link_url": "/researches"
-        },
-        {
-          "id": "event-5",
-          "year": "2024",
-          "date": "2024",
-          "type": "project",
-          "title": "Launched PlantE — Smart Agritech",
-          "organization": "Personal Project",
-          "description": "Engineered an AI-assisted ecosystem for crop management, offline leaf disease diagnostics, and automated reporting.",
-          "tags": ["Vue 3", "Python", "Gemini AI", "Mobile", "Agritech"],
-          "link_type": "project",
-          "link_url": "/projects/plante"
-        },
-        {
-          "id": "event-6",
-          "year": "2026",
-          "date": "2026",
-          "type": "work",
-          "title": "Platform Engineering & Modular Architecture",
-          "organization": "Fullstack & Systems Engineering",
-          "description": "Architecting resilient, modular applications with domain-driven design, modern design tokens, and end-to-end observability.",
-          "tags": ["Vue 3", "Node.js", "PostgreSQL", "Docker", "Domain-Driven"],
-          "link_type": "",
-          "link_url": ""
-        }
-      ]
+      "view_research": "View Research"
     },
     "s6_gallery": {
       "title": "Field Work & Highlights",

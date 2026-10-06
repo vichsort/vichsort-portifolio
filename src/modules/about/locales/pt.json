@@ -12,10 +12,7 @@
     },
     "s2_stack": {
       "title": "Core Stack & Ambiente",
-      "subtitle": "As principais tecnologias e ferramentas que utilizo no dia a dia para construir produtos confiáveis.",
-      "frontend_label": "Frontend Core",
-      "backend_label": "Backend & Dados",
-      "ecosystem_label": "Ambiente & Workflow"
+      "subtitle": "As principais tecnologias e ferramentas que utilizo no dia a dia para construir produtos confiáveis."
     },
     "s3_readme": {
       "left_title": "Pra fugir um pouco do convencional...",
@@ -53,81 +50,7 @@
       "category_research": "Pesquisa & Academia",
       "category_education": "Formação & Base",
       "view_project": "Ver Projeto",
-      "view_research": "Ver Pesquisa",
-      "events": [
-        {
-          "id": "event-1",
-          "year": "2021",
-          "date": "2021",
-          "type": "education",
-          "title": "Ingresso na Ciência da Computação — UFSM",
-          "organization": "Universidade Federal de Santa Maria",
-          "description": "Início da graduação em Ciência da Computação. Base sólida em algoritmos, estruturas de dados, lógica matemática e arquitetura de computadores.",
-          "tags": ["C", "Algoritmos", "Estruturas de Dados", "Linux"],
-          "link_type": "",
-          "link_url": ""
-        },
-        {
-          "id": "event-2",
-          "year": "2022",
-          "date": "2022",
-          "type": "research",
-          "title": "Bolsista de Pesquisa em GIS & Dados Espaciais",
-          "organization": "Laboratório de Computação Aplicada — UFSM",
-          "description": "Pesquisa e desenvolvimento de plataformas interativas para catalogação e análise espacial de sítios históricos com bancos geográficos.",
-          "tags": ["PostGIS", "Python", "QGIS", "Leaflet", "Pesquisa"],
-          "link_type": "research",
-          "link_url": "/researches"
-        },
-        {
-          "id": "event-3",
-          "year": "2023",
-          "date": "2023",
-          "type": "work",
-          "title": "Desenvolvedor de Software Fullstack",
-          "organization": "Projetos Comerciais & Soluções Web",
-          "description": "Atuação no desenvolvimento de sistemas web empresariais de ponta a ponta, modelagem de banco de dados PostgreSQL e SPAs reativas com Vue.js.",
-          "tags": ["Vue.js", "Python", "FastAPI", "PostgreSQL", "Docker"],
-          "link_type": "",
-          "link_url": ""
-        },
-        {
-          "id": "event-4",
-          "year": "2024",
-          "date": "2024",
-          "type": "research",
-          "title": "1º Lugar Técnico & Pesquisa em Edge AI",
-          "organization": "Simpósio Técnico / UFSM",
-          "description": "Premiação técnica em salvaguarda patrimonial e desenvolvimento de modelos neurais quantizados para diagnóstico foliar em dispositivos edge.",
-          "tags": ["Edge AI", "PyTorch", "Computer Vision", "1º Lugar"],
-          "link_type": "research",
-          "link_url": "/researches"
-        },
-        {
-          "id": "event-5",
-          "year": "2024",
-          "date": "2024",
-          "type": "project",
-          "title": "Lançamento do PlantE — Gestão Agrícola",
-          "organization": "Projeto Autoral",
-          "description": "Construção de um ecossistema com IA embarcada para monitoramento de safras, diagnóstico foliar offline e relatórios automatizados.",
-          "tags": ["Vue 3", "Python", "Gemini AI", "Mobile", "Agritech"],
-          "link_type": "project",
-          "link_url": "/projects/plante"
-        },
-        {
-          "id": "event-6",
-          "year": "2026",
-          "date": "2026",
-          "type": "work",
-          "title": "Engenharia de Plataforma & Arquitetura Modular",
-          "organization": "Atuação Fullstack & Sistemas",
-          "description": "Desenvolvimento de sistemas escaláveis com separação rigorosa de domínios, design systems modernos e observabilidade ponta a ponta.",
-          "tags": ["Vue 3", "Node.js", "PostgreSQL", "Docker", "Domain-Driven"],
-          "link_type": "",
-          "link_url": ""
-        }
-      ]
+      "view_research": "Ver Pesquisa"
     },
     "s6_gallery": {
       "title": "Registros & Em Campo",

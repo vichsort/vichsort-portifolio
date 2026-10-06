@@ -1,4 +1,5 @@
 import { EMAIL, SOCIALS } from '../../../../core/config/profile.js'
+import { content } from '../../../../core/content/index.js'
 
 let i18nInstance = null
 
@@ -26,6 +27,13 @@ function getMessages(locale = 'pt') {
     return i18nInstance.global.messages[loc] || i18nInstance.global.messages.pt
   }
   return null
+}
+
+// Nomes das techs e tópicos ligados a um nó, separados por vírgula
+function linkedLabels(id, locale) {
+  return [...content.linked(id, 'techs'), ...content.linked(id, 'topics')]
+    .map((target) => content.label(target, locale))
+    .join(', ')
 }
 
 /**
@@ -79,86 +87,44 @@ export function getAboutProfile(locale = 'pt') {
 
 /**
  * Conector: Matriz de Tecnologias e Ferramentas (about/stack.txt)
+ * Lê a coleção about-stack do grafo de conteúdo.
  */
 export function getAboutStack(locale = 'pt') {
   const isEn = locale === 'en'
-
-  return [
+  const lines = [
     '================================================================================',
     isEn ? 'CORE STACK & TECHNICAL ENVIRONMENT' : 'CORE STACK & AMBIENTE TÉCNICO',
-    '================================================================================',
-    `[${isEn ? 'Frontend Core' : 'Frontend Core'}]`,
-    '  • Vue.js (Vue 3, Composition API, Pinia, Vue Router)',
-    '  • TypeScript & JavaScript (ESNext)',
-    '  • Vite & Module Federation',
-    '  • Tailwind CSS & CSS Custom Properties (Tokens-First)',
-    '',
-    `[${isEn ? 'Backend & Data' : 'Backend & Dados'}]`,
-    '  • Python (FastAPI, PyTorch, Edge AI)',
-    '  • Node.js (Express, NestJS, REST APIs)',
-    '  • PostgreSQL & PostGIS (Database Modeling & Spatial Analysis)',
-    '  • Docker & Containerization',
-    '  • Redis (Caching & Sessions)',
-    '',
-    `[${isEn ? 'Workflow & Environment' : 'Ambiente & Workflow'}]`,
-    '  • Linux Mint / Debian (Bash, CLI Tools)',
-    '  • VS Code & Neovim',
-    '  • Git & GitHub Actions (CI/CD Pipelines)',
-    '  • Nginx & Reverse Proxies',
-    '  • Railway & Cloud Deployment',
     '================================================================================'
-  ].join('\n')
+  ]
+
+  content.collection('about-stack').forEach(({ group, items }, i) => {
+    if (i > 0) lines.push('')
+    if (group) lines.push(`[${content.label(group.id, locale)}]`)
+    for (const tech of items) lines.push(`  • ${content.label(tech.id, locale)}`)
+  })
+
+  lines.push('================================================================================')
+  return lines.join('\n')
 }
 
 /**
  * Conector: Linha do Tempo e Trajetória (about/timeline.txt)
  */
 export function getAboutTimeline(locale = 'pt') {
-  const msgs = getMessages(locale)
   const isEn = locale === 'en'
-  const events = msgs?.about_page?.s5_timeline?.events || [
-    {
-      year: '2021',
-      title: isEn ? 'Enrolled in Computer Science — UFSM' : 'Ingresso na Ciência da Computação — UFSM',
-      organization: 'Universidade Federal de Santa Maria',
-      tags: ['C', 'Algoritmos', 'Linux']
-    },
-    {
-      year: '2022',
-      title: isEn ? 'Research Fellow in GIS & Spatial Data' : 'Bolsista de Pesquisa em GIS & Dados Espaciais',
-      organization: 'Laboratório de Computação Aplicada — UFSM',
-      tags: ['PostGIS', 'Python', 'QGIS']
-    },
-    {
-      year: '2023',
-      title: isEn ? 'Fullstack Software Developer' : 'Desenvolvedor de Software Fullstack',
-      organization: 'Projetos Comerciais & Soluções Web',
-      tags: ['Vue.js', 'Python', 'PostgreSQL', 'Docker']
-    },
-    {
-      year: '2024',
-      title: isEn ? '1st Place Technical Award & Edge AI Research' : '1º Lugar Técnico & Pesquisa em Edge AI',
-      organization: 'Simpósio Técnico / UFSM',
-      tags: ['Edge AI', 'PyTorch', 'IoT']
-    }
-  ]
-
   const lines = [
     '================================================================================',
     isEn ? 'TIMELINE & PROFESSIONAL JOURNEY' : 'LINHA DO TEMPO & TRAJETÓRIA CONSOLIDADA',
     '================================================================================'
   ]
 
-  for (const ev of events) {
-    const year = ev.year || ev.date || ''
-    const title = ev.title || ''
-    const org = ev.organization || ''
-    const desc = ev.description || ''
-    const tags = Array.isArray(ev.tags) ? ev.tags.join(', ') : ''
+  for (const event of content.ofType('timeline')) {
+    const text = content.text(event.id, locale)
+    const tags = linkedLabels(event.id, locale)
 
-    lines.push(`[${year}] ${title}`)
-    if (org) lines.push(`       ${org}`)
-    if (desc) lines.push(`       ${desc}`)
+    lines.push(`[${event.data.date}] ${text.title || event.id}`)
+    if (text.organization) lines.push(`       ${text.organization}`)
+    if (text.description) lines.push(`       ${text.description}`)
     if (tags) lines.push(`       Tags: ${tags}`)
     lines.push('')
   }
@@ -171,47 +137,20 @@ export function getAboutTimeline(locale = 'pt') {
  * Conector: Lista de Certificações (certifications/list.txt)
  */
 export function getCertificationsList(locale = 'pt') {
-  const msgs = getMessages(locale)
   const isEn = locale === 'en'
-  const certs = msgs?.certifications_page?.list || [
-    {
-      name: 'AWS Certified Cloud Practitioner',
-      issuer: 'Amazon Web Services',
-      date: '2024',
-      skills: ['AWS', 'Cloud Computing', 'IAM', 'Serverless'],
-      credential_url: 'https://aws.amazon.com'
-    },
-    {
-      name: 'Vue.js & Modern Frontend Architecture',
-      issuer: 'Vue Mastery / Certification',
-      date: '2024',
-      skills: ['Vue.js', 'Vite', 'Pinia', 'Frontend Architecture'],
-      credential_url: ''
-    },
-    {
-      name: 'PostgreSQL High Performance & Modeling',
-      issuer: 'Database Institute',
-      date: '2023',
-      skills: ['PostgreSQL', 'Query Optimization', 'Database Modeling'],
-      credential_url: ''
-    }
-  ]
-
   const lines = [
     '================================================================================',
     isEn ? 'CERTIFICATIONS & CREDENTIALS' : 'CERTIFICAÇÕES & CREDENCIAIS TÉCNICAS',
     '================================================================================'
   ]
 
-  for (const cert of certs) {
-    const name = cert.name || ''
-    const issuer = cert.issuer || ''
-    const date = cert.date || ''
-    const skills = Array.isArray(cert.skills) ? cert.skills.join(', ') : ''
-    const url = cert.credential_url || ''
+  for (const cert of content.ofType('certification', { recent: true })) {
+    const name = content.text(cert.id, locale).name || cert.id
+    const skills = linkedLabels(cert.id, locale)
+    const url = cert.data.credential_url || ''
 
-    lines.push(`• ${name} (${date})`)
-    lines.push(`  ${isEn ? 'Issuer' : 'Emissor'}:     ${issuer}`)
+    lines.push(`• ${name} (${cert.data.date})`)
+    lines.push(`  ${isEn ? 'Issuer' : 'Emissor'}:     ${cert.data.issuer}`)
     if (skills) lines.push(`  ${isEn ? 'Skills' : 'Habilidades'}: ${skills}`)
     if (url) lines.push(`  ${isEn ? 'Credential' : 'Credencial'}: ${url}`)
     lines.push('')
@@ -225,62 +164,24 @@ export function getCertificationsList(locale = 'pt') {
  * Conector: Lista de Pesquisas e Artigos (researches/list.txt)
  */
 export function getResearchesList(locale = 'pt') {
-  const msgs = getMessages(locale)
   const isEn = locale === 'en'
-  const researches = msgs?.researches_page?.list || [
-    {
-      year: '2024',
-      title: 'Mapeamento Digital e Salvaguarda do Patrimônio Arqueológico',
-      category: 'Iniciação Científica & GIS',
-      institution: 'UFSM — Universidade Federal de Santa Maria',
-      authors: 'Vitor Mignoni, et al.',
-      award: '1º Lugar — Apresentação Técnica',
-      description: 'Desenvolvimento de plataforma interativa para catalogação espacial de sítios históricos e patrimônio cultural.',
-      tags: ['GIS', 'PostGIS', 'Spatial Analysis', 'Vue.js']
-    },
-    {
-      year: '2024',
-      title: 'Otimização de Redes Neurais para Diagnóstico Foliar em Dispositivos Edge',
-      category: 'Inteligência Artificial & Agritech',
-      institution: 'UFSM — Núcleo de Computação Aplicada',
-      authors: 'Vitor Mignoni, et al.',
-      award: 'Menção Honrosa',
-      description: 'Quantização e compressão de modelos computacionais para inferência de pragas em plantações diretamente no smartphone.',
-      tags: ['Edge Computing', 'PyTorch', 'Computer Vision', 'Agritech']
-    },
-    {
-      year: '2023',
-      title: 'Análise de Desempenho e Eficiência Energética em Microserviços Distribuídos',
-      category: 'Sistemas Distribuídos',
-      institution: 'UFSM — Depto. de Ciência da Computação',
-      authors: 'Vitor Mignoni, et al.',
-      description: 'Estudo comparativo de consumo de recursos e latência em arquiteturas conteinerizadas utilizando Docker e Prometheus.',
-      tags: ['Docker', 'Prometheus', 'Microservices', 'Go']
-    }
-  ]
-
   const lines = [
     '================================================================================',
     isEn ? 'RESEARCH PAPERS & SCIENTIFIC AWARDS' : 'PESQUISAS ACADÊMICAS & PREMIAÇÕES',
     '================================================================================'
   ]
 
-  for (const r of researches) {
-    const year = r.year || ''
-    const title = r.title || ''
-    const category = r.category || ''
-    const inst = r.institution || ''
-    const authors = r.authors || ''
-    const award = r.award || ''
-    const desc = r.description || ''
-    const tags = Array.isArray(r.tags) ? r.tags.join(', ') : ''
+  for (const r of content.ofType('research', { recent: true })) {
+    const text = content.text(r.id, locale)
+    const topics = content.linked(r.id, 'topics').map((id) => content.label(id, locale)).join(', ')
+    const tags = linkedLabels(r.id, locale)
 
-    lines.push(`[${year}] ${title}`)
-    lines.push(`  ${isEn ? 'Category' : 'Categoria'}:    ${category}`)
-    lines.push(`  ${isEn ? 'Institution' : 'Instituição'}:  ${inst}`)
-    lines.push(`  ${isEn ? 'Authors' : 'Autores'}:      ${authors}`)
-    if (award) lines.push(`  🏆 ${isEn ? 'Award' : 'Premiação'}:    ${award}`)
-    if (desc) lines.push(`  ${isEn ? 'Summary' : 'Resumo'}:       ${desc}`)
+    lines.push(`[${r.data.date}] ${text.title || r.id}`)
+    if (topics) lines.push(`  ${isEn ? 'Topics' : 'Tópicos'}:      ${topics}`)
+    if (text.institution) lines.push(`  ${isEn ? 'Institution' : 'Instituição'}:  ${text.institution}`)
+    if (r.data.authors) lines.push(`  ${isEn ? 'Authors' : 'Autores'}:      ${r.data.authors}`)
+    if (text.award) lines.push(`  🏆 ${isEn ? 'Award' : 'Premiação'}:    ${text.award}`)
+    if (text.description) lines.push(`  ${isEn ? 'Summary' : 'Resumo'}:       ${text.description}`)
     if (tags) lines.push(`  Tags:         ${tags}`)
     lines.push('')
   }
