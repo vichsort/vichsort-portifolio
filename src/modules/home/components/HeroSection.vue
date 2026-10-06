@@ -4,7 +4,8 @@ import { useI18n } from 'vue-i18n'
 import { useIntersectionObserver } from '@vueuse/core'
 import { useAsciiField } from '@/shared/composables/useAsciiField'
 import { useHeroPresence } from '@/shared/composables/useHeroPresence'
-import { HERO_TOKENS, createHeroLayers } from '../hero/heroField'
+import { NEON_TOKENS } from '@/shared/ascii/neonTokens'
+import { createHeroLayers } from '../hero/heroField'
 import HeroAsciiTitle from './hero/HeroAsciiTitle.vue'
 import vitorArt from '../ascii/vitor.txt?raw'
 
@@ -29,7 +30,7 @@ const logoSrc = computed(() => {
 
 const fieldCanvas = ref(null)
 const { active, motion } = useAsciiField(fieldCanvas, {
-  tokens: HERO_TOKENS,
+  tokens: NEON_TOKENS,
   createLayers: createHeroLayers
 })
 

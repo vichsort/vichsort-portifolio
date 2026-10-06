@@ -37,6 +37,10 @@ export class CellGrid {
     return this.blocked[this.index(x, y)] === 1
   }
 
+  isOccupied(x, y) {
+    return this.occupied[this.index(x, y)] === 1
+  }
+
   isFree(idx) {
     return !this.blocked[idx] && !this.occupied[idx]
   }

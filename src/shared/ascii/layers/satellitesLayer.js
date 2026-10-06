@@ -111,40 +111,62 @@ export function createWanderersLayer({ density = 1 / 110 } = {}) {
   }
 }
 
-/* ---------- cometas: raros, cruzam o céu deixando rastro ---------- */
+/* ---------- cometas: cruzam o céu deixando rastro ---------- */
 
 const COMET_TRAIL = ['@', '#', '*', '+', ':', '.']
 const COMET_COLORS = ['cyan', 'pink', 'yellow']
 
+/**
+ * Cometas espontâneos entram pelas laterais e descem levemente.
+ * `launch(px, py)` dispara um cometa sob demanda, subindo a partir de um ponto
+ * (em px, relativo ao container do canvas) — usado em interações.
+ */
 export function createCometsLayer({ max = 2, chance = 0.015, skyRatio = 0.6 } = {}) {
   let comets = []
+  let field = null
+
+  // Posição contínua (x, y) + velocidade por passo; o rastro guarda as células visitadas
+  const add = comet => comets.push({ ...comet, color: comet.color ?? pick(COMET_COLORS), trail: [] })
 
   const spawn = ({ cols, rows }) => {
     const dir = Math.random() < 0.5 ? 1 : -1
-    comets.push({
+    add({
       x: dir > 0 ? -1 : cols,
       y: rnd(Math.max(1, Math.floor(rows * skyRatio))),
-      dir,
-      slope: 3 + rnd(4), // desce uma linha a cada `slope` passos
-      step: 0,
-      color: pick(COMET_COLORS),
-      trail: []
+      vx: dir,
+      vy: 1 / (3 + rnd(4)) // desce uma linha a cada 3–6 passos
     })
   }
 
   return {
     interval: 45,
 
-    setup() {
+    setup(nextField) {
+      field = nextField
       comets = []
+    },
+
+    launch(px, py) {
+      if (!field) return
+      const { cols, rows } = field.grid
+      // o ponto pode estar fora do canvas (ex.: botão abaixo dele); nasce na borda mais próxima
+      add({
+        x: Math.min(cols - 1, Math.max(0, px / field.cw)),
+        y: Math.min(rows - 1, Math.max(0, py / field.ch)),
+        vx: (Math.random() < 0.5 ? -1 : 1) * 0.35,
+        vy: -1,
+        color: 'cyan',
+        overText: true // é uma resposta a um clique: aparece mesmo sobre áreas protegidas
+      })
     },
 
     tick({ grid }) {
       for (const comet of comets) {
-        comet.step++
-        comet.x += comet.dir
-        if (comet.step % comet.slope === 0) comet.y++
-        comet.trail.unshift([comet.x, comet.y])
+        comet.x += comet.vx
+        comet.y += comet.vy
+        const cell = [Math.round(comet.x), Math.round(comet.y)]
+        const [hx, hy] = comet.trail[0] ?? []
+        if (cell[0] !== hx || cell[1] !== hy) comet.trail.unshift(cell)
         if (comet.trail.length > COMET_TRAIL.length) comet.trail.pop()
       }
 
@@ -156,8 +178,9 @@ export function createCometsLayer({ max = 2, chance = 0.015, skyRatio = 0.6 } = 
       const { grid } = field
       for (const comet of comets) {
         comet.trail.forEach(([x, y], i) => {
-          // passa "por trás" das áreas de texto
-          if (!grid.inBounds(x, y) || grid.isBlocked(x, y)) return
+          if (!grid.inBounds(x, y)) return
+          // cometas espontâneos passam "por trás" do texto e de áreas reservadas (ex.: o piso)
+          if (!comet.overText && (grid.isBlocked(x, y) || grid.isOccupied(x, y))) return
           field.glyph(COMET_TRAIL[i], x, y, field.palette[comet.color], 1 - i / COMET_TRAIL.length)
         })
       }

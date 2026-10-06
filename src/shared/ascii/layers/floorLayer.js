@@ -6,8 +6,11 @@
  * - Cruzamentos viram '+'.
  *
  * O piso reserva sua área na grade para que estrelas e errantes não a invadam.
+ *
+ * A profundidade é `ratio` da altura da grade, ou `depthPx` fixo quando informado
+ * (útil quando o layout reserva um espaço exato para o piso).
  */
-export function createFloorLayer({ ratio = 0.22, lines = 6, rays = 17, maxRun = 3 } = {}) {
+export function createFloorLayer({ ratio = 0.22, depthPx = null, lines = 6, rays = 17, maxRun = 3 } = {}) {
   let phase = 0
   let horizon = 0
   let depth = 0
@@ -47,8 +50,9 @@ export function createFloorLayer({ ratio = 0.22, lines = 6, rays = 17, maxRun = 
   return {
     interval: 90,
 
-    setup({ grid }) {
-      depth = Math.max(4, Math.round(grid.rows * ratio))
+    setup({ grid, ch }) {
+      const rows = depthPx ? depthPx / ch : grid.rows * ratio
+      depth = Math.min(grid.rows - 1, Math.max(4, Math.round(rows)))
       horizon = grid.rows - depth
       grid.occupyRect(0, horizon, grid.cols, depth)
       rayCellsByRow = traceRays(grid.cols, grid.rows)
@@ -82,7 +86,8 @@ export function createFloorLayer({ ratio = 0.22, lines = 6, rays = 17, maxRun = 
           const char = lineT < 0.15 ? '.' : lineT < 0.5 ? '-' : '='
           for (let x = 0; x < grid.cols; x++) {
             if (grid.isBlocked(x, y)) continue
-            const crossing = rayRow?.anchors.has(x)
+            // perto do horizonte os raios se amontoam; cruzamentos só aparecem mais à frente
+            const crossing = lineT >= 0.15 && rayRow?.anchors.has(x)
             field.glyph(
               crossing ? '+' : char,
               x, y,

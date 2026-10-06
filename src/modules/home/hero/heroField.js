@@ -1,22 +1,5 @@
-import { createFloorLayer } from './layers/floorLayer'
-import { createCometsLayer, createStarsLayer, createWanderersLayer } from './layers/satellitesLayer'
-
-/**
- * Tokens CSS lidos pelo canvas do hero (definidos por tema em tokens.css).
- */
-export const HERO_TOKENS = {
-  colors: {
-    pink: '--neon-pink',
-    cyan: '--neon-cyan',
-    yellow: '--neon-yellow',
-    orange: '--neon-orange',
-    magenta: '--neon-magenta',
-    text: '--text-primary'
-  },
-  numbers: {
-    glow: '--hero-glow'
-  }
-}
+import { createFloorLayer } from '@/shared/ascii/layers/floorLayer'
+import { createCometsLayer, createStarsLayer, createWanderersLayer } from '@/shared/ascii/layers/satellitesLayer'
 
 /**
  * Camadas do fundo do hero, do fundo para a frente.
