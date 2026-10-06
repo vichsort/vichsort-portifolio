@@ -2,10 +2,11 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft, Mail, Github, Linkedin, Send, Copy, Check } from 'lucide-vue-next'
+import { EMAIL, SOCIALS } from '@/core/config/profile'
 
 const { t } = useI18n()
 const copied = ref(false)
-const email = 'vitor@example.com' // Placeholder email
+const email = EMAIL
 
 const copyToClipboard = () => {
   if (navigator.clipboard) {
@@ -17,11 +18,14 @@ const copyToClipboard = () => {
   }
 }
 
-const channels = [
-  { icon: Github, labelKey: 'contact_page.github_label', handle: 'github.com/vitor', url: 'https://github.com' },
-  { icon: Linkedin, labelKey: 'contact_page.linkedin_label', handle: 'linkedin.com/in/vitor', url: 'https://linkedin.com' },
-  { icon: Send, labelKey: 'contact_page.telegram_label', handle: '@vitor', url: 'https://t.me' }
-]
+const CHANNEL_ICONS = { github: Github, linkedin: Linkedin, telegram: Send }
+
+const channels = SOCIALS.map(social => ({
+  icon: CHANNEL_ICONS[social.id],
+  labelKey: `contact_page.${social.id}_label`,
+  handle: social.handle,
+  url: social.url
+}))
 </script>
 
 <template>

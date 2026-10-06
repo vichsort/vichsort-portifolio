@@ -1,3 +1,5 @@
+import { EMAIL, SOCIALS } from '../../../../core/config/profile.js'
+
 let i18nInstance = null
 
 // Tentativa segura de carregar o singleton do i18n
@@ -297,10 +299,8 @@ export function getContact(locale = 'pt') {
     '================================================================================',
     isEn ? 'DIRECT CONTACT & PROFESSIONAL NETWORKS' : 'CANAIS DE CONTATO & REDES PROFISSIONAIS',
     '================================================================================',
-    'E-mail:   vitor@example.com',
-    'GitHub:   https://github.com/vitor',
-    'LinkedIn: https://linkedin.com/in/vitor',
-    'Telegram: @vitor',
+    `E-mail:   ${EMAIL}`,
+    ...SOCIALS.map(social => `${`${social.label}:`.padEnd(10)}${social.id === 'telegram' ? social.handle : social.url}`),
     '',
     isEn
       ? 'Always open to new projects, technical collaborations, and engineering challenges.'

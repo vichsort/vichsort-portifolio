@@ -7,6 +7,7 @@ import { useSettings } from '@/shared/composables/useSettings'
 import { useHeroPresence } from '@/shared/composables/useHeroPresence'
 import { useI18n } from 'vue-i18n'
 import { Github, Linkedin, Settings, Menu, X } from 'lucide-vue-next'
+import { NAV_ITEMS, getSocial } from '@/core/config/profile'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -16,14 +17,9 @@ const { isHeroActive } = useHeroPresence()
 
 const isMobileNavOpen = ref(false)
 
-const menuItems = [
-  { labelKey: 'nav.home', path: '/' },
-  { labelKey: 'nav.about', path: '/overview' },
-  { labelKey: 'nav.projects', path: '/projects' },
-  { labelKey: 'nav.researches', path: '/researches' },
-  { labelKey: 'nav.certifications', path: '/certifications' },
-  { labelKey: 'nav.contact', path: '/contact' }
-]
+const menuItems = NAV_ITEMS
+const githubUrl = getSocial('github').url
+const linkedinUrl = getSocial('linkedin').url
 
 const toggleMobileNav = () => {
   isMobileNavOpen.value = !isMobileNavOpen.value
@@ -72,7 +68,7 @@ onKeyStroke('Escape', (e) => {
 
         <div class="social-links desktop-only">
           <a
-            href="https://github.com/vitor"
+            :href="githubUrl"
             target="_blank"
             rel="noopener noreferrer"
             class="icon-btn social-btn"
@@ -82,7 +78,7 @@ onKeyStroke('Escape', (e) => {
           </a>
 
           <a
-            href="https://linkedin.com"
+            :href="linkedinUrl"
             target="_blank"
             rel="noopener noreferrer"
             class="icon-btn social-btn"
@@ -151,7 +147,7 @@ onKeyStroke('Escape', (e) => {
           <div class="mobile-footer">
             <div class="mobile-socials">
               <a
-                href="https://github.com/vitor"
+                :href="githubUrl"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="mobile-social-link"
@@ -162,7 +158,7 @@ onKeyStroke('Escape', (e) => {
               </a>
 
               <a
-                href="https://linkedin.com"
+                :href="linkedinUrl"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="mobile-social-link"
