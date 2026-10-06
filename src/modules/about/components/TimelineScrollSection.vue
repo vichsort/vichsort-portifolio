@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useScrollProgress } from '@/shared/composables/useScrollProgress'
+import { useSettings } from '@/shared/composables/useSettings'
 import TimelineItemCard from './TimelineItemCard.vue'
 import { Sparkles, Calendar, ChevronDown } from 'lucide-vue-next'
 
@@ -13,6 +14,7 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
+const { isMotionAllowed } = useSettings()
 
 const containerRef = ref(null)
 const { progress } = useScrollProgress(containerRef)
@@ -32,6 +34,25 @@ const activeYearGroup = computed(() => {
 const barHeight = computed(() => {
   return Math.max(8, Math.min(progress.value * 100, 100)) + '%'
 })
+
+/**
+ * Rola até o trecho do container em que o ano `idx` fica ativo.
+ * Mira no meio da faixa do ano (idx + 0.5), e não na borda, para o
+ * arredondamento de activeIndex nunca cair no ano vizinho.
+ */
+const goToYear = (idx) => {
+  const el = containerRef.value
+  if (!el) return
+
+  const scrollableDistance = el.scrollHeight - window.innerHeight
+  const containerTop = el.getBoundingClientRect().top + window.scrollY
+  const targetProgress = (idx + 0.5) / totalSteps.value
+
+  window.scrollTo({
+    top: containerTop + targetProgress * scrollableDistance,
+    behavior: isMotionAllowed.value ? 'smooth' : 'auto'
+  })
+}
 </script>
 
 <template>
@@ -59,15 +80,18 @@ const barHeight = computed(() => {
             </div>
 
             <div class="years-list">
-              <div
+              <button
                 v-for="(group, idx) in eventsByYear"
                 :key="group.year"
+                type="button"
                 class="year-step-node"
                 :class="{ 'is-active': idx === activeIndex, 'is-passed': idx < activeIndex }"
+                :aria-current="idx === activeIndex ? 'step' : undefined"
+                @click="goToYear(idx)"
               >
                 <span class="node-dot"></span>
                 <span class="node-year">{{ group.year }}</span>
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -211,10 +235,25 @@ const barHeight = computed(() => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0;
   font-family: var(--font-heading);
   font-size: var(--text-xs);
   color: var(--text-muted);
   transition: color var(--transition-fast);
+}
+
+.year-step-node:hover {
+  color: var(--text-primary);
+}
+
+.year-step-node:hover .node-dot {
+  transform: scale(1.3);
+}
+
+.year-step-node:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .node-dot {
