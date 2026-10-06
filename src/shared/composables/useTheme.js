@@ -1,3 +1,4 @@
+import { computed } from 'vue'
 import { useColorMode } from '@vueuse/core'
 
 const mode = useColorMode({
@@ -8,6 +9,8 @@ const mode = useColorMode({
   },
   storageKey: 'user-theme-preference'
 })
+
+const isDark = computed(() => mode.value === 'dark')
 
 export function useTheme() {
   const toggleTheme = () => {
@@ -26,6 +29,7 @@ export function useTheme() {
 
   return {
     theme: mode,
+    isDark,
     toggleTheme,
     initTheme,
     listenToSystemChanges
