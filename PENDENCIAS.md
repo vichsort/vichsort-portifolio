@@ -29,7 +29,6 @@ O planejamento original (`terminal.md`, fora do git) se perdeu. A lista abaixo �
 | **`t4`** | **Pipes e encadeamento** (`\|`, `&&`) | `parser/lexer.js`, `dispatcher.js` | Hoje o `grep` só lê arquivos |
 | **`t5`** | **Grafo inteiro no VFS**: `techs/`, `topics/`, `roles/`, `timeline/` | `vfs/manifest.js`, `vfs/connectors.js` | Talvez um comando `links <id>` para mostrar ligações e backlinks |
 | **`t6`** | **Download do `resume.pdf`** | `vfs/manifest.js`, `dispatcher.js` | O nó declara `action: 'download_resume'`, mas nada trata essa ação |
-| **`t7`** | **Header ASCII sorteado ao entrar** | `TerminalScreen.vue`, `banner/headers.js` | O sorteio já existe no `onMounted`; conferir se está aparecendo como idealizado |
 
 ## Fundação técnica
 
@@ -39,8 +38,7 @@ O planejamento original (`terminal.md`, fora do git) se perdeu. A lista abaixo �
 | **`a4`** | **Gráficos a partir do grafo** | Visualização do grafo, matriz tech × projeto, adoção de techs no tempo. Definir a métrica de "projeto complexo". Só faz sentido com conteúdo real |
 | **`a5`** | **Revisar as traduções es/it** da interface | Feitas por IA a partir do pt; conferir tom e termos, principalmente nos textos do Sobre e dos depoimentos |
 | **`a6`** | Link **"Ver galeria completa"** leva a `/gallery`, que não existe | `GallerySection.vue` cai no 404. Criar a página ou tirar o link |
-| **`a7`** | **Cores fixas no terminal** | `OutputMarkdown.vue` usa tokens que não existem (`--text-tertiary`, `--primary-light`) e cai nos valores fixos; prompt e histórico têm paleta própria. Decidir se o terminal segue os tokens ou mantém identidade própria (e documentar no DESIGN.md) |
-| **`a8`** | `projectsLoader.js` do terminal **repete o `toProject`** de `projects/useProjects.js` | Mover o formato do projeto para `core/content` e usar nos dois |
+| **`a9`** | **Navbar sobre o cabeçalho do terminal** | Em `/terminal`, "Voltar ao início" e o título "Terminal" ficam embaixo do logo e das configurações da navbar global. Esconder a navbar nessa rota ou descer o cabeçalho |
 
 Ordem sugerida: `a3` → `a4`.
 
@@ -60,6 +58,9 @@ Todo o conteúdo atual é fictício. Depende de material, não de código.
 ## Concluído
 
 * Auditoria da arquitetura (`a1`): ARCHITECTURE.md e READMEs dos módulos atualizados; um só módulo de Markdown (`core/content/markdown.js`); removido o pacote `@lucide/vue` sem uso; token `--text-on-primary` no lugar do branco fixo
+* Terminal no padrão visual (`a7`): só tokens do site, segue o tema claro/escuro; tokens novos `--danger` e neons documentados no DESIGN.md
+* Formato do projeto compartilhado (`a8`): `core/content/projects.js`, usado pelas telas e pelo terminal
+* Header ASCII sorteado ao entrar no terminal (`t7`): não aparecia porque o glob dos headers era desativado no navegador; corrigido, o comando `header` também volta a funcionar
 * i18n para pt, en, es e it (`a2`): lista única em `core/i18n/languages.js`; interface traduzida; conteúdo sem tradução cai para en → pt com o selo "não traduzido"; terminal sem textos fixos no código
 
 * Rodapé global com contato e "voltar ao topo", fora do `/terminal` (`8bd105e`)
