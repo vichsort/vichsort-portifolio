@@ -1,5 +1,5 @@
 <script setup>
-import { vInternalLinks } from '@/shared/directives/internalLinks'
+import { vContentLinks } from '@/shared/directives/contentLinks'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Calendar, MapPin, Image as ImageIcon } from 'lucide-vue-next'
@@ -64,7 +64,7 @@ const adjacent = computed(() => {
           </figcaption>
         </figure>
 
-        <section v-if="photo.html" v-internal-links class="markdown-content" v-html="photo.html"></section>
+        <section v-if="photo.html" v-content-links class="markdown-content" v-html="photo.html"></section>
 
         <footer v-if="photo.tags.length || photo.related" class="photo-links">
           <div v-if="photo.tags.length" class="tags-row">

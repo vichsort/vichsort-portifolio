@@ -1,5 +1,5 @@
 <script setup>
-import { vInternalLinks } from '@/shared/directives/internalLinks'
+import { vContentLinks } from '@/shared/directives/contentLinks'
 import UntranslatedNote from '@/shared/components/ui/UntranslatedNote.vue'
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -127,7 +127,7 @@ watch(
           />
         </div>
 
-        <section v-internal-links class="markdown-content surface-card" v-html="project.html"></section>
+        <section v-content-links class="markdown-content surface-card" v-html="project.html"></section>
 
         <!-- Next / Previous Navigation Component -->
         <ProjectPagination

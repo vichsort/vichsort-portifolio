@@ -1,6 +1,6 @@
 /**
  * Página do site de cada tipo de nó. Tipos sem página (techs, tópicos, cargos...)
- * ficam de fora: um wikilink para eles vira texto.
+ * ficam de fora: um wikilink para eles abre o menu de nó (ver markdown.js).
  *
  * Tipos listados numa tela só (certificações, pesquisas, timeline) levam ao card
  * pela âncora: o id do nó é o id do card na tela (ver core/router/scrollToHash.js).

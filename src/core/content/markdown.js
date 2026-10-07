@@ -22,28 +22,45 @@ md.renderer.rules.image = (tokens, idx, options, env, self) => {
 const escapeLinkText = (text) => text.replace(/[[\]]/g, '\\$&')
 
 /**
+ * Gatilho do menu de nó no meio do texto (n10). O clique é tratado pela diretiva
+ * v-content-links (shared/directives/contentLinks.js), que abre o NodeMenuHost.
+ */
+const nodeTrigger = (id, text, source) => {
+  const from = source ? ` data-from="${md.utils.escapeHtml(source)}"` : ''
+  return `<button type="button" class="node-ref" data-node="${md.utils.escapeHtml(id)}"${from} aria-haspopup="menu" aria-expanded="false">${md.utils.escapeHtml(text)}</button>`
+}
+
+/**
  * Renderiza o corpo de um nó.
  *
- * Wikilinks viram links para a página do nó citado; se ele não tem página,
- * ficam só o texto do rótulo (ou o nome do nó). Embeds (![[arquivo.png]])
+ * Wikilinks viram links para a página do nó citado. Se ele não tem página mas
+ * tem menu (techs, tópicos, cargos com usos), viram o gatilho do menu de nó;
+ * senão, fica só o texto do rótulo (ou o nome do nó). Embeds (![[arquivo.png]])
  * viram imagens Markdown.
  *
  * @param {string} body
  * @param {{
  *   assets?: Record<string, string>,
  *   label?: (target: string) => string,
- *   href?: (target: string) => string|null
+ *   href?: (target: string) => string|null,
+ *   menu?: (target: string) => string|null,
+ *   source?: string
  * }} [options]
+ *   href: caminho da página do alvo, ou null
+ *   menu: id do nó, se o alvo (sem página) abre o menu de nó; ou null
+ *   source: id do nó dono do texto, que o menu aberto daqui deixa de fora
  * @returns {string} HTML
  */
-export function renderBody(body, { assets = {}, label = (t) => t, href = () => null } = {}) {
-  const source = replaceBodyLinks(body, (target, text, embed) => {
+export function renderBody(body, { assets = {}, label = (t) => t, href = () => null, menu = () => null, source } = {}) {
+  const markdown = replaceBodyLinks(body, (target, text, embed) => {
     if (embed) return `![](<${target}>)`
     const shown = text || label(target)
     const path = href(target)
-    return path ? `[${escapeLinkText(shown)}](<${path}>)` : shown
+    if (path) return `[${escapeLinkText(shown)}](<${path}>)`
+    const node = menu(target)
+    return node ? nodeTrigger(node, shown, source) : shown
   })
-  return md.render(source, { assets })
+  return md.render(markdown, { assets })
 }
 
 /**

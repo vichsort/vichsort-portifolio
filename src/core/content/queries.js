@@ -1,6 +1,7 @@
 import { renderBody } from './markdown.js'
 import { fallbackChain } from '../i18n/languages.js'
 import { nodeRoute } from './routes.js'
+import { buildNodeMenu } from './nodeMenu.js'
 
 const startDate = (node) => String([node.data.date].flat()[0] ?? '')
 
@@ -156,12 +157,20 @@ export function createQueries(graph) {
         href: (target) => {
           const path = nodeRoute(node(graph.resolve(target)))
           return path && path !== nodeRoute(node(id)) ? path : null
-        }
+        },
+        // Sem página: abre o menu do nó, se houver o que mostrar além deste próprio nó
+        menu: (target) => {
+          const resolved = graph.resolve(target)
+          if (!resolved || resolved === id) return null
+          return buildNodeMenu(queries, resolved, { lang, exclude: [id] }).length ? resolved : null
+        },
+        source: id
       }))
     }
     return htmlCache.get(key)
   }
 
   // resolve: id de um alvo de wikilink (id ou alias, sem diferenciar maiúsculas), ou null
-  return { resolve: graph.resolve, node, text, textLang, fallback, label, ofType, linked, backlinks, outlinks, relatedTechs, related, collection, asset, icon, cover, html }
+  const queries = { resolve: graph.resolve, node, text, textLang, fallback, label, ofType, linked, backlinks, outlinks, relatedTechs, related, collection, asset, icon, cover, html }
+  return queries
 }

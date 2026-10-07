@@ -91,6 +91,39 @@ body.reduce-motion *::after {
   box-shadow: 0 0 0 2px var(--primary), 0 0 24px var(--primary-border) !important;
 }
 
+/* Wikilink de nó sem página (tech, tópico, cargo): abre o menu de nó em vez de navegar.
+   Pontilhado para não ser confundido com um link para outra página */
+.markdown-content .node-ref {
+  appearance: none;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text-primary);
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-decoration-color: var(--primary);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  border-radius: 3px;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+/* Hover ou menu aberto: o pontilhado vira linha contínua sobre um fundo suave */
+.markdown-content .node-ref:hover,
+.markdown-content .node-ref[aria-expanded='true'] {
+  text-decoration-style: solid;
+  background-color: var(--primary-subtle);
+}
+
+.markdown-content .node-ref:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 /* Texto só para leitores de tela (rótulos de botões com ícone, títulos em arte ASCII) */
 .sr-only {
   position: absolute;

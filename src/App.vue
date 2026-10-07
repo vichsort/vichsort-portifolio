@@ -6,6 +6,7 @@ import { useSettings } from '@/shared/composables/useSettings'
 import TheNavbar from '@/shared/components/layout/TheNavbar.vue'
 import SettingsSidebar from '@/shared/components/layout/SettingsSidebar.vue'
 import TheFooter from '@/shared/components/layout/TheFooter.vue'
+import NodeMenuHost from '@/shared/components/node/NodeMenuHost.vue'
 
 const route = useRoute()
 
@@ -30,6 +31,9 @@ onMounted(() => {
   </router-view>
 
   <TheFooter v-if="route.path !== '/terminal'" />
+
+  <!-- Menu de nó dos wikilinks nos textos (v-content-links) -->
+  <NodeMenuHost />
 </template>
 
 <style>
