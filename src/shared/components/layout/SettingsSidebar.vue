@@ -4,7 +4,8 @@ import { useScrollLock, onKeyStroke } from '@vueuse/core'
 import { useSettings } from '@/shared/composables/useSettings'
 import { useTheme } from '@/shared/composables/useTheme'
 import { useI18n } from 'vue-i18n'
-import { X, Sun, Moon, Minus, Plus } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
+import { X, Sun, Moon, Minus, Plus, SquareTerminal } from 'lucide-vue-next'
 import { LANGUAGES } from '@/core/i18n/languages'
 
 const {
@@ -35,6 +36,12 @@ onKeyStroke('Escape', (e) => {
 })
 
 const { t } = useI18n()
+const router = useRouter()
+
+const openTerminal = () => {
+  closeSidebar()
+  router.push('/terminal')
+}
 </script>
 
 <template>
@@ -135,6 +142,19 @@ const { t } = useI18n()
                   {{ areAnimationsEnabled ? t('settings.accessibility.on') : t('settings.accessibility.off') }}
                 </button>
               </div>
+            </div>
+
+            <hr class="divider" />
+
+            <!-- Terminal -->
+            <div class="setting-group">
+              <label class="group-label">{{ t('settings.terminal.label') }}</label>
+              <button type="button" class="theme-toggle-btn" @click="openTerminal">
+                <div class="theme-icon">
+                  <SquareTerminal :size="18" />
+                </div>
+                <span>{{ t('settings.terminal.open') }}</span>
+              </button>
             </div>
           </div>
 

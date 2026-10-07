@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useNavigation } from '@/shared/composables/useNavigation'
 import i18n from '@/core/i18n'
 import { scrollToHash } from './scrollToHash'
+import { isViewTransitioning } from '@/shared/composables/useViewTransition'
 
 const routes = [
   {
@@ -64,7 +65,8 @@ const routes = [
     path: '/terminal',
     name: 'terminal',
     component: () => import('@/modules/terminal/views/TerminalView.vue'),
-    meta: { titleKey: 'terminal.title' }
+    // bare: só o conteúdo da página, sem navbar nem footer
+    meta: { titleKey: 'terminal.title', bare: true }
   },
   {
     path: '/:pathMatch(.*)*',
@@ -77,6 +79,8 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
+    // Na troca animada (View Transition) quem posiciona a página é a própria transição
+    if (isViewTransitioning.value) return false
     if (savedPosition) return savedPosition
     if (to.hash) return scrollToHash(to.hash)
     return { top: 0, behavior: 'smooth' }

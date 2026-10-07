@@ -98,6 +98,14 @@
       "links": {
         "description": "Mostra as ligações de um nó do grafo: para onde aponta e quem aponta para ele",
         "usage": "links <id>"
+      },
+      "theme": {
+        "description": "Mostra ou troca o tema do site (dark, light ou toggle)",
+        "usage": "theme [dark{'|'}light{'|'}toggle]"
+      },
+      "lang": {
+        "description": "Lista os idiomas ou troca o idioma do site",
+        "usage": "lang [código]"
       }
     },
     "errors": {
@@ -185,7 +193,31 @@
       },
       "cat": {
         "binary_pdf": "[vsh]: arquivo binário PDF. Para baixar, use o comando: resume"
+      },
+      "theme": {
+        "current": "Tema atual: {theme}. Use: theme dark {'|'} theme light {'|'} theme toggle",
+        "changed": "Tema alterado para {theme}.",
+        "invalid": "vsh: theme: '{value}' não é um tema. Use dark, light ou toggle."
+      },
+      "lang": {
+        "list": "Idiomas (* = atual). Use: lang <código>",
+        "changed": "Idioma alterado para {lang}.",
+        "invalid": "vsh: lang: '{value}' não é um idioma. Disponíveis: {codes}"
       }
+    },
+    "language_changed": "[vsh]: idioma alterado para {lang}. O que já está na tela segue no idioma anterior.",
+    "window": {
+      "end_session": "Encerrar sessão",
+      "minimize": "Minimizar (voltar ao início)",
+      "fullscreen": "Tela cheia",
+      "exit_fullscreen": "Sair da tela cheia",
+      "collapse": "Recolher",
+      "expand": "Expandir",
+      "open": "Abrir o terminal"
+    },
+    "section": {
+      "label": "Prefere a linha de comando?",
+      "hint": "Um shell de verdade sobre o conteúdo do site: navegue com ls e cd, leia com cat, siga as ligações com links. Digite help para começar; o botão verde abre o terminal em tela cheia."
     }
   }
 }

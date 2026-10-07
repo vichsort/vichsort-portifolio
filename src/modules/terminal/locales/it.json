@@ -98,6 +98,14 @@
       "links": {
         "description": "Mostra i collegamenti di un nodo del grafo: dove punta e chi punta a lui",
         "usage": "links <id>"
+      },
+      "theme": {
+        "description": "Mostra o cambia il tema del sito (dark, light o toggle)",
+        "usage": "theme [dark{'|'}light{'|'}toggle]"
+      },
+      "lang": {
+        "description": "Elenca le lingue o cambia la lingua del sito",
+        "usage": "lang [codice]"
       }
     },
     "errors": {
@@ -185,7 +193,31 @@
       },
       "cat": {
         "binary_pdf": "[vsh]: file binario PDF. Per scaricarlo, usa il comando: resume"
+      },
+      "theme": {
+        "current": "Tema attuale: {theme}. Usa: theme dark {'|'} theme light {'|'} theme toggle",
+        "changed": "Tema cambiato in {theme}.",
+        "invalid": "vsh: theme: '{value}' non è un tema. Usa dark, light o toggle."
+      },
+      "lang": {
+        "list": "Lingue (* = attuale). Usa: lang <codice>",
+        "changed": "Lingua cambiata in {lang}.",
+        "invalid": "vsh: lang: '{value}' non è una lingua. Disponibili: {codes}"
       }
+    },
+    "language_changed": "[vsh]: lingua cambiata in {lang}. Ciò che è già sullo schermo resta nella lingua precedente.",
+    "window": {
+      "end_session": "Termina sessione",
+      "minimize": "Riduci (torna all'inizio)",
+      "fullscreen": "Schermo intero",
+      "exit_fullscreen": "Esci da schermo intero",
+      "collapse": "Comprimi",
+      "expand": "Espandi",
+      "open": "Apri il terminale"
+    },
+    "section": {
+      "label": "Preferisci la riga di comando?",
+      "hint": "Una vera shell sui contenuti del sito: naviga con ls e cd, leggi con cat, segui i collegamenti con links. Digita help per iniziare; il pulsante verde apre il terminale a schermo intero."
     }
   }
 }

@@ -1,9 +1,8 @@
 <script setup>
-import { ref, watch, nextTick, onMounted } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 import TerminalHistory from './TerminalHistory.vue'
 import TerminalPrompt from './TerminalPrompt.vue'
 import OutputBanner from '../outputs/OutputBanner.vue'
-import { getRandomHeader } from '../../core/banner/headers.js'
 
 const props = defineProps({
   history: {
@@ -33,6 +32,16 @@ const props = defineProps({
   welcomeMessage: {
     type: String,
     default: ''
+  },
+  // Banner ASCII do topo (sorteado pela sessão)
+  banner: {
+    type: String,
+    default: ''
+  },
+  // Foca o prompt ao montar; desligado na janela da home, para não rolar a página até ela
+  autofocus: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -40,14 +49,6 @@ const emit = defineEmits(['submit', 'update:modelValue', 'history-prev', 'histor
 
 const screenRef = ref(null)
 const promptRef = ref(null)
-const headerBanner = ref('')
-
-onMounted(() => {
-  const random = getRandomHeader()
-  if (random) {
-    headerBanner.value = random.content
-  }
-})
 
 const scrollToBottom = () => {
   nextTick(() => {
@@ -63,10 +64,7 @@ const handleScreenClick = (event) => {
   if (selection && selection.toString().length > 0) {
     return
   }
-  // Focus prompt
-  if (promptRef.value) {
-    promptRef.value.focus()
-  }
+  promptRef.value?.focus()
 }
 
 watch(
@@ -90,7 +88,7 @@ defineExpose({
     @click="handleScreenClick"
   >
     <div class="terminal-welcome">
-      <OutputBanner v-if="headerBanner" :content="headerBanner" />
+      <OutputBanner v-if="banner" :content="banner" />
       <pre v-if="welcomeMessage" class="welcome-text">{{ welcomeMessage }}</pre>
     </div>
 
@@ -103,6 +101,7 @@ defineExpose({
       :host="host"
       :model-value="modelValue"
       :disabled="disabled"
+      :autofocus="autofocus"
       @update:model-value="(val) => emit('update:modelValue', val)"
       @submit="(cmd) => emit('submit', cmd)"
       @history-prev="emit('history-prev')"

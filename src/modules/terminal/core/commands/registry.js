@@ -21,6 +21,8 @@ import resumeCommand from './portfolio/resume.js'
 import linksCommand from './portfolio/links.js'
 import cowsayCommand from './easter/cowsay.js'
 import sudoCommand from './easter/sudo.js'
+import themeCommand from './settings/theme.js'
+import langCommand from './settings/lang.js'
 
 /**
  * Catálogo de registro de comandos do Vitor Shell (vsh).
@@ -136,6 +138,10 @@ export function createDefaultRegistry() {
   registry.register(contactCommand)
   registry.register(resumeCommand)
   registry.register(linksCommand)
+
+  // Configurações do site (a página do terminal não tem navbar)
+  registry.register(themeCommand)
+  registry.register(langCommand)
 
   // Comandos Easter Eggs
   registry.register(cowsayCommand)

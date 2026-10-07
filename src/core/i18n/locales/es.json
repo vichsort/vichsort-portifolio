@@ -21,6 +21,10 @@
       "animations": "Animaciones",
       "on": "ACTIVADO",
       "off": "DESACTIVADO"
+    },
+    "terminal": {
+      "label": "Terminal",
+      "open": "Abrir terminal"
     }
   },
   "common": {
@@ -58,7 +62,8 @@
     "copy_email": "Copiar e-mail",
     "copied": "¡Copiado!",
     "back_to_top": "Volver arriba",
-    "rights": "© {year} NEAT by Vitor."
+    "rights": "© {year} NEAT by Vitor.",
+    "terminal": "Terminal"
   },
   "languages": {
     "pt": "portugués",

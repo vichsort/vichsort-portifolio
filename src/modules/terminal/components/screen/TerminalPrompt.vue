@@ -21,6 +21,10 @@ const props = defineProps({
   modelValue: {
     type: String,
     default: ''
+  },
+  autofocus: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -28,10 +32,9 @@ const emit = defineEmits(['submit', 'update:modelValue', 'history-prev', 'histor
 
 const inputRef = ref(null)
 
+// preventScroll: focar não pode arrastar a página até o terminal
 const focus = () => {
-  if (inputRef.value) {
-    inputRef.value.focus()
-  }
+  inputRef.value?.focus({ preventScroll: true })
 }
 
 const handleInput = (event) => {
@@ -111,7 +114,7 @@ const handleKeydown = (event) => {
 }
 
 onMounted(() => {
-  focus()
+  if (props.autofocus) focus()
 })
 
 defineExpose({

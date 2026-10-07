@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useClipboard } from '@vueuse/core'
-import { ArrowUp, Check, Copy, Github, Linkedin, Mail, Send } from 'lucide-vue-next'
+import { ArrowUp, Check, Copy, Github, Linkedin, Mail, Send, SquareTerminal } from 'lucide-vue-next'
 import { EMAIL, NAV_ITEMS, SOCIALS } from '@/core/config/profile'
 import { useTheme } from '@/shared/composables/useTheme'
 import { useAsciiField } from '@/shared/composables/useAsciiField'
@@ -109,6 +109,12 @@ function backToTop() {
                 <span>{{ social.label }}</span>
                 <span class="external-mark" aria-hidden="true">↗</span>
               </a>
+            </li>
+            <li data-ascii-safe>
+              <router-link to="/terminal" class="footer-link">
+                <SquareTerminal :size="15" />
+                <span>{{ t('footer.terminal') }}</span>
+              </router-link>
             </li>
           </ul>
         </section>

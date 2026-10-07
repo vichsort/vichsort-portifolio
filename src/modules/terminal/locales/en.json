@@ -98,6 +98,14 @@
       "links": {
         "description": "Shows a graph node's links: what it points to and what points to it",
         "usage": "links <id>"
+      },
+      "theme": {
+        "description": "Shows or switches the site theme (dark, light or toggle)",
+        "usage": "theme [dark{'|'}light{'|'}toggle]"
+      },
+      "lang": {
+        "description": "Lists the languages or switches the site language",
+        "usage": "lang [code]"
       }
     },
     "errors": {
@@ -185,7 +193,31 @@
       },
       "cat": {
         "binary_pdf": "[vsh]: binary PDF file. To download it, run: resume"
+      },
+      "theme": {
+        "current": "Current theme: {theme}. Use: theme dark {'|'} theme light {'|'} theme toggle",
+        "changed": "Theme switched to {theme}.",
+        "invalid": "vsh: theme: '{value}' is not a theme. Use dark, light or toggle."
+      },
+      "lang": {
+        "list": "Languages (* = current). Use: lang <code>",
+        "changed": "Language switched to {lang}.",
+        "invalid": "vsh: lang: '{value}' is not a language. Available: {codes}"
       }
+    },
+    "language_changed": "[vsh]: language changed to {lang}. What is already on screen stays in the previous language.",
+    "window": {
+      "end_session": "End session",
+      "minimize": "Minimize (back to home)",
+      "fullscreen": "Full screen",
+      "exit_fullscreen": "Exit full screen",
+      "collapse": "Collapse",
+      "expand": "Expand",
+      "open": "Open the terminal"
+    },
+    "section": {
+      "label": "Rather use the command line?",
+      "hint": "A real shell over the site's content: browse with ls and cd, read with cat, follow connections with links. Type help to start; the green button opens the terminal full screen."
     }
   }
 }

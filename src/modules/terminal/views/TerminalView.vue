@@ -1,124 +1,52 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, Terminal as TerminalIcon } from 'lucide-vue-next'
-import TerminalScreen from '../components/screen/TerminalScreen.vue'
+import { useFullscreen } from '@vueuse/core'
+import TerminalWindow from '../components/TerminalWindow.vue'
 import { useTerminal } from '../composables/useTerminal'
+import { navigateWithTransition } from '@/shared/composables/useViewTransition'
 
+/**
+ * /terminal: só a janela, ocupando a tela (rota com meta.bare, sem navbar nem footer).
+ * Vermelho encerra a sessão e volta à seção do terminal na home; amarelo volta
+ * mantendo a sessão; verde alterna a tela cheia do navegador.
+ * Tema e idioma mudam pelos comandos theme e lang.
+ */
 const { t } = useI18n()
+const { reset } = useTerminal()
+const { isFullscreen, toggle: toggleFullscreen } = useFullscreen()
 
-const {
-  user,
-  host,
-  input,
-  history,
-  displayPath,
-  isExecuting,
-  execute,
-  clear,
-  historyPrev,
-  historyNext,
-  complete,
-  interrupt
-} = useTerminal()
+// A janela "encolhe" de volta para o lugar dela na home
+const backToHome = () => navigateWithTransition({ path: '/', hash: '#terminal' }, { waitFor: 'terminal', center: true })
 
-const welcomeText = computed(() => {
-  return `${t('terminal.welcome')}\n${t('terminal.help_hint')}`
-})
+const endSession = () => {
+  reset()
+  backToHome()
+}
+
+const maximizeLabel = computed(() => t(isFullscreen.value ? 'terminal.window.exit_fullscreen' : 'terminal.window.fullscreen'))
 </script>
 
 <template>
-  <main class="terminal-view">
-    <header class="terminal-nav-header">
-      <router-link to="/" class="back-link">
-        <ArrowLeft :size="18" />
-        <span>{{ t('common.back_to_home') }}</span>
-      </router-link>
-
-      <div class="terminal-title-tag">
-        <TerminalIcon :size="16" />
-        <span>{{ t('terminal.title') }}</span>
-      </div>
-    </header>
-
-    <div class="terminal-container surface-card">
-      <TerminalScreen
-        v-model="input"
-        :history="history"
-        :cwd="displayPath"
-        :user="user"
-        :host="host"
-        :disabled="isExecuting"
-        :welcome-message="welcomeText"
-        @submit="execute"
-        @history-prev="historyPrev"
-        @history-next="historyNext"
-        @complete="complete"
-        @interrupt="interrupt"
-        @clear-screen="clear"
-      />
-    </div>
+  <main id="terminal-page" class="terminal-page">
+    <TerminalWindow
+      :close-label="t('terminal.window.end_session')"
+      :minimize-label="t('terminal.window.minimize')"
+      :maximize-label="maximizeLabel"
+      @close="endSession"
+      @minimize="backToHome"
+      @maximize="toggleFullscreen"
+    />
   </main>
 </template>
 
 <style scoped>
-.terminal-view {
-  min-height: 100vh;
+.terminal-page {
+  position: fixed;
+  inset: 0;
   display: flex;
-  flex-direction: column;
-  /* Topo livre para a navbar fixa, como nas outras páginas */
-  padding: 6rem 2rem 1.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: clamp(0.5rem, 2vw, 1.5rem);
+  background-color: var(--bg-canvas);
   box-sizing: border-box;
 }
-
-.terminal-nav-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: var(--text-sm);
-  transition: color var(--transition-fast);
-}
-
-.back-link:hover {
-  color: var(--text-primary);
-}
-
-.terminal-title-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  font-family: var(--font-heading);
-}
-
-.terminal-container {
-  flex: 1;
-  min-height: 550px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  background-color: var(--bg-canvas);
-  box-shadow: var(--shadow-card);
-}
-
-@media (max-width: 768px) {
-  .terminal-view {
-    padding: 5rem 1rem 1rem;
-  }
-}
 </style>
-

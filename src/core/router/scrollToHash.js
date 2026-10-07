@@ -6,15 +6,19 @@ const WAIT_MS = 2000
 
 const FLASH_MS = 1600
 
-/** Espera um elemento com esse id aparecer no DOM, ou null se não aparecer a tempo. */
-function waitForElement(id) {
+/**
+ * Espera um elemento com esse id aparecer no DOM, ou null se não aparecer a tempo.
+ * Verifica por setTimeout, não requestAnimationFrame: dentro de uma View Transition
+ * o navegador pausa a renderização (e com ela os frames).
+ */
+export function waitForElement(id) {
   return new Promise((resolve) => {
     const start = performance.now()
     const check = () => {
       const el = document.getElementById(id)
       if (el) return resolve(el)
       if (performance.now() - start > WAIT_MS) return resolve(null)
-      requestAnimationFrame(check)
+      setTimeout(check, 16)
     }
     check()
   })

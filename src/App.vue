@@ -7,6 +7,7 @@ import TheNavbar from '@/shared/components/layout/TheNavbar.vue'
 import SettingsSidebar from '@/shared/components/layout/SettingsSidebar.vue'
 import TheFooter from '@/shared/components/layout/TheFooter.vue'
 import NodeMenuHost from '@/shared/components/node/NodeMenuHost.vue'
+import { isViewTransitioning } from '@/shared/composables/useViewTransition'
 
 const route = useRoute()
 
@@ -21,16 +22,24 @@ onMounted(() => {
 </script>
 
 <template>
-  <TheNavbar />
+  <!-- Rotas com meta.bare (o terminal) ocupam a tela sozinhas -->
+  <TheNavbar v-if="!route.meta.bare" />
   <SettingsSidebar />
-  
+
+  <!-- Na troca animada (View Transition), a própria transição anima: o fade entre páginas
+       sai de cena (sem CSS e sem out-in, a troca é imediata e não espera frames,
+       que a View Transition pausa) -->
   <router-view v-slot="{ Component }">
-    <transition name="page-fade" mode="out-in">
+    <transition
+      name="page-fade"
+      :mode="isViewTransitioning ? 'default' : 'out-in'"
+      :css="!isViewTransitioning"
+    >
       <component :is="Component" />
     </transition>
   </router-view>
 
-  <TheFooter v-if="route.path !== '/terminal'" />
+  <TheFooter v-if="!route.meta.bare" />
 
   <!-- Menu de nó dos wikilinks nos textos (v-content-links) -->
   <NodeMenuHost />
