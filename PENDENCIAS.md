@@ -124,3 +124,42 @@ src/
 * **Margem Técnica Obrigatória**: +15 min
 * **Total Consolidado**: **230 min (~3h 50m / ~5 Story Points)**
 
+
+---
+
+## 7. Novas Pendências (Rodada 2)
+
+| # | Pendência | Arquivos envolvidos | Em aberto |
+| :--- | :--- | :--- | :--- |
+| **`n1`** | Alternância de exibição **grade vs lista** nas listagens | `ProjectsListView.vue`, `ResearchesView.vue`, `CertificationsView.vue`, `ProjectCard.vue`, `ResearchCard.vue` | Preferência salva por página ou global; variante "lista" dos cards |
+| **`n2`** | Novo padrão de **busca e filtros** das listagens | `BaseSearchInput.vue`, `BaseSelect.vue` e as três views de listagem | Substitui a harmonização de altura do `e3` (hoje: busca com 41px, selects com 39px) |
+| **`n3`** | **README falso funcional**: fechar e tela cheia pelos botões da janela | `MacWindow.vue`, `DescriptionSection.vue` | Os botões (`.window-controls`) hoje são só decorativos (`aria-hidden`); definir o que "fechar" faz (recolher com botão de reabrir?) e tela cheia com saída por `Esc` |
+| **`n4`** | Clicar numa **tech** mostra "definição" e "usos" | `TechStackSection.vue` (home), `CoreStackSection.vue` (sobre) | Os "usos" podem vir do campo `techs` dos projetos em `projects/content/*.md`; formato: popover ou modal |
+| **`n5`** | Clicar nos **cargos do hero** (ex.: "Desenvolvimento Web") mostra "exemplos" | `HeroSection.vue`, `home/locales/*.json` (`hero.roles`) | Exemplos ligados aos projetos por categoria? Manter `data-ascii-safe` nos elementos clicáveis |
+| **`n6`** | Listar **projetos mais antigos** | `projects/content/*.{pt,en}.md` | Hoje são só 3 (`cemiterio`, `plante`, `tera`); depende do conteúdo e das imagens de cada projeto |
+| **`n7`** | **Redesenhar a tela de contato** | `ContactView.vue`, `core/config/profile.js` | Alinhar à identidade do hero e do footer; os dados de contato ainda são placeholders (`TODO` no `profile.js`) |
+
+### `d1` — Discussão: relacionamentos entre techs, cargos e conteúdo
+
+> **Resolvido:** grafo de conteúdo em `src/content/`, documentado no [GRAPH.md](GRAPH.md). Os caminhos citados abaixo são anteriores à migração.
+
+Pré-requisito do `n4` (techs clicáveis) e do `n5` (cargos do hero clicáveis): definir **como projetos, certificações e pesquisas se ligam às techs e aos cargos do hero**, para que "usos" e "exemplos" sejam gerados a partir dos dados, e não escritos à mão.
+
+**O que já existe e pode servir de ligação:**
+
+| Fonte | Campos | Onde |
+| :--- | :--- | :--- |
+| Projetos | `techs` (ex.: `[Vue.js, Python, Flask]`), `category` (`App`, `CLI`, `Website`) | frontmatter de `projects/content/*.md` |
+| Certificações | `skills` | `certifications/locales/*.json` (`certifications_page.list`) |
+| Pesquisas | `tags`, `category` | `researches/locales/*.json` (`researches_page.list`) |
+| Techs | `name`, `icon` | listas fixas em `TechStackSection.vue` e `CoreStackSection.vue` |
+| Cargos do hero | 4 chaves (`web_development`, `app_development`, `data_science`, `software_architecture`) | `home/locales/*.json` (`hero.roles`) |
+
+**Problema:** são textos livres, escritos de forma independente em cada lugar. Nada garante que "Vue.js" no projeto, nas `skills` de uma certificação e no stack sejam o mesmo identificador, e os cargos do hero não têm nenhuma relação com as `category` dos projetos.
+
+**Pontos a decidir:**
+* **Registro central de techs** (ex.: `core/config/techs.js`) com `id`, nome, ícone, aliases e definição pt/en, referenciado por `id` em projetos, certificações e pesquisas? Também eliminaria as listas duplicadas de `TechStackSection` e `CoreStackSection`.
+* **Ligação dos cargos:** mapear cada cargo para categorias e/ou techs (ex.: `data_science` → `Python`, `Gemini AI`) ou marcar explicitamente cada conteúdo com os cargos a que pertence?
+* **Onde ficam as ligações:** no frontmatter/JSON de cada conteúdo (cada item declara suas techs) ou num índice central?
+* **Validação:** checar no build (ou num script) se toda tech citada existe no registro, para evitar ligações quebradas por erro de digitação.
+* **Granularidade dos "usos":** listar só projetos, ou projetos + certificações + pesquisas agrupados por tipo?
