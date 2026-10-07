@@ -1,12 +1,10 @@
 import '@/core/styles/index.css'
 import { createApp } from 'vue'
-import App from './App.vue'
-import router from '@/core/router'
+import UnderConstruction from './UnderConstruction.vue'
 import i18n from '@/core/i18n'
 
-const app = createApp(App)
+const app = createApp(UnderConstruction)
 
-app.use(router)
 app.use(i18n)
 
 app.mount('#app')
