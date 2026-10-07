@@ -1,6 +1,6 @@
 # Grafo de Conteúdo — vichsort-portifolio
 
-> **Status: migração implementada.** O vault está em `src/content/` e todas as telas e o terminal leem dele. Ainda não feitos: `n4`, `n5` e o teste no Obsidian (seção 10). Todos os dados são exemplos (o conteúdo atual do portfólio é fictício).
+> **Status: migração implementada.** O vault está em `src/content/` e todas as telas e o terminal leem dele. Ainda não feito: o teste no Obsidian (seção 10). Todos os dados são exemplos (o conteúdo atual do portfólio é fictício).
 
 Este documento define como o conteúdo do portfólio (techs, tópicos, cargos, categorias, projetos, certificações, pesquisas, eventos da timeline e coleções) passa a ser um **grafo de notas interligadas**, no modelo do Obsidian: cada coisa é um nó, os nós se citam por `id`, e as ligações inversas (*backlinks*) são calculadas.
 
@@ -115,7 +115,7 @@ Ligações entre conceitos são permitidas: `flask` declara `techs: [[python]]`,
 
 ### 3.3 Wikilinks no corpo
 
-`[[plante]]` ou `[[plante|o app]]` dentro do texto de um idioma vira um link para a página do nó citado (`core/content/routes.js`: projetos, fotos, pesquisas, certificações e timeline têm página). Nós sem página (techs, tópicos, cargos...) ficam como texto até existir o painel de nó (`n4`/`n5`). Um link para a página em que o texto já está também fica como texto. Nas telas, a diretiva `v-internal-links` faz esses links navegarem pelo router, sem recarregar.
+`[[plante]]` ou `[[plante|o app]]` dentro do texto de um idioma vira um link para a página do nó citado (`core/content/routes.js`: projetos e fotos têm página própria; pesquisas, certificações e timeline levam ao card na listagem, por âncora: `/certifications#id`). Nós sem página (techs, tópicos, cargos...) viram um nome com sublinhado pontilhado que abre o menu de nó (seção 5.6); o nó dono do texto fica fora desse menu, e se não sobrar nada o nome fica como texto. Um link para a página em que o texto já está também fica como texto. Nas telas, a diretiva `v-content-links` faz os links navegarem pelo router, sem recarregar, e abre o menu dos nomes pontilhados.
 
 - Contam como ligação no grafo, igual às de estrutura. Como o corpo é por idioma, a ligação pode existir em pt e não em en. A validação avisa quando isso acontece.
 - Link para id inexistente é erro, como na estrutura.
@@ -383,23 +383,26 @@ Backlinks vindos de coleções servem para a validação e para o Obsidian, mas 
 
 ### 5.6 O que o visitante vê
 
-**`n4` — clicar em Python no stack (idioma pt):**
+**`n4` — clicar no Vue.js no stack (idioma pt):** um menu de contexto, no estilo do macOS, com o que aponta para o nó. Sem contadores nem títulos; o rótulo segue o número de itens.
 ```
-┌─────────────────────────────────────────┐
-│ [ícone] Python                          │
-│ Linguagem de programação interpretada,  │
-│ de tipagem dinâmica e propósito geral.  │
-│ "Minha escolha para scripts..."         │
-│                                         │
-│ Relacionadas  Flask                     │
-│ Projetos      PlantE · Tera Docs        │
-│ Trajetória    2023 — Dev Fullstack      │
-└─────────────────────────────────────────┘
+ [Vue]
+┌──────────────────────┐   ┌───────────────────┐
+│ Ver projetos       › │ → │ PlantE            │
+│ Ver pesquisa         │   │ Cemitério Caboclo │
+│ Ver certificado      │   └───────────────────┘
+│ Ver na trajetória  › │
+│ Relacionadas       › │  (JavaScript, Pinia: em cinza, sem destino)
+└──────────────────────┘
 ```
 
-**`n5` — clicar em "Ciência de Dados" no hero:** o mesmo componente, com o nome e a descrição do cargo e os conteúdos que apontam para `[[data-science]]`.
+- Os grupos vêm de `backlinks(id)` por tipo, sem coleções; as techs relacionadas, de `relatedTechs(id)` (só o campo `techs`).
+- Um item só: a linha já é o link. Mais de 6: os 6 mais recentes e "Ver todos", que abre a listagem com `?ref=<id>`.
+- Certificações, pesquisas e timeline não têm página própria: o link vai ao card, por âncora (`/certifications#id`).
+- Passar o mouse abre o submenu; o clique o trava. No mobile, o submenu desliza para dentro do menu.
 
-**Wikilink no corpo:** clicar em "Flask" no artigo do PlantE abre o cartão do Flask.
+**`n5` — clicar em "Ciência de Dados" no hero:** o mesmo menu, com o que aponta para `[[data-science]]`.
+
+**Wikilink no corpo:** "Python" no texto do PlantE abre o mesmo menu, sem o próprio PlantE (que é a página em que se está). O HTML traz `<button class="node-ref" data-node="python" data-from="plante">`; a diretiva `v-content-links` abre o `NodeMenuHost`, um menu único montado no `App.vue`.
 
 ---
 
@@ -438,6 +441,9 @@ src/core/content/
 ├── queries.js       # consultas com idioma explícito (usadas pelo terminal)
 ├── projects.js      # formato de projeto usado pelas telas e pelo terminal (projectView, allProjects)
 ├── photos.js        # formato de foto da galeria (photoView, allPhotos)
+├── routes.js        # destino de cada nó (nodeRoute) e listagem filtrada por ?ref= (listingRoute)
+├── nodeMenu.js      # grupos do menu de nó (n4/n5): backlinks por tipo, até 6 itens, "ver todos"
+├── useNodeMenu.js   # nodeMenu no idioma ativo, convertido para os itens do ContextMenu
 ├── markdown.js      # renderiza o corpo: wikilinks viram texto, imagens relativas viram arquivos do nó
 └── useContent.js    # as mesmas consultas no idioma ativo, para componentes
 scripts/content.mjs  # npm run check:content / content:index / content:new
@@ -457,6 +463,7 @@ linked('plante', 'techs')          // ids ligados por um campo
 collection('home-stack')           // [{ group, items }] já resolvidos, na ordem
 backlinks('python')                // { tech: [...], project: [...], timeline: [...] }
 outlinks('python')                 // o inverso: para onde o nó aponta, agrupado por tipo do destino
+relatedTechs('vue')                // techs ligadas pelo campo techs, nos dois sentidos
 related('plante')                  // [{ node, shared }] do mais ao menos parecido
 icon('python'), cover('plante')    // URLs dos arquivos da pasta do nó
 html('plante')                     // corpo renderizado
@@ -464,7 +471,7 @@ html('plante')                     // corpo renderizado
 
 Fora de componentes (terminal), `content` de `@/core/content` tem as mesmas funções, recebendo o idioma como último argumento.
 
-Para o `n4` e o `n5`, a ideia continua sendo um componente genérico (`NodeCard`, aberto por `NodeLink`) que renderiza qualquer nó.
+Para o `n4` e o `n5`, `<NodeMenu id="...">gatilho</NodeMenu>` (`shared/components/node/`) monta o menu de qualquer nó sobre o `ContextMenu` genérico (`shared/components/ui/menu/`); o `TechIcon` é o ícone de tech dos stacks já com o menu.
 
 ---
 

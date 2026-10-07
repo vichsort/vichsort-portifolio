@@ -44,17 +44,29 @@ src/
 │   │   ├── index.js                # Mescla os dicionários de core e dos módulos (import.meta.glob)
 │   │   └── locales/                # Dicionários globais: <idioma>.json (nav, settings, common, footer)
 │   ├── router/
-│   │   └── index.js                # Rotas com lazy-loading + título da aba
+│   │   ├── index.js                # Rotas com lazy-loading + título da aba
+│   │   └── scrollToHash.js         # Rota com âncora (/certifications#id): rola até o card e o destaca
 │   └── styles/                     # tokens, fonts, reset, utilities e o agregador index.css
 │
 ├── shared/                         # Reutilizáveis sem domínio
 │   ├── ascii/                      # Motor dos campos ASCII em canvas (hero, footer): grid, camadas, paleta
 │   ├── components/
 │   │   ├── layout/                 # TheNavbar, SettingsSidebar, TheFooter
+│   │   ├── node/                   # NodeMenu: menu de um nó do grafo (n4/n5), sobre o ContextMenu;
+│   │   │                           # TechIcon: ícone de tech dos stacks, com hover e menu;
+│   │   │                           # NodeMenuHost: menu único dos wikilinks nos textos (n10), no App.vue
 │   │   └── ui/                     # BaseSearchInput, BaseSelect, ListingToolbar, ListingEmpty, UntranslatedNote
+│   │       └── menu/               # Menu de contexto estilo macOS: ContextMenu (gatilho <button>) sobre o
+│   │                               # ContextMenuPanel (ancorado em qualquer elemento), MenuList (um nível), useMenuState
+│   │                               # (aberto, submenu, trava por clique), useMenuPosition (@floating-ui),
+│   │                               # useSubmenuAim (tolerância diagonal), useMenuKeyboard (setas, Esc)
 │   ├── composables/                # useTheme, useSettings, useNavigation, useSmartScroll,
 │   │                               # useDraggableScroll, useScrollProgress, useAsciiField, useHeroPresence,
-│   │                               # useListingFilters (busca e filtros), useListingView (grade/lista)
+│   │                               # useListingFilters (busca e filtros), useListingView (grade/lista),
+│   │                               # useRefFilter (?ref=<id>: só os itens que apontam para um nó),
+│   │                               # useNodeMenuHost (estado do menu dos wikilinks)
+│   ├── directives/                 # v-content-links: no HTML de v-html, links internos navegam pelo router
+│   │                               # e wikilinks de nós sem página abrem o menu de nó
 │   └── views/
 │       └── NotFoundView.vue        # 404
 │

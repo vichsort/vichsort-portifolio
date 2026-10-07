@@ -8,8 +8,6 @@ Lista do que falta na interface tradicional. Revisada em 2026-10-07 contra o có
 
 | # | Pendência | Arquivos | A decidir |
 | :--- | :--- | :--- | :--- |
-| **`n4`** | Clicar numa **tech** mostra definição e usos | `TechStackSection.vue`, `CoreStackSection.vue` | Popover ou modal. Os usos vêm dos backlinks do grafo ([GRAPH.md](GRAPH.md)) |
-| **`n5`** | Clicar num **cargo do hero** mostra exemplos | `HeroSection.vue`, coleção `hero-roles` | Formato da exibição. Os exemplos vêm dos backlinks do nó do cargo; manter `data-ascii-safe` |
 | **`n7`** | **Redesenhar a tela de contato** | `ContactView.vue` | Alinhar à identidade do hero e do footer |
 | **`n8`** | **Modal de certificação** | `CertificationsView.vue`, novo `CertificationModal.vue` | Ainda faz sentido? O card já tem link direto para a credencial |
 
@@ -48,6 +46,8 @@ Todo o conteúdo atual é fictício. Depende de material, não de código.
 
 ## Concluído
 
+* Menu de nó nos textos (`n10`): `[[python]]` no corpo de um projeto ou foto vira um nome com sublinhado pontilhado que abre o mesmo menu dos stacks; o nó dono do texto fica fora do menu (no PlantE, o Python não lista o próprio PlantE), e um nó sem mais nada para mostrar continua como texto. Peças: `ContextMenuPanel` (o menu sem gatilho próprio, ancorado em qualquer elemento), `NodeMenuHost` no `App.vue` e a diretiva `v-content-links` (antiga `v-internal-links`)
+* Menu de nó (`n4` + `n5`): clicar numa tech (stacks da home e do Sobre) ou num cargo do hero abre um menu no estilo do macOS com o que aponta para o nó ("Ver projetos", "Ver certificado"...); o hover abre o submenu e o clique o trava; um item só leva direto; passando de 6, "Ver todos" abre a listagem filtrada (`?ref=<id>`, com chip removível); techs relacionadas aparecem em cinza; no mobile o submenu desliza para dentro do menu. Certificações, pesquisas e timeline ganharam âncora (`/certifications#id`) com rolagem e destaque do card. Peças: `ContextMenu` genérico (`shared/components/ui/menu/`), `nodeMenu.js` + `useNodeMenu`, `NodeMenu` e `TechIcon` (que tirou o markup duplicado dos dois stacks)
 * Auditoria da arquitetura (`a1`): ARCHITECTURE.md e READMEs dos módulos atualizados; um só módulo de Markdown (`core/content/markdown.js`); removido o pacote `@lucide/vue` sem uso; token `--text-on-primary` no lugar do branco fixo
 * Listagens (`n1` + `n2`): barra única de busca e filtros (`ListingToolbar` + `useListingFilters`) em projetos, pesquisas e certificações, com busca e selects da mesma altura (`--control-height`) e busca que ignora acentos; alternância grade/lista global, salva no navegador (lista: projetos em linha com miniatura, pesquisas uma por linha, certificações em linha). De quebra, os `#ffffff` que a auditoria `a1` deixou passar viraram `--text-on-primary`
 * Wikilinks clicáveis (`n9`): `[[id]]` no texto de um nó vira link para a página dele (projetos, fotos, pesquisas, certificações, timeline), navegando pelo router; nós sem página ficam como texto até o painel de nó. Mapa único de rotas em `core/content/routes.js`
