@@ -42,7 +42,7 @@ Este documento consolida os princípios visuais, o sistema de tokens, as camadas
 | `--neon-magenta` | `#c51bff` | `#8a12d6` | Neon: campos ASCII, diretório do prompt e ênfases do terminal |
 | `--neon-pink` / `--neon-yellow` / `--neon-orange` | `#ff2e97` / `#ffd23f` / `#ff7a1a` | `#d1006b` / `#b97700` / `#d9480f` | Neon: campos ASCII; `--neon-pink` também no código inline do terminal |
 
-**Nenhuma cor fixa em componentes.** Toda cor vem de um token, inclusive no terminal, que segue o tema do site. Os neons têm valores próprios no tema claro, escurecidos para manter contraste. Exceções aceitas: os três botões de janela do `MacWindow` (cores do macOS) e textos sobre fotos.
+**Nenhuma cor fixa em componentes.** Toda cor vem de um token, inclusive no terminal, que segue o tema do site. Os neons têm valores próprios no tema claro, escurecidos para manter contraste. Exceções aceitas: os três botões de janela do `MacWindow` (cores do macOS), textos e degradês sobre fotos, e sombras/fundos escurecidos em preto translúcido (`rgba(0, 0, 0, …)`), que valem igual nos dois temas.
 
 ---
 

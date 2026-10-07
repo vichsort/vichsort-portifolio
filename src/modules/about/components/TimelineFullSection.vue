@@ -177,7 +177,7 @@ const sortLabel = computed(() => {
 }
 
 .filter-pill.is-active {
-  color: #ffffff;
+  color: var(--text-on-primary);
   background-color: var(--primary);
   border-color: var(--primary);
   box-shadow: 0 0 10px var(--primary-subtle);

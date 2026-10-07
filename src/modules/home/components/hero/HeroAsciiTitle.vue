@@ -176,7 +176,7 @@ watch(layout, paint, { flush: 'post' })
 
 .ascii-cell[data-state='head'] {
   background: var(--primary);
-  color: #fff;
+  color: var(--text-on-primary);
   text-shadow: none;
 }
 </style>

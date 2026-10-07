@@ -266,7 +266,7 @@ const selectOption = (value) => {
 }
 
 .option-item.active {
-  color: #ffffff;
+  color: var(--text-on-primary);
   background-color: var(--primary);
   font-weight: 600;
 }

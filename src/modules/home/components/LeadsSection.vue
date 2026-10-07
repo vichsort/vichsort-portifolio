@@ -159,7 +159,7 @@ const statsCards = [
 
 .stat-card:hover .arrow-wrapper {
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
   transform: translate(2px, -2px);
 }
 

@@ -296,7 +296,7 @@ function backToTop() {
 }
 
 .back-to-top:hover {
-  color: #ffffff;
+  color: var(--text-on-primary);
   border-color: var(--primary);
   background-color: var(--primary);
 }

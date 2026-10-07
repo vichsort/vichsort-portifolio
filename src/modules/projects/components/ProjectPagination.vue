@@ -109,7 +109,7 @@ const { t } = useI18n()
 
 .pagination-btn:hover .icon-circle {
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
 }
 
 .btn-content {

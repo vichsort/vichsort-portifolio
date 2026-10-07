@@ -191,7 +191,7 @@ const renderedDescription = computed(() => {
   position: absolute;
   top: 12px;
   right: 12px;
-  background: rgba(8, 7, 17, 0.75);
+  background: var(--bg-surface-elevated);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border-subtle);
@@ -327,7 +327,7 @@ const renderedDescription = computed(() => {
 .view-more-btn:hover {
   background-color: var(--primary);
   border-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
 }
 
 .view-more-btn:hover .btn-arrow {

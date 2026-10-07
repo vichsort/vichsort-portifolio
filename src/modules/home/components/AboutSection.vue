@@ -135,7 +135,7 @@ const barHeight = computed(() => {
   align-items: center;
   gap: 0.5rem;
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
   padding: 0.75rem 2.5rem;
   border-radius: var(--radius-full);
   font-family: var(--font-body);

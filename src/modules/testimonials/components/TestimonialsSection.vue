@@ -107,7 +107,7 @@ const scrollRight = () => {
 .nav-btn:hover {
   background: var(--primary);
   border-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
   transform: scale(1.05);
 }
 

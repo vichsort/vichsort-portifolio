@@ -206,7 +206,7 @@ const {
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-full);
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
   font-size: var(--text-xs);
   font-weight: 700;
   text-transform: uppercase;

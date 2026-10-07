@@ -132,7 +132,7 @@ const specs = [
 }
 
 .zap-icon {
-  color: #eab308;
+  color: var(--neon-yellow);
 }
 
 .specs-grid {

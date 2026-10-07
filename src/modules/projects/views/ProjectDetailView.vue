@@ -236,7 +236,7 @@ watch(
 
 .btn-primary {
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
   box-shadow: var(--shadow-glow);
 }
 
