@@ -68,6 +68,7 @@ generated: true
 - [[algorithms]]
 - [[cloud-computing]]
 - [[computer-vision]]
+- [[cultural-heritage]]
 - [[database-modeling]]
 - [[developer-tools]]
 - [[distributed-systems]]

@@ -1,14 +1,15 @@
 ---
-source: placeholder
+source: auto-generated
 category: "[[website]]"
-date: [2024-05, 2024-10]
-live: "https://cemiterio.com"
+date: [2025-11, 2025-12]
+github: "https://github.com/vichsort/cemiterio-caboclo"
+live: "https://cemiterio-caboclo.vercel.app"
 techs:
   - "[[vue]]"
-  - "[[typescript]]"
-  - "[[openstreetmap]]"
+  - "[[vite]]"
+  - "[[javascript]]"
 topics:
-  - "[[gis]]"
+  - "[[cultural-heritage]]"
 roles:
   - "[[web-development]]"
 ---
