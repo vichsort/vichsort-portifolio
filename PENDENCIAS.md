@@ -23,9 +23,6 @@ O planejamento original (`terminal.md`, fora do git) se perdeu. A lista abaixo �
 | # | Pendência | Arquivos | Observação |
 | :--- | :--- | :--- | :--- |
 | **`t0`** | **Recuperar o escopo idealizado** do terminal | — | Procurar o `terminal.md` em backups ou outra máquina; senão, reescrever o escopo |
-| **`t1`** | Histórico de comandos com **↑ / ↓** | `TerminalPrompt.vue`, `useTerminal.js` | O prompt só trata o Enter |
-| **`t2`** | **Autocompletar com Tab** | `TerminalPrompt.vue`, `useTerminal.js` | `getCompletions` já existe em `vfs/engine.js`, só falta ligar à tecla |
-| **`t3`** | Atalhos **`Ctrl+L`** (limpar) e **`Ctrl+C`** (cancelar linha) | `TerminalPrompt.vue` | |
 | **`t4`** | **Pipes e encadeamento** (`\|`, `&&`) | `parser/lexer.js`, `dispatcher.js` | Hoje o `grep` só lê arquivos |
 | **`t5`** | **Grafo inteiro no VFS**: `techs/`, `topics/`, `roles/`, `timeline/` | `vfs/manifest.js`, `vfs/connectors.js` | Talvez um comando `links <id>` para mostrar ligações e backlinks |
 | **`t6`** | **Download do `resume.pdf`** | `vfs/manifest.js`, `dispatcher.js` | O nó declara `action: 'download_resume'`, mas nada trata essa ação |
@@ -58,6 +55,7 @@ Todo o conteúdo atual é fictício. Depende de material, não de código.
 ## Concluído
 
 * Auditoria da arquitetura (`a1`): ARCHITECTURE.md e READMEs dos módulos atualizados; um só módulo de Markdown (`core/content/markdown.js`); removido o pacote `@lucide/vue` sem uso; token `--text-on-primary` no lugar do branco fixo
+* Atalhos do terminal (`t1`–`t3`): ↑/↓ no histórico (sem duplicar o comando anterior e guardando a linha em edição), Tab completa comandos e caminhos (lista as opções quando há mais de uma), Ctrl+L limpa a tela, Ctrl+C abandona a linha; copiar e colar exigem Shift (Ctrl+Shift+C / Ctrl+Shift+V), como num terminal Linux
 * Terminal no padrão visual (`a7`): só tokens do site, segue o tema claro/escuro; tokens novos `--danger` e neons documentados no DESIGN.md
 * Formato do projeto compartilhado (`a8`): `core/content/projects.js`, usado pelas telas e pelo terminal
 * Header ASCII sorteado ao entrar no terminal (`t7`): não aparecia porque o glob dos headers era desativado no navegador; corrigido, o comando `header` também volta a funcionar

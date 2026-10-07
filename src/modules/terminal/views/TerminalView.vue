@@ -14,7 +14,12 @@ const {
   history,
   displayPath,
   isExecuting,
-  execute
+  execute,
+  clear,
+  historyPrev,
+  historyNext,
+  complete,
+  interrupt
 } = useTerminal()
 
 const welcomeText = computed(() => {
@@ -46,6 +51,11 @@ const welcomeText = computed(() => {
         :disabled="isExecuting"
         :welcome-message="welcomeText"
         @submit="execute"
+        @history-prev="historyPrev"
+        @history-next="historyNext"
+        @complete="complete"
+        @interrupt="interrupt"
+        @clear-screen="clear"
       />
     </div>
   </main>

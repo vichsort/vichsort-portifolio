@@ -36,7 +36,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['submit', 'update:modelValue', 'keydown'])
+const emit = defineEmits(['submit', 'update:modelValue', 'history-prev', 'history-next', 'complete', 'interrupt', 'clear-screen'])
 
 const screenRef = ref(null)
 const promptRef = ref(null)
@@ -104,8 +104,12 @@ defineExpose({
       :model-value="modelValue"
       :disabled="disabled"
       @update:model-value="(val) => emit('update:modelValue', val)"
-      @keydown="(e) => emit('keydown', e)"
       @submit="(cmd) => emit('submit', cmd)"
+      @history-prev="emit('history-prev')"
+      @history-next="emit('history-next')"
+      @complete="emit('complete')"
+      @interrupt="emit('interrupt')"
+      @clear-screen="emit('clear-screen')"
     />
   </div>
 </template>

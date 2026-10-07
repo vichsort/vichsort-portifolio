@@ -24,7 +24,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['submit', 'update:modelValue', 'keydown'])
+const emit = defineEmits(['submit', 'update:modelValue', 'history-prev', 'history-next', 'complete', 'interrupt', 'clear-screen'])
 
 const inputRef = ref(null)
 
@@ -67,11 +67,46 @@ const handlePaste = (event) => {
   })
 }
 
+// Texto selecionado no campo ou, se não houver, na tela
+const selectedText = () => {
+  const input = inputRef.value
+  if (input && input.selectionStart !== input.selectionEnd) {
+    return input.value.slice(input.selectionStart, input.selectionEnd)
+  }
+  return window.getSelection()?.toString() || ''
+}
+
 const handleKeydown = (event) => {
-  emit('keydown', event)
-  if (event.key === 'Enter' && !event.shiftKey) {
+  const key = event.key.toLowerCase()
+  const plain = !event.ctrlKey && !event.metaKey && !event.altKey
+
+  if (key === 'enter' && plain && !event.shiftKey) {
     event.preventDefault()
     emit('submit', props.modelValue)
+  } else if (key === 'arrowup' && plain) {
+    event.preventDefault()
+    emit('history-prev')
+  } else if (key === 'arrowdown' && plain) {
+    event.preventDefault()
+    emit('history-next')
+  } else if (key === 'tab' && plain && !event.shiftKey) {
+    event.preventDefault()
+    emit('complete')
+  } else if (key === 'l' && event.ctrlKey && !event.altKey) {
+    event.preventDefault()
+    emit('clear-screen')
+  } else if (key === 'c' && event.ctrlKey && !event.altKey) {
+    // Como num terminal Linux: Ctrl+C interrompe; copiar é Ctrl+Shift+C
+    event.preventDefault()
+    if (!event.shiftKey) {
+      emit('interrupt')
+      return
+    }
+    const text = selectedText()
+    if (text) navigator.clipboard?.writeText(text).catch(() => {})
+  } else if (key === 'v' && event.ctrlKey && !event.shiftKey && !event.altKey) {
+    // Colar é Ctrl+Shift+V (o navegador cola sozinho e cai no handlePaste)
+    event.preventDefault()
   }
 }
 
