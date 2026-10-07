@@ -11,14 +11,19 @@ generated: true
 - [[angular]]
 - [[aws]]
 - [[c]]
+- [[celery]]
 - [[cloudflare]]
+- [[d3]]
+- [[dart]]
 - [[docker]]
 - [[express]]
 - [[fastapi]]
+- [[firebase]]
 - [[flask]]
 - [[flutter]]
 - [[gemini]]
 - [[git]]
+- [[github-actions]]
 - [[go]]
 - [[javascript]]
 - [[leaflet]]
@@ -37,6 +42,9 @@ generated: true
 - [[postgis]]
 - [[postgresql]]
 - [[prometheus]]
+- [[pydantic]]
+- [[pyright]]
+- [[pytest]]
 - [[python]]
 - [[pytorch]]
 - [[qgis]]
@@ -45,8 +53,10 @@ generated: true
 - [[react]]
 - [[redis]]
 - [[sass]]
+- [[sqlalchemy]]
 - [[sqlite]]
 - [[tailwindcss]]
+- [[typer]]
 - [[typescript]]
 - [[vite]]
 - [[vscode]]
@@ -65,7 +75,9 @@ generated: true
 - [[edge-computing]]
 - [[frontend-architecture]]
 - [[gis]]
+- [[open-data]]
 - [[spatial-analysis]]
+- [[sustainability]]
 
 ## roles
 
@@ -91,8 +103,10 @@ generated: true
 ## projects
 
 - [[cemiterio]]
+- [[cicc]]
+- [[faif]]
 - [[plante]]
-- [[tera]]
+- [[tera-cli]]
 
 ## certifications
 
@@ -102,7 +116,6 @@ generated: true
 
 ## researches
 
-- [[edge-leaf-diagnosis]]
 - [[heritage-mapping]]
 - [[microservices-energy]]
 
@@ -111,15 +124,12 @@ generated: true
 - [[2021-computer-science]]
 - [[2022-gis-research]]
 - [[2023-fullstack-developer]]
-- [[2024-edge-ai-award]]
-- [[2024-plante-launch]]
 - [[2026-platform-engineering]]
 
 ## gallery
 
 - [[hackathon-2023]]
 - [[laboratorio-edge]]
-- [[plante-campo]]
 - [[simposio-2024]]
 
 ## collections
