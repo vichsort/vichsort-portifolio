@@ -13,7 +13,7 @@ import { join, relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { buildGraph } from '../src/core/content/graph.js'
 import { validateGraph } from '../src/core/content/validate.js'
-import { LANGS, TYPES, TYPE_BY_FOLDER } from '../src/core/content/schema.js'
+import { LANGS, REQUIRED_LANGS, TYPES, TYPE_BY_FOLDER } from '../src/core/content/schema.js'
 
 const ROOT = fileURLToPath(new URL('../src/content/', import.meta.url))
 const INDEX = join(ROOT, 'index.md')
@@ -88,10 +88,14 @@ async function scaffold(typeArg, id) {
   await mkdir(dir, { recursive: true })
   await writeFile(join(dir, `${id}.md`), await readFile(join(TEMPLATES, `${type}.md`), 'utf-8'))
   const text = await readFile(join(TEMPLATES, `${type}.texto.md`), 'utf-8')
-  for (const lang of LANGS) await writeFile(join(dir, `${id}.${lang}.md`), text)
+  // Só os idiomas obrigatórios: um arquivo opcional esquecido com o texto de exemplo
+  // apareceria como tradução; sem o arquivo, o site mostra o fallback com aviso
+  for (const lang of REQUIRED_LANGS) await writeFile(join(dir, `${id}.${lang}.md`), text)
 
   console.log(`criado: ${relative(process.cwd(), dir)}/`)
+  const optional = LANGS.filter((l) => !REQUIRED_LANGS.includes(l))
   console.log('troque os valores de exemplo e rode npm run check:content e npm run content:index')
+  if (optional.length) console.log(`traduções opcionais: copie um texto para ${optional.map((l) => `${id}.${l}.md`).join(', ')}`)
 }
 
 const command = process.argv[2]

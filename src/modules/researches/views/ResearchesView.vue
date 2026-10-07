@@ -9,7 +9,7 @@ import BaseSelect from '@/shared/components/ui/BaseSelect.vue'
 import { ArrowLeft, RotateCcw, Sparkles } from 'lucide-vue-next'
 
 const { t } = useI18n()
-const { ofType, text, label, linked } = useContent()
+const { ofType, text, fallback, label, linked } = useContent()
 
 const rawResearches = computed(() =>
   ofType('research', { recent: true }).map((node) => {
@@ -17,6 +17,7 @@ const rawResearches = computed(() =>
     return {
       id: node.id,
       ...text(node.id),
+      fallback: fallback(node.id),
       // O primeiro tópico faz o papel da antiga categoria da pesquisa
       category: topics.length ? label(topics[0]) : '',
       authors: node.data.authors || '',

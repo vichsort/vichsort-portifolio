@@ -1,0 +1,25 @@
+{
+  "hero": {
+    "introduction": "¡Hola! Mi nombre es"
+  },
+  "about": {
+    "slide1": "Soy un aprendiz de por vida y un solucionador de problemas, movido por una pasión genuina por la tecnología. Mi recorrido empezó a temprana edad, intentando moldear mi primera computadora a mi imaginación creciente. Esas primeras experiencias marcaron el inicio de una carrera dedicada a la ingeniería de software...",
+    "slide2": "La curiosidad siempre fue la constante en mi vida, llevándome a romper barreras y explorar nuevos horizontes. En este próximo capítulo, te invito a ver no solo el código, sino el arte detrás de él.",
+    "button": "Galería",
+    "small": "Conoce un poco",
+    "big": "SOBRE ",
+    "highlight": "MÍ."
+  },
+  "leads": {
+    "stats": {
+      "projects": "Proyectos publicados",
+      "experience": "Años programando",
+      "researches": "Premios",
+      "certs": "Certificaciones"
+    },
+    "action": "Explorar"
+  },
+  "tech_stack": {
+    "label": "Este es mi"
+  }
+}

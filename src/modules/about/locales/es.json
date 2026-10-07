@@ -1,0 +1,116 @@
+{
+  "about_page": {
+    "window": {
+      "collapse": "Contraer ventana",
+      "expand": "Expandir ventana",
+      "maximize": "Pantalla completa",
+      "restore": "Salir de pantalla completa"
+    },
+    "title": "Sobre mí",
+    "subtitle": "Trayectoria, mentalidad técnica y evolución en la ingeniería de software.",
+    "s1_profile": {
+      "name": "Vitor Mignoni",
+      "role": "Software Engineer — Fullstack & Systems",
+      "location": "Santa Maria, RS — Brasil",
+      "education": "Ciencias de la Computación — UFSM",
+      "years_old": "años",
+      "bio_short": "Ingeniero de software enfocado en sistemas desacoplados, interfaces reactivas y arquitecturas orientadas al dominio. Conectando el rendimiento de bajo nivel con experiencias de usuario fluidas."
+    },
+    "s2_stack": {
+      "title": "Core Stack & Entorno",
+      "subtitle": "Las principales tecnologías y herramientas que uso a diario para construir productos confiables."
+    },
+    "s3_readme": {
+      "left_title": "Para salir un poco de lo convencional...",
+      "left_p1": "Para mí, construir software nunca fue solo escribir líneas de código o apilar bibliotecas de moda. Se trata de entender el problema a fondo, modelar el dominio con precisión y entregar algo que funcione con ligereza — desde la pantalla del usuario hasta la infraestructura.",
+      "left_p2": "Me gustan los sistemas predecibles, que no esconden la complejidad bajo capas mágicas y que respetan el rendimiento del dispositivo de quien los usa.",
+      "window_title": "profile.md",
+      "readme_header": "Hola, soy Vitor 👋",
+      "readme_intro": "Ingeniero de software con una base académica sólida en la UFSM y experiencia práctica en la concepción y entrega de productos escalables y sistemas offline-first.",
+      "quick_specs_title": "Especificaciones & Entorno",
+      "spec_os": "Sistema: Linux Mint (Cinnamon / Debian)",
+      "spec_editor": "Editor: VS Code & CLI Tools",
+      "spec_focus": "Enfoque: Arquitectura modular & Web Systems",
+      "readme_pillars_title": "Filosofía de ingeniería",
+      "readme_pillar_1": "Offline-First & Resiliencia: software diseñado para funcionar perfectamente incluso con conexión inestable.",
+      "readme_pillar_2": "Arquitectura por dominio: separación rigurosa de responsabilidades y contratos predecibles entre capas.",
+      "readme_pillar_3": "Rendimiento & Accesibilidad: interfaces fluidas con contraste cuidado y respeto al movimiento reducido.",
+      "readme_pillar_4": "Pragmatismo técnico: la mejor solución es la que resuelve el problema real sin introducir deuda técnica oculta.",
+      "readme_now_title": "Lo que estoy explorando ahora",
+      "readme_now_text": "Profundizando en microservicios distribuidos, inferencia de modelos neuronales en dispositivos edge y nuevas primitivas reactivas del ecosistema Vue 3."
+    },
+    "s4_timeline": {
+      "title": "Línea de tiempo",
+      "subtitle": "El recorrido cronológico de mis estudios, investigaciones académicas, empresas y proyectos.",
+      "interactive_hint": "Desplázate para explorar la trayectoria año a año",
+      "year_label": "Año"
+    },
+    "s5_timeline": {
+      "title": "Trayectoria consolidada",
+      "subtitle": "Visión general y completa de todos los hitos, logros y experiencias profesionales.",
+      "sort_oldest": "Más antiguos primero",
+      "sort_newest": "Más recientes primero",
+      "all_events": "Todos los hitos",
+      "category_work": "Empresa & Trabajo",
+      "category_project": "Proyecto propio",
+      "category_research": "Investigación & Academia",
+      "category_education": "Formación & Base",
+      "view_project": "Ver proyecto",
+      "view_research": "Ver investigación"
+    },
+    "s6_gallery": {
+      "title": "Registros & En campo",
+      "subtitle": "Presentaciones técnicas, pruebas en campo y detrás de escena del recorrido.",
+      "view_full_gallery": "Ver galería completa",
+      "photo_badge": "Foto",
+      "items": [
+        {
+          "id": "gallery-1",
+          "title": "Presentación técnica en el simposio",
+          "category": "Investigación & Premio",
+          "date": "2024",
+          "location": "UFSM — Santa Maria, RS",
+          "caption": "Presentación sobre plataformas espaciales distribuidas y premio al 1.er lugar.",
+          "image": "/images/gallery/apresentacao-simposio.jpg",
+          "format": "portrait"
+        },
+        {
+          "id": "gallery-2",
+          "title": "Validación en campo de PlantE",
+          "category": "Agritech & Edge AI",
+          "date": "2024",
+          "location": "Cultivo experimental",
+          "caption": "Pruebas de inferencia neuronal offline directamente en el smartphone de productores locales.",
+          "image": "/images/gallery/plante-campo.jpg",
+          "format": "landscape"
+        },
+        {
+          "id": "gallery-3",
+          "title": "Hackathon & Inmersión",
+          "category": "Competencia",
+          "date": "2023",
+          "location": "Polo tecnológico",
+          "caption": "Madrugada de prototipado rápido y desarrollo colaborativo.",
+          "image": "/images/gallery/hackathon.jpg",
+          "format": "square"
+        },
+        {
+          "id": "gallery-4",
+          "title": "Banco de laboratorio & Hardware",
+          "category": "Ingeniería & IoT",
+          "date": "2023",
+          "location": "Lab. de Computación Aplicada",
+          "caption": "Configuración de microcontroladores y pruebas de red en dispositivos edge.",
+          "image": "/images/gallery/laboratorio.jpg",
+          "format": "square"
+        }
+      ]
+    },
+    "cta": {
+      "title": "¿Construimos algo juntos?",
+      "subtitle": "Ya sea para un nuevo proyecto, consultoría técnica u oportunidad profesional, siempre estoy abierto a una buena conversación.",
+      "projects_btn": "Ver todos los proyectos",
+      "contact_btn": "Ponerse en contacto"
+    }
+  }
+}

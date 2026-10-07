@@ -41,6 +41,7 @@ export function useTimeline(eventsSource, resolveFn = (v) => v) {
         description: resolve(e?.description),
         link_type: resolve(e?.link_type),
         link_url: resolve(e?.link_url),
+        fallback: e?.fallback || null,
         tags
       }
     })

@@ -1,4 +1,5 @@
 <script setup>
+import UntranslatedNote from '@/shared/components/ui/UntranslatedNote.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
@@ -90,6 +91,7 @@ const linkLabel = computed(() => {
 
     <div class="title-block">
       <h3 class="event-title">{{ event.title }}</h3>
+      <UntranslatedNote :lang="event.fallback" />
       <div class="org-row" v-if="event.organization">
         <Building2 :size="13" class="org-icon" />
         <span>{{ event.organization }}</span>

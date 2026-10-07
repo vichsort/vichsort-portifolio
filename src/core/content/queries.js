@@ -1,4 +1,5 @@
 import { renderBody } from './markdown.js'
+import { fallbackChain } from '../i18n/languages.js'
 
 const startDate = (node) => String([node.data.date].flat()[0] ?? '')
 
@@ -13,13 +14,25 @@ export function createQueries(graph) {
 
   const node = (id) => graph.nodes.get(id) || null
 
-  const text = (id, lang) => node(id)?.texts[lang] || {}
+  /** Idioma em que o texto do nó será mostrado: o pedido ou o primeiro da cadeia de fallback. */
+  const textLang = (id, lang) => {
+    const texts = node(id)?.texts || {}
+    return fallbackChain(lang).find((l) => texts[l]) || null
+  }
+
+  const text = (id, lang) => node(id)?.texts[textLang(id, lang)] || {}
+
+  /** Idioma substituto quando o nó não tem texto no idioma pedido; null se não precisou. */
+  const fallback = (id, lang) => {
+    const used = textLang(id, lang)
+    return used && used !== lang ? used : null
+  }
 
   /** Nome de exibição: nome próprio da estrutura, ou nome/título traduzido. */
   const label = (id, lang) => {
     const n = node(id)
     if (!n) return id
-    const t = n.texts[lang] || {}
+    const t = text(id, lang)
     return n.data.name || t.name || t.title || id
   }
 
@@ -47,15 +60,15 @@ export function createQueries(graph) {
    *
    * @param {string} id
    * @param {{ lang?: string, includeCollections?: boolean }} [options]
-   *   lang: considera wikilinks do corpo só desse idioma
+   *   lang: considera wikilinks do corpo só do texto que será mostrado nesse idioma
    * @returns {Record<string, object[]>}
    */
   const backlinks = (id, { lang, includeCollections = false } = {}) => {
     const grouped = {}
     const seen = new Set()
     for (const edge of graph.backlinks.get(id) || []) {
-      if (edge.lang && lang && edge.lang !== lang) continue
       if (seen.has(edge.from)) continue
+      if (edge.lang && lang && edge.lang !== textLang(edge.from, lang)) continue
       const source = node(edge.from)
       if (source.type === 'collection' && !includeCollections) continue
       seen.add(edge.from)
@@ -110,5 +123,5 @@ export function createQueries(graph) {
   }
 
   // resolve: id de um alvo de wikilink (id ou alias, sem diferenciar maiúsculas), ou null
-  return { resolve: graph.resolve, node, text, label, ofType, linked, backlinks, related, collection, asset, icon, cover, html }
+  return { resolve: graph.resolve, node, text, textLang, fallback, label, ofType, linked, backlinks, related, collection, asset, icon, cover, html }
 }

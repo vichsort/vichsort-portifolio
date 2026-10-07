@@ -1,9 +1,10 @@
 import { computed, ref, watch } from 'vue'
 import { useLocalStorage, usePreferredReducedMotion } from '@vueuse/core'
 import i18n from '@/core/i18n'
+import { DEFAULT_LANG, isLang } from '@/core/i18n/languages'
 
 const isSidebarOpen = ref(false)
-const currentLang = useLocalStorage('user-lang', 'pt')
+const currentLang = useLocalStorage('user-lang', DEFAULT_LANG)
 // writeDefaults: false — sem isso o valor padrão é gravado na hora e o initSettings
 // nunca percebe que é a primeira visita (e não aplica a preferência do sistema)
 const areAnimationsEnabled = useLocalStorage('user-animations-enabled', true, { writeDefaults: false })
@@ -23,7 +24,8 @@ export function useSettings() {
     isSidebarOpen.value = false
   }
 
-  const setLanguage = (lang) => {
+  const setLanguage = (value) => {
+    const lang = isLang(value) ? value : DEFAULT_LANG
     currentLang.value = lang
     i18n.global.locale.value = lang
 

@@ -1,0 +1,17 @@
+{
+  "certifications_page": {
+    "title": "Certificaciones & Cursos",
+    "subtitle": "Validaciones técnicas, certificaciones y especializaciones completadas.",
+    "search_placeholder": "Buscar por certificación, institución o habilidad...",
+    "filter_skill": "Habilidad",
+    "all_skills": "Todas las habilidades",
+    "filter_issuer": "Institución",
+    "all_issuers": "Todas las instituciones",
+    "filter_year": "Año",
+    "all_years": "Todos los años",
+    "clear_filters": "Limpiar filtros",
+    "showing_count": "Mostrando {count} de {total} certificaciones",
+    "no_certifications_found": "No se encontraron certificaciones con los filtros seleccionados.",
+    "view_credential": "Ver credencial"
+  }
+}

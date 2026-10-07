@@ -16,7 +16,7 @@ import { ArrowLeft, FolderGit2, Mail, ArrowUpRight } from 'lucide-vue-next'
 
 const { t } = useI18n()
 const { reduceMotion } = useSettings()
-const { ofType, node, text, label, linked } = useContent()
+const { ofType, node, text, fallback, label, linked } = useContent()
 
 // Rota de cada tipo que um evento pode citar em `link`
 const LINK_ROUTES = {
@@ -35,6 +35,7 @@ const rawEvents = computed(() =>
       date: String(event.data.date),
       type: event.data.kind,
       ...text(event.id),
+      fallback: fallback(event.id),
       link_type: route ? target.type : '',
       link_url: route ? route(target.id) : '',
       tags: [...linked(event.id, 'techs'), ...linked(event.id, 'topics')].map(label)

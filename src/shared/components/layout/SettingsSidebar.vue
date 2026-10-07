@@ -5,6 +5,7 @@ import { useSettings } from '@/shared/composables/useSettings'
 import { useTheme } from '@/shared/composables/useTheme'
 import { useI18n } from 'vue-i18n'
 import { X, Sun, Moon, Minus, Plus } from 'lucide-vue-next'
+import { LANGUAGES } from '@/core/i18n/languages'
 
 const {
   isSidebarOpen,
@@ -32,11 +33,6 @@ onKeyStroke('Escape', (e) => {
     closeSidebar()
   }
 })
-
-const languages = [
-  { code: 'pt', label: 'Português', flag: '🇧🇷' },
-  { code: 'en', label: 'English', flag: '🇺🇸' }
-]
 
 const { t } = useI18n()
 </script>
@@ -88,7 +84,7 @@ const { t } = useI18n()
               <label class="group-label">{{ t('settings.language') }}</label>
               <div class="lang-grid">
                 <button
-                  v-for="lang in languages"
+                  v-for="lang in LANGUAGES"
                   :key="lang.code"
                   @click="setLanguage(lang.code)"
                   class="lang-btn"

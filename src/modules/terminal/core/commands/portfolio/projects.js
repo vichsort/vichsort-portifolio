@@ -12,7 +12,9 @@ export const projectsCommand = {
   async execute(args, flags, context) {
     const { globalState, i18n } = context
     const locale = globalState?.locale?.value || i18n?.global?.locale?.value || 'pt'
-    const isEn = locale === 'en'
+    const o = (key, params) => context.t(`terminal.output.projects.${key}`, params)
+    const RULE = '='.repeat(80)
+    const row = (label, value, width = 13) => `${`${label}:`.padEnd(width)} ${value}`
 
     // Cenário 1: Consulta de projeto específico (ex: projects plante)
     if (args.length > 0) {
@@ -22,9 +24,7 @@ export const projectsCommand = {
       if (!project) {
         return {
           type: 'error',
-          payload: isEn
-            ? `vsh: projects: project '${slug}' not found.`
-            : `vsh: projects: projeto '${slug}' não encontrado.`
+          payload: o('not_found', { slug })
         }
       }
 
@@ -33,25 +33,23 @@ export const projectsCommand = {
       const date = Array.isArray(attributes.date) ? attributes.date.join(' — ') : attributes.date || ''
 
       const lines = [
-        '================================================================================',
-        `${isEn ? 'PROJECT' : 'PROJETO'}: ${attributes.title || slug} (${attributes.category || 'App'})`,
-        '================================================================================',
-        `${isEn ? 'Timeline' : 'Período'}:     ${date}`,
-        `${isEn ? 'Tech Stack' : 'Tecnologias'}: ${techs}`
+        RULE,
+        `${o('project')}: ${attributes.title || slug} (${attributes.category || 'App'})`,
+        RULE,
+        row(o('period'), date),
+        row(o('techs'), techs)
       ]
 
-      if (attributes.github) lines.push(`GitHub:       ${attributes.github}`)
-      if (attributes.live) lines.push(`Live Demo:    ${attributes.live}`)
+      if (attributes.github) lines.push(row('GitHub', attributes.github))
+      if (attributes.live) lines.push(row('Live Demo', attributes.live))
 
       lines.push('')
-      lines.push(`${isEn ? 'SUMMARY' : 'RESUMO'}:`)
+      lines.push(`${o('summary').toUpperCase()}:`)
       lines.push(attributes.summary || '')
       lines.push('')
-      lines.push(isEn ? 'TIP:' : 'DICA:')
-      lines.push(isEn
-        ? `  To read the full Markdown case study, run: cat projects/${slug}/README.md`
-        : `  Para ler o artigo técnico completo em Markdown, execute: cat projects/${slug}/README.md`)
-      lines.push('================================================================================')
+      lines.push(`${o('tip')}:`)
+      lines.push(`  ${o('tip_text', { slug })}`)
+      lines.push(RULE)
 
       return {
         type: 'text',
@@ -75,31 +73,23 @@ export const projectsCommand = {
     if (filtered.length === 0) {
       return {
         type: 'text',
-        payload: isEn
-          ? 'vsh: no projects match the specified filter.'
-          : 'vsh: nenhum projeto corresponde ao filtro informado.'
+        payload: o('no_match')
       }
     }
 
-    const lines = [
-      '================================================================================',
-      isEn ? 'FEATURED ENGINEERING PROJECTS' : 'PROJETOS DE ENGENHARIA EM DESTAQUE',
-      '================================================================================'
-    ]
+    const lines = [RULE, o('list_title'), RULE]
 
     filtered.forEach((p, idx) => {
       const techs = Array.isArray(p.techs) ? p.techs.join(', ') : ''
       lines.push(`[${idx + 1}] ${p.title || p.id} (${p.category || 'App'})`)
-      lines.push(`    ${isEn ? 'Techs' : 'Tecnologias'}: ${techs}`)
-      if (p.summary) lines.push(`    ${isEn ? 'Summary' : 'Resumo'}:      ${p.summary}`)
-      lines.push(`    ${isEn ? 'Command' : 'Comando'}:     projects ${p.id}  (ou: cat projects/${p.id}/README.md)`)
+      lines.push(`    ${row(o('techs'), techs)}`)
+      if (p.summary) lines.push(`    ${row(o('summary'), p.summary)}`)
+      lines.push(`    ${row(o('command'), o('command_text', { slug: p.id }))}`)
       lines.push('')
     })
 
-    lines.push(isEn
-      ? "Run 'projects <name>' for details, or 'cat projects/<name>/README.md' for the case study."
-      : "Execute 'projects <nome>' para detalhes, ou 'cat projects/<nome>/README.md' para o artigo.")
-    lines.push('================================================================================')
+    lines.push(o('footer'))
+    lines.push(RULE)
 
     return {
       type: 'text',

@@ -1,0 +1,24 @@
+{
+  "researches_page": {
+    "title": "Ricerche & Premi",
+    "subtitle": "Articoli accademici, premi e progetti di ricerca universitaria.",
+    "search_placeholder": "Cerca per titolo, categoria, premio o tecnologia...",
+    "filter_category": "Categoria",
+    "all_categories": "Tutte le categorie",
+    "filter_year": "Anno",
+    "all_years": "Tutti gli anni",
+    "filter_award": "Premio",
+    "all_awards": "Tutti i premi",
+    "filter_tag": "Tecnologia / Area",
+    "all_tags": "Tutte le tecnologie",
+    "clear_filters": "Cancella filtri",
+    "showing_count": "{count} di {total} ricerche",
+    "no_researches_found": "Nessuna ricerca trovata con i filtri selezionati.",
+    "view_paper": "Vedi articolo",
+    "view_award": "Vedi premio",
+    "read_more": "Leggi l'abstract completo",
+    "read_less": "Riduci l'abstract",
+    "authors_label": "Autori",
+    "institution_label": "Istituzione"
+  }
+}

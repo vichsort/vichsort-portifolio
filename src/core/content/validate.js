@@ -1,4 +1,4 @@
-import { LANGS, TYPES } from './schema.js'
+import { LANGS, REQUIRED_LANGS, TYPES } from './schema.js'
 
 const DATE = /^\d{4}(-\d{2})?$/
 
@@ -44,8 +44,10 @@ export function validateGraph(graph) {
       }
     }
 
+    // Idiomas opcionais só são cobrados quando o arquivo existe
     for (const lang of LANGS) {
       const text = node.texts[lang]
+      if (!text && !REQUIRED_LANGS.includes(lang)) continue
       for (const field of def.requiredText || []) {
         if (isEmpty(text?.[field])) {
           report('error', 'missing-text', `${node.path}/${node.id}.${lang}.md`, `campo obrigatório ausente: ${field}`)
@@ -63,9 +65,15 @@ export function validateGraph(graph) {
   return issues
 }
 
-// Campos opcionais e wikilinks do corpo presentes num idioma e não no outro
+// Campos opcionais e wikilinks do corpo presentes num idioma e não em outro.
+// Compara o idioma base com cada um dos outros (os opcionais, só se existirem).
 function checkAsymmetry(node, required, report) {
-  const [a, b] = LANGS
+  const [base] = REQUIRED_LANGS
+  const others = LANGS.filter((l) => l !== base && (node.texts[l] || REQUIRED_LANGS.includes(l)))
+  for (const other of others) compareTexts(node, base, other, required, report)
+}
+
+function compareTexts(node, a, b, required, report) {
   const ta = node.texts[a] || {}
   const tb = node.texts[b] || {}
   const fields = new Set([...Object.keys(ta), ...Object.keys(tb)])

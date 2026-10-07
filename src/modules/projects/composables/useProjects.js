@@ -36,6 +36,7 @@ export function toProject(id, locale = 'pt') {
   return {
     id,
     title: text.title || id,
+    fallback: content.fallback(id, locale),
     summary: text.summary || '',
     category: categoryId ? content.label(categoryId, locale) : '',
     categoryId,

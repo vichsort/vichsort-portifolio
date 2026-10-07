@@ -8,10 +8,6 @@ export const resumeCommand = {
   descriptionKey: 'terminal.commands.resume.description',
   usageKey: 'terminal.commands.resume.usage',
   async execute(args, flags, context) {
-    const { globalState, i18n } = context
-    const locale = globalState?.locale?.value || i18n?.global?.locale?.value || 'pt'
-    const isEn = locale === 'en'
-
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {
       try {
         const link = document.createElement('a')
@@ -28,9 +24,7 @@ export const resumeCommand = {
 
     return {
       type: 'text',
-      payload: isEn
-        ? '[vsh]: Initiating download of resume (resume.pdf)...'
-        : '[vsh]: Disparando download do currículo (resume.pdf)...'
+      payload: context.t('terminal.output.resume.downloading')
     }
   }
 }

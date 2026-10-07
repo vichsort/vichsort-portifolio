@@ -1,0 +1,25 @@
+{
+  "hero": {
+    "introduction": "Ciao! Il mio nome è"
+  },
+  "about": {
+    "slide1": "Sono un eterno apprendista e un risolutore di problemi, spinto da una passione genuina per la tecnologia. Il mio percorso è iniziato da piccolo, mentre cercavo di adattare il mio primo computer alla mia immaginazione in crescita. Quelle prime esperienze hanno segnato l'inizio di una carriera dedicata all'ingegneria del software...",
+    "slide2": "La curiosità è sempre stata la costante della mia vita, portandomi a superare barriere ed esplorare nuovi orizzonti. In questo prossimo capitolo, ti invito a vedere non solo il codice, ma l'arte che c'è dietro.",
+    "button": "Galleria",
+    "small": "Scopri qualcosa",
+    "big": "SU ",
+    "highlight": "DI ME."
+  },
+  "leads": {
+    "stats": {
+      "projects": "Progetti pubblicati",
+      "experience": "Anni di codice",
+      "researches": "Premi",
+      "certs": "Certificazioni"
+    },
+    "action": "Esplora"
+  },
+  "tech_stack": {
+    "label": "Questo è il mio"
+  }
+}

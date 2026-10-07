@@ -1,0 +1,158 @@
+{
+  "terminal": {
+    "title": "Terminal",
+    "welcome": "VSH (Vitor Shell) — v1.0.0",
+    "help_hint": "Digita 'help' per elencare i comandi disponibili.",
+    "prompt_user": "vitor",
+    "prompt_host": "vichos",
+    "placeholder": "Digita un comando...",
+    "commands": {
+      "help": {
+        "description": "Elenca i comandi disponibili o i dettagli di un comando",
+        "usage": "help [comando]"
+      },
+      "ls": {
+        "description": "Elenca file e directory del percorso corrente",
+        "usage": "ls [-la] [percorso]"
+      },
+      "cd": {
+        "description": "Naviga tra le directory del VFS",
+        "usage": "cd [percorso]"
+      },
+      "cat": {
+        "description": "Mostra il contenuto di un file",
+        "usage": "cat <file>"
+      },
+      "pwd": {
+        "description": "Stampa la directory di lavoro corrente",
+        "usage": "pwd"
+      },
+      "clear": {
+        "description": "Pulisce la cronologia dei comandi dallo schermo",
+        "usage": "clear"
+      },
+      "whoami": {
+        "description": "Mostra le informazioni dell'utente connesso",
+        "usage": "whoami"
+      },
+      "echo": {
+        "description": "Stampa testo sull'output standard",
+        "usage": "echo <testo>"
+      },
+      "date": {
+        "description": "Mostra data e ora correnti del sistema",
+        "usage": "date"
+      },
+      "header": {
+        "description": "Mostra il banner stilizzato del portfolio con sfumatura di colore",
+        "usage": "header"
+      },
+      "tree": {
+        "description": "Disegna l'albero gerarchico del VFS",
+        "usage": "tree [percorso]"
+      },
+      "about": {
+        "description": "Mostra il profilo biografico e la formazione",
+        "usage": "about"
+      },
+      "projects": {
+        "description": "Elenca i progetti o mostra i metadati di un progetto",
+        "usage": "projects [--stack=x] [--featured] [slug]"
+      },
+      "skills": {
+        "description": "Mostra la matrice delle tecnologie raggruppate per stack",
+        "usage": "skills"
+      },
+      "certifications": {
+        "description": "Elenca le certificazioni e le credenziali registrate",
+        "usage": "certifications"
+      },
+      "researches": {
+        "description": "Elenca gli articoli scientifici e le ricerche accademiche",
+        "usage": "researches"
+      },
+      "cowsay": {
+        "description": "Genera la mucca parlante di Unix con un messaggio personalizzato",
+        "usage": "cowsay [messaggio]"
+      },
+      "sudo": {
+        "description": "Prova a eseguire un comando come superutente",
+        "usage": "sudo <comando>"
+      },
+      "resume": {
+        "description": "Avvia il download del curriculum in PDF",
+        "usage": "resume"
+      },
+      "contact": {
+        "description": "Mostra i link ai social e l'e-mail",
+        "usage": "contact"
+      },
+      "find": {
+        "description": "Cerca file o directory per nome",
+        "usage": "find <termine> [percorso]"
+      },
+      "grep": {
+        "description": "Cerca un pattern di testo all'interno dei file",
+        "usage": "grep <termine> [percorso]"
+      }
+    },
+    "errors": {
+      "command_not_found": "comando non trovato: {cmd}",
+      "did_you_mean": "Forse intendevi: {suggestion}?",
+      "no_such_file": "{cmd}: {path}: File o directory inesistente",
+      "is_a_directory": "{cmd}: {path}: È una directory",
+      "not_a_directory": "{cmd}: {path}: Non è una directory",
+      "missing_arg": "{cmd}: argomento obbligatorio mancante: {arg}"
+    },
+    "output": {
+      "about": {
+        "location": "Luogo",
+        "education": "Formazione",
+        "about": "CHI SONO",
+        "environment": "AMBIENTE & SPECIFICHE",
+        "philosophy": "FILOSOFIA DI INGEGNERIA"
+      },
+      "stack": {
+        "title": "CORE STACK & AMBIENTE TECNICO"
+      },
+      "timeline": {
+        "title": "LINEA DEL TEMPO & PERCORSO COMPLETO"
+      },
+      "certifications": {
+        "title": "CERTIFICAZIONI & CREDENZIALI TECNICHE",
+        "issuer": "Ente",
+        "skills": "Competenze",
+        "credential": "Credenziale"
+      },
+      "researches": {
+        "title": "RICERCHE ACCADEMICHE & PREMI",
+        "topics": "Argomenti",
+        "institution": "Istituzione",
+        "authors": "Autori",
+        "award": "Premio",
+        "summary": "Sintesi"
+      },
+      "contact": {
+        "title": "CANALI DI CONTATTO & RETI PROFESSIONALI",
+        "closing": "Sempre aperto a nuove opportunità, collaborazioni tecniche e sfide di ingegneria."
+      },
+      "projects": {
+        "not_found": "vsh: projects: progetto '{slug}' non trovato.",
+        "project": "PROGETTO",
+        "period": "Periodo",
+        "techs": "Tecnologie",
+        "summary": "Sintesi",
+        "tip": "SUGGERIMENTO",
+        "tip_text": "Per leggere l'articolo tecnico completo in Markdown, esegui: cat projects/{slug}/README.md",
+        "no_match": "vsh: nessun progetto corrisponde al filtro indicato.",
+        "list_title": "PROGETTI DI INGEGNERIA IN EVIDENZA",
+        "command": "Comando",
+        "command_text": "projects {slug}  (oppure: cat projects/{slug}/README.md)",
+        "footer": "Esegui 'projects <nome>' per i dettagli, oppure 'cat projects/<nome>/README.md' per l'articolo."
+      },
+      "resume": {
+        "downloading": "[vsh]: Avvio del download del curriculum (resume.pdf)..."
+      }
+    }
+  }
+}

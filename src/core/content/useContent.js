@@ -21,6 +21,7 @@ export function useContent() {
     icon: content.icon,
     cover: content.cover,
     text: (id) => content.text(id, lang()),
+    fallback: (id) => content.fallback(id, lang()),
     label: (id) => content.label(id, lang()),
     html: (id) => content.html(id, lang()),
     backlinks: (id, options = {}) => content.backlinks(id, { lang: lang(), ...options })

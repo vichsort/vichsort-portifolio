@@ -103,7 +103,56 @@
       "is_a_directory": "{cmd}: {path}: É um diretório",
       "not_a_directory": "{cmd}: {path}: Não é um diretório",
       "missing_arg": "{cmd}: argumento obrigatório ausente: {arg}"
+    },
+    "output": {
+      "about": {
+        "location": "Localização",
+        "education": "Formação",
+        "about": "SOBRE",
+        "environment": "AMBIENTE & ESPECIFICAÇÕES",
+        "philosophy": "FILOSOFIA DE ENGENHARIA"
+      },
+      "stack": {
+        "title": "CORE STACK & AMBIENTE TÉCNICO"
+      },
+      "timeline": {
+        "title": "LINHA DO TEMPO & TRAJETÓRIA CONSOLIDADA"
+      },
+      "certifications": {
+        "title": "CERTIFICAÇÕES & CREDENCIAIS TÉCNICAS",
+        "issuer": "Emissor",
+        "skills": "Habilidades",
+        "credential": "Credencial"
+      },
+      "researches": {
+        "title": "PESQUISAS ACADÊMICAS & PREMIAÇÕES",
+        "topics": "Tópicos",
+        "institution": "Instituição",
+        "authors": "Autores",
+        "award": "Premiação",
+        "summary": "Resumo"
+      },
+      "contact": {
+        "title": "CANAIS DE CONTATO & REDES PROFISSIONAIS",
+        "closing": "Aberto a novas oportunidades, colaborações técnicas e desafios de engenharia."
+      },
+      "projects": {
+        "not_found": "vsh: projects: projeto '{slug}' não encontrado.",
+        "project": "PROJETO",
+        "period": "Período",
+        "techs": "Tecnologias",
+        "summary": "Resumo",
+        "tip": "DICA",
+        "tip_text": "Para ler o artigo técnico completo em Markdown, execute: cat projects/{slug}/README.md",
+        "no_match": "vsh: nenhum projeto corresponde ao filtro informado.",
+        "list_title": "PROJETOS DE ENGENHARIA EM DESTAQUE",
+        "command": "Comando",
+        "command_text": "projects {slug}  (ou: cat projects/{slug}/README.md)",
+        "footer": "Execute 'projects <nome>' para detalhes, ou 'cat projects/<nome>/README.md' para o artigo."
+      },
+      "resume": {
+        "downloading": "[vsh]: Disparando download do currículo (resume.pdf)..."
+      }
     }
   }
 }
-

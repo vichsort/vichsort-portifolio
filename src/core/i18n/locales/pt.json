@@ -27,7 +27,8 @@
     "back_to_home": "Voltar ao Início",
     "explore": "Explorar",
     "view_more": "Ver mais",
-    "loading": "Carregando..."
+    "loading": "Carregando...",
+    "untranslated": "Não traduzido · em {lang}"
   },
   "not_found": {
     "title": "404",
@@ -43,5 +44,11 @@
     "copied": "Copiado!",
     "back_to_top": "Voltar ao topo",
     "rights": "© {year} NEAT by Vitor."
+  },
+  "languages": {
+    "pt": "português",
+    "en": "inglês",
+    "es": "espanhol",
+    "it": "italiano"
   }
 }

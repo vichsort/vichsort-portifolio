@@ -103,7 +103,56 @@
       "is_a_directory": "{cmd}: {path}: Is a directory",
       "not_a_directory": "{cmd}: {path}: Not a directory",
       "missing_arg": "{cmd}: missing required argument: {arg}"
+    },
+    "output": {
+      "about": {
+        "location": "Location",
+        "education": "Education",
+        "about": "ABOUT",
+        "environment": "WORKFLOW & ENVIRONMENT",
+        "philosophy": "ENGINEERING PHILOSOPHY"
+      },
+      "stack": {
+        "title": "CORE STACK & TECHNICAL ENVIRONMENT"
+      },
+      "timeline": {
+        "title": "TIMELINE & PROFESSIONAL JOURNEY"
+      },
+      "certifications": {
+        "title": "CERTIFICATIONS & CREDENTIALS",
+        "issuer": "Issuer",
+        "skills": "Skills",
+        "credential": "Credential"
+      },
+      "researches": {
+        "title": "RESEARCH PAPERS & SCIENTIFIC AWARDS",
+        "topics": "Topics",
+        "institution": "Institution",
+        "authors": "Authors",
+        "award": "Award",
+        "summary": "Summary"
+      },
+      "contact": {
+        "title": "DIRECT CONTACT & PROFESSIONAL NETWORKS",
+        "closing": "Always open to new projects, technical collaborations, and engineering challenges."
+      },
+      "projects": {
+        "not_found": "vsh: projects: project '{slug}' not found.",
+        "project": "PROJECT",
+        "period": "Timeline",
+        "techs": "Tech Stack",
+        "summary": "Summary",
+        "tip": "TIP",
+        "tip_text": "To read the full Markdown case study, run: cat projects/{slug}/README.md",
+        "no_match": "vsh: no projects match the specified filter.",
+        "list_title": "FEATURED ENGINEERING PROJECTS",
+        "command": "Command",
+        "command_text": "projects {slug}  (or: cat projects/{slug}/README.md)",
+        "footer": "Run 'projects <name>' for details, or 'cat projects/<name>/README.md' for the case study."
+      },
+      "resume": {
+        "downloading": "[vsh]: Initiating download of resume (resume.pdf)..."
+      }
     }
   }
 }
-

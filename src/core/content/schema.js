@@ -10,7 +10,9 @@
  * - enums: valores aceitos por campo
  */
 
-export const LANGS = ['pt', 'en']
+import { LANGS, REQUIRED_LANGS } from '../i18n/languages.js'
+
+export { LANGS, REQUIRED_LANGS }
 
 const CONCEPT_LINKS = { techs: 'tech', topics: 'topic' }
 const CONTENT_LINKS = { techs: 'tech', topics: 'topic', roles: 'role' }

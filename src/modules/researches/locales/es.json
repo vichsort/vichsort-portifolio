@@ -1,0 +1,24 @@
+{
+  "researches_page": {
+    "title": "Investigaciones & Premios",
+    "subtitle": "Artículos académicos, premios y proyectos de iniciación científica.",
+    "search_placeholder": "Buscar por título, categoría, premio o tecnología...",
+    "filter_category": "Categoría",
+    "all_categories": "Todas las categorías",
+    "filter_year": "Año",
+    "all_years": "Todos los años",
+    "filter_award": "Premio",
+    "all_awards": "Todos los premios",
+    "filter_tag": "Tecnología / Área",
+    "all_tags": "Todas las tecnologías",
+    "clear_filters": "Limpiar filtros",
+    "showing_count": "Mostrando {count} de {total} investigaciones",
+    "no_researches_found": "No se encontraron investigaciones con los filtros seleccionados.",
+    "view_paper": "Ver artículo",
+    "view_award": "Ver premio",
+    "read_more": "Leer resumen completo",
+    "read_less": "Contraer resumen",
+    "authors_label": "Autores",
+    "institution_label": "Institución"
+  }
+}

@@ -5,15 +5,17 @@ import { useContent } from '@/core/content/useContent'
 import { useCertificationsFilter } from '../composables/useCertificationsFilter'
 import BaseSearchInput from '@/shared/components/ui/BaseSearchInput.vue'
 import BaseSelect from '@/shared/components/ui/BaseSelect.vue'
+import UntranslatedNote from '@/shared/components/ui/UntranslatedNote.vue'
 import { ArrowLeft, CheckCircle2, ExternalLink, Calendar, RotateCcw, Sparkles } from 'lucide-vue-next'
 
 const { t } = useI18n()
-const { ofType, text, label, linked } = useContent()
+const { ofType, text, fallback, label, linked } = useContent()
 
 const rawCertifications = computed(() =>
   ofType('certification', { recent: true }).map((node) => ({
     id: node.id,
     name: text(node.id).name,
+    fallback: fallback(node.id),
     issuer: node.data.issuer,
     date: String(node.data.date),
     credential_url: node.data.credential_url || '',
@@ -126,6 +128,7 @@ const {
             </div>
 
             <h2 class="cert-name">{{ cert.name }}</h2>
+            <UntranslatedNote :lang="cert.fallback" />
 
             <!-- Skills Badges -->
             <div v-if="cert.skills && cert.skills.length > 0" class="skills-container">

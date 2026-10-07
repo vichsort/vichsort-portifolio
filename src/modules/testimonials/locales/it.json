@@ -1,0 +1,25 @@
+{
+  "testimonials_section": {
+    "title": "Alcune opinioni di chi ha già lavorato con me:",
+    "list": [
+      {
+        "id": 1,
+        "name": "HEITOR S.",
+        "role": "Professore",
+        "text": "Vitor ha una capacità incredibile di trasformare requisiti complessi in codice pulito. L'architettura che ha proposto ha salvato la nostra scadenza."
+      },
+      {
+        "id": 2,
+        "name": "PABLO S.",
+        "role": "Professore",
+        "text": "Uno degli studenti più dedicati che abbia mai avuto. La sua curiosità va ben oltre l'aula, sempre alla ricerca del 'perché' delle cose."
+      },
+      {
+        "id": 3,
+        "name": "RÔMULO N.",
+        "role": "Professore",
+        "text": "Lavorare con Vitor significa avere la certezza che la consegna sarà solida. Non scrive solo codice, pensa al prodotto."
+      }
+    ]
+  }
+}

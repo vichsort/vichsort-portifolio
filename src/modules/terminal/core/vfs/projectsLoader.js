@@ -1,8 +1,6 @@
 import { content } from '../../../../core/content/index.js'
 import { replaceBodyLinks } from '../../../../core/content/links.js'
 
-const normalizeLocale = (locale) => (locale === 'en' ? 'en' : 'pt')
-
 /**
  * Lista os ids dos projetos do grafo de conteúdo.
  *
@@ -17,7 +15,7 @@ export function getProjectSlugs() {
  * com wikilinks trocados pelo nome do nó.
  *
  * @param {string} slug - Identificador do projeto.
- * @param {string} [locale='pt'] - Idioma solicitado ('pt' ou 'en').
+ * @param {string} [locale='pt'] - Idioma solicitado.
  * @returns {Promise<string|null>}
  */
 export async function loadRawMarkdown(slug, locale = 'pt') {
@@ -33,21 +31,20 @@ export async function loadRawMarkdown(slug, locale = 'pt') {
  * @returns {Promise<{ id: string, attributes: Object, body: string, html: string, raw: string }|null>}
  */
 export async function loadProjectContent(slug, locale = 'pt') {
-  const loc = normalizeLocale(locale)
   const node = content.node(slug)
   if (!node || node.type !== 'project') return null
 
-  const text = content.text(slug, loc)
+  const text = content.text(slug, locale)
   const label = (target) => {
     const id = content.resolve(target)
-    return id ? content.label(id, loc) : target
+    return id ? content.label(id, locale) : target
   }
   const body = replaceBodyLinks(text.body, (target, alias, embed) => (embed ? '' : alias || label(target)))
 
   const attributes = {
     title: text.title || slug,
-    category: node.links.category ? content.label(node.links.category, loc) : '',
-    techs: content.linked(slug, 'techs').map((id) => content.label(id, loc)),
+    category: node.links.category ? content.label(node.links.category, locale) : '',
+    techs: content.linked(slug, 'techs').map((id) => content.label(id, locale)),
     date: node.data.date || [],
     image: content.cover(slug),
     github: node.data.github || '',
@@ -59,7 +56,7 @@ export async function loadProjectContent(slug, locale = 'pt') {
     id: slug,
     attributes,
     body,
-    html: content.html(slug, loc),
+    html: content.html(slug, locale),
     raw: [`# ${attributes.title}`, attributes.summary ? `> ${attributes.summary}` : '', body.trim()].filter(Boolean).join('\n\n')
   }
 }

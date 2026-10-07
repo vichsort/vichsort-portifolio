@@ -1,0 +1,54 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "projects": "Proyectos",
+    "researches": "Investigaciones",
+    "certifications": "Certificaciones",
+    "contact": "Contacto"
+  },
+  "settings": {
+    "close_menu": "Cerrar menú",
+    "appearance": {
+      "label": "Apariencia",
+      "dark": "Modo oscuro",
+      "light": "Modo claro"
+    },
+    "language": "Idioma",
+    "accessibility": {
+      "label": "Accesibilidad",
+      "font_size": "Tamaño de fuente",
+      "animations": "Animaciones",
+      "on": "ACTIVADO",
+      "off": "DESACTIVADO"
+    }
+  },
+  "common": {
+    "back_to_home": "Volver al inicio",
+    "explore": "Explorar",
+    "view_more": "Ver más",
+    "loading": "Cargando...",
+    "untranslated": "Sin traducir · en {lang}"
+  },
+  "not_found": {
+    "title": "404",
+    "subtitle": "Página no encontrada",
+    "description": "El enlace que intentaste abrir no existe, cambió o fue movido.",
+    "back_home": "Volver al inicio"
+  },
+  "footer": {
+    "tagline": "Web, apps, ciencia de datos y nube.",
+    "navigation": "Navegación",
+    "contact": "Contacto",
+    "copy_email": "Copiar e-mail",
+    "copied": "¡Copiado!",
+    "back_to_top": "Volver arriba",
+    "rights": "© {year} NEAT by Vitor."
+  },
+  "languages": {
+    "pt": "portugués",
+    "en": "inglés",
+    "es": "español",
+    "it": "italiano"
+  }
+}

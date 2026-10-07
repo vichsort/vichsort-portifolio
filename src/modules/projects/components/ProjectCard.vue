@@ -1,4 +1,5 @@
 <script setup>
+import UntranslatedNote from '@/shared/components/ui/UntranslatedNote.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { renderMarkdown } from '@/core/content/markdown'
@@ -88,6 +89,7 @@ const renderedDescription = computed(() => {
         </div>
 
         <h3 class="project-name">{{ projectName }}</h3>
+        <UntranslatedNote :lang="project.fallback" />
       </header>
 
       <div class="project-content markdown-body" v-html="renderedDescription"></div>

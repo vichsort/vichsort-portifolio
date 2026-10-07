@@ -1,0 +1,54 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "Chi sono",
+    "projects": "Progetti",
+    "researches": "Ricerche",
+    "certifications": "Certificazioni",
+    "contact": "Contatti"
+  },
+  "settings": {
+    "close_menu": "Chiudi menu",
+    "appearance": {
+      "label": "Aspetto",
+      "dark": "Tema scuro",
+      "light": "Tema chiaro"
+    },
+    "language": "Lingua",
+    "accessibility": {
+      "label": "Accessibilità",
+      "font_size": "Dimensione del testo",
+      "animations": "Animazioni",
+      "on": "ATTIVO",
+      "off": "DISATTIVO"
+    }
+  },
+  "common": {
+    "back_to_home": "Torna alla home",
+    "explore": "Esplora",
+    "view_more": "Vedi di più",
+    "loading": "Caricamento...",
+    "untranslated": "Non tradotto · in {lang}"
+  },
+  "not_found": {
+    "title": "404",
+    "subtitle": "Pagina non trovata",
+    "description": "Il link che hai provato ad aprire non esiste, è cambiato o è stato spostato.",
+    "back_home": "Torna alla home"
+  },
+  "footer": {
+    "tagline": "Web, app, data science e cloud.",
+    "navigation": "Navigazione",
+    "contact": "Contatti",
+    "copy_email": "Copia e-mail",
+    "copied": "Copiato!",
+    "back_to_top": "Torna su",
+    "rights": "© {year} NEAT by Vitor."
+  },
+  "languages": {
+    "pt": "portoghese",
+    "en": "inglese",
+    "es": "spagnolo",
+    "it": "italiano"
+  }
+}

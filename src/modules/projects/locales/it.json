@@ -1,0 +1,36 @@
+{
+  "projects_section": {
+    "title": "Alcuni progetti di cui vado fiero:",
+    "action_view_all": "Vedi tutti i progetti",
+    "card": {
+      "view_more": "Scopri di più"
+    }
+  },
+  "projects_page": {
+    "title": "Tutti i progetti",
+    "subtitle": "Una raccolta di sistemi, librerie e applicazioni che ho sviluppato.",
+    "search_placeholder": "Cerca per nome o descrizione...",
+    "filter_category": "Categoria",
+    "filter_tech": "Tecnologia",
+    "filter_year": "Anno",
+    "all_categories": "Tutte le categorie",
+    "all_techs": "Tutte le tecnologie",
+    "all_years": "Tutti gli anni",
+    "clear_filters": "Cancella filtri",
+    "showing_count": "{count} di {total} progetti",
+    "no_projects_found": "Nessun progetto trovato con i filtri selezionati.",
+    "back_to_list": "Torna all'elenco dei progetti"
+  },
+  "project_detail": {
+    "back_btn": "Indietro",
+    "live_demo": "Apri l'applicazione",
+    "view_source": "Codice sorgente",
+    "techs_used": "Tecnologie utilizzate",
+    "category": "Categoria",
+    "period": "Periodo",
+    "next_project": "Progetto successivo",
+    "prev_project": "Progetto precedente",
+    "project_not_found": "Progetto non trovato.",
+    "not_found_desc": "Il progetto che cerchi non esiste o è stato spostato."
+  }
+}

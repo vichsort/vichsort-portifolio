@@ -11,7 +11,7 @@ Módulo responsável pela página de apresentação pessoal e profissional (`/ov
   * No modo padrão, a seção **s4** oferece uma experiência imersiva de rolagem ano a ano via `useScrollProgress`.
   * Quando a preferência de movimento reduzido (`reduceMotion`) estiver ativa, o módulo omite o scroll lock e exibe diretamente a **s5** consolidada.
 * **Galeria Bento Box (3x2)**: A seção **s6** exibe registros de fotos e momentos em uma grade assimétrica (retrato, paisagem e quadrados) com placeholders visuais e link de expansão para a galeria completa (`/gallery`).
-* **Locales Descentralizados**: Todas as informações do perfil, textos autorais do README, marcos da timeline e itens da galeria residem em `src/modules/about/locales/` (`pt.json` e `en.json`).
+* **Fontes de Dados**: Os eventos da timeline e o stack vêm do grafo de conteúdo (`src/content/timeline/` e a coleção `about-stack`, ver [GRAPH.md](../../../GRAPH.md)). Perfil, textos do README e itens da galeria ficam em `src/modules/about/locales/`, um arquivo por idioma.
 
 ---
 
@@ -32,8 +32,7 @@ src/modules/about/
 ├── composables/
 │   └── useTimeline.js               # Composable de normalização, agrupamento e ordenação
 ├── locales/
-│   ├── pt.json                      # Dicionário, eventos e galeria em Português
-│   └── en.json                      # Dicionário, eventos e galeria em Inglês
+│   └── <idioma>.json                # Textos de UI, perfil e galeria (pt, en, es, it)
 ├── views/
 │   └── OverviewView.vue             # Orquestrador da rota '/overview' e bloco final de CTA
 └── README.md                        # Documentação e guia de manutenção do módulo
@@ -44,7 +43,7 @@ src/modules/about/
 ## Como Adicionar Fotos à Galeria
 
 1. Salve as imagens na pasta pública: `public/images/gallery/sua-foto.jpg`.
-2. Adicione a entrada correspondente no array `about_page.s6_gallery.items` em `locales/pt.json` e `locales/en.json`:
+2. Adicione a entrada correspondente no array `about_page.s6_gallery.items` em cada arquivo de `locales/`:
 
 ```json
 {
@@ -68,6 +67,6 @@ Formatos suportados:
 
 ## Boas Práticas de Manutenção
 
-1. **Paridade de Locales**: Mantenha os eventos e registros da galeria sincronizados entre `pt.json` e `en.json`.
+1. **Paridade de Locales**: Mantenha os registros da galeria sincronizados entre os arquivos de todos os idiomas em `locales/`.
 2. **Fallback Visual**: Caso uma imagem física ainda não exista na pasta `public/`, o card renderiza automaticamente um padrão geométrico e ícone de placeholder elegante sem quebrar o layout.
 3. **Tipografia e Tokens**: Títulos seguem a tipografia `Montserrat` (`var(--font-body)`), mantendo a fonte arcade exclusivamente para os cabeçalhos de seção.

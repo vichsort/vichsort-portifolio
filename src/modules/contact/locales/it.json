@@ -1,0 +1,12 @@
+{
+  "contact_page": {
+    "title": "Parliamone?",
+    "subtitle": "Sono sempre aperto a nuovi progetti, collaborazioni tecniche e sfide di ingegneria.",
+    "email_label": "E-mail diretta",
+    "github_label": "GitHub",
+    "linkedin_label": "LinkedIn",
+    "telegram_label": "Telegram",
+    "copy_email": "Copia e-mail",
+    "copied": "Copiato!"
+  }
+}

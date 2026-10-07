@@ -1,4 +1,5 @@
 <script setup>
+import UntranslatedNote from '@/shared/components/ui/UntranslatedNote.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { BookOpen, Award, Calendar, ExternalLink, Building2, Users } from 'lucide-vue-next'
@@ -63,6 +64,7 @@ const tags = computed(() => {
     </div>
 
     <h2 class="research-title">{{ title }}</h2>
+    <UntranslatedNote :lang="research.fallback" />
 
     <div class="institutional-meta" v-if="institution || authors">
       <span class="meta-item" v-if="institution" :title="t('researches_page.institution_label')">

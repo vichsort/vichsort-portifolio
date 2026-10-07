@@ -6,7 +6,7 @@ Módulo responsável pela listagem, filtragem e exibição de artigos acadêmico
 
 ## Arquitetura & Fonte de Dados
 
-* **Gerenciamento Descentralizado de Locales**: Os dados das pesquisas e os textos de interface residem em `src/modules/researches/locales/` (`pt.json` e `en.json`).
+* **Fonte de Dados**: As pesquisas são nós do grafo de conteúdo, em `src/content/researches/<id>/` (ver [GRAPH.md](../../../GRAPH.md)). Os arquivos `locales/` guardam só os textos de interface.
 * **Deep Merge Automático**: O motor i18n central do projeto compila e mescla automaticamente os dicionários deste módulo sob a chave de namespace `researches_page`.
 * **Zero Configuração de Filtros**: O composable `useResearchesFilter` infere dinamicamente categorias, anos, premiações e tags a partir da lista cadastrada.
 
@@ -21,8 +21,7 @@ src/modules/researches/
 ├── composables/
 │   └── useResearchesFilter.js    # Lógica reativa de busca textual e multi-filtros
 ├── locales/
-│   ├── pt.json                   # Textos de UI em Português
-│   └── en.json                   # Textos de UI em Inglês
+│   └── <idioma>.json             # Textos de UI (pt, en, es, it)
 ├── views/
 │   └── ResearchesView.vue        # Rota '/researches' (Toolbar de filtros + Lista + Empty state)
 └── README.md                     # Documentação e guia de manutenção do módulo

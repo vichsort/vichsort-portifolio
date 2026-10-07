@@ -1,4 +1,5 @@
 import { createI18n } from 'vue-i18n'
+import { LANGS, DEFAULT_LANG, isLang } from './languages.js'
 
 function deepMerge(target, source) {
   if (!source) return target
@@ -19,32 +20,27 @@ function deepMerge(target, source) {
   return target
 }
 
-// Automatically load core locales
-const coreLocales = import.meta.glob('./locales/*.json', { eager: true, import: 'default' })
-
-// Automatically load all domain module locales
-const moduleLocales = import.meta.glob('@/modules/**/locales/*.json', { eager: true, import: 'default' })
-
-const messages = { pt: {}, en: {} }
-
-// Deep merge core locales
-for (const path in coreLocales) {
-  const lang = path.endsWith('pt.json') ? 'pt' : 'en'
-  deepMerge(messages[lang], coreLocales[path])
+// Dicionários globais e de cada módulo, mesclados por idioma (nome do arquivo: <idioma>.json)
+const localeFiles = {
+  ...import.meta.glob('./locales/*.json', { eager: true, import: 'default' }),
+  ...import.meta.glob('@/modules/**/locales/*.json', { eager: true, import: 'default' })
 }
 
-// Deep merge module locales
-for (const path in moduleLocales) {
-  const lang = path.endsWith('pt.json') ? 'pt' : 'en'
-  deepMerge(messages[lang], moduleLocales[path])
+const messages = Object.fromEntries(LANGS.map((lang) => [lang, {}]))
+
+for (const [path, dictionary] of Object.entries(localeFiles)) {
+  const lang = path.split('/').pop().replace('.json', '')
+  if (isLang(lang)) deepMerge(messages[lang], dictionary)
+  else if (import.meta.env?.DEV) console.warn(`[i18n] idioma desconhecido ignorado: ${path}`)
 }
 
-const savedLang = (typeof localStorage !== 'undefined' && localStorage.getItem('user-lang')) || 'pt'
+const stored = typeof localStorage !== 'undefined' ? localStorage.getItem('user-lang') : null
+const savedLang = isLang(stored) ? stored : DEFAULT_LANG
 
 const i18n = createI18n({
   legacy: false,
   locale: savedLang,
-  fallbackLocale: 'en',
+  fallbackLocale: ['en', 'pt'],
   globalInjection: true,
   messages
 })

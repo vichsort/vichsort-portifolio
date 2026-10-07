@@ -1,4 +1,5 @@
 <script setup>
+import UntranslatedNote from '@/shared/components/ui/UntranslatedNote.vue'
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -77,6 +78,7 @@ watch(
           </div>
 
           <h1 class="project-title">{{ project.title }}</h1>
+          <UntranslatedNote :lang="project.fallback" />
           <p v-if="project.summary" class="project-summary">
             {{ project.summary }}
           </p>

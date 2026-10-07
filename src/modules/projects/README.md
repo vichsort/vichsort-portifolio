@@ -24,8 +24,7 @@ src/modules/projects/
 │   ├── useProjects.js              # Projetos do grafo de conteúdo no formato das views + formatador de datas
 │   └── useProjectsFilter.js        # Lógica reativa de busca textual e multi-filtros (categoria, tech, ano)
 ├── locales/
-│   ├── pt.json                     # Textos de UI em Português
-│   └── en.json                     # Textos de UI em Inglês
+│   └── <idioma>.json               # Textos de UI (pt, en, es, it)
 └── views/
     ├── ProjectsListView.vue        # Rota '/projects' (Grade de cards com barra de multi-filtros)
     └── ProjectDetailView.vue       # Rota '/projects/:slug' (Artigo completo do projeto)

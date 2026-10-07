@@ -12,22 +12,20 @@ try {
 }
 
 /**
- * Obtém os dicionários mesclados do idioma solicitado.
+ * Tradução num idioma explícito (o VFS recebe o idioma por parâmetro).
+ * Sem i18n carregado, devolve a própria chave.
  *
- * @param {string} [locale='pt'] - Idioma ativo ('pt' ou 'en').
- * @returns {Object|null} Objeto raiz de mensagens i18n.
+ * @param {string} locale
+ * @returns {(key: string, params?: Object) => string}
  */
-function getMessages(locale = 'pt') {
-  if (!i18nInstance) return null
-  const loc = locale === 'en' ? 'en' : 'pt'
-  if (i18nInstance.global?.messages?.value) {
-    return i18nInstance.global.messages.value[loc] || i18nInstance.global.messages.value.pt
-  }
-  if (i18nInstance.global?.messages) {
-    return i18nInstance.global.messages[loc] || i18nInstance.global.messages.pt
-  }
-  return null
+function translator(locale) {
+  return (key, params = {}) => (i18nInstance ? i18nInstance.global.t(key, params, { locale }) : key)
 }
+
+const RULE = '='.repeat(80)
+
+// "Rótulo:" alinhado numa coluna fixa, seguido do valor
+const row = (label, value, width = 14) => `${`${label}:`.padEnd(width)} ${value}`
 
 // Nomes das techs e tópicos ligados a um nó, separados por vírgula
 function linkedLabels(id, locale) {
@@ -40,48 +38,29 @@ function linkedLabels(id, locale) {
  * Conector: Perfil biográfico e especificações (about/profile.txt)
  */
 export function getAboutProfile(locale = 'pt') {
-  const msgs = getMessages(locale)
-  const isEn = locale === 'en'
-  const about = msgs?.about_page
-
-  const name = about?.s1_profile?.name || 'Vitor Mignoni'
-  const role = about?.s1_profile?.role || (isEn ? 'Software Engineer — Fullstack & Systems' : 'Software Engineer — Fullstack & Sistemas')
-  const location = about?.s1_profile?.location || (isEn ? 'Santa Maria, RS — Brazil' : 'Santa Maria, RS — Brasil')
-  const education = about?.s1_profile?.education || (isEn ? 'Computer Science — UFSM' : 'Ciência da Computação — UFSM')
-  const bio = about?.s1_profile?.bio_short || (isEn
-    ? 'Software engineer focused on decoupled systems, reactive interfaces, and domain-driven architectures.'
-    : 'Engenheiro de software focado em sistemas desacoplados, interfaces reativas e arquiteturas orientadas a domínio.')
-
-  const specOs = about?.s3_readme?.spec_os || 'OS: Linux Mint (Cinnamon / Debian)'
-  const specEditor = about?.s3_readme?.spec_editor || 'Editor: VS Code & CLI Tools'
-  const specFocus = about?.s3_readme?.spec_focus || 'Focus: Modular Architecture & Web Systems'
-
-  const p1 = about?.s3_readme?.readme_pillar_1 || 'Offline-First & Resilience'
-  const p2 = about?.s3_readme?.readme_pillar_2 || 'Domain-Driven Architecture'
-  const p3 = about?.s3_readme?.readme_pillar_3 || 'Performance & Accessibility'
-  const p4 = about?.s3_readme?.readme_pillar_4 || 'Technical Pragmatism'
+  const t = translator(locale)
+  const p = (key) => t(`about_page.s1_profile.${key}`)
+  const r = (key) => t(`about_page.s3_readme.${key}`)
+  const o = (key) => t(`terminal.output.about.${key}`)
 
   return [
-    '================================================================================',
-    `${name.toUpperCase()} — ${role}`,
-    '================================================================================',
-    `${isEn ? 'Location' : 'Localização'}: ${location}`,
-    `${isEn ? 'Education' : 'Formação'}:    ${education}`,
+    RULE,
+    `${p('name').toUpperCase()} — ${p('role')}`,
+    RULE,
+    row(o('location'), p('location'), 12),
+    row(o('education'), p('education'), 12),
     '',
-    `${isEn ? 'ABOUT' : 'SOBRE'}:`,
-    bio,
+    `${o('about')}:`,
+    p('bio_short'),
     '',
-    `${isEn ? 'WORKFLOW & ENVIRONMENT' : 'AMBIENTE & ESPECIFICAÇÕES'}:`,
-    `• ${specOs}`,
-    `• ${specEditor}`,
-    `• ${specFocus}`,
+    `${o('environment')}:`,
+    `• ${r('spec_os')}`,
+    `• ${r('spec_editor')}`,
+    `• ${r('spec_focus')}`,
     '',
-    `${isEn ? 'ENGINEERING PHILOSOPHY' : 'FILOSOFIA DE ENGENHARIA'}:`,
-    `• ${p1}`,
-    `• ${p2}`,
-    `• ${p3}`,
-    `• ${p4}`,
-    '================================================================================'
+    `${o('philosophy')}:`,
+    ...[1, 2, 3, 4].map((n) => `• ${r(`readme_pillar_${n}`)}`),
+    RULE
   ].join('\n')
 }
 
@@ -90,12 +69,8 @@ export function getAboutProfile(locale = 'pt') {
  * Lê a coleção about-stack do grafo de conteúdo.
  */
 export function getAboutStack(locale = 'pt') {
-  const isEn = locale === 'en'
-  const lines = [
-    '================================================================================',
-    isEn ? 'CORE STACK & TECHNICAL ENVIRONMENT' : 'CORE STACK & AMBIENTE TÉCNICO',
-    '================================================================================'
-  ]
+  const t = translator(locale)
+  const lines = [RULE, t('terminal.output.stack.title'), RULE]
 
   content.collection('about-stack').forEach(({ group, items }, i) => {
     if (i > 0) lines.push('')
@@ -103,7 +78,7 @@ export function getAboutStack(locale = 'pt') {
     for (const tech of items) lines.push(`  • ${content.label(tech.id, locale)}`)
   })
 
-  lines.push('================================================================================')
+  lines.push(RULE)
   return lines.join('\n')
 }
 
@@ -111,12 +86,8 @@ export function getAboutStack(locale = 'pt') {
  * Conector: Linha do Tempo e Trajetória (about/timeline.txt)
  */
 export function getAboutTimeline(locale = 'pt') {
-  const isEn = locale === 'en'
-  const lines = [
-    '================================================================================',
-    isEn ? 'TIMELINE & PROFESSIONAL JOURNEY' : 'LINHA DO TEMPO & TRAJETÓRIA CONSOLIDADA',
-    '================================================================================'
-  ]
+  const t = translator(locale)
+  const lines = [RULE, t('terminal.output.timeline.title'), RULE]
 
   for (const event of content.ofType('timeline')) {
     const text = content.text(event.id, locale)
@@ -129,7 +100,7 @@ export function getAboutTimeline(locale = 'pt') {
     lines.push('')
   }
 
-  lines.push('================================================================================')
+  lines.push(RULE)
   return lines.join('\n')
 }
 
@@ -137,12 +108,9 @@ export function getAboutTimeline(locale = 'pt') {
  * Conector: Lista de Certificações (certifications/list.txt)
  */
 export function getCertificationsList(locale = 'pt') {
-  const isEn = locale === 'en'
-  const lines = [
-    '================================================================================',
-    isEn ? 'CERTIFICATIONS & CREDENTIALS' : 'CERTIFICAÇÕES & CREDENCIAIS TÉCNICAS',
-    '================================================================================'
-  ]
+  const t = translator(locale)
+  const o = (key) => t(`terminal.output.certifications.${key}`)
+  const lines = [RULE, o('title'), RULE]
 
   for (const cert of content.ofType('certification', { recent: true })) {
     const name = content.text(cert.id, locale).name || cert.id
@@ -150,13 +118,13 @@ export function getCertificationsList(locale = 'pt') {
     const url = cert.data.credential_url || ''
 
     lines.push(`• ${name} (${cert.data.date})`)
-    lines.push(`  ${isEn ? 'Issuer' : 'Emissor'}:     ${cert.data.issuer}`)
-    if (skills) lines.push(`  ${isEn ? 'Skills' : 'Habilidades'}: ${skills}`)
-    if (url) lines.push(`  ${isEn ? 'Credential' : 'Credencial'}: ${url}`)
+    lines.push(`  ${row(o('issuer'), cert.data.issuer)}`)
+    if (skills) lines.push(`  ${row(o('skills'), skills)}`)
+    if (url) lines.push(`  ${row(o('credential'), url)}`)
     lines.push('')
   }
 
-  lines.push('================================================================================')
+  lines.push(RULE)
   return lines.join('\n')
 }
 
@@ -164,12 +132,9 @@ export function getCertificationsList(locale = 'pt') {
  * Conector: Lista de Pesquisas e Artigos (researches/list.txt)
  */
 export function getResearchesList(locale = 'pt') {
-  const isEn = locale === 'en'
-  const lines = [
-    '================================================================================',
-    isEn ? 'RESEARCH PAPERS & SCIENTIFIC AWARDS' : 'PESQUISAS ACADÊMICAS & PREMIAÇÕES',
-    '================================================================================'
-  ]
+  const t = translator(locale)
+  const o = (key) => t(`terminal.output.researches.${key}`)
+  const lines = [RULE, o('title'), RULE]
 
   for (const r of content.ofType('research', { recent: true })) {
     const text = content.text(r.id, locale)
@@ -177,16 +142,16 @@ export function getResearchesList(locale = 'pt') {
     const tags = linkedLabels(r.id, locale)
 
     lines.push(`[${r.data.date}] ${text.title || r.id}`)
-    if (topics) lines.push(`  ${isEn ? 'Topics' : 'Tópicos'}:      ${topics}`)
-    if (text.institution) lines.push(`  ${isEn ? 'Institution' : 'Instituição'}:  ${text.institution}`)
-    if (r.data.authors) lines.push(`  ${isEn ? 'Authors' : 'Autores'}:      ${r.data.authors}`)
-    if (text.award) lines.push(`  🏆 ${isEn ? 'Award' : 'Premiação'}:    ${text.award}`)
-    if (text.description) lines.push(`  ${isEn ? 'Summary' : 'Resumo'}:       ${text.description}`)
-    if (tags) lines.push(`  Tags:         ${tags}`)
+    if (topics) lines.push(`  ${row(o('topics'), topics)}`)
+    if (text.institution) lines.push(`  ${row(o('institution'), text.institution)}`)
+    if (r.data.authors) lines.push(`  ${row(o('authors'), r.data.authors)}`)
+    if (text.award) lines.push(`  🏆 ${row(o('award'), text.award, 11)}`)
+    if (text.description) lines.push(`  ${row(o('summary'), text.description)}`)
+    if (tags) lines.push(`  ${row('Tags', tags)}`)
     lines.push('')
   }
 
-  lines.push('================================================================================')
+  lines.push(RULE)
   return lines.join('\n')
 }
 
@@ -194,19 +159,17 @@ export function getResearchesList(locale = 'pt') {
  * Conector: Informações de Contato (contact.txt)
  */
 export function getContact(locale = 'pt') {
-  const isEn = locale === 'en'
+  const t = translator(locale)
 
   return [
-    '================================================================================',
-    isEn ? 'DIRECT CONTACT & PROFESSIONAL NETWORKS' : 'CANAIS DE CONTATO & REDES PROFISSIONAIS',
-    '================================================================================',
-    `E-mail:   ${EMAIL}`,
-    ...SOCIALS.map(social => `${`${social.label}:`.padEnd(10)}${social.id === 'telegram' ? social.handle : social.url}`),
+    RULE,
+    t('terminal.output.contact.title'),
+    RULE,
+    row('E-mail', EMAIL, 9),
+    ...SOCIALS.map((social) => row(social.label, social.id === 'telegram' ? social.handle : social.url, 9)),
     '',
-    isEn
-      ? 'Always open to new projects, technical collaborations, and engineering challenges.'
-      : 'Aberto a novas oportunidades, colaborações técnicas e desafios de engenharia.',
-    '================================================================================'
+    t('terminal.output.contact.closing'),
+    RULE
   ].join('\n')
 }
 
