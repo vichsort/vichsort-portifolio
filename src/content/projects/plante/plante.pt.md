@@ -1,20 +1,42 @@
 ---
 title: PlantE
-summary: Um ecossistema completo para monitoramento e gestão de lavouras e estufas com IA.
+summary: Identificação botânica por foto para quem cultiva em casa, com cuidados guiados e uma base aberta da flora brasileira construída por ciência cidadã.
 ---
 
-## Sobre o Projeto
+## Sobre o projeto
 
-O **PlantE** foi projetado para capacitar produtores e agrônomos com monitoramento em tempo real da saúde do solo, predição de produtividade e detecção de pragas e doenças foliares utilizando modelos integrados de visão computacional e o **Gemini AI**.
+O **PlantE** ("mais que no solo") transforma a câmera do celular num tutor de plantas. A pessoa fotografa uma planta e recebe o nome científico e popular, a família botânica e uma ficha completa da espécie. A partir daí, a planta entra num jardim virtual com lembretes de rega e poda, alertas de clima e diagnóstico de pragas e doenças.
 
-### Principais Funcionalidades
+Por trás disso tem um objetivo maior: combater a cegueira botânica e construir uma base de dados [[open-data|aberta]] da flora doméstica brasileira. Cada identificação confirmada é anonimizada e vira um registro georreferenciado que pesquisadores, escolas e iniciativas ESG podem usar.
 
-- **Diagnóstico com IA**: Reconhecimento instantâneo de anomalias foliares através de fotos em campo.
-- **Métricas do Solo**: Telemetria em tempo real de umidade, condutividade e nitrogênio/fósforo/potássio.
-- **Previsão de Colheita**: Algoritmos preditivos para estimar produtividade por hectare.
+É o meu projeto favorito, e está sendo reescrito do zero. Na versão nova, a API já expõe autenticação, perfil e identificação; o jardim, o diagnóstico e a agenda de cuidados já existem no domínio e ainda estão ganhando rotas.
 
-### Tecnologias Utilizadas
+### O motor de consenso
 
-- **Frontend**: Vue.js 3, Vite, Tailwind CSS / Vanilla CSS
-- **Backend / APIs**: [[python|Python]], [[flask|Flask]], Plant.id API, Gemini API
-- **Banco de Dados**: [[postgresql|PostgreSQL]] & [[redis|Redis]]
+Nenhuma API de [[computer-vision|visão computacional]] acerta sempre, então o PlantE consulta duas ao mesmo tempo, Kindwise e PlantNet, e uma política de domínio decide o resultado:
+
+- **Mesma espécie:** a confiança final é a média ponderada das duas (60% Kindwise, 40% PlantNet).
+- **Mesmo gênero, espécies diferentes:** vence a mais confiante, e o resultado sai marcado como de baixa confiança.
+- **Desacordo total:** a Kindwise vence, a não ser que a PlantNet esteja pelo menos 20 pontos mais confiante.
+- **Uma das fontes falhou:** a outra assume sozinha.
+
+Depois o [[gemini|Gemini]] enriquece a espécie com uma ficha em português, acessível para leigos e detalhada o bastante para quem pesquisa.
+
+### Arquitetura
+
+O backend, em [[python|Python]] com [[fastapi|FastAPI]], segue arquitetura hexagonal (ports and adapters). O domínio tem entidades, value objects (confiança, sequência de dias cuidando, plano de assinatura, coordenadas), políticas e mais de vinte casos de uso, sem importar nada de infraestrutura. Tudo o que é externo entra por uma porta com um adaptador:
+
+- **IA:** Kindwise, PlantNet e Gemini
+- **Persistência:** [[postgresql|PostgreSQL]] com [[sqlalchemy|SQLAlchemy]] assíncrono e Alembic
+- **Cache e tokens:** [[redis|Redis]]
+- **Imagens e e-mail:** S3 e SES, na [[aws|AWS]]
+- **Clima e geocodificação:** Open-Meteo e Nominatim
+- **Notificações push:** [[firebase|Firebase]] Cloud Messaging
+
+A injeção de dependência fica num container próprio. Os eventos de domínio saem por um publicador que usa o [[celery|Celery]], e os workers cuidam dos lembretes e da anonimização das amostras depois de 30 dias, de forma idempotente. Uma política de assinatura separa o plano gratuito, com limite de plantas e de identificações diárias, do pago, que libera a análise profunda com IA. Para engajar, há conquistas e sequências de cuidado.
+
+### Do protótipo à versão atual
+
+A primeira versão, de 2025, foi um backend em [[flask|Flask]] rodando numa instância EC2, com um app em [[flutter|Flutter]] organizado em features com Cubit. Ela validou a ideia (identificação, jardim virtual, notificações e conquistas) e mostrou os limites de uma estrutura acoplada. A reescrita trocou o Flask por FastAPI assíncrono, o identificador único pelo motor de consenso e a organização por camadas pela arquitetura hexagonal.
+
+O site institucional, em [[react|React]] com [[tailwindcss|Tailwind]] e publicado na [[cloudflare|Cloudflare]], apresenta a iniciativa, a tecnologia e as frentes de parceria com universidades, escolas e investidores ESG.
