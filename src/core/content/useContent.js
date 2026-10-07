@@ -15,6 +15,7 @@ export function useContent() {
     node: content.node,
     ofType: content.ofType,
     linked: content.linked,
+    relatedTechs: content.relatedTechs,
     related: content.related,
     collection: content.collection,
     asset: content.asset,

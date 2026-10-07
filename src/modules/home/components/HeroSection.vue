@@ -8,6 +8,7 @@ import { useHeroPresence } from '@/shared/composables/useHeroPresence'
 import { NEON_TOKENS } from '@/shared/ascii/neonTokens'
 import { createHeroLayers } from '../hero/heroField'
 import HeroAsciiTitle from './hero/HeroAsciiTitle.vue'
+import NodeMenu from '@/shared/components/node/NodeMenu.vue'
 import vitorArt from '../ascii/vitor.txt?raw'
 
 // Ponto final do "VITOR." no estilo 4max
@@ -17,11 +18,13 @@ const { t } = useI18n()
 const { collection, label } = useContent()
 
 // Cargos na ordem da coleção; a pontuação é da apresentação, não do conteúdo
+// (e fica fora do gatilho do menu do cargo)
 const roles = computed(() => {
   const items = collection('hero-roles').flatMap((g) => g.items)
   return items.map((role, i) => ({
     id: role.id,
-    text: label(role.id) + (i === items.length - 1 ? '.' : ',')
+    name: label(role.id),
+    punctuation: i === items.length - 1 ? '.' : ','
   }))
 })
 
@@ -73,7 +76,7 @@ onBeforeUnmount(() => setHeroActive(false))
 
       <div class="roles-container" data-ascii-safe>
         <p v-for="role in roles" :key="role.id" class="role-line">
-          {{ role.text }}
+          <NodeMenu :id="role.id" class="role-trigger">{{ role.name }}</NodeMenu>{{ role.punctuation }}
         </p>
       </div>
     </div>
@@ -167,6 +170,21 @@ onBeforeUnmount(() => setHeroActive(false))
 
 .role-line {
   margin-bottom: 0.2rem;
+}
+
+/* Cargo clicável (n5): sublinhado discreto, que acende no hover e com o menu aberto */
+.role-line :deep(.role-trigger) {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+}
+
+.role-line :deep(.role-trigger:hover),
+.role-line :deep(.role-trigger[aria-expanded='true']) {
+  color: var(--text-primary);
+  text-decoration-color: var(--primary);
 }
 
 @media (max-width: 768px) {

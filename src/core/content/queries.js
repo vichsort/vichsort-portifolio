@@ -99,6 +99,19 @@ export function createQueries(graph) {
     return grouped
   }
 
+  /**
+   * Techs relacionadas pelo campo techs, nos dois sentidos: o Vue lista o
+   * JavaScript, e o JavaScript tem o Vue como relacionada. Citações no corpo não contam.
+   */
+  const relatedTechs = (id) => {
+    const ids = new Set(linked(id, 'techs'))
+    for (const edge of graph.backlinks.get(id) || []) {
+      if (edge.field === 'techs' && node(edge.from).type === 'tech') ids.add(edge.from)
+    }
+    ids.delete(id)
+    return [...ids].map(node).filter((n) => n.type === 'tech')
+  }
+
   /** Nós que compartilham ligações de estrutura, do mais ao menos parecido. */
   const related = (id) => {
     const own = new Set(Object.values(node(id)?.links || {}).flat().filter(Boolean))
@@ -150,5 +163,5 @@ export function createQueries(graph) {
   }
 
   // resolve: id de um alvo de wikilink (id ou alias, sem diferenciar maiúsculas), ou null
-  return { resolve: graph.resolve, node, text, textLang, fallback, label, ofType, linked, backlinks, outlinks, related, collection, asset, icon, cover, html }
+  return { resolve: graph.resolve, node, text, textLang, fallback, label, ofType, linked, backlinks, outlinks, relatedTechs, related, collection, asset, icon, cover, html }
 }

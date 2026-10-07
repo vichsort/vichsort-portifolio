@@ -17,6 +17,6 @@ const { theme } = useTheme()
     <LeadsSection />
     <ProjectShowcaseSection />
     <TestimonialsSection />
-    <TechStackSection :current-theme="theme" />
+    <TechStackSection />
   </main>
 </template>

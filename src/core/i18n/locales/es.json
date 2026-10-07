@@ -35,6 +35,16 @@
     "remove_filter": "Quitar filtro",
     "back": "Volver"
   },
+  "node_menu": {
+    "title": "Acciones",
+    "project": "Ver proyecto | Ver proyectos",
+    "research": "Ver investigación | Ver investigaciones",
+    "certification": "Ver certificado | Ver certificados",
+    "timeline": "Ver en la trayectoria",
+    "photo": "Ver foto | Ver fotos",
+    "tech": "Relacionada | Relacionadas",
+    "see_all": "Ver todos"
+  },
   "not_found": {
     "title": "404",
     "subtitle": "Página no encontrada",

@@ -2,24 +2,14 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useContent } from '@/core/content/useContent'
-
-defineProps({
-  currentTheme: {
-    type: String,
-    default: 'dark'
-  }
-})
+import TechIcon from '@/shared/components/node/TechIcon.vue'
 
 const { t } = useI18n()
 
-const { collection, label, icon } = useContent()
+const { collection } = useContent()
 
 // Os grupos organizam o vault; a home mostra a stack como uma grade única
-const stack = computed(() =>
-  collection('home-stack').flatMap(({ items }) =>
-    items.map((tech) => ({ id: tech.id, name: label(tech.id), icon: icon(tech.id) }))
-  )
-)
+const techIds = computed(() => collection('home-stack').flatMap(({ items }) => items.map((tech) => tech.id)))
 </script>
 
 <template>
@@ -33,23 +23,7 @@ const stack = computed(() =>
       </div>
 
       <div class="tech-grid">
-        <div
-          v-for="tech in stack"
-          :key="tech.id"
-          class="tech-item"
-        >
-          <div class="icon-wrapper surface-card">
-            <img
-              :src="tech.icon"
-              :alt="tech.name"
-              loading="lazy"
-              class="tech-icon"
-              :class="{ 'inverted-icon': currentTheme === 'dark' }"
-            />
-          </div>
-
-          <span class="tooltip">{{ tech.name }}</span>
-        </div>
+        <TechIcon v-for="id in techIds" :id="id" :key="id" class="tech-item" />
       </div>
     </div>
   </section>
@@ -111,84 +85,8 @@ const stack = computed(() =>
 }
 
 .tech-item {
-  position: relative;
   width: 64px;
   height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.icon-wrapper {
-  width: 100%;
-  height: 100%;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-md);
-  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.tech-icon {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  opacity: 0.75;
-  transition: opacity var(--transition-fast), filter var(--transition-fast);
-}
-
-.tech-icon.inverted-icon {
-  filter: invert(1);
-  opacity: 0.85;
-}
-
-.tech-item:hover .icon-wrapper {
-  transform: translateY(-4px) scale(1.08);
-  border-color: var(--primary-border);
-  box-shadow: var(--shadow-card-hover);
-}
-
-.tech-item:hover .tech-icon {
-  opacity: 1;
-}
-
-.tooltip {
-  position: absolute;
-  top: -36px;
-  left: 50%;
-  transform: translateX(-50%) translateY(8px);
-  background-color: var(--primary);
-  color: #ffffff;
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  font-weight: 700;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: all var(--transition-fast);
-  pointer-events: none;
-  box-shadow: var(--shadow-card);
-  z-index: 20;
-}
-
-.tooltip::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid var(--primary);
-}
-
-.tech-item:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
 }
 
 @media (max-width: 900px) {
