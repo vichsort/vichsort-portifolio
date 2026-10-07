@@ -12,6 +12,28 @@ import {
   loadRawMarkdown,
   getProjectMetadataJson
 } from './projectsLoader.js'
+import { GRAPH_DIR_TYPES, getNodeMarkdown } from './graphNodes.js'
+import { content } from '../../../../core/content/index.js'
+import { TYPES } from '../../../../core/content/schema.js'
+
+/**
+ * Pasta de um tipo do grafo (techs/, topics/...): um <id>.md por nó, com texto e ligações.
+ */
+function graphDir(type) {
+  return {
+    type: VfsNodeType.DIR,
+    children: Object.fromEntries(
+      content.ofType(type).map((node) => [
+        `${node.id}.md`,
+        {
+          type: VfsNodeType.FILE,
+          mime: VfsMimeType.TEXT_MARKDOWN,
+          getContent: (locale) => getNodeMarkdown(node.id, locale)
+        }
+      ])
+    )
+  }
+}
 
 /**
  * Pasta de um projeto no VFS: README.md (artigo) e info.json (metadados).
@@ -106,6 +128,7 @@ export function createVfsManifest(services = {}) {
           }
         }
       },
+      ...Object.fromEntries(GRAPH_DIR_TYPES.map((type) => [TYPES[type].folder, graphDir(type)])),
       'contact.txt': {
         type: VfsNodeType.FILE,
         mime: VfsMimeType.TEXT_PLAIN,

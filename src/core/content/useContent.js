@@ -24,6 +24,7 @@ export function useContent() {
     fallback: (id) => content.fallback(id, lang()),
     label: (id) => content.label(id, lang()),
     html: (id) => content.html(id, lang()),
-    backlinks: (id, options = {}) => content.backlinks(id, { lang: lang(), ...options })
+    backlinks: (id, options = {}) => content.backlinks(id, { lang: lang(), ...options }),
+    outlinks: (id) => content.outlinks(id, { lang: lang() })
   }
 }

@@ -23,9 +23,7 @@ O planejamento original (`terminal.md`, fora do git) se perdeu. A lista abaixo �
 | # | Pendência | Arquivos | Observação |
 | :--- | :--- | :--- | :--- |
 | **`t0`** | **Recuperar o escopo idealizado** do terminal | — | Procurar o `terminal.md` em backups ou outra máquina; senão, reescrever o escopo |
-| **`t4`** | **Pipes e encadeamento** (`\|`, `&&`) | `parser/lexer.js`, `dispatcher.js` | Hoje o `grep` só lê arquivos |
-| **`t5`** | **Grafo inteiro no VFS**: `techs/`, `topics/`, `roles/`, `timeline/` | `vfs/manifest.js`, `vfs/connectors.js` | Talvez um comando `links <id>` para mostrar ligações e backlinks |
-| **`t6`** | **Download do `resume.pdf`** | `vfs/manifest.js`, `dispatcher.js` | O nó declara `action: 'download_resume'`, mas nada trata essa ação |
+| **`t6`** | **Currículo (`resume.pdf`)**: decidir se o site terá um | `public/`, `vfs/manifest.js`, `commands/portfolio/resume.js` | O PDF não existe (`public/` só tem `images/`): o comando `resume` anuncia um download que falha. Com PDF (um por idioma?), o `cat resume.pdf` também baixa; sem PDF, remover o arquivo do `ls` e o comando |
 
 ## Fundação técnica
 
@@ -55,6 +53,8 @@ Todo o conteúdo atual é fictício. Depende de material, não de código.
 ## Concluído
 
 * Auditoria da arquitetura (`a1`): ARCHITECTURE.md e READMEs dos módulos atualizados; um só módulo de Markdown (`core/content/markdown.js`); removido o pacote `@lucide/vue` sem uso; token `--text-on-primary` no lugar do branco fixo
+* Pipes e encadeamento no terminal (`t4`): `|` passa a saída adiante (o `grep` filtra a entrada; o `ls` sai um por linha num pipe), `&&` para no primeiro erro, operadores entre aspas são texto, erro de sintaxe para operador sem comando
+* Grafo inteiro no terminal (`t5`): pastas `techs/`, `topics/`, `roles/` e `timeline/` com um `<id>.md` por nó (texto + ligações nos dois sentidos) e o comando `links <id>`; o Tab completa ids no `links`. De quebra: o terminal ignorava o idioma ativo e sempre lia o conteúdo em pt
 * Atalhos do terminal (`t1`–`t3`): ↑/↓ no histórico (sem duplicar o comando anterior e guardando a linha em edição), Tab completa comandos e caminhos (lista as opções quando há mais de uma), Ctrl+L limpa a tela, Ctrl+C abandona a linha; copiar e colar exigem Shift (Ctrl+Shift+C / Ctrl+Shift+V), como num terminal Linux
 * Terminal no padrão visual (`a7`): só tokens do site, segue o tema claro/escuro; tokens novos `--danger` e neons documentados no DESIGN.md
 * Formato do projeto compartilhado (`a8`): `core/content/projects.js`, usado pelas telas e pelo terminal

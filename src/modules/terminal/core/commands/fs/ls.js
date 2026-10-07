@@ -75,9 +75,10 @@ export const lsCommand = {
         return entry.type === VfsNodeType.DIR ? `${entry.name}/` : entry.name
       })
 
+      // Dentro de um pipe, um nome por linha (como o ls fora de um terminal), para o grep filtrar
       return {
         type: 'text',
-        payload: formattedNames.join('  ')
+        payload: formattedNames.join(context.isPiped ? '\n' : '  ')
       }
     } catch (err) {
       if (err instanceof VfsError) {

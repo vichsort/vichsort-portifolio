@@ -23,7 +23,8 @@ const FALLBACK_TEMPLATES = {
   [TerminalError.IS_A_DIRECTORY]: '{cmd}: {path}: É um diretório',
   [TerminalError.NOT_A_DIRECTORY]: '{cmd}: {path}: Não é um diretório',
   [TerminalError.MISSING_ARG]: '{cmd}: argumento obrigatório ausente: {arg}',
-  [TerminalError.EXECUTION_FAILED]: '{cmd}: falha na execução: {message}'
+  [TerminalError.EXECUTION_FAILED]: '{cmd}: falha na execução: {message}',
+  [TerminalError.SYNTAX_ERROR]: "erro de sintaxe perto de '{token}'"
 }
 
 /**
@@ -35,7 +36,7 @@ const FALLBACK_TEMPLATES = {
  * @returns {string} Mensagem de erro pronta para renderização.
  */
 export function formatError(code, params = {}, t = null) {
-  const { cmd = '', path = '', arg = '', suggestion = '', message = '' } = params
+  const { cmd = '', path = '', arg = '', suggestion = '', message = '', token = '' } = params
 
   let baseMsg = ''
   if (typeof t === 'function') {
@@ -49,7 +50,7 @@ export function formatError(code, params = {}, t = null) {
 
   if (!baseMsg) {
     const tpl = FALLBACK_TEMPLATES[code] || 'erro inesperado: {message}'
-    baseMsg = interpolate(tpl, { cmd, path, arg, suggestion, message })
+    baseMsg = interpolate(tpl, { cmd, path, arg, suggestion, message, token })
   }
 
   let formatted = `vsh: ${baseMsg}`

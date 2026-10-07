@@ -432,7 +432,7 @@ scripts/content.mjs  # npm run check:content / content:index / content:new
 API para componentes:
 
 ```js
-const { node, text, fallback, label, ofType, linked, collection, backlinks, related, icon, cover, html } = useContent()
+const { node, text, fallback, label, ofType, linked, collection, backlinks, outlinks, related, icon, cover, html } = useContent()
 
 node('python')                     // { id, type, data, aliases, texts, assets, links }
 text('python')                     // { definition, note, body } no idioma ativo (ou no do fallback), ou {}
@@ -442,6 +442,7 @@ ofType('research', { recent: true }) // nós do tipo; recent ordena por data, ma
 linked('plante', 'techs')          // ids ligados por um campo
 collection('home-stack')           // [{ group, items }] já resolvidos, na ordem
 backlinks('python')                // { tech: [...], project: [...], timeline: [...] }
+outlinks('python')                 // o inverso: para onde o nó aponta, agrupado por tipo do destino
 related('plante')                  // [{ node, shared }] do mais ao menos parecido
 icon('python'), cover('plante')    // URLs dos arquivos da pasta do nó
 html('plante')                     // corpo renderizado

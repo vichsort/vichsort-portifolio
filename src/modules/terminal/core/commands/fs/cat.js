@@ -56,7 +56,7 @@ export const catCommand = {
       if (file.action === 'download_resume' || file.mime === VfsMimeType.APPLICATION_PDF) {
         return {
           type: 'text',
-          payload: '[vsh]: arquivo binário PDF. Para baixar, use o comando: resume'
+          payload: t('terminal.output.cat.binary_pdf')
         }
       }
 

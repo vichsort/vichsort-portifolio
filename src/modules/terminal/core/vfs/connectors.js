@@ -18,7 +18,7 @@ try {
  * @param {string} locale
  * @returns {(key: string, params?: Object) => string}
  */
-function translator(locale) {
+export function translator(locale) {
   return (key, params = {}) => (i18nInstance ? i18nInstance.global.t(key, params, { locale }) : key)
 }
 

@@ -18,6 +18,7 @@ import certificationsCommand from './portfolio/certifications.js'
 import researchesCommand from './portfolio/researches.js'
 import contactCommand from './portfolio/contact.js'
 import resumeCommand from './portfolio/resume.js'
+import linksCommand from './portfolio/links.js'
 import cowsayCommand from './easter/cowsay.js'
 import sudoCommand from './easter/sudo.js'
 
@@ -134,6 +135,7 @@ export function createDefaultRegistry() {
   registry.register(researchesCommand)
   registry.register(contactCommand)
   registry.register(resumeCommand)
+  registry.register(linksCommand)
 
   // Comandos Easter Eggs
   registry.register(cowsayCommand)

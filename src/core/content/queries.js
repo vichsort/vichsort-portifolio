@@ -77,6 +77,27 @@ export function createQueries(graph) {
     return grouped
   }
 
+  /**
+   * Para onde o nó aponta (estrutura e corpo), agrupado por tipo do destino.
+   * O inverso de backlinks, com a mesma regra de idioma para o corpo.
+   *
+   * @param {string} id
+   * @param {{ lang?: string }} [options]
+   * @returns {Record<string, object[]>}
+   */
+  const outlinks = (id, { lang } = {}) => {
+    const grouped = {}
+    const seen = new Set()
+    for (const edge of graph.edges) {
+      if (edge.from !== id || seen.has(edge.to)) continue
+      if (edge.lang && lang && edge.lang !== textLang(id, lang)) continue
+      const target = node(edge.to)
+      seen.add(edge.to)
+      ;(grouped[target.type] ||= []).push(target)
+    }
+    return grouped
+  }
+
   /** Nós que compartilham ligações de estrutura, do mais ao menos parecido. */
   const related = (id) => {
     const own = new Set(Object.values(node(id)?.links || {}).flat().filter(Boolean))
@@ -123,5 +144,5 @@ export function createQueries(graph) {
   }
 
   // resolve: id de um alvo de wikilink (id ou alias, sem diferenciar maiúsculas), ou null
-  return { resolve: graph.resolve, node, text, textLang, fallback, label, ofType, linked, backlinks, related, collection, asset, icon, cover, html }
+  return { resolve: graph.resolve, node, text, textLang, fallback, label, ofType, linked, backlinks, outlinks, related, collection, asset, icon, cover, html }
 }

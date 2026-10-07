@@ -7,7 +7,8 @@ export const TerminalError = {
   IS_A_DIRECTORY: 'is_a_directory',
   NOT_A_DIRECTORY: 'not_a_directory',
   MISSING_ARG: 'missing_arg',
-  EXECUTION_FAILED: 'execution_failed'
+  EXECUTION_FAILED: 'execution_failed',
+  SYNTAX_ERROR: 'syntax_error'
 }
 
 export default TerminalError

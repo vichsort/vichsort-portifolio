@@ -94,6 +94,10 @@
       "grep": {
         "description": "Searches for text patterns inside files",
         "usage": "grep <term> [path]"
+      },
+      "links": {
+        "description": "Shows a graph node's links: what it points to and what points to it",
+        "usage": "links <id>"
       }
     },
     "errors": {
@@ -102,7 +106,9 @@
       "no_such_file": "{cmd}: {path}: No such file or directory",
       "is_a_directory": "{cmd}: {path}: Is a directory",
       "not_a_directory": "{cmd}: {path}: Not a directory",
-      "missing_arg": "{cmd}: missing required argument: {arg}"
+      "missing_arg": "{cmd}: missing required argument: {arg}",
+      "syntax_error": "syntax error near '{token}'",
+      "internal": "vsh: internal error: {message}"
     },
     "output": {
       "about": {
@@ -152,6 +158,33 @@
       },
       "resume": {
         "downloading": "[vsh]: Initiating download of resume (resume.pdf)..."
+      },
+      "links": {
+        "outgoing": "Points to",
+        "incoming": "Referenced by",
+        "none": "no links",
+        "not_found": "vsh: links: '{id}' is not in the graph.",
+        "types": {
+          "tech": "Techs",
+          "topic": "Topics",
+          "role": "Roles",
+          "category": "Categories",
+          "group": "Groups",
+          "project": "Projects",
+          "certification": "Certifications",
+          "research": "Research",
+          "timeline": "Timeline",
+          "collection": "Collections"
+        }
+      },
+      "grep": {
+        "no_match": "vsh: grep: '{term}': no matches found."
+      },
+      "find": {
+        "no_match": "vsh: find: '{term}': no files or directories found."
+      },
+      "cat": {
+        "binary_pdf": "[vsh]: binary PDF file. To download it, run: resume"
       }
     }
   }

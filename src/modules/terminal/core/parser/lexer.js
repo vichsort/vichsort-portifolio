@@ -171,8 +171,93 @@ export function parseCommand(input) {
   }
 }
 
+/**
+ * Divide uma linha em comandos ligados por `&&` e `|`, respeitando aspas e escapes
+ * (um `|` entre aspas é texto). Cada comando segue cru, para o parseCommand.
+ *
+ * Exemplo:
+ *   splitLine('ls && cat a.md | grep vue')
+ *   => { chain: [['ls'], ['cat a.md', 'grep vue']] }
+ *
+ * @param {string} input - Linha de comando bruta.
+ * @returns {{ chain: string[][] } | { error: string }}
+ *   chain: pipelines na ordem do `&&`; cada pipeline lista os comandos do `|`.
+ *   error: o operador perto do qual falta um comando (ex.: 'ls |').
+ */
+export function splitLine(input) {
+  const line = typeof input === 'string' ? input : ''
+  const chain = [[]]
+  let current = ''
+  let inQuote = null
+  let isEscaped = false
+  let lastOp = null
+
+  // Fecha o comando atual; devolve false se ele estiver vazio
+  const closeCommand = () => {
+    const text = current.trim()
+    current = ''
+    if (!text) return false
+    chain[chain.length - 1].push(text)
+    return true
+  }
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i]
+
+    if (isEscaped) {
+      current += char
+      isEscaped = false
+      continue
+    }
+
+    // Escape e aspas ficam no texto: quem os interpreta é o tokenize
+    if (char === '\\' && inQuote !== "'") {
+      current += char
+      isEscaped = true
+      continue
+    }
+
+    if (inQuote) {
+      if (char === inQuote) inQuote = null
+      current += char
+      continue
+    }
+
+    if (char === '"' || char === "'") {
+      inQuote = char
+      current += char
+      continue
+    }
+
+    if (char === '&' && line[i + 1] === '&') {
+      if (!closeCommand()) return { error: '&&' }
+      chain.push([])
+      lastOp = '&&'
+      i++
+      continue
+    }
+
+    if (char === '|') {
+      if (!closeCommand()) return { error: '|' }
+      lastOp = '|'
+      continue
+    }
+
+    current += char
+  }
+
+  if (!closeCommand()) {
+    // Linha vazia é válida; operador sem comando depois, não
+    if (lastOp) return { error: lastOp }
+    return { chain: [] }
+  }
+
+  return { chain }
+}
+
 export default {
   tokenize,
-  parseCommand
+  parseCommand,
+  splitLine
 }
 

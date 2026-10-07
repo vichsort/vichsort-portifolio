@@ -77,7 +77,7 @@ export const findCommand = {
       if (matches.length === 0) {
         return {
           type: 'text',
-          payload: `vsh: find: '${args[0]}': nenhum arquivo ou diretório encontrado.`
+          payload: t('terminal.output.find.no_match', { term: args[0] })
         }
       }
 

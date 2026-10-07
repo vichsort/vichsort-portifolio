@@ -1,6 +1,6 @@
 import { content } from '../../../../core/content/index.js'
-import { replaceBodyLinks } from '../../../../core/content/links.js'
 import { projectView } from '../../../../core/content/projects.js'
+import { plainBody } from './graphNodes.js'
 
 // Campos do projeto expostos no info.json do VFS
 const INFO_FIELDS = ['title', 'category', 'techs', 'date', 'image', 'github', 'live', 'summary']
@@ -26,13 +26,7 @@ export function loadRawMarkdown(slug, locale = 'pt') {
   const project = projectView(slug, locale)
   if (!project) return null
 
-  const label = (target) => {
-    const id = content.resolve(target)
-    return id ? content.label(id, locale) : target
-  }
-  const body = replaceBodyLinks(project.body, (target, alias, embed) => (embed ? '' : alias || label(target)))
-
-  return [`# ${project.title}`, project.summary ? `> ${project.summary}` : '', body.trim()]
+  return [`# ${project.title}`, project.summary ? `> ${project.summary}` : '', plainBody(project.body, locale).trim()]
     .filter(Boolean)
     .join('\n\n')
 }

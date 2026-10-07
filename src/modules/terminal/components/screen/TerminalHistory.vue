@@ -29,27 +29,23 @@ defineProps({
       </div>
 
       <div
-        v-if="entry.output"
+        v-for="(output, index) in entry.outputs"
+        :key="index"
         class="history-output"
       >
-        <OutputText
-          v-if="typeof entry.output === 'string'"
-          :content="entry.output"
-          :is-error="entry.isError"
-        />
         <OutputBanner
-          v-else-if="entry.output.type === 'banner'"
-          :content="entry.output.payload"
+          v-if="output.type === 'banner'"
+          :content="output.payload"
         />
         <OutputMarkdown
-          v-else-if="entry.output.type === 'markdown'"
-          :content="entry.output.payload"
-          :filename="entry.output.filename"
+          v-else-if="output.type === 'markdown'"
+          :content="output.payload"
+          :filename="output.filename"
         />
         <OutputText
-          v-else-if="entry.output.payload !== undefined"
-          :content="entry.output.payload"
-          :is-error="entry.isError || entry.output.type === 'error'"
+          v-else-if="output.payload !== undefined"
+          :content="output.payload"
+          :is-error="output.type === 'error'"
         />
       </div>
     </div>
@@ -115,10 +111,6 @@ defineProps({
 .history-output {
   color: var(--text-secondary);
   overflow-x: auto;
-}
-
-.history-output.is-error {
-  color: var(--danger);
 }
 
 .output-raw {

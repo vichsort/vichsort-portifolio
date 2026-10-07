@@ -47,7 +47,12 @@ export function createCommandContext(options = {}) {
     i18n,
     t: resolveT,
     registry,
-    clear
+    clear,
+    // Saída do comando anterior num pipe (texto), ou null fora de um pipe.
+    // Preenchido pelo dispatchLine a cada comando.
+    stdin: null,
+    // true quando a saída vai para outro comando (não é o último do pipe)
+    isPiped: false
   }
 }
 

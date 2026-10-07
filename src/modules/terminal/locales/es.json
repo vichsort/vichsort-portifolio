@@ -94,6 +94,10 @@
       "grep": {
         "description": "Busca un patrón de texto dentro de los archivos",
         "usage": "grep <término> [ruta]"
+      },
+      "links": {
+        "description": "Muestra los enlaces de un nodo del grafo: a dónde apunta y quién apunta a él",
+        "usage": "links <id>"
       }
     },
     "errors": {
@@ -102,7 +106,9 @@
       "no_such_file": "{cmd}: {path}: No existe el archivo o directorio",
       "is_a_directory": "{cmd}: {path}: Es un directorio",
       "not_a_directory": "{cmd}: {path}: No es un directorio",
-      "missing_arg": "{cmd}: falta el argumento obligatorio: {arg}"
+      "missing_arg": "{cmd}: falta el argumento obligatorio: {arg}",
+      "syntax_error": "error de sintaxis cerca de '{token}'",
+      "internal": "vsh: error interno: {message}"
     },
     "output": {
       "about": {
@@ -152,6 +158,33 @@
       },
       "resume": {
         "downloading": "[vsh]: Iniciando la descarga del currículum (resume.pdf)..."
+      },
+      "links": {
+        "outgoing": "Apunta a",
+        "incoming": "Citado por",
+        "none": "sin enlaces",
+        "not_found": "vsh: links: '{id}' no existe en el grafo.",
+        "types": {
+          "tech": "Techs",
+          "topic": "Temas",
+          "role": "Roles",
+          "category": "Categorías",
+          "group": "Grupos",
+          "project": "Proyectos",
+          "certification": "Certificaciones",
+          "research": "Investigaciones",
+          "timeline": "Línea de tiempo",
+          "collection": "Colecciones"
+        }
+      },
+      "grep": {
+        "no_match": "vsh: grep: '{term}': no se encontraron coincidencias."
+      },
+      "find": {
+        "no_match": "vsh: find: '{term}': no se encontraron archivos ni directorios."
+      },
+      "cat": {
+        "binary_pdf": "[vsh]: archivo binario PDF. Para descargarlo, usa el comando: resume"
       }
     }
   }

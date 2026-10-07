@@ -1,4 +1,4 @@
-import { parseCommand } from '../parser/lexer.js'
+import { parseCommand, splitLine } from '../parser/lexer.js'
 import { TerminalError } from '../errors/codes.js'
 import { formatError } from '../errors/formatter.js'
 import { findClosestCommand } from './similarity.js'
@@ -115,7 +115,57 @@ export async function dispatch(input, context = {}) {
   }
 }
 
+// Saída de um comando como texto, para virar a entrada do próximo no pipe
+const toText = (result) => (result?.payload == null ? '' : String(result.payload))
+
+/**
+ * Executa um pipeline: a saída de cada comando vira o `context.stdin` do seguinte.
+ * Um erro no meio interrompe o pipeline e é o que aparece.
+ *
+ * @param {string[]} commands - Comandos crus, na ordem do `|`.
+ * @param {Object} context - Instância de CommandContext.
+ * @returns {Promise<{ type: string, payload: any }|null>}
+ */
+async function runPipeline(commands, context) {
+  let stdin = null
+  let result = null
+
+  for (const [i, command] of commands.entries()) {
+    const isPiped = i < commands.length - 1
+    result = await dispatch(command, { ...context, stdin, isPiped })
+    if (result?.type === 'error') return result
+    stdin = toText(result)
+  }
+
+  return result
+}
+
+/**
+ * Executa uma linha completa, com `&&` e `|`.
+ * Como no shell, o `&&` só segue se o pipeline anterior não terminou em erro.
+ *
+ * @param {string} input - Linha de comando bruta.
+ * @param {Object} context - Instância de CommandContext.
+ * @returns {Promise<Array<{ type: string, payload: any }>>} Saídas de cada pipeline, na ordem.
+ */
+export async function dispatchLine(input, context = {}) {
+  const { chain, error } = splitLine(input)
+
+  if (error) {
+    return [{ type: 'error', payload: formatError(TerminalError.SYNTAX_ERROR, { token: error }, context.t) }]
+  }
+
+  const outputs = []
+  for (const pipeline of chain) {
+    const result = await runPipeline(pipeline, context)
+    if (result) outputs.push(result)
+    if (result?.type === 'error') break
+  }
+  return outputs
+}
+
 export default {
-  dispatch
+  dispatch,
+  dispatchLine
 }
 

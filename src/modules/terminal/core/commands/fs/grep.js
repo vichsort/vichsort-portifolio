@@ -67,6 +67,15 @@ export const grepCommand = {
     const targetPath = args[1] || '.'
     const locale = globalState?.locale?.value || i18n?.global?.locale?.value || 'pt'
     const caseInsensitive = flags.i !== false
+    const matchesTerm = (line) =>
+      caseInsensitive ? line.toLowerCase().includes(term.toLowerCase()) : line.includes(term)
+    const noMatch = () => ({ type: 'text', payload: t('terminal.output.grep.no_match', { term }) })
+
+    // Num pipe sem caminho (ex.: cat a.md | grep vue), filtra as linhas da entrada
+    if (context.stdin != null && !args[1]) {
+      const lines = context.stdin.split('\n').filter(matchesTerm)
+      return lines.length ? { type: 'text', payload: lines.join('\n') } : noMatch()
+    }
 
     try {
       const filePaths = collectAllFiles(vfs, targetPath)
@@ -78,27 +87,15 @@ export const grepCommand = {
           const content = String(file.content || '')
           const lines = content.split('\n')
 
-          for (let i = 0; i < lines.length; i++) {
-            const line = lines[i]
-            const isMatch = caseInsensitive
-              ? line.toLowerCase().includes(term.toLowerCase())
-              : line.includes(term)
-
-            if (isMatch) {
-              matches.push(`${filePath}:${i + 1}: ${line.trim()}`)
-            }
-          }
+          lines.forEach((line, i) => {
+            if (matchesTerm(line)) matches.push(`${filePath}:${i + 1}: ${line.trim()}`)
+          })
         } catch {
           // Ignora arquivos binários ou que não podem ser lidos como texto
         }
       }
 
-      if (matches.length === 0) {
-        return {
-          type: 'text',
-          payload: `vsh: grep: '${term}': nenhuma correspondência encontrada.`
-        }
-      }
+      if (matches.length === 0) return noMatch()
 
       return {
         type: 'text',
