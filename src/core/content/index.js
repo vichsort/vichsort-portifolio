@@ -10,9 +10,14 @@ import { createQueries } from './queries.js'
 
 const ROOT = '/src/content/'
 
-const markdown = import.meta.glob('/src/content/**/*.md', { query: '?raw', import: 'default', eager: true })
+// Notas na raiz (índice, guia) e pastas com "_" (modelos) não são conteúdo do site
+const markdown = import.meta.glob(['/src/content/**/*.md', '!/src/content/*.md', '!/src/content/_*/**'], {
+  query: '?raw',
+  import: 'default',
+  eager: true
+})
 
-const files = import.meta.glob(['/src/content/**/*', '!/src/content/**/*.md'], {
+const files = import.meta.glob(['/src/content/**/*', '!/src/content/**/*.md', '!/src/content/_*/**'], {
   query: '?url',
   import: 'default',
   eager: true

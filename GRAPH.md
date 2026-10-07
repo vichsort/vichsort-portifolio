@@ -24,6 +24,8 @@ Resolve a discussão `d1` do [PENDENCIAS.md](PENDENCIAS.md) e é pré-requisito 
 ```
 src/content/                         # raiz do vault do Obsidian
 ├── index.md                         # índice geral, gerado (ver 2.2)
+├── COMO-ADICIONAR.md                # guia curto para criar nós
+├── _templates/                      # modelos por tipo: <tipo>.md e <tipo>.texto.md (ver 2.3)
 ├── techs/
 │   ├── python/
 │   │   ├── python.md                # estrutura
@@ -56,11 +58,23 @@ src/content/                         # raiz do vault do Obsidian
 - **Arquivos do nó têm nome fixo quando o site depende deles:** `icon.svg` (techs, tópicos) e `cover.*` (projetos, pesquisas, certificações). O site detecta esses arquivos sozinho, sem campo no frontmatter. Outros arquivos (imagens do artigo) podem ter qualquer nome e são citados pelo corpo.
 - **`.obsidian/`** (configuração local do Obsidian) entra no `.gitignore`.
 
+- **Notas soltas na raiz e pastas que começam com `_`** (como `_templates/`) não são conteúdo: o site e a validação as ignoram.
+
 ### 2.2 Índice geral
 
 `src/content/index.md` lista todos os nós, agrupados por tipo, como wikilinks. No Obsidian ele vira o ponto de entrada do vault e o centro do grafo.
 
 Ele é **gerado** por um script (`npm run content:index`), não escrito à mão: escrito à mão, ficaria desatualizado na primeira tech nova. O site não depende dele (descobre os nós pelas pastas), e a validação avisa se ele estiver desatualizado.
+
+### 2.3 Modelos
+
+`_templates/` tem dois modelos por tipo: `<tipo>.md` (estrutura) e `<tipo>.texto.md` (texto, igual para pt e en), com comentários marcando o que é obrigatório e opcional.
+
+```
+npm run content:new -- project meu-app
+```
+
+cria `projects/meu-app/` com `meu-app.md`, `meu-app.pt.md` e `meu-app.en.md` a partir dos modelos. No Obsidian, os mesmos arquivos servem para o plugin **Templates** (pasta de modelos: `_templates`).
 
 ---
 
@@ -409,7 +423,7 @@ src/core/content/
 ├── queries.js       # consultas com idioma explícito (usadas pelo terminal)
 ├── markdown.js      # renderiza o corpo: wikilinks viram texto, imagens relativas viram arquivos do nó
 └── useContent.js    # as mesmas consultas no idioma ativo, para componentes
-scripts/content.mjs  # npm run check:content / npm run content:index
+scripts/content.mjs  # npm run check:content / content:index / content:new
 ```
 
 API para componentes:

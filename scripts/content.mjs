@@ -4,16 +4,20 @@
  *
  *   node scripts/content.mjs check   valida o grafo; sai com código 1 se houver erro
  *   node scripts/content.mjs index   regenera src/content/index.md
+ *   node scripts/content.mjs new <tipo> <id>
+ *                                    cria a pasta do nó a partir de _templates/
  */
-import { readdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { buildGraph } from '../src/core/content/graph.js'
 import { validateGraph } from '../src/core/content/validate.js'
-import { TYPES } from '../src/core/content/schema.js'
+import { LANGS, TYPES, TYPE_BY_FOLDER } from '../src/core/content/schema.js'
 
 const ROOT = fileURLToPath(new URL('../src/content/', import.meta.url))
 const INDEX = join(ROOT, 'index.md')
+const TEMPLATES = join(ROOT, '_templates')
 
 async function walk(dir) {
   const out = []
@@ -64,7 +68,39 @@ async function readIndex() {
   }
 }
 
+async function scaffold(typeArg, id) {
+  const type = TYPES[typeArg] ? typeArg : TYPE_BY_FOLDER[typeArg]
+  if (!type || !id) {
+    console.log(`uso: npm run content:new -- <tipo> <id>\ntipos: ${Object.keys(TYPES).join(', ')}`)
+    process.exit(2)
+  }
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(id)) {
+    console.log(`id inválido: "${id}" (use kebab-case minúsculo, sem acento)`)
+    process.exit(2)
+  }
+
+  const dir = join(ROOT, TYPES[type].folder, id)
+  if (existsSync(dir)) {
+    console.log(`já existe: ${relative(process.cwd(), dir)}`)
+    process.exit(1)
+  }
+
+  await mkdir(dir, { recursive: true })
+  await writeFile(join(dir, `${id}.md`), await readFile(join(TEMPLATES, `${type}.md`), 'utf-8'))
+  const text = await readFile(join(TEMPLATES, `${type}.texto.md`), 'utf-8')
+  for (const lang of LANGS) await writeFile(join(dir, `${id}.${lang}.md`), text)
+
+  console.log(`criado: ${relative(process.cwd(), dir)}/`)
+  console.log('troque os valores de exemplo e rode npm run check:content e npm run content:index')
+}
+
 const command = process.argv[2]
+
+if (command === 'new') {
+  await scaffold(process.argv[3], process.argv[4])
+  process.exit(0)
+}
+
 const graph = await load()
 
 if (command === 'index') {
@@ -85,6 +121,6 @@ if (command === 'index') {
   console.log(`\n${graph.nodes.size} nós, ${graph.edges.length} ligações · ${errors} erro(s), ${warnings} aviso(s)`)
   process.exit(errors ? 1 : 0)
 } else {
-  console.log('uso: node scripts/content.mjs <check|index>')
+  console.log('uso: node scripts/content.mjs <check|index|new>')
   process.exit(2)
 }

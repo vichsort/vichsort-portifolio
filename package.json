@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "check:content": "node scripts/content.mjs check",
-    "content:index": "node scripts/content.mjs index"
+    "content:index": "node scripts/content.mjs index",
+    "content:new": "node scripts/content.mjs new"
   },
   "dependencies": {
     "@lucide/vue": "^1.32.0",

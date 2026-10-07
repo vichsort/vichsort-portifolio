@@ -24,6 +24,7 @@ export function buildGraph(files, assets = []) {
   for (const { path, raw } of files) {
     const parts = path.split('/')
     if (parts.length === 1) continue // index.md e outras notas na raiz do vault
+    if (parts[0].startsWith('_')) continue // pastas de apoio, como _templates
 
     if (parts.length !== 3) {
       report('error', 'bad-path', path, 'arquivos devem ficar em <tipo>/<id>/<arquivo>.md')
