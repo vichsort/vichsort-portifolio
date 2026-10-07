@@ -27,7 +27,7 @@ A arquitetura foi desenhada para resolver os problemas de escalabilidade, coesã
 
 ```
 src/
-├── App.vue                         # Shell: navbar, configurações, RouterView e footer (fora do /terminal)
+├── App.vue                         # Shell: navbar, configurações, RouterView e footer (rotas com meta.bare, como o /terminal, ficam sem navbar e footer)
 ├── main.js                         # Entry point: estilos, router e i18n
 │
 ├── content/                        # Vault de conteúdo (um nó por pasta; ícones e capas junto). Ver GRAPH.md
@@ -55,7 +55,8 @@ src/
 │   │   ├── node/                   # NodeMenu: menu de um nó do grafo (n4/n5), sobre o ContextMenu;
 │   │   │                           # TechIcon: ícone de tech dos stacks, com hover e menu;
 │   │   │                           # NodeMenuHost: menu único dos wikilinks nos textos (n10), no App.vue
-│   │   └── ui/                     # BaseSearchInput, BaseSelect, ListingToolbar, ListingEmpty, UntranslatedNote
+│   │   └── ui/                     # BaseSearchInput, BaseSelect, ListingToolbar, ListingEmpty, UntranslatedNote,
+│   │                               # MacWindowFrame (moldura de janela do macOS: README do Sobre e terminal)
 │   │       └── menu/               # Menu de contexto estilo macOS: ContextMenu (gatilho <button>) sobre o
 │   │                               # ContextMenuPanel (ancorado em qualquer elemento), MenuList (um nível), useMenuState
 │   │                               # (aberto, submenu, trava por clique), useMenuPosition (@floating-ui),
@@ -64,7 +65,8 @@ src/
 │   │                               # useDraggableScroll, useScrollProgress, useAsciiField, useHeroPresence,
 │   │                               # useListingFilters (busca e filtros), useListingView (grade/lista),
 │   │                               # useRefFilter (?ref=<id>: só os itens que apontam para um nó),
-│   │                               # useNodeMenuHost (estado do menu dos wikilinks)
+│   │                               # useNodeMenuHost (estado do menu dos wikilinks),
+│   │                               # useViewTransition (troca de página animada: a janela do terminal cresce e encolhe)
 │   ├── directives/                 # v-content-links: no HTML de v-html, links internos navegam pelo router
 │   │                               # e wikilinks de nós sem página abrem o menu de nó
 │   └── views/
@@ -79,7 +81,8 @@ src/
     ├── contact/                    # /contact
     ├── gallery/                    # /gallery e /gallery/:id: grade de polaroids (3, 2 ou 1 por linha) e página da foto
     ├── testimonials/               # Seção de depoimentos (usada pela home)
-    └── terminal/                   # /terminal: shell (parser, dispatcher, comandos) e VFS sobre o grafo
+    └── terminal/                   # Shell (parser, dispatcher, comandos) e VFS sobre o grafo; sessão única (useTerminal)
+                                    # mostrada na seção do fim da home (TerminalSection) e em /terminal
 ```
 
 Cada módulo com dados próprios de interface tem `locales/<idioma>.json`. Os dados de conteúdo (projetos, pesquisas, certificações, timeline, techs, fotos da galeria) não ficam nos módulos: vêm do grafo em `src/content/`.
@@ -126,5 +129,5 @@ Formato, regras e API completos em [GRAPH.md](GRAPH.md). Validação: `npm run c
 | `/gallery` | `GalleryView` | `gallery` | Fotos em polaroid, com tamanho médio, grande ou extra grande |
 | `/gallery/:id` | `GalleryDetailView` | `gallery` | Foto inteira, história, ligações e navegação entre fotos |
 | `/contact` | `ContactView` | `contact` | Canais de contato e redes sociais |
-| `/terminal` | `TerminalView` | `terminal` | Shell interativo sobre o grafo (sem footer) |
+| `/terminal` | `TerminalView` | `terminal` | Shell interativo sobre o grafo, só a janela (sem navbar nem footer) |
 | `/*` | `NotFoundView` | `shared` | Página 404 |
