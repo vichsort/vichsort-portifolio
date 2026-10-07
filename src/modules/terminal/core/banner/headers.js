@@ -1,12 +1,11 @@
 // Importação de todos os arquivos de header ASCII em lote via Vite com query ?raw
-const headerModules =
-  typeof import.meta.glob === 'function'
-    ? import.meta.glob('@/modules/terminal/ascii/header/*.txt', {
-        query: '?raw',
-        import: 'default',
-        eager: true
-      })
-    : {}
+// Chamada direta: o Vite só reescreve import.meta.glob(...) literal, então um
+// "typeof import.meta.glob" no navegador dá undefined e esvaziava a lista
+const headerModules = import.meta.glob('@/modules/terminal/ascii/header/*.txt', {
+  query: '?raw',
+  import: 'default',
+  eager: true
+})
 
 /**
  * Lista com os conteúdos em texto puro de todos os headers carregados.
