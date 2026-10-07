@@ -1,5 +1,11 @@
 {
   "about_page": {
+    "window": {
+      "collapse": "Recolher janela",
+      "expand": "Expandir janela",
+      "maximize": "Tela cheia",
+      "restore": "Sair da tela cheia"
+    },
     "title": "Sobre Mim",
     "subtitle": "Trajetória, mentalidade técnica e evolução na engenharia de software.",
     "s1_profile": {

@@ -1,5 +1,11 @@
 {
   "about_page": {
+    "window": {
+      "collapse": "Collapse window",
+      "expand": "Expand window",
+      "maximize": "Full screen",
+      "restore": "Exit full screen"
+    },
     "title": "About Me",
     "subtitle": "Journey, technical mindset and software engineering evolution.",
     "s1_profile": {
