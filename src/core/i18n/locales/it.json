@@ -32,7 +32,8 @@
     "view_label": "Modalità di visualizzazione",
     "view_grid": "Griglia",
     "view_list": "Elenco",
-    "remove_filter": "Rimuovi filtro"
+    "remove_filter": "Rimuovi filtro",
+    "back": "Indietro"
   },
   "not_found": {
     "title": "404",

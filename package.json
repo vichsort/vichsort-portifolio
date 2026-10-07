@@ -12,6 +12,7 @@
     "content:new": "node scripts/content.mjs new"
   },
   "dependencies": {
+    "@floating-ui/vue": "^2.0.1",
     "@vueuse/core": "^14.4.0",
     "front-matter": "^4.0.2",
     "lucide-vue-next": "^1.0.0",

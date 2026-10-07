@@ -41,6 +41,9 @@
   /* Altura dos campos de formulário (busca, selects), para alinharem lado a lado */
   --control-height: 2.625rem;   /* 42px */
 
+  /* Camadas: menus de contexto acima da navbar (1000), abaixo da sidebar de ajustes */
+  --z-menu: 1100;
+
   /* Texto sobre fundos na cor primária (igual nos dois temas) */
   --text-on-primary: #ffffff;
 }
@@ -104,6 +107,14 @@
   --neon-orange: #ff7a1a;
   --neon-magenta: #c51bff;
 
+  /* Menu de contexto (macOS nas cores do site) */
+  --menu-bg: rgba(25, 22, 50, 0.78);
+  --menu-border: rgba(255, 255, 255, 0.12);
+  --menu-separator: rgba(255, 255, 255, 0.1);
+  --menu-active: rgba(255, 255, 255, 0.08);
+  --menu-title: #a29dff;
+  --menu-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.6), 0 14px 36px -8px rgba(0, 0, 0, 0.65);
+
   /* Estados */
   --danger: #f87171;
 }
@@ -165,6 +176,14 @@
   --neon-yellow: #b97700;
   --neon-orange: #d9480f;
   --neon-magenta: #8a12d6;
+
+  /* Menu de contexto (macOS nas cores do site) */
+  --menu-bg: rgba(255, 255, 255, 0.82);
+  --menu-border: rgba(15, 23, 42, 0.1);
+  --menu-separator: rgba(15, 23, 42, 0.08);
+  --menu-active: rgba(15, 23, 42, 0.06);
+  --menu-title: #2f27ce;
+  --menu-shadow: 0 0 0 0.5px rgba(15, 23, 42, 0.08), 0 12px 32px -8px rgba(15, 23, 42, 0.25);
 
   /* Estados */
   --danger: #dc2626;

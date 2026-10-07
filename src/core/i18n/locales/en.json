@@ -32,7 +32,8 @@
     "view_label": "View mode",
     "view_grid": "Grid",
     "view_list": "List",
-    "remove_filter": "Remove filter"
+    "remove_filter": "Remove filter",
+    "back": "Back"
   },
   "not_found": {
     "title": "404",
