@@ -38,6 +38,9 @@
   --transition-base: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
+  /* Altura dos campos de formulário (busca, selects), para alinharem lado a lado */
+  --control-height: 2.625rem;   /* 42px */
+
   /* Texto sobre fundos na cor primária (igual nos dois temas) */
   --text-on-primary: #ffffff;
 }

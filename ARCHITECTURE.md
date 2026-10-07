@@ -51,9 +51,10 @@ src/
 │   ├── ascii/                      # Motor dos campos ASCII em canvas (hero, footer): grid, camadas, paleta
 │   ├── components/
 │   │   ├── layout/                 # TheNavbar, SettingsSidebar, TheFooter
-│   │   └── ui/                     # BaseSearchInput, BaseSelect, UntranslatedNote
+│   │   └── ui/                     # BaseSearchInput, BaseSelect, ListingToolbar, ListingEmpty, UntranslatedNote
 │   ├── composables/                # useTheme, useSettings, useNavigation, useSmartScroll,
-│   │                               # useDraggableScroll, useScrollProgress, useAsciiField, useHeroPresence
+│   │                               # useDraggableScroll, useScrollProgress, useAsciiField, useHeroPresence,
+│   │                               # useListingFilters (busca e filtros), useListingView (grade/lista)
 │   └── views/
 │       └── NotFoundView.vue        # 404
 │

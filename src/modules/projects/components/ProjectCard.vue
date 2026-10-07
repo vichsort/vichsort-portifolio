@@ -8,7 +8,7 @@ import { Github, ExternalLink, ArrowRight, Calendar } from 'lucide-vue-next'
 
 const props = defineProps({
   project: { type: Object, required: true },
-  variant: { type: String, default: 'grid' } // 'grid' | 'carousel'
+  variant: { type: String, default: 'grid' } // 'grid' | 'list' (listagem) | 'carousel' (home)
 })
 
 const { t } = useI18n()
@@ -85,7 +85,7 @@ const renderedDescription = computed(() => {
               {{ tech }}
             </span>
           </div>
-          <span v-if="variant === 'carousel' && projectDate" class="project-date">{{ projectDate }}</span>
+          <span v-if="variant !== 'grid' && projectDate" class="project-date">{{ projectDate }}</span>
         </div>
 
         <h3 class="project-name">{{ projectName }}</h3>
@@ -355,6 +355,64 @@ const renderedDescription = computed(() => {
 
 .variant-grid .image-overlay {
   background: linear-gradient(to bottom, transparent 65%, var(--bg-surface-1) 100%);
+}
+
+/* ==========================================================================
+   VARIANT: LIST (ProjectsListView no modo lista): linha com miniatura à esquerda
+   ========================================================================== */
+.variant-list {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.variant-list:hover {
+  transform: translateY(-2px);
+}
+
+.variant-list .card-image-wrapper {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.variant-list .placeholder-bg {
+  min-height: 100%;
+  padding: var(--spacing-md);
+  text-align: center;
+}
+
+.variant-list .image-overlay {
+  background: linear-gradient(to right, transparent 70%, var(--bg-surface-1) 100%);
+}
+
+.variant-list .card-body {
+  padding: var(--spacing-md) var(--spacing-lg);
+  gap: var(--spacing-sm);
+}
+
+.variant-list .project-content {
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+@media (max-width: 640px) {
+  .variant-list .card-image-wrapper {
+    width: 96px;
+  }
+
+  .variant-list .placeholder-text {
+    font-size: var(--text-xs);
+  }
+
+  .variant-list .card-body {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  /* Na tela estreita a linha mostra só a categoria, sem a lista de techs */
+  .variant-list .tags-container .badge:not(.badge-accent),
+  .variant-list .project-content {
+    display: none;
+  }
 }
 
 /* ==========================================================================

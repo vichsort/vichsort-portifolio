@@ -8,6 +8,11 @@ const props = defineProps({
   research: {
     type: Object,
     required: true
+  },
+  // Na grade (duas colunas): menos espaço e resumo encurtado
+  compact: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -38,7 +43,7 @@ const tags = computed(() => {
 </script>
 
 <template>
-  <article class="research-card surface-card">
+  <article class="research-card surface-card" :class="{ 'is-compact': compact }">
     <div class="card-header">
       <div class="meta-row">
         <button
@@ -108,7 +113,7 @@ const tags = computed(() => {
 
 <style scoped>
 .research-card {
-  padding: var(--spacing-xl);
+  padding: var(--spacing-lg);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
@@ -243,6 +248,24 @@ const tags = computed(() => {
 
 .paper-link:hover {
   opacity: 0.8;
+}
+
+/* Grade: card mais enxuto, resumo em até quatro linhas */
+.is-compact {
+  gap: var(--spacing-sm);
+}
+
+.is-compact .research-title {
+  font-size: var(--text-lg);
+}
+
+.is-compact .research-desc {
+  font-size: var(--text-sm);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {

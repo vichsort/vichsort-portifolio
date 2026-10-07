@@ -28,7 +28,10 @@
     "explore": "Explorar",
     "view_more": "Ver más",
     "loading": "Cargando...",
-    "untranslated": "Sin traducir · en {lang}"
+    "untranslated": "Sin traducir · en {lang}",
+    "view_label": "Modo de visualización",
+    "view_grid": "Cuadrícula",
+    "view_list": "Lista"
   },
   "not_found": {
     "title": "404",

@@ -176,7 +176,9 @@ const selectOption = (value) => {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  padding: 0.6rem 1rem;
+  height: var(--control-height);
+  padding: 0 1rem;
+  box-sizing: border-box;
   border-radius: var(--radius-full);
   background-color: var(--bg-surface-2);
   border: 1px solid var(--border-subtle);

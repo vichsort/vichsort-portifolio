@@ -28,7 +28,10 @@
     "explore": "Explore",
     "view_more": "See more",
     "loading": "Loading...",
-    "untranslated": "Not translated · in {lang}"
+    "untranslated": "Not translated · in {lang}",
+    "view_label": "View mode",
+    "view_grid": "Grid",
+    "view_list": "List"
   },
   "not_found": {
     "title": "404",

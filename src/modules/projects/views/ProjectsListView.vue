@@ -1,49 +1,39 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useProjects } from '../composables/useProjects'
-import { useProjectsFilter } from '../composables/useProjectsFilter'
+import { ArrowLeft } from 'lucide-vue-next'
+import { allProjects } from '@/core/content/projects'
+import { useListingFilters, yearsOf } from '@/shared/composables/useListingFilters'
+import { useListingView } from '@/shared/composables/useListingView'
+import ListingToolbar from '@/shared/components/ui/ListingToolbar.vue'
+import ListingEmpty from '@/shared/components/ui/ListingEmpty.vue'
 import ProjectCard from '../components/ProjectCard.vue'
-import BaseSearchInput from '@/shared/components/ui/BaseSearchInput.vue'
-import BaseSelect from '@/shared/components/ui/BaseSelect.vue'
-import { ArrowLeft, RotateCcw, Sparkles } from 'lucide-vue-next'
 
 const { t, locale } = useI18n()
-const { loadAllProjects, isLoading } = useProjects()
+const { view } = useListingView()
 
-const rawProjects = ref([])
+const projects = computed(() => allProjects(locale.value))
 
-const fetchProjects = async () => {
-  rawProjects.value = await loadAllProjects(locale.value)
-}
+const { searchQuery, selected, options, filtered, hasActiveFilters, clearFilters, resultsCount, totalCount } =
+  useListingFilters(projects, {
+    search: (p) => [p.title, p.summary, p.category, ...p.techs],
+    filters: {
+      category: { values: (p) => [p.category] },
+      tech: { values: (p) => p.techs },
+      year: { values: (p) => yearsOf(p.date), order: 'desc' }
+    }
+  })
 
-onMounted(() => {
-  fetchProjects()
-})
-
-watch(locale, () => {
-  fetchProjects()
-})
-
-const {
-  searchQuery,
-  selectedCategory,
-  selectedTech,
-  selectedYear,
-  availableCategories,
-  availableTechs,
-  availableYears,
-  hasActiveFilters,
-  filteredProjects,
-  resultsCount,
-  totalCount,
-  clearFilters
-} = useProjectsFilter(rawProjects)
+const toolbarFilters = computed(() => [
+  { key: 'category', label: t('projects_page.filter_category'), allLabel: t('projects_page.all_categories'), options: options.value.category },
+  { key: 'tech', label: t('projects_page.filter_tech'), allLabel: t('projects_page.all_techs'), options: options.value.tech },
+  { key: 'year', label: t('projects_page.filter_year'), allLabel: t('projects_page.all_years'), options: options.value.year }
+])
 </script>
 
 <template>
   <main class="projects-page">
-    <div class="page-header">
+    <header class="page-header">
       <router-link to="/" class="back-link">
         <ArrowLeft :size="18" />
         <span>{{ t('common.back_to_home') }}</span>
@@ -52,90 +42,35 @@ const {
       <h1 class="page-title">{{ t('projects_page.title') }}</h1>
       <p class="page-subtitle">{{ t('projects_page.subtitle') }}</p>
 
-      <!-- Advanced Multi-Filter Toolbar -->
-      <div class="filters-toolbar">
-        <div class="search-box">
-          <BaseSearchInput
-            v-model="searchQuery"
-            :placeholder="t('projects_page.search_placeholder')"
-          />
-        </div>
+      <ListingToolbar
+        v-model:search="searchQuery"
+        :search-placeholder="t('projects_page.search_placeholder')"
+        :filters="toolbarFilters"
+        :selected="selected"
+        :count-text="t('projects_page.showing_count', { count: resultsCount, total: totalCount })"
+        :clear-label="t('projects_page.clear_filters')"
+        :has-active-filters="hasActiveFilters"
+        @select="(key, value) => (selected[key] = value)"
+        @clear="clearFilters"
+      />
+    </header>
 
-        <div class="dropdowns-group">
-          <BaseSelect
-            v-model="selectedCategory"
-            :options="availableCategories"
-            :all-label="t('projects_page.all_categories')"
-            :placeholder="t('projects_page.filter_category')"
-            :label="t('projects_page.filter_category')"
-          />
-
-          <BaseSelect
-            v-model="selectedTech"
-            :options="availableTechs"
-            :all-label="t('projects_page.all_techs')"
-            :placeholder="t('projects_page.filter_tech')"
-            :label="t('projects_page.filter_tech')"
-          />
-
-          <BaseSelect
-            v-model="selectedYear"
-            :options="availableYears"
-            :all-label="t('projects_page.all_years')"
-            :placeholder="t('projects_page.filter_year')"
-            :label="t('projects_page.filter_year')"
-          />
-
-          <button
-            v-if="hasActiveFilters"
-            @click="clearFilters"
-            class="clear-filters-btn"
-            type="button"
-            :aria-label="t('projects_page.clear_filters')"
-          >
-            <RotateCcw :size="14" />
-            <span>{{ t('projects_page.clear_filters') }}</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Results Meta Counter -->
-      <div class="results-meta">
-        <span class="count-badge">
-          <Sparkles :size="13" class="sparkle-icon" />
-          {{ t('projects_page.showing_count', { count: resultsCount, total: totalCount }) }}
-        </span>
-      </div>
-    </div>
-
-    <!-- Loading State -->
-    <div v-if="isLoading" class="loading-state surface-card">
-      <p>{{ t('common.loading') }}</p>
-    </div>
-
-    <!-- Projects Grid -->
-    <div v-else-if="filteredProjects.length > 0" class="projects-grid">
+    <div v-if="filtered.length" class="projects-results" :class="`view-${view}`">
       <ProjectCard
-        v-for="(project, index) in filteredProjects"
-        :key="project.id || index"
+        v-for="project in filtered"
+        :key="project.id"
         :project="project"
-        variant="grid"
+        :variant="view"
       />
     </div>
 
-    <!-- Empty State -->
-    <div v-else class="empty-state surface-card">
-      <p class="empty-text">{{ t('projects_page.no_projects_found') }}</p>
-      <button
-        v-if="hasActiveFilters"
-        @click="clearFilters"
-        class="clear-filters-btn empty-action"
-        type="button"
-      >
-        <RotateCcw :size="14" />
-        <span>{{ t('projects_page.clear_filters') }}</span>
-      </button>
-    </div>
+    <ListingEmpty
+      v-else
+      :text="t('projects_page.no_projects_found')"
+      :clear-label="t('projects_page.clear_filters')"
+      :can-clear="hasActiveFilters"
+      @clear="clearFilters"
+    />
   </main>
 </template>
 
@@ -180,119 +115,16 @@ const {
   margin-bottom: var(--spacing-xl);
 }
 
-/* Filters Toolbar */
-.filters-toolbar {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
-}
-
-.search-box {
-  flex: 1;
-  min-width: 280px;
-  max-width: 440px;
-}
-
-.dropdowns-group {
-  display: flex;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.clear-filters-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.6rem 1rem;
-  border-radius: var(--radius-full);
-  background-color: var(--bg-surface-2);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-  font-size: var(--text-xs);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  height: 40px;
-}
-
-.clear-filters-btn:hover {
-  color: #ffffff;
-  background-color: var(--primary);
-  border-color: var(--primary);
-}
-
-/* Results Meta */
-.results-meta {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: var(--spacing-xs);
-}
-
-.count-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: var(--text-xs);
-  font-weight: 500;
-  color: var(--text-muted);
-}
-
-.sparkle-icon {
-  color: var(--primary);
-}
-
-/* Grid Layout */
-.projects-grid {
+.projects-results.view-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: var(--spacing-xl);
-  width: 100%;
 }
 
-/* Empty State */
-.empty-state {
-  text-align: center;
-  padding: var(--spacing-2xl);
-  color: var(--text-muted);
-  border-radius: var(--radius-lg);
+.projects-results.view-list {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: var(--spacing-md);
-}
-
-.empty-text {
-  font-size: var(--text-base);
-  color: var(--text-secondary);
-}
-
-.empty-action {
-  margin-top: var(--spacing-xs);
-}
-
-@media (max-width: 900px) {
-  .filters-toolbar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .search-box {
-    max-width: 100%;
-  }
-
-  .dropdowns-group {
-    width: 100%;
-  }
-
-  .dropdowns-group > * {
-    flex: 1;
-    min-width: 140px;
-  }
 }
 
 @media (max-width: 768px) {
@@ -300,7 +132,7 @@ const {
     padding: 5rem var(--spacing-md) var(--spacing-xl) var(--spacing-md);
   }
 
-  .projects-grid {
+  .projects-results.view-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
   }

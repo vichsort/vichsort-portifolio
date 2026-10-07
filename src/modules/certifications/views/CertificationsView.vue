@@ -2,11 +2,12 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useContent } from '@/core/content/useContent'
-import { useCertificationsFilter } from '../composables/useCertificationsFilter'
-import BaseSearchInput from '@/shared/components/ui/BaseSearchInput.vue'
-import BaseSelect from '@/shared/components/ui/BaseSelect.vue'
+import { useListingFilters, yearsOf } from '@/shared/composables/useListingFilters'
+import { useListingView } from '@/shared/composables/useListingView'
+import ListingToolbar from '@/shared/components/ui/ListingToolbar.vue'
+import ListingEmpty from '@/shared/components/ui/ListingEmpty.vue'
 import UntranslatedNote from '@/shared/components/ui/UntranslatedNote.vue'
-import { ArrowLeft, CheckCircle2, ExternalLink, Calendar, RotateCcw, Sparkles } from 'lucide-vue-next'
+import { ArrowLeft, CheckCircle2, ExternalLink, Calendar } from 'lucide-vue-next'
 
 const { t } = useI18n()
 const { ofType, text, fallback, label, linked } = useContent()
@@ -23,20 +24,23 @@ const rawCertifications = computed(() =>
   }))
 )
 
-const {
-  searchQuery,
-  selectedIssuer,
-  selectedSkill,
-  selectedYear,
-  availableIssuers,
-  availableSkills,
-  availableYears,
-  hasActiveFilters,
-  filteredCertifications,
-  resultsCount,
-  totalCount,
-  clearFilters
-} = useCertificationsFilter(rawCertifications)
+const { view } = useListingView()
+
+const { searchQuery, selected, options, filtered, hasActiveFilters, clearFilters, resultsCount, totalCount } =
+  useListingFilters(rawCertifications, {
+    search: (c) => [c.name, c.issuer, ...c.skills],
+    filters: {
+      skill: { values: (c) => c.skills },
+      issuer: { values: (c) => [c.issuer] },
+      year: { values: (c) => yearsOf(c.date), order: 'desc' }
+    }
+  })
+
+const toolbarFilters = computed(() => [
+  { key: 'skill', label: t('certifications_page.filter_skill'), allLabel: t('certifications_page.all_skills'), options: options.value.skill },
+  { key: 'issuer', label: t('certifications_page.filter_issuer'), allLabel: t('certifications_page.all_issuers'), options: options.value.issuer },
+  { key: 'year', label: t('certifications_page.filter_year'), allLabel: t('certifications_page.all_years'), options: options.value.year }
+])
 </script>
 
 <template>
@@ -51,66 +55,22 @@ const {
         <h1 class="page-title">{{ t('certifications_page.title') }}</h1>
         <p class="page-subtitle">{{ t('certifications_page.subtitle') }}</p>
 
-        <!-- Advanced Multi-Filter Toolbar -->
-        <div class="filters-toolbar">
-          <div class="search-box">
-            <BaseSearchInput
-              v-model="searchQuery"
-              :placeholder="t('certifications_page.search_placeholder')"
-            />
-          </div>
-
-          <div class="dropdowns-group">
-            <BaseSelect
-              v-model="selectedSkill"
-              :options="availableSkills"
-              :all-label="t('certifications_page.all_skills')"
-              :placeholder="t('certifications_page.filter_skill')"
-              :label="t('certifications_page.filter_skill')"
-            />
-
-            <BaseSelect
-              v-model="selectedIssuer"
-              :options="availableIssuers"
-              :all-label="t('certifications_page.all_issuers')"
-              :placeholder="t('certifications_page.filter_issuer')"
-              :label="t('certifications_page.filter_issuer')"
-            />
-
-            <BaseSelect
-              v-model="selectedYear"
-              :options="availableYears"
-              :all-label="t('certifications_page.all_years')"
-              :placeholder="t('certifications_page.filter_year')"
-              :label="t('certifications_page.filter_year')"
-            />
-
-            <button
-              v-if="hasActiveFilters"
-              @click="clearFilters"
-              class="clear-filters-btn"
-              type="button"
-              :aria-label="t('certifications_page.clear_filters')"
-            >
-              <RotateCcw :size="14" />
-              <span>{{ t('certifications_page.clear_filters') }}</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Results Meta Counter -->
-        <div class="results-meta">
-          <span class="count-badge">
-            <Sparkles :size="13" class="sparkle-icon" />
-            {{ t('certifications_page.showing_count', { count: resultsCount, total: totalCount }) }}
-          </span>
-        </div>
+        <ListingToolbar
+          v-model:search="searchQuery"
+          :search-placeholder="t('certifications_page.search_placeholder')"
+          :filters="toolbarFilters"
+          :selected="selected"
+          :count-text="t('certifications_page.showing_count', { count: resultsCount, total: totalCount })"
+          :clear-label="t('certifications_page.clear_filters')"
+          :has-active-filters="hasActiveFilters"
+          @select="(key, value) => (selected[key] = value)"
+          @clear="clearFilters"
+        />
       </header>
 
-      <!-- Certifications Grid -->
-      <div v-if="filteredCertifications.length > 0" class="certifications-grid">
+      <div v-if="filtered.length" class="certifications-results" :class="`view-${view}`">
         <article
-          v-for="cert in filteredCertifications"
+          v-for="cert in filtered"
           :key="cert.id"
           class="cert-card surface-card"
         >
@@ -155,19 +115,13 @@ const {
         </article>
       </div>
 
-      <!-- Empty State -->
-      <div v-else class="empty-state surface-card">
-        <p class="empty-text">{{ t('certifications_page.no_certifications_found') }}</p>
-        <button
-          v-if="hasActiveFilters"
-          @click="clearFilters"
-          class="clear-filters-btn empty-action"
-          type="button"
-        >
-          <RotateCcw :size="14" />
-          <span>{{ t('certifications_page.clear_filters') }}</span>
-        </button>
-      </div>
+      <ListingEmpty
+        v-else
+        :text="t('certifications_page.no_certifications_found')"
+        :clear-label="t('certifications_page.clear_filters')"
+        :can-clear="hasActiveFilters"
+        @clear="clearFilters"
+      />
     </div>
   </main>
 </template>
@@ -215,77 +169,16 @@ const {
   margin-bottom: var(--spacing-xl);
 }
 
-/* Filters Toolbar */
-.filters-toolbar {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
-}
-
-.search-box {
-  flex: 1;
-  min-width: 280px;
-  max-width: 440px;
-}
-
-.dropdowns-group {
-  display: flex;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.clear-filters-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.6rem 1rem;
-  border-radius: var(--radius-full);
-  background-color: var(--bg-surface-2);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-  font-size: var(--text-xs);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  height: 40px;
-}
-
-.clear-filters-btn:hover {
-  color: #ffffff;
-  background-color: var(--primary);
-  border-color: var(--primary);
-}
-
-/* Results Meta */
-.results-meta {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: var(--spacing-xs);
-}
-
-.count-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: var(--text-xs);
-  font-weight: 500;
-  color: var(--text-muted);
-}
-
-.sparkle-icon {
-  color: var(--primary);
-}
-
-/* Certifications Grid */
-.certifications-grid {
+.certifications-results.view-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: var(--spacing-md);
+}
+
+.certifications-results.view-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
 .cert-card {
@@ -379,44 +272,53 @@ const {
   color: var(--primary);
 }
 
-/* Empty State */
-.empty-state {
-  text-align: center;
-  padding: var(--spacing-2xl);
-  color: var(--text-muted);
-  border-radius: var(--radius-lg);
-  display: flex;
-  flex-direction: column;
+/* Lista: uma linha por certificação — nome e emissor | habilidades | credencial */
+.view-list .cert-card {
   align-items: center;
-  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
 }
 
-.empty-text {
-  font-size: var(--text-base);
-  color: var(--text-secondary);
+.view-list .cert-content {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr) auto;
+  column-gap: var(--spacing-lg);
+  align-items: center;
 }
 
-.empty-action {
-  margin-top: var(--spacing-xs);
+.view-list .cert-meta {
+  justify-content: flex-start;
+  gap: var(--spacing-sm);
+}
+
+.view-list .cert-meta,
+.view-list .cert-name,
+.view-list .cert-content > .untranslated-note {
+  grid-column: 1;
+}
+
+.view-list .skills-container {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  margin: 0;
+}
+
+.view-list .credential-link {
+  grid-column: 3;
+  grid-row: 1 / span 3;
+  margin: 0;
 }
 
 @media (max-width: 900px) {
-  .filters-toolbar {
-    flex-direction: column;
-    align-items: stretch;
+  .view-list .cert-content {
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
-  .search-box {
-    max-width: 100%;
+  .view-list .skills-container {
+    display: none;
   }
 
-  .dropdowns-group {
-    width: 100%;
-  }
-
-  .dropdowns-group > * {
-    flex: 1;
-    min-width: 140px;
+  .view-list .credential-link {
+    grid-column: 2;
   }
 }
 
@@ -425,7 +327,7 @@ const {
     padding: 5rem var(--spacing-md) var(--spacing-xl) var(--spacing-md);
   }
 
-  .certifications-grid {
+  .certifications-results.view-grid {
     grid-template-columns: 1fr;
   }
 }

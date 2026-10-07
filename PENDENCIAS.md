@@ -8,8 +8,6 @@ Lista do que falta na interface tradicional. Revisada em 2026-10-07 contra o có
 
 | # | Pendência | Arquivos | A decidir |
 | :--- | :--- | :--- | :--- |
-| **`n1`** | Alternar **grade / lista** nas listagens | `ProjectsListView.vue`, `ResearchesView.vue`, `CertificationsView.vue`, `ProjectCard.vue`, `ResearchCard.vue` | Preferência por página ou global; `ProjectCard` hoje só tem as variantes `grid` e `carousel` |
-| **`n2`** | Novo padrão de **busca e filtros** | `BaseSearchInput.vue`, `BaseSelect.vue` e as três views de listagem | Absorve a antiga harmonização de altura (busca 41px, selects 39px) |
 | **`n4`** | Clicar numa **tech** mostra definição e usos | `TechStackSection.vue`, `CoreStackSection.vue` | Popover ou modal. Os usos vêm dos backlinks do grafo ([GRAPH.md](GRAPH.md)) |
 | **`n5`** | Clicar num **cargo do hero** mostra exemplos | `HeroSection.vue`, coleção `hero-roles` | Formato da exibição. Os exemplos vêm dos backlinks do nó do cargo; manter `data-ascii-safe` |
 | **`n7`** | **Redesenhar a tela de contato** | `ContactView.vue` | Alinhar à identidade do hero e do footer |
@@ -51,6 +49,7 @@ Todo o conteúdo atual é fictício. Depende de material, não de código.
 ## Concluído
 
 * Auditoria da arquitetura (`a1`): ARCHITECTURE.md e READMEs dos módulos atualizados; um só módulo de Markdown (`core/content/markdown.js`); removido o pacote `@lucide/vue` sem uso; token `--text-on-primary` no lugar do branco fixo
+* Listagens (`n1` + `n2`): barra única de busca e filtros (`ListingToolbar` + `useListingFilters`) em projetos, pesquisas e certificações, com busca e selects da mesma altura (`--control-height`) e busca que ignora acentos; alternância grade/lista global, salva no navegador (lista: projetos em linha com miniatura, pesquisas uma por linha, certificações em linha). De quebra, os `#ffffff` que a auditoria `a1` deixou passar viraram `--text-on-primary`
 * Wikilinks clicáveis (`n9`): `[[id]]` no texto de um nó vira link para a página dele (projetos, fotos, pesquisas, certificações, timeline), navegando pelo router; nós sem página ficam como texto até o painel de nó. Mapa único de rotas em `core/content/routes.js`
 * Terminal abaixo da navbar (`a9`): a página do terminal reserva o topo para a navbar, como as outras; a navbar continua visível para dar acesso às configurações
 * Página da galeria (`a6`): `/gallery` com polaroids em três tamanhos (3, 2 ou 1 por linha, escolha salva no navegador) e `/gallery/<id>` com a foto inteira, história, ligações e navegação; fotos viraram nós do grafo (tipo `photo`); o botão "Galeria" da home agora leva para ela

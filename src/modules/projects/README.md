@@ -17,16 +17,15 @@ Módulo responsável pela listagem, filtragem, vitrine (*showcase*) e páginas d
 ```
 src/modules/projects/
 ├── components/
-│   ├── ProjectCard.vue             # Card híbrido com variantes 'grid' (catálogo) e 'carousel' (Home)
+│   ├── ProjectCard.vue             # Card com variantes 'grid' e 'list' (catálogo) e 'carousel' (Home)
 │   ├── ProjectPagination.vue       # Navegação simétrica (← Anterior / Próximo →) para a página de detalhes
 │   └── ProjectShowcaseSection.vue  # Carrossel horizontal da Home page com suporte a drag scroll
 ├── composables/
-│   ├── useProjects.js              # Projetos do grafo de conteúdo no formato das views + formatador de datas
-│   └── useProjectsFilter.js        # Lógica reativa de busca textual e multi-filtros (categoria, tech, ano)
+│   └── useProjects.js              # Projetos do grafo de conteúdo no formato das views + formatador de datas
 ├── locales/
 │   └── <idioma>.json               # Textos de UI (pt, en, es, it)
 └── views/
-    ├── ProjectsListView.vue        # Rota '/projects' (Grade de cards com barra de multi-filtros)
+    ├── ProjectsListView.vue        # Rota '/projects' (grade ou lista, com a barra de busca e filtros)
     └── ProjectDetailView.vue       # Rota '/projects/:slug' (Artigo completo do projeto)
 ```
 
@@ -51,14 +50,8 @@ O formato completo, com exemplo, está no [GRAPH.md](../../../GRAPH.md) (seçõe
 * `getAdjacentProjects(currentId, locale = 'pt')`: Retorna `{ prev, next }` com os projetos vizinhos para paginação circular.
 * `formatDateRange(dateVal)`: Helper que formata `["2024-08", "2024-12"]` para `"08/2024 — 12/2024"`.
 
-### 2. `useProjectsFilter(projectsRef)`
-* Gerencia o estado reativo de busca e filtros:
-  - `searchQuery`: String de busca em tempo real (título, resumo, categoria, techs).
-  - `selectedCategory`: Categoria selecionada no dropdown (`'ALL'` por padrão).
-  - `selectedTech`: Tecnologia selecionada no dropdown (`'ALL'` por padrão).
-  - `selectedYear`: Ano selecionado no dropdown (`'ALL'` por padrão).
-  - `filteredProjects`: Array computado de projetos correspondentes.
-  - `clearFilters()`: Reseta todos os 4 filtros para o estado inicial.
+### 2. Busca e filtros
+* Na listagem, busca e filtros vêm do `useListingFilters` e da barra `ListingToolbar` (em `src/shared/`), comuns a projetos, pesquisas e certificações; a escolha grade/lista é global (`useListingView`). A página só declara onde a busca procura (título, resumo, categoria, techs) e os filtros (categoria, tecnologia, ano).
 
 ---
 
