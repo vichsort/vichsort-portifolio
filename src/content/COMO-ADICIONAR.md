@@ -40,6 +40,7 @@ Os modelos ficam em [[_templates/tech|_templates]]. Para inserir pelo Obsidian, 
 - O `id` é o nome da pasta: minúsculo, com hífens, sem acento, único no vault inteiro.
 - Ligações são wikilinks **entre aspas**: `- "[[python]]"`.
 - Texto é opcional (exceto títulos e nomes traduzidos). Sem o arquivo de um idioma, o site mostra o texto em inglês (ou português) com o aviso "não traduzido".
+- `source: placeholder` ou `source: auto-generated` na estrutura marca conteúdo provisório ou gerado por IA. Apague a linha depois de revisar.
 - Notas soltas aqui na raiz e pastas que começam com `_` não entram no site.
 
 Referência completa: `GRAPH.md` na raiz do repositório.

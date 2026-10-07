@@ -1,4 +1,4 @@
-import { LANGS, REQUIRED_LANGS, TYPES } from './schema.js'
+import { LANGS, REQUIRED_LANGS, SOURCES, TYPES } from './schema.js'
 
 const DATE = /^\d{4}(-\d{2})?$/
 
@@ -35,6 +35,11 @@ export function validateGraph(graph) {
       if (!isEmpty(value) && !allowed.includes(value)) {
         report('error', 'bad-enum', file, `${field}: "${value}" não é um de ${allowed.join(', ')}`)
       }
+    }
+
+    const { source } = node.data
+    if (!isEmpty(source) && !SOURCES.includes(source)) {
+      report('error', 'bad-enum', file, `source: "${source}" não é um de ${SOURCES.join(', ')}`)
     }
 
     if ('date' in node.data) {

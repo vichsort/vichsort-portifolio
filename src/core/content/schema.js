@@ -83,6 +83,10 @@ export const TYPES = {
   }
 }
 
+// Origem do conteúdo de um nó (campo `source`, opcional em qualquer tipo).
+// placeholder: texto provisório; auto-generated: gerado por IA a partir do GitHub.
+export const SOURCES = ['placeholder', 'auto-generated']
+
 export const TYPE_BY_FOLDER = Object.fromEntries(
   Object.entries(TYPES).map(([type, def]) => [def.folder, type])
 )

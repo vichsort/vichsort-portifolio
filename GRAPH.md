@@ -128,6 +128,15 @@ O campo `aliases` é o nativo do Obsidian. Com `aliases: [Vue 3, Vue.js]` em `vu
 
 O site ignora o corpo de `python.md`. Ele pode ser usado para notas no Obsidian, por exemplo `![Python](icon.svg)` para ver o ícone na nota. Mas **vai junto no bundle**, então nada privado ali.
 
+### 3.6 Origem do conteúdo
+
+O campo opcional `source`, em qualquer tipo, diz de onde veio o conteúdo do nó:
+
+- `placeholder`: texto provisório, ainda não revisado. É o caso de todo o conteúdo inicial do vault.
+- `auto-generated`: gerado por IA a partir dos repositórios do GitHub.
+
+Sem o campo, o conteúdo é considerado escrito à mão. Ao revisar um nó, apague a linha. Outro valor é erro de validação.
+
 ---
 
 ## 4. Tipos de nó

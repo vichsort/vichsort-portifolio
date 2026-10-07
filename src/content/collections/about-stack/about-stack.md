@@ -1,4 +1,5 @@
 ---
+source: placeholder
 items:
   - group: "[[frontend]]"
     items:
