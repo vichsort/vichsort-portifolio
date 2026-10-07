@@ -14,7 +14,7 @@ Resolve a discussão `d1` do [PENDENCIAS.md](PENDENCIAS.md) e é pré-requisito 
 2. **Estrutura e conversa separadas.** O que o nó *é* (ligações, datas, URLs) fica num arquivo sem idioma. O que se *diz* sobre ele (título, definição, texto longo) fica em um arquivo por idioma.
 3. **Ligações são declaradas uma única vez**, no arquivo de estrutura (ou no corpo de um texto, ver 3.3). Traduzir nunca cria nem quebra uma ligação de estrutura.
 4. **Backlinks são calculados.** Os "usos" de uma tech e os "exemplos" de um cargo são quem aponta para eles; ninguém mantém essas listas à mão.
-5. **Texto é permitido, não obrigatório.** Um nó pode existir só com estrutura. O site esconde o que não existe em vez de inventar ou trocar de idioma.
+5. **Texto é permitido, não obrigatório.** Um nó pode existir só com estrutura. O site esconde o que não existe em vez de inventar. Quando falta o texto do idioma ativo, mostra o de outro idioma com um aviso (seção 6).
 6. **Compatível com Obsidian.** A pasta de conteúdo pode ser aberta como *vault*, e o grafo do Obsidian mostra as mesmas ligações que o site usa.
 
 ---
@@ -54,7 +54,7 @@ src/content/                         # raiz do vault do Obsidian
 
 - **O arquivo principal tem o mesmo nome da pasta** (`python/python.md`, a convenção de *folder note*). É isso que faz `[[python]]` funcionar no Obsidian, que resolve links pelo nome do arquivo. Um `index.md` por pasta quebraria os links.
 - **O tipo do nó é a pasta de cima.** Não existe campo `type`: tudo em `techs/` é tech.
-- **Os textos usam o sufixo** `.pt.md` / `.en.md`. O nome de `python.pt.md` é `python.pt`, então não disputa com `[[python]]`.
+- **Os textos usam o sufixo do idioma**: `.pt.md`, `.en.md`, `.es.md`, `.it.md` (lista em `src/core/i18n/languages.js`). O nome de `python.pt.md` é `python.pt`, então não disputa com `[[python]]`.
 - **Arquivos do nó têm nome fixo quando o site depende deles:** `icon.svg` (techs, tópicos) e `cover.*` (projetos, pesquisas, certificações). O site detecta esses arquivos sozinho, sem campo no frontmatter. Outros arquivos (imagens do artigo) podem ter qualquer nome e são citados pelo corpo.
 - **`.obsidian/`** (configuração local do Obsidian) entra no `.gitignore`.
 
@@ -68,13 +68,13 @@ Ele é **gerado** por um script (`npm run content:index`), não escrito à mão:
 
 ### 2.3 Modelos
 
-`_templates/` tem dois modelos por tipo: `<tipo>.md` (estrutura) e `<tipo>.texto.md` (texto, igual para pt e en), com comentários marcando o que é obrigatório e opcional.
+`_templates/` tem dois modelos por tipo: `<tipo>.md` (estrutura) e `<tipo>.texto.md` (texto, igual para todo idioma), com comentários marcando o que é obrigatório e opcional.
 
 ```
 npm run content:new -- project meu-app
 ```
 
-cria `projects/meu-app/` com `meu-app.md`, `meu-app.pt.md` e `meu-app.en.md` a partir dos modelos. No Obsidian, os mesmos arquivos servem para o plugin **Templates** (pasta de modelos: `_templates`).
+cria `projects/meu-app/` com `meu-app.md`, `meu-app.pt.md` e `meu-app.en.md` a partir dos modelos. Os idiomas opcionais (es, it) não são criados: um modelo esquecido apareceria como tradução, enquanto um arquivo ausente cai no fallback com aviso. No Obsidian, os mesmos arquivos servem para o plugin **Templates** (pasta de modelos: `_templates`).
 
 ---
 
@@ -407,7 +407,9 @@ Roda no carregamento em dev (aviso no console) e num script `npm run check:conte
 | aviso | tech com ícone fora de qualquer coleção | `techs/sass/` com `icon.svg` e fora dos stacks |
 | aviso | `index.md` desatualizado | nó novo sem rodar `content:index` |
 
-**Sem fallback de idioma:** se um campo opcional não existe no idioma ativo, ele não aparece. Os avisos de assimetria existem para isso não passar despercebido.
+**Idiomas obrigatórios e opcionais.** pt e en são obrigatórios: os campos de `requiredText` precisam existir nos dois. es e it são opcionais: só são validados quando o arquivo existe, e a assimetria é comparada sempre contra o pt.
+
+**Fallback por arquivo, com aviso.** Se o nó não tem o arquivo de texto do idioma ativo, o site usa o primeiro que existir na ordem *idioma ativo → en → pt* e mostra o selo "não traduzido" (`UntranslatedNote`) nos cards e páginas do nó. O fallback é do arquivo inteiro, não de campo: se o arquivo do idioma existe e um campo opcional falta nele, o campo não aparece. Os avisos de assimetria existem para isso não passar despercebido.
 
 ---
 
@@ -429,10 +431,11 @@ scripts/content.mjs  # npm run check:content / content:index / content:new
 API para componentes:
 
 ```js
-const { node, text, label, ofType, linked, collection, backlinks, related, icon, cover, html } = useContent()
+const { node, text, fallback, label, ofType, linked, collection, backlinks, related, icon, cover, html } = useContent()
 
 node('python')                     // { id, type, data, aliases, texts, assets, links }
-text('python')                     // { definition, note, body } no idioma ativo, ou {}
+text('python')                     // { definition, note, body } no idioma ativo (ou no do fallback), ou {}
+fallback('python')                 // idioma usado no lugar do ativo, ou null se não precisou
 label('python')                    // nome de exibição no idioma ativo
 ofType('research', { recent: true }) // nós do tipo; recent ordena por data, mais novo primeiro
 linked('plante', 'techs')          // ids ligados por um campo

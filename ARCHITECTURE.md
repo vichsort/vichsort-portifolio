@@ -11,12 +11,12 @@ A arquitetura foi desenhada para resolver os problemas de escalabilidade, coesã
 1. **Separação por Camadas e Domínios**:
    - **`core/`**: Infraestrutura transversal, configuração de roteamento, motor de tradução e design tokens.
    - **`shared/`**: Componentes de layout e composables utilitários agnósticos de domínio de negócio.
-   - **`modules/`**: Módulos de domínio independentes e auto-suficientes contendo suas próprias views, componentes, composables, conteúdos Markdown e arquivos de tradução (`locales/`).
+   - **`modules/`**: Módulos de domínio independentes e auto-suficientes contendo suas próprias views, componentes, composables e arquivos de tradução (`locales/`). O conteúdo (projetos, pesquisas etc.) fica no grafo em `src/content/`.
 2. **SPA Multi-Route com Code Splitting**:
    - Roteamento nativo via `vue-router` com carregamento sob demanda (*lazy-loading*) por rota.
    - Transições de página suaves preservando o estado global (tema, configurações e acessibilidade).
 3. **Locales Descentralizados com Deep Merge Automático**:
-   - Dicionários i18n residem no próprio módulo que os consome. O motor central compila e mescla automaticamente todos os arquivos `locales/*.json` sem necessidade de registro manual.
+   - Dicionários i18n residem no próprio módulo que os consome. O motor central compila e mescla automaticamente todos os arquivos `locales/<idioma>.json` sem necessidade de registro manual.
 4. **CSS Tokens-First Fatiado**:
    - Estilos globais divididos por responsabilidade única (`tokens`, `fonts`, `reset`, `utilities`).
    - Componentes utilizam estritamente `<style scoped>` consumindo as variáveis dos tokens.
@@ -27,95 +27,75 @@ A arquitetura foi desenhada para resolver os problemas de escalabilidade, coesã
 
 ```
 src/
-├── App.vue                         # Shell principal da aplicação (Layout, Modais, RouterView)
-├── main.js                         # Entry point e bootstrap dos plugins (Router, i18n, Tokens)
+├── App.vue                         # Shell: navbar, configurações, RouterView e footer (fora do /terminal)
+├── main.js                         # Entry point: estilos, router e i18n
 │
-├── content/                        # Vault de conteúdo (um nó por pasta; ícones e capas junto)
+├── content/                        # Vault de conteúdo (um nó por pasta; ícones e capas junto). Ver GRAPH.md
 │
-├── assets/                         # Assets estáticos binários
+├── assets/
 │   └── fonts/                      # Fontes locais (Arcade Gamer, Montserrat)
 │
-├── core/                           # Camada de Infraestrutura & Fundamentos
-│   ├── i18n/                       # Configuração central do Vue-i18n
-│   │   ├── index.js                # Auto-merger de dicionários (import.meta.glob)
-│   │   └── locales/                # Dicionários GLOBAIS (nav, settings, common)
-│   │       ├── pt.json
-│   │       └── en.json
-│   ├── router/                     # Roteamento central da aplicação
-│   │   └── index.js                # Rotas dinâmicas ativas + hooks de navegação
-│   ├── styles/                     # Design System Fatiado (ITCSS / Tokens-First)
-│   │   ├── fonts.css               # @font-face e swap de fontes
-│   │   ├── tokens.css              # Custom properties (:root, dark/light themes)
-│   │   ├── reset.css               # CSS Reset e base
-│   │   ├── utilities.css           # .surface-card, .glass-panel, .badge, reduce-motion
-│   │   └── index.css               # Agregador de estilos
-│   ├── content/                    # Grafo de conteúdo: loader, validação, consultas (ver GRAPH.md)
-│   └── utils/                      # Utilitários puros
-│       └── markdown.js             # Singleton Markdown-it + parser Frontmatter
+├── core/                           # Infraestrutura transversal
+│   ├── config/
+│   │   └── profile.js              # E-mail, redes e itens de navegação (navbar, footer, contato, terminal)
+│   ├── content/                    # Grafo de conteúdo: leitura, validação, consultas e Markdown
+│   ├── i18n/
+│   │   ├── languages.js            # Idiomas suportados, obrigatórios e cadeia de fallback
+│   │   ├── index.js                # Mescla os dicionários de core e dos módulos (import.meta.glob)
+│   │   └── locales/                # Dicionários globais: <idioma>.json (nav, settings, common, footer)
+│   ├── router/
+│   │   └── index.js                # Rotas com lazy-loading + título da aba
+│   └── styles/                     # tokens, fonts, reset, utilities e o agregador index.css
 │
-├── shared/                         # Elementos Reutilizáveis Globais
+├── shared/                         # Reutilizáveis sem domínio
+│   ├── ascii/                      # Motor dos campos ASCII em canvas (hero, footer): grid, camadas, paleta
 │   ├── components/
-│   │   └── layout/                 # TheNavbar, SettingsSidebar, NavigationSidebar
-│   └── composables/                # Composables de infraestrutura & UI
-│       ├── useTheme.js             # Gestão de tema claro/escuro via VueUse
-│       ├── useSettings.js          # Acessibilidade, idioma e persistência
-│       ├── useNavigation.js        # Estado do menu lateral
-│       ├── useSmartScroll.js       # Detecção de scroll para navbar (com rAF)
-│       ├── useDraggableScroll.js   # Drag & Touch para carrosséis
-│       └── useScrollProgress.js    # Progresso de leitura de seções
+│   │   ├── layout/                 # TheNavbar, SettingsSidebar, TheFooter
+│   │   └── ui/                     # BaseSearchInput, BaseSelect, UntranslatedNote
+│   ├── composables/                # useTheme, useSettings, useNavigation, useSmartScroll,
+│   │                               # useDraggableScroll, useScrollProgress, useAsciiField, useHeroPresence
+│   └── views/
+│       └── NotFoundView.vue        # 404
 │
-└── modules/                        # Módulos de Domínio (Auto-contidos)
-    ├── home/                       # Landing Page Principal
-    │   ├── views/HomeView.vue
-    │   ├── components/             # HeroSection, AboutSection, LeadsSection, TechStackSection
-    │   └── locales/                # Traduções específicas da Home (pt.json, en.json)
-    │
-    ├── projects/                   # Domínio de Projetos & Portfólio
-    │   ├── views/
-    │   │   ├── ProjectsListView.vue      # Listagem completa com filtros e busca
-    │   │   └── ProjectDetailView.vue     # Página dinâmica (/projects/:slug)
-    │   ├── components/             # ProjectCard, ProjectShowcaseSection
-    │   ├── composables/            # useProjects.js (carregador com cache em memória)
-    │   ├── content/                # Arquivos Markdown com YAML Front-matter (.md)
-    │   └── locales/                # Traduções de projetos (pt.json, en.json)
-    │
-    ├── about/                      # Domínio Sobre Mim & Trajetória
-    │   ├── views/OverviewView.vue  # Página detalhada (/overview)
-    │   └── locales/
-    │
-    ├── testimonials/               # Domínio de Depoimentos & Feedback
-    │   ├── components/             # TestimonialsSection, TestimonialCard
-    │   └── locales/
-    │
-    ├── researches/                 # Domínio de Pesquisas & Artigos
-    │   ├── views/ResearchesView.vue# Página (/researches)
-    │   └── locales/
-    │
-    ├── certifications/             # Domínio de Certificações & Cursos
-    │   ├── views/CertificationsView.vue # Página (/certifications)
-    │   └── locales/
-    │
-    └── contact/                    # Domínio de Contato & Redes
-        ├── views/ContactView.vue   # Página (/contact)
-        └── locales/
+└── modules/                        # Módulos de domínio: views, components, composables e locales/ próprios
+    ├── home/                       # Landing: hero ASCII, sobre, leads, stack
+    ├── about/                      # /overview: perfil, stack, README, timeline, galeria
+    ├── projects/                   # /projects e /projects/:slug
+    ├── researches/                 # /researches
+    ├── certifications/             # /certifications
+    ├── contact/                    # /contact
+    ├── testimonials/               # Seção de depoimentos (usada pela home)
+    └── terminal/                   # /terminal: shell (parser, dispatcher, comandos) e VFS sobre o grafo
 ```
+
+Cada módulo com dados próprios de interface tem `locales/<idioma>.json`. Os dados de conteúdo (projetos, pesquisas, certificações, timeline, techs) não ficam nos módulos: vêm do grafo em `src/content/`.
+
+**Dependências entre módulos.** Um módulo importa de `core/` e `shared/`. As exceções aceitas hoje: a `home` monta seções de `projects` (`ProjectShowcaseSection`) e de `testimonials`.
 
 ---
 
 ## 3. Fluxo de Dados & Integração
 
-### A. Carregamento Automático de Locales (i18n)
-O arquivo [`src/core/i18n/index.js`](file:///home/vitor/projects/vichsort-portifolio/src/core/i18n/index.js) utiliza `import.meta.glob` para escanear `src/core/i18n/locales/*.json` e todos os `src/modules/**/locales/*.json`.
-Em tempo de build e execução, ele executa um algoritmo recursivo de *Deep Merge*, agrupando automaticamente todas as chaves nos namespaces de idioma (`pt` e `en`).
+### A. Idiomas e dicionários (i18n)
+
+`src/core/i18n/languages.js` é a fonte única dos idiomas: **pt, en, es, it**. É JavaScript puro, usado pelo i18n da interface, pelo grafo de conteúdo e pelo script do vault.
+
+- **Interface:** `src/core/i18n/index.js` lê `core/i18n/locales/*.json` e `modules/**/locales/*.json`, identifica o idioma pelo nome do arquivo e mescla tudo por idioma (*deep merge*). Um arquivo com idioma fora da lista é ignorado (com aviso em dev). Fallback da interface: en, depois pt.
+- **Conteúdo:** pt e en são obrigatórios em todo nó com texto; es e it são opcionais. Sem o texto do idioma ativo, o grafo usa o primeiro da cadeia *ativo → en → pt*, e as telas mostram o selo `UntranslatedNote`. Detalhes no [GRAPH.md](GRAPH.md), seção 6.
+- **Terminal:** os textos fixos das saídas ficam em `terminal.output.*` dos dicionários do módulo, nunca no código.
+
+Para adicionar um idioma: incluí-lo em `languages.js`, criar o `<idioma>.json` em `core/i18n/locales/` e em cada módulo, e as chaves `languages.<idioma>` nos dicionários globais.
 
 ### B. Grafo de Conteúdo (`src/content/`)
-Projetos, certificações, pesquisas, timeline, techs, tópicos, cargos do hero e stacks vivem em `src/content/`, um nó por pasta, num formato compatível com o Obsidian (frontmatter YAML + wikilinks). O núcleo em [`src/core/content/`](src/core/content/) monta o grafo com backlinks, e as views leem dele via `useContent()`.
+
+Projetos, certificações, pesquisas, timeline, techs, tópicos, cargos do hero e stacks vivem em `src/content/`, um nó por pasta, num formato compatível com o Obsidian (frontmatter YAML + wikilinks). O núcleo em [`src/core/content/`](src/core/content/) monta o grafo com backlinks; as views leem dele via `useContent()` e o terminal via `content`.
 
 Formato, regras e API completos em [GRAPH.md](GRAPH.md). Validação: `npm run check:content`.
 
 ### C. Gestão de Estado & Acessibilidade
-- O tema é persistido e sincronizado reativamente via `@vueuse/core` (`useColorMode`), injetando `data-theme="dark"` ou `data-theme="light"` na raiz `<html>`.
-- As preferências de tamanho de fonte e animações reduzidas (`usePreferredReducedMotion`) operam com persistência em `localStorage` e respeitam as diretrizes de acessibilidade sem degradar a usabilidade.
+
+- O tema é persistido e sincronizado via `@vueuse/core` (`useColorMode`), com `data-theme="dark"` ou `data-theme="light"` na raiz `<html>`.
+- Idioma, tamanho de fonte e animações ficam em `localStorage` (`useSettings`). Animações respeitam também `prefers-reduced-motion`; o idioma ativo vai para o atributo `lang` do `<html>`.
 
 ---
 
@@ -123,11 +103,12 @@ Formato, regras e API completos em [GRAPH.md](GRAPH.md). Validação: `npm run c
 
 | Rota | View | Módulo | Descrição |
 | :--- | :--- | :--- | :--- |
-| `/` | `HomeView` | `home` | Landing page com Hero, Teasers e Stack |
-| `/overview` | `OverviewView` | `about` | Detalhes sobre formação, visão e pilares |
-| `/projects` | `ProjectsListView` | `projects` | Listagem completa com busca e filtros por tag |
-| `/projects/:slug` | `ProjectDetailView` | `projects` | Renderização do artigo em Markdown do projeto |
+| `/` | `HomeView` | `home` | Landing page com hero, sobre, leads, stack, projetos e depoimentos |
+| `/overview` | `OverviewView` | `about` | Perfil, stack, README, timeline e galeria |
+| `/projects` | `ProjectsListView` | `projects` | Listagem com busca e filtros |
+| `/projects/:slug` | `ProjectDetailView` | `projects` | Artigo do projeto em Markdown |
 | `/researches` | `ResearchesView` | `researches` | Artigos acadêmicos e premiações |
-| `/certifications`| `CertificationsView`| `certifications`| Credenciais e certificações |
-| `/contact` | `ContactView` | `contact` | Canais diretos de contato e redes sociais |
-| `/*` | *Redirect* | `core` | Redirecionamento automático de rotas não encontradas |
+| `/certifications` | `CertificationsView` | `certifications` | Credenciais e certificações |
+| `/contact` | `ContactView` | `contact` | Canais de contato e redes sociais |
+| `/terminal` | `TerminalView` | `terminal` | Shell interativo sobre o grafo (sem footer) |
+| `/*` | `NotFoundView` | `shared` | Página 404 |
