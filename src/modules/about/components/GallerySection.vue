@@ -168,7 +168,7 @@ const galleryItems = computed(() => {
 .view-gallery-btn:hover {
   background-color: var(--primary);
   border-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
   transform: translateY(-2px);
   box-shadow: var(--shadow-glow);
 }

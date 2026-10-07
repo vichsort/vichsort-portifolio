@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { renderMarkdown } from '@/core/utils/markdown'
+import { renderMarkdown } from '@/core/content/markdown'
 import { formatDateRange } from '../composables/useProjects'
 import { Github, ExternalLink, ArrowRight, Calendar } from 'lucide-vue-next'
 

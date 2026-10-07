@@ -287,7 +287,7 @@ const { t } = useI18n()
 
 .lang-btn.active {
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
   border-color: var(--primary);
 }
 
@@ -363,7 +363,7 @@ const { t } = useI18n()
 .toggle-btn.active {
   background-color: var(--primary);
   border-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
 }
 
 .sidebar-footer {

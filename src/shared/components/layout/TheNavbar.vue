@@ -286,7 +286,7 @@ onKeyStroke('Escape', (e) => {
 }
 
 .nav-pill-link.router-link-active {
-  color: #ffffff;
+  color: var(--text-on-primary);
   background-color: var(--primary);
   box-shadow: 0 2px 10px var(--primary-glow);
 }
@@ -437,7 +437,7 @@ onKeyStroke('Escape', (e) => {
 }
 
 .mobile-nav-link.router-link-active {
-  color: #ffffff;
+  color: var(--text-on-primary);
   background-color: var(--primary);
 }
 

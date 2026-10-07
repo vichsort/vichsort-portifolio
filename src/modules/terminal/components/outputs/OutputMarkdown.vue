@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { renderMarkdown } from '@/core/utils/markdown'
+import { renderMarkdown } from '@/core/content/markdown'
 import { FileText } from 'lucide-vue-next'
 
 const props = defineProps({

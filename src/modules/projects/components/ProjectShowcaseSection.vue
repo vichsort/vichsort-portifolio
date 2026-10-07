@@ -129,7 +129,7 @@ const scrollRight = () => {
 .nav-btn:hover {
   background: var(--primary);
   border-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
   transform: scale(1.05);
 }
 
@@ -197,7 +197,7 @@ const scrollRight = () => {
 .see-all-card:hover .see-all-icon {
   transform: translateX(4px);
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
 }
 
 @media (max-width: 900px) {

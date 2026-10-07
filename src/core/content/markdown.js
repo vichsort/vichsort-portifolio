@@ -35,3 +35,13 @@ export function renderBody(body, { assets = {}, label = (t) => t } = {}) {
   )
   return md.render(source, { assets })
 }
+
+/**
+ * Renderiza Markdown solto, fora de um nó (resumos, saída do terminal).
+ *
+ * @param {string} text
+ * @returns {string} HTML
+ */
+export function renderMarkdown(text) {
+  return text ? md.render(text) : ''
+}

@@ -145,7 +145,7 @@ const tags = computed(() => {
 
 .category-badge:hover {
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
 }
 
 .year-badge {
@@ -221,7 +221,7 @@ const tags = computed(() => {
 }
 
 .tag-pill:hover {
-  color: #ffffff;
+  color: var(--text-on-primary);
   background-color: var(--primary);
   border-color: var(--primary);
 }

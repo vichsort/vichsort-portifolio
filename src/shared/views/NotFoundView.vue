@@ -68,7 +68,7 @@ const { t } = useI18n()
   gap: 0.5rem;
   padding: 0.75rem 2rem;
   background-color: var(--primary);
-  color: #ffffff;
+  color: var(--text-on-primary);
   border-radius: var(--radius-full);
   font-size: var(--text-sm);
   font-weight: 700;
