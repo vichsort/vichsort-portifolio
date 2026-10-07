@@ -36,6 +36,13 @@ Este documento consolida os princípios visuais, o sistema de tokens, as camadas
 | `--border-subtle` | `rgba(255, 255, 255, 0.08)` | `rgba(15, 23, 42, 0.08)` | Bordas delicadas de cards e divisores |
 | `--border-medium` | `rgba(255, 255, 255, 0.15)` | `rgba(15, 23, 42, 0.15)` | Bordas de botões e inputs |
 | `--border-accent` | `rgba(93, 29, 231, 0.4)` | `rgba(88, 24, 226, 0.3)` | Destaques de borda no hover |
+| `--text-on-primary` | `#ffffff` | `#ffffff` | Texto sobre fundos em `--primary` (botões e pills ativos) |
+| `--danger` | `#f87171` | `#dc2626` | Erros e estados destrutivos |
+| `--neon-cyan` | `#00e5ff` | `#0086a3` | Neon: campos ASCII, prompt e links do terminal |
+| `--neon-magenta` | `#c51bff` | `#8a12d6` | Neon: campos ASCII, diretório do prompt e ênfases do terminal |
+| `--neon-pink` / `--neon-yellow` / `--neon-orange` | `#ff2e97` / `#ffd23f` / `#ff7a1a` | `#d1006b` / `#b97700` / `#d9480f` | Neon: campos ASCII; `--neon-pink` também no código inline do terminal |
+
+**Nenhuma cor fixa em componentes.** Toda cor vem de um token, inclusive no terminal, que segue o tema do site. Os neons têm valores próprios no tema claro, escurecidos para manter contraste. Exceções aceitas: os três botões de janela do `MacWindow` (cores do macOS) e textos sobre fotos.
 
 ---
 

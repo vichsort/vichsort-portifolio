@@ -132,7 +132,7 @@ defineExpose({
 
 .welcome-text {
   margin: 0;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: var(--text-sm);
   color: var(--text-muted);
   white-space: pre-wrap;

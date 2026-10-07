@@ -62,7 +62,7 @@ defineProps({
   flex-direction: column;
   gap: 0.75rem;
   width: 100%;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: var(--text-sm);
   line-height: 1.5;
 }
@@ -88,7 +88,7 @@ defineProps({
 }
 
 .prompt-user {
-  color: #38bdf8;
+  color: var(--neon-cyan);
   font-weight: 600;
 }
 
@@ -97,7 +97,7 @@ defineProps({
 }
 
 .prompt-cwd {
-  color: #a855f7;
+  color: var(--neon-magenta);
   font-weight: 600;
 }
 
@@ -118,7 +118,7 @@ defineProps({
 }
 
 .history-output.is-error {
-  color: #f87171;
+  color: var(--danger);
 }
 
 .output-raw {

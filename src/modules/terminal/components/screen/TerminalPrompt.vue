@@ -120,7 +120,7 @@ defineExpose({
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: var(--text-sm);
   line-height: 1.5;
   width: 100%;
@@ -134,7 +134,7 @@ defineExpose({
 }
 
 .prompt-user {
-  color: #38bdf8;
+  color: var(--neon-cyan);
   font-weight: 600;
 }
 
@@ -143,7 +143,7 @@ defineExpose({
 }
 
 .prompt-cwd {
-  color: #a855f7;
+  color: var(--neon-magenta);
   font-weight: 600;
 }
 
@@ -171,7 +171,7 @@ defineExpose({
   line-height: inherit;
   padding: 0;
   margin: 0;
-  caret-color: #38bdf8;
+  caret-color: var(--neon-cyan);
 }
 
 .prompt-input:disabled {

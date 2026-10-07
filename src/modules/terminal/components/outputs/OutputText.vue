@@ -18,7 +18,7 @@ defineProps({
 <style scoped>
 .output-text {
   margin: 0;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: var(--text-sm);
   line-height: 1.6;
   color: var(--text-secondary);
@@ -27,7 +27,7 @@ defineProps({
 }
 
 .output-text.is-error {
-  color: #f87171;
+  color: var(--danger);
 }
 </style>
 

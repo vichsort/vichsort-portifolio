@@ -178,7 +178,7 @@ const linkLabel = computed(() => {
 
 .badge-project {
   background-color: var(--accent-subtle);
-  border: 1px solid var(--accent-border);
+  border: 1px solid var(--border-accent);
   color: var(--accent);
 }
 

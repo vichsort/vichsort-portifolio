@@ -100,6 +100,9 @@
   --neon-yellow: #ffd23f;
   --neon-orange: #ff7a1a;
   --neon-magenta: #c51bff;
+
+  /* Estados */
+  --danger: #f87171;
 }
 
 /* --------------------------------------------------------------------------
@@ -159,4 +162,7 @@
   --neon-yellow: #b97700;
   --neon-orange: #d9480f;
   --neon-magenta: #8a12d6;
+
+  /* Estados */
+  --danger: #dc2626;
 }
