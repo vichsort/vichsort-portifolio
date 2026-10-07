@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useContent } from '@/core/content/useContent'
+import { nodeRoute } from '@/core/content/routes'
 import { useTimeline } from '../composables/useTimeline'
 import { useSettings } from '@/shared/composables/useSettings'
 
@@ -18,17 +19,10 @@ const { t } = useI18n()
 const { reduceMotion } = useSettings()
 const { ofType, node, text, fallback, label, linked } = useContent()
 
-// Rota de cada tipo que um evento pode citar em `link`
-const LINK_ROUTES = {
-  project: (id) => `/projects/${id}`,
-  research: () => '/researches',
-  certification: () => '/certifications'
-}
-
 const rawEvents = computed(() =>
   ofType('timeline').map((event) => {
     const target = event.links.link ? node(event.links.link) : null
-    const route = target && LINK_ROUTES[target.type]
+    const route = nodeRoute(target)
     return {
       id: event.id,
       year: String(event.data.date).slice(0, 4),
@@ -37,7 +31,7 @@ const rawEvents = computed(() =>
       ...text(event.id),
       fallback: fallback(event.id),
       link_type: route ? target.type : '',
-      link_url: route ? route(target.id) : '',
+      link_url: route || '',
       tags: [...linked(event.id, 'techs'), ...linked(event.id, 'topics')].map(label)
     }
   })

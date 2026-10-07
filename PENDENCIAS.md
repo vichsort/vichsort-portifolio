@@ -14,7 +14,6 @@ Lista do que falta na interface tradicional. Revisada em 2026-10-07 contra o có
 | **`n5`** | Clicar num **cargo do hero** mostra exemplos | `HeroSection.vue`, coleção `hero-roles` | Formato da exibição. Os exemplos vêm dos backlinks do nó do cargo; manter `data-ascii-safe` |
 | **`n7`** | **Redesenhar a tela de contato** | `ContactView.vue` | Alinhar à identidade do hero e do footer |
 | **`n8`** | **Modal de certificação** | `CertificationsView.vue`, novo `CertificationModal.vue` | Ainda faz sentido? O card já tem link direto para a credencial |
-| **`n9`** | **Wikilinks do corpo** como links clicáveis | `core/content/markdown.js`, `links.js` | Ver [GRAPH.md](GRAPH.md) |
 
 ## Terminal
 
@@ -32,7 +31,6 @@ O planejamento original (`terminal.md`, fora do git) se perdeu. A lista abaixo �
 | **`a3`** | **TypeScript** em `core/content/` e no núcleo do terminal | Componentes migram aos poucos, quando forem mexidos |
 | **`a4`** | **Gráficos a partir do grafo** | Visualização do grafo, matriz tech × projeto, adoção de techs no tempo. Definir a métrica de "projeto complexo". Só faz sentido com conteúdo real |
 | **`a5`** | **Revisar as traduções es/it** da interface | Feitas por IA a partir do pt; conferir tom e termos, principalmente nos textos do Sobre e dos depoimentos |
-| **`a9`** | **Navbar sobre o cabeçalho do terminal** | Em `/terminal`, "Voltar ao início" e o título "Terminal" ficam embaixo do logo e das configurações da navbar global. Esconder a navbar nessa rota ou descer o cabeçalho |
 
 Ordem sugerida: `a3` → `a4`.
 
@@ -53,6 +51,8 @@ Todo o conteúdo atual é fictício. Depende de material, não de código.
 ## Concluído
 
 * Auditoria da arquitetura (`a1`): ARCHITECTURE.md e READMEs dos módulos atualizados; um só módulo de Markdown (`core/content/markdown.js`); removido o pacote `@lucide/vue` sem uso; token `--text-on-primary` no lugar do branco fixo
+* Wikilinks clicáveis (`n9`): `[[id]]` no texto de um nó vira link para a página dele (projetos, fotos, pesquisas, certificações, timeline), navegando pelo router; nós sem página ficam como texto até o painel de nó. Mapa único de rotas em `core/content/routes.js`
+* Terminal abaixo da navbar (`a9`): a página do terminal reserva o topo para a navbar, como as outras; a navbar continua visível para dar acesso às configurações
 * Página da galeria (`a6`): `/gallery` com polaroids em três tamanhos (3, 2 ou 1 por linha, escolha salva no navegador) e `/gallery/<id>` com a foto inteira, história, ligações e navegação; fotos viraram nós do grafo (tipo `photo`); o botão "Galeria" da home agora leva para ela
 * Pipes e encadeamento no terminal (`t4`): `|` passa a saída adiante (o `grep` filtra a entrada; o `ls` sai um por linha num pipe), `&&` para no primeiro erro, operadores entre aspas são texto, erro de sintaxe para operador sem comando
 * Grafo inteiro no terminal (`t5`): pastas `techs/`, `topics/`, `roles/` e `timeline/` com um `<id>.md` por nó (texto + ligações nos dois sentidos) e o comando `links <id>`; o Tab completa ids no `links`. De quebra: o terminal ignorava o idioma ativo e sempre lia o conteúdo em pt

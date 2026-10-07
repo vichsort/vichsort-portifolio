@@ -69,3 +69,18 @@ body.reduce-motion *::after {
   transition-duration: 0.01ms !important;
   scroll-behavior: auto !important;
 }
+
+/* Links dentro de textos renderizados de Markdown (corpo dos nós: projetos, fotos) */
+.markdown-content a {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-decoration-color: var(--primary-border);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+}
+
+.markdown-content a:hover {
+  color: var(--primary);
+  text-decoration-color: currentColor;
+}

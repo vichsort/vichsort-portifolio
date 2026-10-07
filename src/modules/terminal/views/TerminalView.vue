@@ -63,10 +63,11 @@ const welcomeText = computed(() => {
 
 <style scoped>
 .terminal-view {
-  min-height: calc(100vh - 5rem);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 2rem;
+  /* Topo livre para a navbar fixa, como nas outras páginas */
+  padding: 6rem 2rem 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
   box-sizing: border-box;
@@ -116,7 +117,7 @@ const welcomeText = computed(() => {
 
 @media (max-width: 768px) {
   .terminal-view {
-    padding: 1rem;
+    padding: 5rem 1rem 1rem;
   }
 }
 </style>

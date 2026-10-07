@@ -1,6 +1,6 @@
 # Grafo de Conteúdo — vichsort-portifolio
 
-> **Status: migração implementada.** O vault está em `src/content/` e todas as telas e o terminal leem dele. Ainda não feitos: `n4`, `n5`, wikilinks do corpo como links clicáveis e o teste no Obsidian (seção 10). Todos os dados são exemplos (o conteúdo atual do portfólio é fictício).
+> **Status: migração implementada.** O vault está em `src/content/` e todas as telas e o terminal leem dele. Ainda não feitos: `n4`, `n5` e o teste no Obsidian (seção 10). Todos os dados são exemplos (o conteúdo atual do portfólio é fictício).
 
 Este documento define como o conteúdo do portfólio (techs, tópicos, cargos, categorias, projetos, certificações, pesquisas, eventos da timeline e coleções) passa a ser um **grafo de notas interligadas**, no modelo do Obsidian: cada coisa é um nó, os nós se citam por `id`, e as ligações inversas (*backlinks*) são calculadas.
 
@@ -115,7 +115,7 @@ Ligações entre conceitos são permitidas: `flask` declara `techs: [[python]]`,
 
 ### 3.3 Wikilinks no corpo
 
-`[[python]]` ou `[[python|a linguagem]]` dentro do texto de um idioma vira um link clicável no site, que abre o mesmo cartão do nó.
+`[[plante]]` ou `[[plante|o app]]` dentro do texto de um idioma vira um link para a página do nó citado (`core/content/routes.js`: projetos, fotos, pesquisas, certificações e timeline têm página). Nós sem página (techs, tópicos, cargos...) ficam como texto até existir o painel de nó (`n4`/`n5`). Um link para a página em que o texto já está também fica como texto. Nas telas, a diretiva `v-internal-links` faz esses links navegarem pelo router, sem recarregar.
 
 - Contam como ligação no grafo, igual às de estrutura. Como o corpo é por idioma, a ligação pode existir em pt e não em en. A validação avisa quando isso acontece.
 - Link para id inexistente é erro, como na estrutura.

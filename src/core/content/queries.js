@@ -1,5 +1,6 @@
 import { renderBody } from './markdown.js'
 import { fallbackChain } from '../i18n/languages.js'
+import { nodeRoute } from './routes.js'
 
 const startDate = (node) => String([node.data.date].flat()[0] ?? '')
 
@@ -137,6 +138,11 @@ export function createQueries(graph) {
         label: (target) => {
           const resolved = graph.resolve(target)
           return resolved ? label(resolved, lang) : target
+        },
+        // Um link para a própria página do nó não leva a lugar nenhum: fica como texto
+        href: (target) => {
+          const path = nodeRoute(node(graph.resolve(target)))
+          return path && path !== nodeRoute(node(id)) ? path : null
         }
       }))
     }

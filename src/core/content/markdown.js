@@ -18,21 +18,31 @@ md.renderer.rules.image = (tokens, idx, options, env, self) => {
   return defaultImage(tokens, idx, options, env, self)
 }
 
+// Colchetes no texto do link fechariam o [rótulo] antes da hora
+const escapeLinkText = (text) => text.replace(/[[\]]/g, '\\$&')
+
 /**
  * Renderiza o corpo de um nó.
  *
- * Wikilinks viram o texto do rótulo (ou o nome do nó) por enquanto; virar
- * link clicável é uma etapa posterior. Embeds (![[arquivo.png]]) viram
- * imagens Markdown.
+ * Wikilinks viram links para a página do nó citado; se ele não tem página,
+ * ficam só o texto do rótulo (ou o nome do nó). Embeds (![[arquivo.png]])
+ * viram imagens Markdown.
  *
  * @param {string} body
- * @param {{ assets?: Record<string, string>, label?: (target: string) => string }} [options]
+ * @param {{
+ *   assets?: Record<string, string>,
+ *   label?: (target: string) => string,
+ *   href?: (target: string) => string|null
+ * }} [options]
  * @returns {string} HTML
  */
-export function renderBody(body, { assets = {}, label = (t) => t } = {}) {
-  const source = replaceBodyLinks(body, (target, text, embed) =>
-    embed ? `![](<${target}>)` : text || label(target)
-  )
+export function renderBody(body, { assets = {}, label = (t) => t, href = () => null } = {}) {
+  const source = replaceBodyLinks(body, (target, text, embed) => {
+    if (embed) return `![](<${target}>)`
+    const shown = text || label(target)
+    const path = href(target)
+    return path ? `[${escapeLinkText(shown)}](<${path}>)` : shown
+  })
   return md.render(source, { assets })
 }
 
