@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { ArrowLeft } from 'lucide-vue-next'
 import { allProjects } from '@/core/content/projects'
 import { useListingFilters, yearsOf } from '@/shared/composables/useListingFilters'
+import { useRefFilter } from '@/shared/composables/useRefFilter'
 import { useListingView } from '@/shared/composables/useListingView'
 import ListingToolbar from '@/shared/components/ui/ListingToolbar.vue'
 import ListingEmpty from '@/shared/components/ui/ListingEmpty.vue'
@@ -14,6 +15,8 @@ const { view } = useListingView()
 
 const projects = computed(() => allProjects(locale.value))
 
+const refFilter = useRefFilter()
+
 const { searchQuery, selected, options, filtered, hasActiveFilters, clearFilters, resultsCount, totalCount } =
   useListingFilters(projects, {
     search: (p) => [p.title, p.summary, p.category, ...p.techs],
@@ -21,7 +24,8 @@ const { searchQuery, selected, options, filtered, hasActiveFilters, clearFilters
       category: { values: (p) => [p.category] },
       tech: { values: (p) => p.techs },
       year: { values: (p) => yearsOf(p.date), order: 'desc' }
-    }
+    },
+    predicates: [refFilter.matches]
   })
 
 const toolbarFilters = computed(() => [
@@ -50,8 +54,10 @@ const toolbarFilters = computed(() => [
         :count-text="t('projects_page.showing_count', { count: resultsCount, total: totalCount })"
         :clear-label="t('projects_page.clear_filters')"
         :has-active-filters="hasActiveFilters"
+        :ref-label="refFilter.refLabel.value"
         @select="(key, value) => (selected[key] = value)"
         @clear="clearFilters"
+        @clear-ref="refFilter.clear"
       />
     </header>
 

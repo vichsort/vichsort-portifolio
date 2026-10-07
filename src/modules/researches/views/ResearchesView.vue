@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useContent } from '@/core/content/useContent'
 import { useListingFilters, yearsOf } from '@/shared/composables/useListingFilters'
+import { useRefFilter } from '@/shared/composables/useRefFilter'
 import { useListingView } from '@/shared/composables/useListingView'
 import ListingToolbar from '@/shared/components/ui/ListingToolbar.vue'
 import ListingEmpty from '@/shared/components/ui/ListingEmpty.vue'
@@ -31,6 +32,8 @@ const rawResearches = computed(() =>
 
 const { view } = useListingView()
 
+const refFilter = useRefFilter()
+
 const { searchQuery, selected, options, filtered, hasActiveFilters, clearFilters, resultsCount, totalCount } =
   useListingFilters(rawResearches, {
     search: (r) => [r.title, r.description, r.category, r.award, r.institution, r.authors, ...r.tags],
@@ -38,7 +41,8 @@ const { searchQuery, selected, options, filtered, hasActiveFilters, clearFilters
       category: { values: (r) => [r.category] },
       award: { values: (r) => [r.award] },
       year: { values: (r) => yearsOf(r.year), order: 'desc' }
-    }
+    },
+    predicates: [refFilter.matches]
   })
 
 const toolbarFilters = computed(() => [
@@ -68,8 +72,10 @@ const toolbarFilters = computed(() => [
           :count-text="t('researches_page.showing_count', { count: resultsCount, total: totalCount })"
           :clear-label="t('researches_page.clear_filters')"
           :has-active-filters="hasActiveFilters"
+          :ref-label="refFilter.refLabel.value"
           @select="(key, value) => (selected[key] = value)"
           @clear="clearFilters"
+          @clear-ref="refFilter.clear"
         />
       </header>
 
@@ -78,6 +84,7 @@ const toolbarFilters = computed(() => [
         <ResearchCard
           v-for="item in filtered"
           :key="item.id"
+          :id="item.id"
           :research="item"
           :compact="view === 'grid'"
           @select-tag="(tag) => (searchQuery = tag)"

@@ -31,7 +31,8 @@
     "untranslated": "Sin traducir · en {lang}",
     "view_label": "Modo de visualización",
     "view_grid": "Cuadrícula",
-    "view_list": "Lista"
+    "view_list": "Lista",
+    "remove_filter": "Quitar filtro"
   },
   "not_found": {
     "title": "404",

@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useContent } from '@/core/content/useContent'
 import { useListingFilters, yearsOf } from '@/shared/composables/useListingFilters'
+import { useRefFilter } from '@/shared/composables/useRefFilter'
 import { useListingView } from '@/shared/composables/useListingView'
 import ListingToolbar from '@/shared/components/ui/ListingToolbar.vue'
 import ListingEmpty from '@/shared/components/ui/ListingEmpty.vue'
@@ -26,6 +27,8 @@ const rawCertifications = computed(() =>
 
 const { view } = useListingView()
 
+const refFilter = useRefFilter()
+
 const { searchQuery, selected, options, filtered, hasActiveFilters, clearFilters, resultsCount, totalCount } =
   useListingFilters(rawCertifications, {
     search: (c) => [c.name, c.issuer, ...c.skills],
@@ -33,7 +36,8 @@ const { searchQuery, selected, options, filtered, hasActiveFilters, clearFilters
       skill: { values: (c) => c.skills },
       issuer: { values: (c) => [c.issuer] },
       year: { values: (c) => yearsOf(c.date), order: 'desc' }
-    }
+    },
+    predicates: [refFilter.matches]
   })
 
 const toolbarFilters = computed(() => [
@@ -63,8 +67,10 @@ const toolbarFilters = computed(() => [
           :count-text="t('certifications_page.showing_count', { count: resultsCount, total: totalCount })"
           :clear-label="t('certifications_page.clear_filters')"
           :has-active-filters="hasActiveFilters"
+          :ref-label="refFilter.refLabel.value"
           @select="(key, value) => (selected[key] = value)"
           @clear="clearFilters"
+          @clear-ref="refFilter.clear"
         />
       </header>
 
@@ -72,6 +78,7 @@ const toolbarFilters = computed(() => [
         <article
           v-for="cert in filtered"
           :key="cert.id"
+          :id="cert.id"
           class="cert-card surface-card"
         >
           <div class="cert-icon-wrapper">

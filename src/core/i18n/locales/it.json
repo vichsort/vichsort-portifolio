@@ -31,7 +31,8 @@
     "untranslated": "Non tradotto · in {lang}",
     "view_label": "Modalità di visualizzazione",
     "view_grid": "Griglia",
-    "view_list": "Elenco"
+    "view_list": "Elenco",
+    "remove_filter": "Rimuovi filtro"
   },
   "not_found": {
     "title": "404",

@@ -8,7 +8,7 @@ Módulo responsável pela listagem, filtragem e exibição de artigos acadêmico
 
 * **Fonte de Dados**: As pesquisas são nós do grafo de conteúdo, em `src/content/researches/<id>/` (ver [GRAPH.md](../../../GRAPH.md)). Os arquivos `locales/` guardam só os textos de interface.
 * **Deep Merge Automático**: O motor i18n central do projeto compila e mescla automaticamente os dicionários deste módulo sob a chave de namespace `researches_page`.
-* **Busca e Filtros**: Busca e filtros vêm do `useListingFilters` e da barra `ListingToolbar` (em `src/shared/`), comuns a projetos, pesquisas e certificações; a escolha grade/lista é global (`useListingView`). As opções de categoria, premiação e ano saem da própria lista. Na grade as pesquisas ficam em duas colunas, com o resumo encurtado (`ResearchCard` com `compact`).
+* **Busca e Filtros**: Busca e filtros vêm do `useListingFilters` e da barra `ListingToolbar` (em `src/shared/`), comuns a projetos, pesquisas e certificações; a escolha grade/lista é global (`useListingView`). Com `?ref=<id>` na URL (`useRefFilter`), a listagem mostra só o que aponta para esse nó, com um chip removível na barra. As opções de categoria, premiação e ano saem da própria lista. Na grade as pesquisas ficam em duas colunas, com o resumo encurtado (`ResearchCard` com `compact`).
 
 ---
 

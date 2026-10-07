@@ -51,7 +51,7 @@ O formato completo, com exemplo, está no [GRAPH.md](../../../GRAPH.md) (seçõe
 * `formatDateRange(dateVal)`: Helper que formata `["2024-08", "2024-12"]` para `"08/2024 — 12/2024"`.
 
 ### 2. Busca e filtros
-* Na listagem, busca e filtros vêm do `useListingFilters` e da barra `ListingToolbar` (em `src/shared/`), comuns a projetos, pesquisas e certificações; a escolha grade/lista é global (`useListingView`). A página só declara onde a busca procura (título, resumo, categoria, techs) e os filtros (categoria, tecnologia, ano).
+* Na listagem, busca e filtros vêm do `useListingFilters` e da barra `ListingToolbar` (em `src/shared/`), comuns a projetos, pesquisas e certificações; a escolha grade/lista é global (`useListingView`). Com `?ref=<id>` na URL (`useRefFilter`), a listagem mostra só o que aponta para esse nó, com um chip removível na barra. A página só declara onde a busca procura (título, resumo, categoria, techs) e os filtros (categoria, tecnologia, ano).
 
 ---
 

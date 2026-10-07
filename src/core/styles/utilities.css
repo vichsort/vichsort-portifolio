@@ -85,6 +85,12 @@ body.reduce-motion *::after {
   text-decoration-color: currentColor;
 }
 
+/* Card destacado ao chegar por âncora (/certifications#id): ver core/router/scrollToHash.js */
+/* A classe fica ~1,6s; a transição de saída é a do próprio card */
+.is-flash {
+  box-shadow: 0 0 0 2px var(--primary), 0 0 24px var(--primary-border) !important;
+}
+
 /* Texto só para leitores de tela (rótulos de botões com ícone, títulos em arte ASCII) */
 .sr-only {
   position: absolute;

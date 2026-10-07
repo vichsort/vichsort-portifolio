@@ -20,19 +20,22 @@ export const yearsOf = (date) => [...new Set(String([date].flat().join(' ')).mat
  * @param {import('vue').MaybeRef<object[]>} itemsSource
  * @param {{
  *   search: (item: object) => Array<string|undefined>,
- *   filters: Record<string, { values: (item: object) => string[], order?: 'asc'|'desc' }>
+ *   filters: Record<string, { values: (item: object) => string[], order?: 'asc'|'desc' }>,
+ *   predicates?: Array<(item: object) => boolean>
  * }} config
  *   search: textos de cada item em que a busca procura.
  *   filters: para cada filtro, os valores do item (um item pode ter vários, como techs);
  *   as opções do select são todos os valores encontrados, em ordem alfabética (ou decrescente, para anos).
+ *   predicates: condições extras que o item precisa cumprir, fora da toolbar e do "limpar"
+ *   (ex.: o filtro ?ref= do useRefFilter). Os selects mostram só as opções dos itens que passam nelas.
  */
-export function useListingFilters(itemsSource, { search, filters }) {
+export function useListingFilters(itemsSource, { search, filters, predicates = [] }) {
   const keys = Object.keys(filters)
 
   const searchQuery = ref('')
   const selected = reactive(Object.fromEntries(keys.map((key) => [key, ALL])))
 
-  const items = computed(() => unref(itemsSource) || [])
+  const items = computed(() => (unref(itemsSource) || []).filter((item) => predicates.every((p) => p(item))))
 
   const options = computed(() =>
     Object.fromEntries(

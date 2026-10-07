@@ -90,6 +90,7 @@ const sortLabel = computed(() => {
       <TimelineItemCard
         v-for="event in events"
         :key="event.id"
+        :id="event.id"
         :event="event"
       />
     </div>

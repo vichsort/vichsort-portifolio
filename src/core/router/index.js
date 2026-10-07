@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useNavigation } from '@/shared/composables/useNavigation'
 import i18n from '@/core/i18n'
+import { scrollToHash } from './scrollToHash'
 
 const routes = [
   {
@@ -76,11 +77,9 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { top: 0, behavior: 'smooth' }
-    }
+    if (savedPosition) return savedPosition
+    if (to.hash) return scrollToHash(to.hash)
+    return { top: 0, behavior: 'smooth' }
   },
   routes
 })

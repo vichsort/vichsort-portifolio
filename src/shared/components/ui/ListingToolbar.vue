@@ -1,12 +1,13 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { LayoutGrid, List, RotateCcw, Sparkles } from 'lucide-vue-next'
+import { LayoutGrid, List, RotateCcw, Sparkles, Link2, X } from 'lucide-vue-next'
 import { useListingView } from '@/shared/composables/useListingView'
 import BaseSearchInput from './BaseSearchInput.vue'
 import BaseSelect from './BaseSelect.vue'
 
 /**
  * Barra das listagens: busca, filtros, contador, "limpar" e grade/lista.
+ * Com refLabel, mostra o chip do filtro ?ref= (useRefFilter), removível à parte do "limpar".
  * Os dados vêm do useListingFilters da página; os textos, dos dicionários dela.
  */
 defineProps({
@@ -17,10 +18,11 @@ defineProps({
   selected: { type: Object, required: true },
   countText: { type: String, default: '' },
   clearLabel: { type: String, default: '' },
-  hasActiveFilters: { type: Boolean, default: false }
+  hasActiveFilters: { type: Boolean, default: false },
+  refLabel: { type: String, default: '' }
 })
 
-const emit = defineEmits(['update:search', 'select', 'clear'])
+const emit = defineEmits(['update:search', 'select', 'clear', 'clearRef'])
 
 const { t } = useI18n()
 const { view } = useListingView()
@@ -57,10 +59,26 @@ const VIEWS = [
     </div>
 
     <div class="meta-row">
-      <span class="count">
-        <Sparkles :size="13" class="count-icon" aria-hidden="true" />
-        {{ countText }}
-      </span>
+      <div class="meta-info">
+        <span class="count">
+          <Sparkles :size="13" class="count-icon" aria-hidden="true" />
+          {{ countText }}
+        </span>
+
+        <span v-if="refLabel" class="ref-chip">
+          <Link2 :size="13" aria-hidden="true" />
+          <span>{{ refLabel }}</span>
+          <button
+            type="button"
+            class="ref-chip-remove"
+            :title="t('common.remove_filter')"
+            @click="emit('clearRef')"
+          >
+            <X :size="12" aria-hidden="true" />
+            <span class="sr-only">{{ t('common.remove_filter') }}</span>
+          </button>
+        </span>
+      </div>
 
       <div class="meta-actions">
         <button v-if="hasActiveFilters" type="button" class="clear-btn" @click="emit('clear')">
@@ -124,6 +142,45 @@ const VIEWS = [
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--spacing-sm);
+}
+
+.meta-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.ref-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.3rem 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  background-color: var(--primary-subtle);
+  border: 1px solid var(--primary-border);
+  color: var(--primary);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.ref-chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.ref-chip-remove:hover {
+  background-color: var(--primary);
+  color: var(--text-on-primary);
 }
 
 .count {
@@ -199,7 +256,8 @@ const VIEWS = [
 }
 
 .view-btn:focus-visible,
-.clear-btn:focus-visible {
+.clear-btn:focus-visible,
+.ref-chip-remove:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }

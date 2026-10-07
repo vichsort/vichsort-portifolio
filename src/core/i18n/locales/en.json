@@ -31,7 +31,8 @@
     "untranslated": "Not translated · in {lang}",
     "view_label": "View mode",
     "view_grid": "Grid",
-    "view_list": "List"
+    "view_list": "List",
+    "remove_filter": "Remove filter"
   },
   "not_found": {
     "title": "404",
