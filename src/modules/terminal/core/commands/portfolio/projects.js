@@ -1,4 +1,4 @@
-import { loadProjectContent, getAllProjects } from '../../vfs/projectsLoader.js'
+import { projectView, allProjects } from '../../../../../core/content/projects.js'
 
 /**
  * Comando 'projects'
@@ -19,7 +19,7 @@ export const projectsCommand = {
     // Cenário 1: Consulta de projeto específico (ex: projects plante)
     if (args.length > 0) {
       const slug = args[0].toLowerCase()
-      const project = await loadProjectContent(slug, locale)
+      const project = projectView(slug, locale)
 
       if (!project) {
         return {
@@ -28,24 +28,23 @@ export const projectsCommand = {
         }
       }
 
-      const { attributes } = project
-      const techs = Array.isArray(attributes.techs) ? attributes.techs.join(', ') : ''
-      const date = Array.isArray(attributes.date) ? attributes.date.join(' — ') : attributes.date || ''
+      const techs = project.techs.join(', ')
+      const date = [project.date].flat().join(' — ')
 
       const lines = [
         RULE,
-        `${o('project')}: ${attributes.title || slug} (${attributes.category || 'App'})`,
+        `${o('project')}: ${project.title} (${project.category || 'App'})`,
         RULE,
         row(o('period'), date),
         row(o('techs'), techs)
       ]
 
-      if (attributes.github) lines.push(row('GitHub', attributes.github))
-      if (attributes.live) lines.push(row('Live Demo', attributes.live))
+      if (project.github) lines.push(row('GitHub', project.github))
+      if (project.live) lines.push(row('Live Demo', project.live))
 
       lines.push('')
       lines.push(`${o('summary').toUpperCase()}:`)
-      lines.push(attributes.summary || '')
+      lines.push(project.summary || '')
       lines.push('')
       lines.push(`${o('tip')}:`)
       lines.push(`  ${o('tip_text', { slug })}`)
@@ -58,16 +57,13 @@ export const projectsCommand = {
     }
 
     // Cenário 2: Listagem geral de projetos com filtros opcionais
-    const all = await getAllProjects(locale)
+    const all = allProjects(locale)
     let filtered = all
 
     // Filtro por tecnologia (--stack=vue)
     if (flags.stack && typeof flags.stack === 'string') {
       const query = flags.stack.toLowerCase()
-      filtered = filtered.filter((p) => {
-        const techs = Array.isArray(p.techs) ? p.techs : []
-        return techs.some((t) => t.toLowerCase().includes(query))
-      })
+      filtered = filtered.filter((p) => p.techs.some((t) => t.toLowerCase().includes(query)))
     }
 
     if (filtered.length === 0) {
@@ -80,9 +76,8 @@ export const projectsCommand = {
     const lines = [RULE, o('list_title'), RULE]
 
     filtered.forEach((p, idx) => {
-      const techs = Array.isArray(p.techs) ? p.techs.join(', ') : ''
-      lines.push(`[${idx + 1}] ${p.title || p.id} (${p.category || 'App'})`)
-      lines.push(`    ${row(o('techs'), techs)}`)
+      lines.push(`[${idx + 1}] ${p.title} (${p.category || 'App'})`)
+      lines.push(`    ${row(o('techs'), p.techs.join(', '))}`)
       if (p.summary) lines.push(`    ${row(o('summary'), p.summary)}`)
       lines.push(`    ${row(o('command'), o('command_text', { slug: p.id }))}`)
       lines.push('')

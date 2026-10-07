@@ -14,15 +14,6 @@ import {
 } from './projectsLoader.js'
 
 /**
- * Carregador assíncrono de Markdown de projetos.
- *
- * @param {string} slug - Identificador do projeto (ex: plante, cemiterio, tera).
- * @param {string} [locale='pt'] - Código do idioma.
- * @returns {Promise<string|null>} Conteúdo em texto Markdown.
- */
-export const loadProjectMarkdown = loadRawMarkdown
-
-/**
  * Pasta de um projeto no VFS: README.md (artigo) e info.json (metadados).
  */
 function projectDir(slug) {
@@ -32,7 +23,7 @@ function projectDir(slug) {
       'README.md': {
         type: VfsNodeType.FILE,
         mime: VfsMimeType.TEXT_MARKDOWN,
-        getContent: async (locale) => (await loadRawMarkdown(slug, locale)) || ''
+        getContent: (locale) => loadRawMarkdown(slug, locale) || ''
       },
       'info.json': {
         type: VfsNodeType.FILE,
@@ -133,6 +124,5 @@ export function createVfsManifest(services = {}) {
 }
 
 export default {
-  createVfsManifest,
-  loadProjectMarkdown
+  createVfsManifest
 }

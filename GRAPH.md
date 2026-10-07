@@ -423,6 +423,7 @@ src/core/content/
 ├── graph.js         # monta nós, resolve ids e aliases, arestas e backlinks (sem depender do Vite)
 ├── validate.js      # regras da seção 6
 ├── queries.js       # consultas com idioma explícito (usadas pelo terminal)
+├── projects.js      # formato de projeto usado pelas telas e pelo terminal (projectView, allProjects)
 ├── markdown.js      # renderiza o corpo: wikilinks viram texto, imagens relativas viram arquivos do nó
 └── useContent.js    # as mesmas consultas no idioma ativo, para componentes
 scripts/content.mjs  # npm run check:content / content:index / content:new

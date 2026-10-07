@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { content } from '@/core/content'
+import { projectView, allProjects } from '@/core/content/projects'
 
 // 'AAAA-MM' → 'MM/AAAA'; 'AAAA' fica como está
 const formatDate = (value) => {
@@ -21,49 +21,19 @@ export const formatDateRange = (dateVal) => {
   return formatDate(dateVal)
 }
 
-/**
- * Projeto no formato que as views consomem, montado a partir do nó do grafo.
- * Techs e categoria vêm como nomes de exibição; os ids ficam em techIds/categoryId.
- */
-export function toProject(id, locale = 'pt') {
-  const node = content.node(id)
-  if (!node || node.type !== 'project') return null
-
-  const text = content.text(id, locale)
-  const techIds = content.linked(id, 'techs')
-  const categoryId = node.links.category || ''
-
-  return {
-    id,
-    title: text.title || id,
-    fallback: content.fallback(id, locale),
-    summary: text.summary || '',
-    category: categoryId ? content.label(categoryId, locale) : '',
-    categoryId,
-    techs: techIds.map((t) => content.label(t, locale)),
-    techIds,
-    date: node.data.date || [],
-    image: content.cover(id),
-    github: node.data.github || '',
-    live: node.data.live || '',
-    body: text.body || '',
-    html: content.html(id, locale)
-  }
-}
-
 export function useProjects() {
   const isLoading = ref(false)
   const error = ref(null)
 
   // A API continua assíncrona para as views não dependerem de como o conteúdo é carregado
   const loadProject = async (id, locale = 'pt') => {
-    const project = toProject(id, locale)
+    const project = projectView(id, locale)
     error.value = project ? null : new Error(`Project not found: ${id}`)
     return project
   }
 
   const loadAllProjects = async (locale = 'pt') => {
-    return content.ofType('project').map((node) => toProject(node.id, locale))
+    return allProjects(locale)
   }
 
   const getAdjacentProjects = async (currentId, locale = 'pt') => {
