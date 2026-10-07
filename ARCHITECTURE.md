@@ -64,11 +64,12 @@ src/
     ├── researches/                 # /researches
     ├── certifications/             # /certifications
     ├── contact/                    # /contact
+    ├── gallery/                    # /gallery e /gallery/:id: grade de polaroids (3, 2 ou 1 por linha) e página da foto
     ├── testimonials/               # Seção de depoimentos (usada pela home)
     └── terminal/                   # /terminal: shell (parser, dispatcher, comandos) e VFS sobre o grafo
 ```
 
-Cada módulo com dados próprios de interface tem `locales/<idioma>.json`. Os dados de conteúdo (projetos, pesquisas, certificações, timeline, techs) não ficam nos módulos: vêm do grafo em `src/content/`.
+Cada módulo com dados próprios de interface tem `locales/<idioma>.json`. Os dados de conteúdo (projetos, pesquisas, certificações, timeline, techs, fotos da galeria) não ficam nos módulos: vêm do grafo em `src/content/`.
 
 **Dependências entre módulos.** Um módulo importa de `core/` e `shared/`. As exceções aceitas hoje: a `home` monta seções de `projects` (`ProjectShowcaseSection`) e de `testimonials`.
 
@@ -88,7 +89,7 @@ Para adicionar um idioma: incluí-lo em `languages.js`, criar o `<idioma>.json` 
 
 ### B. Grafo de Conteúdo (`src/content/`)
 
-Projetos, certificações, pesquisas, timeline, techs, tópicos, cargos do hero e stacks vivem em `src/content/`, um nó por pasta, num formato compatível com o Obsidian (frontmatter YAML + wikilinks). O núcleo em [`src/core/content/`](src/core/content/) monta o grafo com backlinks; as views leem dele via `useContent()` e o terminal via `content`.
+Projetos, certificações, pesquisas, timeline, fotos da galeria, techs, tópicos, cargos do hero e stacks vivem em `src/content/`, um nó por pasta, num formato compatível com o Obsidian (frontmatter YAML + wikilinks). O núcleo em [`src/core/content/`](src/core/content/) monta o grafo com backlinks; as views leem dele via `useContent()` e o terminal via `content`.
 
 Formato, regras e API completos em [GRAPH.md](GRAPH.md). Validação: `npm run check:content`.
 
@@ -109,6 +110,8 @@ Formato, regras e API completos em [GRAPH.md](GRAPH.md). Validação: `npm run c
 | `/projects/:slug` | `ProjectDetailView` | `projects` | Artigo do projeto em Markdown |
 | `/researches` | `ResearchesView` | `researches` | Artigos acadêmicos e premiações |
 | `/certifications` | `CertificationsView` | `certifications` | Credenciais e certificações |
+| `/gallery` | `GalleryView` | `gallery` | Fotos em polaroid, com tamanho médio, grande ou extra grande |
+| `/gallery/:id` | `GalleryDetailView` | `gallery` | Foto inteira, história, ligações e navegação entre fotos |
 | `/contact` | `ContactView` | `contact` | Canais de contato e redes sociais |
 | `/terminal` | `TerminalView` | `terminal` | Shell interativo sobre o grafo (sem footer) |
 | `/*` | `NotFoundView` | `shared` | Página 404 |

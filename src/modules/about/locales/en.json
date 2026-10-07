@@ -62,49 +62,7 @@
       "title": "Field Work & Highlights",
       "subtitle": "Technical presentations, field experiments, and behind-the-scenes moments.",
       "view_full_gallery": "View Full Gallery",
-      "photo_badge": "Photo",
-      "items": [
-        {
-          "id": "gallery-1",
-          "title": "Technical Symposium Presentation",
-          "category": "Research & Award",
-          "date": "2024",
-          "location": "UFSM — Santa Maria, Brazil",
-          "caption": "Presenting the distributed spatial cataloging platform and winning 1st place award.",
-          "image": "/images/gallery/apresentacao-simposio.jpg",
-          "format": "portrait"
-        },
-        {
-          "id": "gallery-2",
-          "title": "PlantE Field Validation",
-          "category": "Agritech & Edge AI",
-          "date": "2024",
-          "location": "Experimental Crop Field",
-          "caption": "Testing offline neural inference directly on farmers' smartphones in rural areas.",
-          "image": "/images/gallery/plante-campo.jpg",
-          "format": "landscape"
-        },
-        {
-          "id": "gallery-3",
-          "title": "Hackathon & Immersive Sprint",
-          "category": "Competition",
-          "date": "2023",
-          "location": "Tech Hub",
-          "caption": "Overnight rapid prototyping and collaborative architecture building.",
-          "image": "/images/gallery/hackathon.jpg",
-          "format": "square"
-        },
-        {
-          "id": "gallery-4",
-          "title": "Lab Workbench & Hardware",
-          "category": "Engineering & IoT",
-          "date": "2023",
-          "location": "Applied Computing Lab",
-          "caption": "Microcontroller setup, Raspberry Pi configuration, and edge telemetry testing.",
-          "image": "/images/gallery/laboratorio.jpg",
-          "format": "square"
-        }
-      ]
+      "photo_badge": "Photo"
     },
     "cta": {
       "title": "Let's build something together",

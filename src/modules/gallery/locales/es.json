@@ -1,0 +1,20 @@
+{
+  "gallery_page": {
+    "title": "Galería",
+    "subtitle": "Registros de campo, presentaciones técnicas y detrás de escena del recorrido.",
+    "back_to_about": "Volver a Sobre mí",
+    "back_to_gallery": "Volver a la galería",
+    "count": "{count} fotos",
+    "size_label": "Tamaño de las fotos",
+    "sizes": {
+      "md": "Mediano",
+      "lg": "Grande",
+      "xl": "Extra grande"
+    },
+    "empty": "Todavía no hay fotos aquí.",
+    "related": "Relacionado",
+    "prev": "Foto anterior",
+    "next": "Foto siguiente",
+    "not_found": "Foto no encontrada."
+  }
+}

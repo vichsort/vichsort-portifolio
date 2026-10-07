@@ -62,49 +62,7 @@
       "title": "Registros & Em Campo",
       "subtitle": "Apresentações técnicas, testes em campo e bastidores da jornada.",
       "view_full_gallery": "Ver Galeria Completa",
-      "photo_badge": "Foto",
-      "items": [
-        {
-          "id": "gallery-1",
-          "title": "Apresentação Técnica no Simpósio",
-          "category": "Pesquisa & Premiação",
-          "date": "2024",
-          "location": "UFSM — Santa Maria, RS",
-          "caption": "Apresentação sobre plataformas espaciais distribuídas e premiação de 1º lugar.",
-          "image": "/images/gallery/apresentacao-simposio.jpg",
-          "format": "portrait"
-        },
-        {
-          "id": "gallery-2",
-          "title": "Validação em Campo do PlantE",
-          "category": "Agritech & Edge AI",
-          "date": "2024",
-          "location": "Lavoura Experimental",
-          "caption": "Testes de inferência neural offline direto no smartphone de produtores locais.",
-          "image": "/images/gallery/plante-campo.jpg",
-          "format": "landscape"
-        },
-        {
-          "id": "gallery-3",
-          "title": "Hackathon & Imersão",
-          "category": "Competição",
-          "date": "2023",
-          "location": "Pólo Tecnológico",
-          "caption": "Madrugada de prototipagem rápida e desenvolvimento colaborativo.",
-          "image": "/images/gallery/hackathon.jpg",
-          "format": "square"
-        },
-        {
-          "id": "gallery-4",
-          "title": "Bancada de Laboratório & Hardware",
-          "category": "Engenharia & IoT",
-          "date": "2023",
-          "location": "Lab. de Computação Aplicada",
-          "caption": "Configuração de microcontroladores e testes de rede em dispositivos edge.",
-          "image": "/images/gallery/laboratorio.jpg",
-          "format": "square"
-        }
-      ]
+      "photo_badge": "Foto"
     },
     "cta": {
       "title": "Vamos construir algo juntos?",

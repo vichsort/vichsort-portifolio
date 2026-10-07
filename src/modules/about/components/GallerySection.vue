@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { allPhotos } from '@/core/content/photos'
 import {
   Camera,
   Calendar,
@@ -10,22 +11,10 @@ import {
   Image as ImageIcon
 } from 'lucide-vue-next'
 
-const { t, tm, rt } = useI18n()
+const { t, locale } = useI18n()
 
-const rawItems = computed(() => tm('about_page.s6_gallery.items') || [])
-
-const galleryItems = computed(() => {
-  return rawItems.value.map((item) => ({
-    id: rt(item.id),
-    title: rt(item.title),
-    category: rt(item.category),
-    date: rt(item.date),
-    location: rt(item.location),
-    caption: rt(item.caption),
-    image: rt(item.image),
-    format: rt(item.format) || 'square'
-  }))
-})
+// As fotos mais recentes do grafo; a grade (bento) usa o formato de cada uma
+const galleryItems = computed(() => allPhotos(locale.value).slice(0, 4))
 </script>
 
 <template>
@@ -49,9 +38,10 @@ const galleryItems = computed(() => {
 
     <!-- Bento Grid (Opção 1: 3 Colunas x 2 Linhas) -->
     <div class="bento-grid">
-      <div
+      <router-link
         v-for="item in galleryItems"
         :key="item.id"
+        :to="`/gallery/${item.id}`"
         class="bento-card surface-card"
         :class="`format-${item.format}`"
       >
@@ -63,11 +53,10 @@ const galleryItems = computed(() => {
             :alt="item.title"
             loading="lazy"
             class="bento-img"
-            @error="(e) => e.target.style.display = 'none'"
           />
 
-          <!-- Fallback Visual Elegante quando não há imagem carregada -->
-          <div class="placeholder-pattern" aria-hidden="true">
+          <!-- Fallback visual quando a foto ainda não tem imagem -->
+          <div v-if="!item.image" class="placeholder-pattern" aria-hidden="true">
             <ImageIcon :size="36" class="placeholder-icon" />
             <span class="placeholder-label">{{ item.category }}</span>
           </div>
@@ -78,7 +67,7 @@ const galleryItems = computed(() => {
         <!-- Conteúdo Textual Sobreposto -->
         <div class="card-content">
           <div class="card-meta">
-            <span class="category-pill">{{ item.category }}</span>
+            <span v-if="item.category" class="category-pill">{{ item.category }}</span>
             <span class="date-pill" v-if="item.date">
               <Calendar :size="11" />
               <span>{{ item.date }}</span>
@@ -95,7 +84,7 @@ const galleryItems = computed(() => {
             <span>{{ item.location }}</span>
           </div>
         </div>
-      </div>
+      </router-link>
     </div>
   </section>
 </template>

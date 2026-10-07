@@ -1,0 +1,20 @@
+{
+  "gallery_page": {
+    "title": "Gallery",
+    "subtitle": "Field records, technical talks and behind the scenes of the journey.",
+    "back_to_about": "Back to About",
+    "back_to_gallery": "Back to the gallery",
+    "count": "{count} photos",
+    "size_label": "Photo size",
+    "sizes": {
+      "md": "Medium",
+      "lg": "Large",
+      "xl": "Extra large"
+    },
+    "empty": "No photos here yet.",
+    "related": "Related",
+    "prev": "Previous photo",
+    "next": "Next photo",
+    "not_found": "Photo not found."
+  }
+}

@@ -19,7 +19,7 @@ npm run content:new -- <tipo> <id>
 
 Exemplo: `npm run content:new -- project meu-app` cria `projects/meu-app/` com a estrutura e os textos pt e en, preenchidos com o modelo. Para traduzir para es ou it, copie um dos textos e renomeie.
 
-Tipos: `tech`, `topic`, `role`, `category`, `group`, `project`, `certification`, `research`, `timeline`, `collection`.
+Tipos: `tech`, `topic`, `role`, `category`, `group`, `project`, `certification`, `research`, `timeline`, `photo`, `collection`.
 
 ## Pelo Obsidian
 
@@ -32,7 +32,7 @@ Os modelos ficam em [[_templates/tech|_templates]]. Para inserir pelo Obsidian, 
 ## Depois de criar
 
 1. Troque os valores de exemplo. Os comentários (`# obrigatório`, `# opcional`) dizem o que pode ficar vazio; campos opcionais podem ser apagados.
-2. Arquivos extras da pasta: `icon.svg` (techs e tópicos) e `cover.jpg` (projetos) são detectados sozinhos.
+2. Arquivos extras da pasta: `icon.svg` (techs e tópicos) e `cover.jpg` (projetos e fotos da galeria) são detectados sozinhos.
 3. Rode `npm run check:content` para validar e `npm run content:index` para atualizar o índice.
 
 ## Regras rápidas

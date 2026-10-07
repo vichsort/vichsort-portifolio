@@ -32,12 +32,11 @@ O planejamento original (`terminal.md`, fora do git) se perdeu. A lista abaixo �
 | **`a3`** | **TypeScript** em `core/content/` e no núcleo do terminal | Componentes migram aos poucos, quando forem mexidos |
 | **`a4`** | **Gráficos a partir do grafo** | Visualização do grafo, matriz tech × projeto, adoção de techs no tempo. Definir a métrica de "projeto complexo". Só faz sentido com conteúdo real |
 | **`a5`** | **Revisar as traduções es/it** da interface | Feitas por IA a partir do pt; conferir tom e termos, principalmente nos textos do Sobre e dos depoimentos |
-| **`a6`** | Link **"Ver galeria completa"** leva a `/gallery`, que não existe | `GallerySection.vue` cai no 404. Criar a página ou tirar o link |
 | **`a9`** | **Navbar sobre o cabeçalho do terminal** | Em `/terminal`, "Voltar ao início" e o título "Terminal" ficam embaixo do logo e das configurações da navbar global. Esconder a navbar nessa rota ou descer o cabeçalho |
 
 Ordem sugerida: `a3` → `a4`.
 
-Galeria e depoimentos ficam nos dicionários de interface (`about/locales`, `testimonials/locales`), não no grafo: cada idioma novo precisa traduzir esses itens também.
+Os depoimentos ficam nos dicionários de interface (`testimonials/locales`), não no grafo: cada idioma novo precisa traduzir esses itens também.
 
 ## Conteúdo real
 
@@ -45,6 +44,7 @@ Todo o conteúdo atual é fictício. Depende de material, não de código.
 
 * **`c1`** — Dados de contato e redes em `core/config/profile.js` (placeholders, há um `TODO`).
 * **`c2`** — Projetos reais em `src/content/projects/`, incluindo os mais antigos (antigo `n6`). Hoje há 3 de exemplo.
+* **`c5`** — Fotos da galeria: as 4 de exemplo em `src/content/gallery/` não têm imagem (aparecem com placeholder). Colocar cada foto como `cover.jpg` na pasta do nó.
 * **`c3`** — Certificações, pesquisas, timeline e definições das techs em `src/content/`. Várias techs só têm o arquivo de estrutura, sem texto pt/en.
 * **`c4`** — Abrir `src/content/` no Obsidian e confirmar que as ligações das propriedades aparecem no grafo ([GRAPH.md](GRAPH.md), seção 10).
 
@@ -53,6 +53,7 @@ Todo o conteúdo atual é fictício. Depende de material, não de código.
 ## Concluído
 
 * Auditoria da arquitetura (`a1`): ARCHITECTURE.md e READMEs dos módulos atualizados; um só módulo de Markdown (`core/content/markdown.js`); removido o pacote `@lucide/vue` sem uso; token `--text-on-primary` no lugar do branco fixo
+* Página da galeria (`a6`): `/gallery` com polaroids em três tamanhos (3, 2 ou 1 por linha, escolha salva no navegador) e `/gallery/<id>` com a foto inteira, história, ligações e navegação; fotos viraram nós do grafo (tipo `photo`); o botão "Galeria" da home agora leva para ela
 * Pipes e encadeamento no terminal (`t4`): `|` passa a saída adiante (o `grep` filtra a entrada; o `ls` sai um por linha num pipe), `&&` para no primeiro erro, operadores entre aspas são texto, erro de sintaxe para operador sem comando
 * Grafo inteiro no terminal (`t5`): pastas `techs/`, `topics/`, `roles/` e `timeline/` com um `<id>.md` por nó (texto + ligações nos dois sentidos) e o comando `links <id>`; o Tab completa ids no `links`. De quebra: o terminal ignorava o idioma ativo e sempre lia o conteúdo em pt
 * Atalhos do terminal (`t1`–`t3`): ↑/↓ no histórico (sem duplicar o comando anterior e guardando a linha em edição), Tab completa comandos e caminhos (lista as opções quando há mais de uma), Ctrl+L limpa a tela, Ctrl+C abandona a linha; copiar e colar exigem Shift (Ctrl+Shift+C / Ctrl+Shift+V), como num terminal Linux

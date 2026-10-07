@@ -47,6 +47,7 @@ src/content/                         # raiz do vault do Obsidian
 ├── certifications/
 ├── researches/
 ├── timeline/
+├── gallery/                         # fotos da galeria (tipo photo)
 └── collections/                     # listas ordenadas: stacks, cargos do hero
 ```
 
@@ -55,7 +56,7 @@ src/content/                         # raiz do vault do Obsidian
 - **O arquivo principal tem o mesmo nome da pasta** (`python/python.md`, a convenção de *folder note*). É isso que faz `[[python]]` funcionar no Obsidian, que resolve links pelo nome do arquivo. Um `index.md` por pasta quebraria os links.
 - **O tipo do nó é a pasta de cima.** Não existe campo `type`: tudo em `techs/` é tech.
 - **Os textos usam o sufixo do idioma**: `.pt.md`, `.en.md`, `.es.md`, `.it.md` (lista em `src/core/i18n/languages.js`). O nome de `python.pt.md` é `python.pt`, então não disputa com `[[python]]`.
-- **Arquivos do nó têm nome fixo quando o site depende deles:** `icon.svg` (techs, tópicos) e `cover.*` (projetos, pesquisas, certificações). O site detecta esses arquivos sozinho, sem campo no frontmatter. Outros arquivos (imagens do artigo) podem ter qualquer nome e são citados pelo corpo.
+- **Arquivos do nó têm nome fixo quando o site depende deles:** `icon.svg` (techs, tópicos) e `cover.*` (projetos, pesquisas, certificações e a própria foto, na galeria). O site detecta esses arquivos sozinho, sem campo no frontmatter. Outros arquivos (imagens do artigo) podem ter qualquer nome e são citados pelo corpo.
 - **`.obsidian/`** (configuração local do Obsidian) entra no `.gitignore`.
 
 - **Notas soltas na raiz e pastas que começam com `_`** (como `_templates/`) não são conteúdo: o site e a validação as ignoram.
@@ -209,6 +210,18 @@ A antiga `category` das pesquisas ("Iniciação Científica & GIS") é substitu�
 | `techs`, `topics`, `roles` | |
 
 `link` vira o botão "Ver Projeto" / "Ver Pesquisa" do card, com a rota do nó citado.
+
+### 4.8b `gallery/` — foto da galeria (tipo `photo`)
+
+| Estrutura | Conversa |
+| :--- | :--- |
+| `date`* | `title`* |
+| `format` — `portrait`, `landscape`, `square` (encaixe na grade do Sobre) | `caption` — legenda embaixo da foto |
+| `link` — um nó (projeto, pesquisa, certificação, marco) | `location` |
+| `techs`, `topics`, `roles` | corpo — a história da foto, na página de detalhes |
+| arquivo `cover.*` — a própria foto | |
+
+A página `/gallery` lista as fotos da mais recente para a mais antiga; `/gallery/<id>` mostra a foto inteira, o corpo, as ligações e o `link` como "Relacionado". A seção do Sobre mostra as quatro mais recentes. O formato de tela vem de `core/content/photos.js` (`photoView`, `allPhotos`).
 
 ### 4.9 `groups/` — grupo de uma coleção
 
@@ -424,6 +437,7 @@ src/core/content/
 ├── validate.js      # regras da seção 6
 ├── queries.js       # consultas com idioma explícito (usadas pelo terminal)
 ├── projects.js      # formato de projeto usado pelas telas e pelo terminal (projectView, allProjects)
+├── photos.js        # formato de foto da galeria (photoView, allPhotos)
 ├── markdown.js      # renderiza o corpo: wikilinks viram texto, imagens relativas viram arquivos do nó
 └── useContent.js    # as mesmas consultas no idioma ativo, para componentes
 scripts/content.mjs  # npm run check:content / content:index / content:new

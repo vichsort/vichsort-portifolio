@@ -41,6 +41,19 @@ const routes = [
     meta: { titleKey: 'nav.certifications' }
   },
   {
+    path: '/gallery',
+    name: 'gallery',
+    component: () => import('@/modules/gallery/views/GalleryView.vue'),
+    meta: { titleKey: 'gallery_page.title' }
+  },
+  {
+    path: '/gallery/:id',
+    name: 'gallery-detail',
+    component: () => import('@/modules/gallery/views/GalleryDetailView.vue'),
+    props: true,
+    meta: { titleKey: 'gallery_page.title' }
+  },
+  {
     path: '/contact',
     name: 'contact',
     component: () => import('@/modules/contact/views/ContactView.vue'),

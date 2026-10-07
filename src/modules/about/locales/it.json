@@ -62,49 +62,7 @@
       "title": "Momenti & Sul campo",
       "subtitle": "Presentazioni tecniche, test sul campo e dietro le quinte del percorso.",
       "view_full_gallery": "Vedi la galleria completa",
-      "photo_badge": "Foto",
-      "items": [
-        {
-          "id": "gallery-1",
-          "title": "Presentazione tecnica al simposio",
-          "category": "Ricerca & Premio",
-          "date": "2024",
-          "location": "UFSM — Santa Maria, RS",
-          "caption": "Presentazione su piattaforme spaziali distribuite e premio per il 1º posto.",
-          "image": "/images/gallery/apresentacao-simposio.jpg",
-          "format": "portrait"
-        },
-        {
-          "id": "gallery-2",
-          "title": "Validazione sul campo di PlantE",
-          "category": "Agritech & Edge AI",
-          "date": "2024",
-          "location": "Coltivazione sperimentale",
-          "caption": "Test di inferenza neurale offline direttamente sullo smartphone dei produttori locali.",
-          "image": "/images/gallery/plante-campo.jpg",
-          "format": "landscape"
-        },
-        {
-          "id": "gallery-3",
-          "title": "Hackathon & Immersione",
-          "category": "Competizione",
-          "date": "2023",
-          "location": "Polo tecnologico",
-          "caption": "Una notte di prototipazione rapida e sviluppo collaborativo.",
-          "image": "/images/gallery/hackathon.jpg",
-          "format": "square"
-        },
-        {
-          "id": "gallery-4",
-          "title": "Banco di laboratorio & Hardware",
-          "category": "Ingegneria & IoT",
-          "date": "2023",
-          "location": "Lab. di Informatica Applicata",
-          "caption": "Configurazione di microcontrollori e test di rete su dispositivi edge.",
-          "image": "/images/gallery/laboratorio.jpg",
-          "format": "square"
-        }
-      ]
+      "photo_badge": "Foto"
     },
     "cta": {
       "title": "Costruiamo qualcosa insieme?",

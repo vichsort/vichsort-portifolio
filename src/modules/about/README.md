@@ -10,8 +10,8 @@ Módulo responsável pela página de apresentação pessoal e profissional (`/ov
 * **Storytelling Interativo & Acessibilidade**:
   * No modo padrão, a seção **s4** oferece uma experiência imersiva de rolagem ano a ano via `useScrollProgress`.
   * Quando a preferência de movimento reduzido (`reduceMotion`) estiver ativa, o módulo omite o scroll lock e exibe diretamente a **s5** consolidada.
-* **Galeria Bento Box (3x2)**: A seção **s6** exibe registros de fotos e momentos em uma grade assimétrica (retrato, paisagem e quadrados) com placeholders visuais e link de expansão para a galeria completa (`/gallery`).
-* **Fontes de Dados**: Os eventos da timeline e o stack vêm do grafo de conteúdo (`src/content/timeline/` e a coleção `about-stack`, ver [GRAPH.md](../../../GRAPH.md)). Perfil, textos do README e itens da galeria ficam em `src/modules/about/locales/`, um arquivo por idioma.
+* **Galeria Bento Box (3x2)**: A seção **s6** exibe registros de fotos e momentos em uma grade assimétrica (retrato, paisagem e quadrados) com placeholders visuais e link para a galeria completa (`/gallery`, módulo `gallery`).
+* **Fontes de Dados**: Os eventos da timeline e o stack vêm do grafo de conteúdo (`src/content/timeline/` e a coleção `about-stack`, ver [GRAPH.md](../../../GRAPH.md)). As fotos da galeria vêm de `src/content/gallery/`. Perfil e textos do README ficam em `src/modules/about/locales/`, um arquivo por idioma.
 
 ---
 
@@ -32,7 +32,7 @@ src/modules/about/
 ├── composables/
 │   └── useTimeline.js               # Composable de normalização, agrupamento e ordenação
 ├── locales/
-│   └── <idioma>.json                # Textos de UI, perfil e galeria (pt, en, es, it)
+│   └── <idioma>.json                # Textos de UI e perfil (pt, en, es, it)
 ├── views/
 │   └── OverviewView.vue             # Orquestrador da rota '/overview' e bloco final de CTA
 └── README.md                        # Documentação e guia de manutenção do módulo
@@ -40,25 +40,15 @@ src/modules/about/
 
 ---
 
-## Como Adicionar Fotos à Galeria
+## Fotos da Galeria
 
-1. Salve as imagens na pasta pública: `public/images/gallery/sua-foto.jpg`.
-2. Adicione a entrada correspondente no array `about_page.s6_gallery.items` em cada arquivo de `locales/`:
+As fotos são nós do grafo de conteúdo, em `src/content/gallery/<id>/` (tipo `photo`): a imagem fica na pasta como `cover.*`, e cada idioma tem título, legenda e local. A seção **s6** mostra as quatro mais recentes; a página completa fica no módulo `gallery` (`/gallery`).
 
-```json
-{
-  "id": "gallery-5",
-  "title": "Título do Momento",
-  "category": "Pesquisa & Campo",
-  "date": "2024",
-  "location": "Local / Evento",
-  "caption": "Breve descrição do que estava acontecendo na foto.",
-  "image": "/images/gallery/sua-foto.jpg",
-  "format": "portrait"
-}
+```
+npm run content:new -- photo minha-foto
 ```
 
-Formatos suportados:
+O campo `format` da estrutura define o encaixe na grade do Sobre:
 * `portrait`: Foto vertical ocupando 2 linhas de altura (`grid-row: span 2`).
 * `landscape`: Foto horizontal ocupando 2 colunas de largura (`grid-column: span 2`).
 * `square`: Foto padrão de 1 coluna x 1 linha (`1x1`).
@@ -67,6 +57,6 @@ Formatos suportados:
 
 ## Boas Práticas de Manutenção
 
-1. **Paridade de Locales**: Mantenha os registros da galeria sincronizados entre os arquivos de todos os idiomas em `locales/`.
+1. **Paridade de Locales**: Mantenha as chaves sincronizadas entre os arquivos de todos os idiomas em `locales/`.
 2. **Fallback Visual**: Caso uma imagem física ainda não exista na pasta `public/`, o card renderiza automaticamente um padrão geométrico e ícone de placeholder elegante sem quebrar o layout.
 3. **Tipografia e Tokens**: Títulos seguem a tipografia `Montserrat` (`var(--font-body)`), mantendo a fonte arcade exclusivamente para os cabeçalhos de seção.

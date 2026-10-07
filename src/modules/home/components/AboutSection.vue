@@ -49,7 +49,7 @@ const barHeight = computed(() => {
 
               <router-link
                 v-if="currentSlide.hasAction"
-                to="/overview"
+                to="/gallery"
                 class="action-btn"
               >
                 {{ t('about.button') }} &rarr;

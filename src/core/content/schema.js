@@ -68,6 +68,15 @@ export const TYPES = {
     single: { link: '*' },
     enums: { kind: ['education', 'work', 'research', 'project'] }
   },
+  photo: {
+    folder: 'gallery',
+    required: ['date'],
+    requiredText: ['title'],
+    links: CONTENT_LINKS,
+    single: { link: '*' },
+    // Formato na grade do Sobre (bento); a página da galeria usa o tamanho escolhido
+    enums: { format: ['portrait', 'landscape', 'square'] }
+  },
   collection: {
     folder: 'collections',
     required: ['items']

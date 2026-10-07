@@ -115,6 +115,13 @@ generated: true
 - [[2024-plante-launch]]
 - [[2026-platform-engineering]]
 
+## gallery
+
+- [[hackathon-2023]]
+- [[laboratorio-edge]]
+- [[plante-campo]]
+- [[simposio-2024]]
+
 ## collections
 
 - [[about-stack]]
