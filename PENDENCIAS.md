@@ -31,6 +31,18 @@ O `a5` fica para depois da reescrita do Sobre com os dados reais (`c3`), para n�
 
 Os depoimentos ficam nos dicionários de interface (`testimonials/locales`), não no grafo: cada idioma novo precisa traduzir esses itens também.
 
+## Sugestões
+
+Ideias ainda não decididas. Viram pendência quando forem aprovadas.
+
+| # | Sugestão | Observação |
+| :--- | :--- | :--- |
+| **`s1`** | **Análises no `/graph`** com o que o grafo já tem | Hoje só o campo `techs` vira gráfico. Dá para mostrar: domínios de atuação (`topics`, em 16/18 projetos e 11/11 pesquisas), projetos em paralelo no tempo (pico de 9 em out/2025, média de 6,1 meses), coocorrência de techs (Flask + Python em 9 projetos), linguagem por trás de cada projeto (ligações tech → tech), rede de coautoria (32 coautores em 9 pesquisas), produção por ano, perfil por cargo (`roles`) e tipo de entrega (`category`) |
+| **`s2`** | **Métricas por projeto** | Campo `metrics:` no frontmatter (usuários, acurácia, tamanho do dataset, latência), mostrado como cards de números no detalhe. Os números vêm do Vitor |
+| **`s3`** | **Atividade do GitHub no build** | Script puxa linguagens e commits por mês para um JSON; heatmap de atividade. Depende da API e de um token |
+| **`s4`** | **Gráficos a partir de CSV no nó** | `data.csv` na pasta do projeto ou da pesquisa, desenhado na página. Para quando houver análises de dados reais |
+| **`s5`** | **Revisar as ligações de data science** | O cargo `data-science` está em só 2 dos 18 projetos (Lago Azul e Prisma); pytorch, databricks, qgis, postgis, leaflet e openstreetmap existem como nós, mas nenhum projeto aponta para eles; o PlantE é computer-vision sem tech de ML. Como os gráficos saem dos dados, sem isso eles contam a história de um dev web |
+
 ## Conteúdo real
 
 Os projetos já são reais; o resto do conteúdo ainda é fictício. Depende de material, não de código.
@@ -46,6 +58,10 @@ Os projetos já são reais; o resto do conteúdo ainda é fictício. Depende de 
 
 ## Concluído
 
+* Ajustes de interface (`n11`–`n14`): o hover que sobe virou opcional (`.surface-card.interactive`, só em card clicável ou item de coleção), e o texto do projeto, as seções do `/graph`, os campos e os estados vazios ficam parados; os carrosséis da home (projetos e depoimentos) ganharam respiro vertical e não cortam mais a subida e a sombra do card; a pílula da navbar ganhou uma seta que troca para as páginas fora dela (Galeria e Grafo), com a largura animada e centralizada, e no mobile elas entram no fim da lista; Sobre, Projetos, Pesquisas, Certificações, Galeria e Grafo usam a mesma largura (`--page-width`, 1100px) e o título começa na mesma borda; o detalhe do projeto e o da foto também (antes 900 e 1000px), e o texto do projeto não soma mais a margem do primeiro título ao padding do card. "Voltar" só nas páginas de detalhe (projeto e foto). O Terminal entrou na segunda página da navbar, junto de Galeria e Grafo. Nas páginas de detalhe a aba da seção fica ativa (por prefixo do caminho: `/projects/<id>` marca Projetos), e o texto do projeto tem largura de leitura (~75 caracteres; imagens e código usam o card todo) (`s6`, `s8`)
+* Techs clicáveis no detalhe do projeto (`s7`): cada badge abre o menu de nó (projetos, pesquisas, trajetória e techs relacionadas que usam a tech), sem o próprio projeto; tech sem mais nada para mostrar fica como badge comum. O `NodeMenu` ganhou a prop `exclude`
+* Textos de acessibilidade traduzidos (`s9`): os 22 `aria-label`, `title` e `alt` fixos em pt (navbar, carrosséis, card de projeto, busca, configurações, logos) foram para os dicionários nos 4 idiomas
+* Prévias de link (`s10`): `scripts/meta.mjs` roda depois do `vite build` e grava um `index.html` por rota (páginas, projetos e fotos) com título, descrição e imagem próprios, em inglês. A imagem é a capa do nó (copiada para `dist/og/`) ou o hero (`public/images/og-default.jpg`, 1200×630). A leitura do vault no Node saiu do `content.mjs` para `scripts/vault.mjs`. Domínio em `SITE_URL` (https://vichsort.com, Cloudflare Pages, que já serve a pasta da rota e cai no `index.html` da raiz para o resto). Projeto sem `cover.jpg` usa o hero como capa também no site (cards e detalhe), via `DEFAULT_COVER`. Título do site: `Vitor /// Software Engineering`
 * TypeScript no núcleo (`a3`): `core/content/` e `modules/terminal/core/` em TypeScript estrito, com tipos do grafo (`core/content/types.ts`) e do shell (contrato `Command`, `CommandContext`, `CommandOutput` em `modules/terminal/core/types.ts`); `npm run typecheck` (vue-tsc) sem erros. Só sintaxe apagável e imports `.ts`, para o `scripts/content.mjs` continuar rodando direto no Node. Componentes e o resto do código migram aos poucos, quando forem mexidos
 * Terminal no celular (`t13`): em telas ≤ 768px, a página `/terminal` e a seção da home mostram um vídeo de uma sessão gravada (`public/videos/terminal-demo.{webm,mp4}` + pôster; neofetch, projetos em destaque, um artigo, `links` e matrix) e o convite para abrir no computador, com o endereço à vista e o botão de compartilhar (folha nativa) ou copiar o link; na página, também "Voltar ao site". Com movimento reduzido o vídeo fica parado, com controles. No `neofetch`, o Host (que mostraria o domínio) virou Resolution
 * Comandos e atalhos do terminal (`t9` + `t11`): `history` (numerado como no bash; `-c` limpa), `exit`/`logout` (encerra a sessão como o vermelho e, na página, volta à home), `gui`/`startx` (volta à interface mantendo a sessão, como o amarelo); Ctrl+A e Ctrl+E levam o cursor ao início e ao fim da linha
