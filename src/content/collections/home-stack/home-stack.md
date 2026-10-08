@@ -11,6 +11,7 @@ items:
     items:
       - "[[vue]]"
       - "[[react]]"
+      - "[[nextjs]]"
       - "[[angular]]"
       - "[[flutter]]"
   - group: "[[styling]]"
@@ -23,6 +24,7 @@ items:
       - "[[nodejs]]"
       - "[[express]]"
       - "[[flask]]"
+      - "[[laravel]]"
       - "[[pocketbase]]"
       - "[[postgresql]]"
       - "[[neon]]"
