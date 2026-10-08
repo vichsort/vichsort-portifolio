@@ -32,7 +32,7 @@ const stackGroups = computed(() =>
       <div
         v-for="group in stackGroups"
         :key="group.id"
-        class="stack-card surface-card"
+        class="stack-card surface-card interactive"
       >
         <div class="card-header">
           <div class="group-icon-wrapper">

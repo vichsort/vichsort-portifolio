@@ -48,7 +48,7 @@ const renderedDescription = computed(() => {
 
 <template>
   <article
-    class="project-card surface-card"
+    class="project-card surface-card interactive"
     :class="[`variant-${variant}`]"
   >
     <div class="card-image-wrapper">

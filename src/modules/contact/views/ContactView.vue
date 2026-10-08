@@ -64,7 +64,7 @@ const channels = SOCIALS.map(social => ({
             :href="channel.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="social-card surface-card"
+            class="social-card surface-card interactive"
           >
             <div class="social-icon">
               <component :is="channel.icon" :size="22" />

@@ -43,7 +43,7 @@ const tags = computed(() => {
 </script>
 
 <template>
-  <article class="research-card surface-card" :class="{ 'is-compact': compact }">
+  <article class="research-card surface-card interactive" :class="{ 'is-compact': compact }">
     <div class="card-header">
       <div class="meta-row">
         <button

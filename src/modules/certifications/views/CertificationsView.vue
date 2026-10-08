@@ -79,7 +79,7 @@ const toolbarFilters = computed(() => [
           v-for="cert in filtered"
           :key="cert.id"
           :id="cert.id"
-          class="cert-card surface-card"
+          class="cert-card surface-card interactive"
         >
           <div class="cert-icon-wrapper">
             <CheckCircle2 :size="24" class="cert-icon" />

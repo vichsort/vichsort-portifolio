@@ -10,7 +10,7 @@ const { rt } = useI18n()
 </script>
 
 <template>
-  <article class="testimonial-card surface-card">
+  <article class="testimonial-card surface-card interactive">
     <div class="card-header">
       <h3 class="person-name">{{ rt(testimonial.name) }}</h3>
       <span class="person-role badge">{{ rt(testimonial.role) }}</span>

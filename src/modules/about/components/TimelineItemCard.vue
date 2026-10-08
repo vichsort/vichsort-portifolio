@@ -72,7 +72,7 @@ const linkLabel = computed(() => {
 
 <template>
   <article
-    class="timeline-card surface-card"
+    class="timeline-card surface-card interactive"
     :class="{ 'is-compact': compact }"
   >
     <div class="card-top">

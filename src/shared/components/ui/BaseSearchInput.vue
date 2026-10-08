@@ -87,6 +87,10 @@ const handleKeydown = (event) => {
   width: 100%;
 }
 
+.base-search-input:hover {
+  border-color: var(--primary-border);
+}
+
 .base-search-input:focus-within {
   border-color: var(--primary-border);
   box-shadow: 0 0 0 3px var(--primary-subtle);

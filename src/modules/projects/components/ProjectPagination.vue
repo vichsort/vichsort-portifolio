@@ -23,7 +23,7 @@ const { t } = useI18n()
       <router-link
         v-if="prevProject"
         :to="`/projects/${prevProject.id}`"
-        class="pagination-btn prev-btn surface-card"
+        class="pagination-btn prev-btn surface-card interactive"
       >
         <div class="icon-circle">
           <ArrowLeft :size="18" />
@@ -40,7 +40,7 @@ const { t } = useI18n()
       <router-link
         v-if="nextProject"
         :to="`/projects/${nextProject.id}`"
-        class="pagination-btn next-btn surface-card"
+        class="pagination-btn next-btn surface-card interactive"
       >
         <div class="btn-content text-right">
           <span class="direction-label">{{ t('project_detail.next_project') }}</span>

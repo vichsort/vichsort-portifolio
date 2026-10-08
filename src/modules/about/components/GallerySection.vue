@@ -42,7 +42,7 @@ const galleryItems = computed(() => allPhotos(locale.value).slice(0, 4))
         v-for="item in galleryItems"
         :key="item.id"
         :to="`/gallery/${item.id}`"
-        class="bento-card surface-card"
+        class="bento-card surface-card interactive"
         :class="`format-${item.format}`"
       >
         <!-- Container de Imagem / Placeholder -->

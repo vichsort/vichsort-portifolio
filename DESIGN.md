@@ -76,7 +76,7 @@ Este documento consolida os princípios visuais, o sistema de tokens, as camadas
 ### A. Cards (`.surface-card`)
 - **Fundo**: `--bg-surface-1` com borda `--border-subtle`.
 - **Raio de Borda**: `--radius-lg` (`24px`).
-- **Estado de Hover**:
+- **Estado de Hover** (só com `.interactive`: card clicável ou item de coleção; containers de conteúdo, seções e campos ficam parados):
   - `transform: translateY(-4px);`
   - `border-color: var(--primary-border);`
   - `box-shadow: var(--shadow-card-hover);`

@@ -76,7 +76,7 @@ const scrollRight = () => {
         variant="carousel"
       />
 
-      <router-link to="/projects" class="see-all-card surface-card">
+      <router-link to="/projects" class="see-all-card surface-card interactive">
         <span class="see-all-text">{{ t('projects_section.action_view_all') }}</span>
         <div class="see-all-icon">
           <ArrowRight :size="24" />

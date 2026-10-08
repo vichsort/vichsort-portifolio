@@ -9,7 +9,8 @@
   border: 1px solid var(--border-subtle);
 }
 
-/* Interactive Card Surface */
+/* Card Surface: estático por padrão; .interactive (card clicável ou item de
+   coleção) ganha o hover que sobe. Container de conteúdo não se mexe. */
 .surface-card {
   background-color: var(--bg-surface-1);
   border: 1px solid var(--border-subtle);
@@ -21,7 +22,7 @@
               background-color var(--transition-base);
 }
 
-.surface-card:hover {
+.surface-card.interactive:hover {
   transform: translateY(-4px);
   border-color: var(--primary-border);
   box-shadow: var(--shadow-card-hover);

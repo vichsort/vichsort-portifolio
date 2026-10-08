@@ -71,7 +71,7 @@ const adjacent = computed(() => {
             <span v-for="tag in photo.tags" :key="tag" class="badge">{{ tag }}</span>
           </div>
 
-          <router-link v-if="photo.related" :to="photo.related.to" class="related-link surface-card">
+          <router-link v-if="photo.related" :to="photo.related.to" class="related-link surface-card interactive">
             <span class="related-label">{{ t('gallery_page.related') }}</span>
             <span class="related-title">{{ photo.related.title }}</span>
             <ArrowUpRight :size="18" class="related-icon" />
@@ -79,14 +79,14 @@ const adjacent = computed(() => {
         </footer>
 
         <nav v-if="adjacent.prev" class="photo-pagination" :aria-label="t('gallery_page.title')">
-          <router-link :to="`/gallery/${adjacent.prev.id}`" class="pagination-card surface-card">
+          <router-link :to="`/gallery/${adjacent.prev.id}`" class="pagination-card surface-card interactive">
             <span class="pagination-label">
               <ArrowLeft :size="14" />
               {{ t('gallery_page.prev') }}
             </span>
             <span class="pagination-title">{{ adjacent.prev.title }}</span>
           </router-link>
-          <router-link :to="`/gallery/${adjacent.next.id}`" class="pagination-card next surface-card">
+          <router-link :to="`/gallery/${adjacent.next.id}`" class="pagination-card next surface-card interactive">
             <span class="pagination-label">
               {{ t('gallery_page.next') }}
               <ArrowRight :size="14" />

@@ -51,7 +51,7 @@ const statsCards = [
         v-for="card in statsCards"
         :key="card.id"
         :to="card.route"
-        class="stat-card surface-card"
+        class="stat-card surface-card interactive"
         :class="[card.gridClass, card.glowClass]"
       >
         <div class="card-inner">
