@@ -98,6 +98,12 @@ const handleKeydown = (event) => {
   } else if (key === 'tab' && plain && !event.shiftKey) {
     event.preventDefault()
     emit('complete')
+  } else if ((key === 'a' || key === 'e') && event.ctrlKey && !event.shiftKey && !event.altKey) {
+    // Como no bash: Ctrl+A vai para o início da linha, Ctrl+E para o fim (no input, Ctrl+A selecionaria tudo)
+    event.preventDefault()
+    const input = inputRef.value
+    const position = key === 'a' ? 0 : input.value.length
+    input.setSelectionRange(position, position)
   } else if (key === 'l' && event.ctrlKey && !event.altKey) {
     event.preventDefault()
     emit('clear-screen')

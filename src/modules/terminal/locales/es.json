@@ -116,6 +116,18 @@
       "rm": {
         "description": "Elimina archivos (el sistema es de solo lectura... casi siempre)",
         "usage": "rm [-rf] <archivo>"
+      },
+      "history": {
+        "description": "Lista los comandos ejecutados en la sesión (history -c la limpia)",
+        "usage": "history [-c]"
+      },
+      "exit": {
+        "description": "Cierra la sesión del terminal",
+        "usage": "exit"
+      },
+      "gui": {
+        "description": "Vuelve a la interfaz gráfica manteniendo la sesión",
+        "usage": "gui"
       }
     },
     "errors": {
@@ -237,6 +249,9 @@
       "rm": {
         "restored": "Sistema restaurado desde la copia de seguridad. Es broma: el VFS es de solo lectura, no se borró nada. 😉",
         "panic": "kernel panic: no se puede montar la raíz"
+      },
+      "gui": {
+        "already": "gui: ya estás en la interfaz gráfica; el terminal está dentro de ella."
       }
     },
     "language_changed": "[vsh]: idioma cambiado a {lang}. Lo que ya está en pantalla sigue en el idioma anterior.",

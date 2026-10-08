@@ -13,6 +13,8 @@
  * @param {(name: string, options?: { duration?: number }) => Promise<{ interrupted: boolean }>} [options.spawn]
  *   - Processo em primeiro plano (matrix, glitch); resolve quando acaba ou leva Ctrl+C.
  * @param {Function} [options.restart] - Reinicia a sessão (tela, histórico, diretório), como o botão vermelho.
+ * @param {{ list: () => string[], clear: () => void }} [options.shellHistory]
+ *   - Linhas já executadas na sessão (as do ↑/↓), para o comando history.
  * @returns {Object}
  */
 export function createCommandContext({
@@ -25,7 +27,8 @@ export function createCommandContext({
   host = 'vichos',
   clear = () => {},
   spawn = async () => ({ interrupted: false }),
-  restart = () => {}
+  restart = () => {},
+  shellHistory = { list: () => [], clear: () => {} }
 }) {
   return {
     vfs,
@@ -38,6 +41,7 @@ export function createCommandContext({
     clear,
     spawn,
     restart,
+    shellHistory,
     // Idioma ativo, lido na hora (um `lang en && about` já sai em inglês)
     get locale() {
       return globalState.locale.value

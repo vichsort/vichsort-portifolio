@@ -98,6 +98,10 @@ function createSession() {
     clear,
     spawn,
     restart: () => reset(),
+    shellHistory: {
+      list: () => [...commandHistory.entries],
+      clear: () => commandHistory.clear()
+    },
     globalState: {
       locale,
       theme,

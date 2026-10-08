@@ -116,6 +116,18 @@
       "rm": {
         "description": "Removes files (the system is read-only... almost always)",
         "usage": "rm [-rf] <file>"
+      },
+      "history": {
+        "description": "Lists the commands run in this session (history -c clears it)",
+        "usage": "history [-c]"
+      },
+      "exit": {
+        "description": "Ends the terminal session",
+        "usage": "exit"
+      },
+      "gui": {
+        "description": "Goes back to the graphical interface, keeping the session",
+        "usage": "gui"
       }
     },
     "errors": {
@@ -237,6 +249,9 @@
       "rm": {
         "restored": "System restored from backup. Just kidding: the VFS is read-only, nothing was deleted. 😉",
         "panic": "kernel panic: unable to mount root"
+      },
+      "gui": {
+        "already": "gui: you're already in the graphical interface; the terminal lives inside it."
       }
     },
     "language_changed": "[vsh]: language changed to {lang}. What is already on screen stays in the previous language.",

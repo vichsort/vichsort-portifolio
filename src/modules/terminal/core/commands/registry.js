@@ -4,6 +4,8 @@ import { echoCommand } from './system/echo.js'
 import { dateCommand } from './system/date.js'
 import { helpCommand } from './system/help.js'
 import { headerCommand } from './system/header.js'
+import { historyCommand } from './system/history.js'
+import { exitCommand, guiCommand } from './system/exit.js'
 import { pwdCommand } from './fs/pwd.js'
 import { cdCommand } from './fs/cd.js'
 import { lsCommand } from './fs/ls.js'
@@ -46,6 +48,9 @@ const COMMANDS = [
   dateCommand,
   helpCommand,
   headerCommand,
+  historyCommand,
+  exitCommand,
+  guiCommand,
   // Filesystem (VFS)
   pwdCommand,
   cdCommand,

@@ -116,6 +116,18 @@
       "rm": {
         "description": "Rimuove file (il sistema è in sola lettura... quasi sempre)",
         "usage": "rm [-rf] <file>"
+      },
+      "history": {
+        "description": "Elenca i comandi eseguiti nella sessione (history -c la svuota)",
+        "usage": "history [-c]"
+      },
+      "exit": {
+        "description": "Chiude la sessione del terminale",
+        "usage": "exit"
+      },
+      "gui": {
+        "description": "Torna all'interfaccia grafica mantenendo la sessione",
+        "usage": "gui"
       }
     },
     "errors": {
@@ -237,6 +249,9 @@
       "rm": {
         "restored": "Sistema ripristinato dal backup. Scherzo: il VFS è in sola lettura, non è stato cancellato nulla. 😉",
         "panic": "kernel panic: impossibile montare la radice"
+      },
+      "gui": {
+        "already": "gui: sei già nell'interfaccia grafica; il terminale è al suo interno."
       }
     },
     "language_changed": "[vsh]: lingua cambiata in {lang}. Ciò che è già sullo schermo resta nella lingua precedente.",
