@@ -1,7 +1,6 @@
 {
   "graph": {
     "title": "Graph",
-    "back": "Back to About",
     "subtitle": "How projects, research and technologies connect, and how my stack has changed over time.",
     "projects_count": "{n} project | {n} projects",
     "table_view": "View as table",

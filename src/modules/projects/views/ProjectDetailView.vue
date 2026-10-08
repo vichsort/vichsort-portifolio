@@ -154,7 +154,7 @@ watch(
 }
 
 .page-container {
-  max-width: 900px;
+  max-width: var(--page-width);
   margin: 0 auto;
 }
 

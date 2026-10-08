@@ -14,7 +14,7 @@ import TimelineScrollSection from '../components/TimelineScrollSection.vue'
 import TimelineFullSection from '../components/TimelineFullSection.vue'
 import GallerySection from '../components/GallerySection.vue'
 
-import { ArrowLeft, FolderGit2, Mail, ArrowUpRight } from 'lucide-vue-next'
+import { FolderGit2, Mail, ArrowUpRight } from 'lucide-vue-next'
 
 const { t } = useI18n()
 const { isMotionAllowed } = useSettings()
@@ -51,11 +51,6 @@ const {
 <template>
   <main class="overview-page">
     <div class="page-container">
-      <!-- Botão Voltar -->
-      <router-link to="/" class="back-link">
-        <ArrowLeft :size="18" />
-        <span>{{ t('common.back_to_home') }}</span>
-      </router-link>
 
       <!-- Cabeçalho Principal -->
       <header class="page-header">
@@ -124,26 +119,13 @@ const {
 }
 
 .page-container {
-  max-width: 1100px;
+  max-width: var(--page-width);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  transition: color var(--transition-fast);
-  width: fit-content;
-}
-
-.back-link:hover {
-  color: var(--primary);
-}
 
 .page-header {
   margin-bottom: var(--spacing-md);

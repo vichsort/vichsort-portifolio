@@ -2,7 +2,6 @@
   "gallery_page": {
     "title": "Galeria",
     "subtitle": "Registros de campo, apresentações técnicas e bastidores da jornada.",
-    "back_to_about": "Voltar para o Sobre",
     "back_to_gallery": "Voltar para a galeria",
     "count": "{count} fotos",
     "size_label": "Tamanho das fotos",

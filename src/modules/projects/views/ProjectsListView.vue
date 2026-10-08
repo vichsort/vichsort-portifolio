@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft } from 'lucide-vue-next'
 import { allProjects } from '@/core/content/projects'
 import { useListingFilters, yearsOf } from '@/shared/composables/useListingFilters'
 import { useRefFilter } from '@/shared/composables/useRefFilter'
@@ -38,10 +37,6 @@ const toolbarFilters = computed(() => [
 <template>
   <main class="projects-page">
     <header class="page-header">
-      <router-link to="/" class="back-link">
-        <ArrowLeft :size="18" />
-        <span>{{ t('common.back_to_home') }}</span>
-      </router-link>
 
       <h1 class="page-title">{{ t('projects_page.title') }}</h1>
       <p class="page-subtitle">{{ t('projects_page.subtitle') }}</p>
@@ -84,7 +79,7 @@ const toolbarFilters = computed(() => [
 .projects-page {
   min-height: 100vh;
   padding: 6rem var(--spacing-xl) var(--spacing-2xl) var(--spacing-xl);
-  max-width: 1300px;
+  max-width: calc(var(--page-width) + 2 * var(--spacing-xl));
   margin: 0 auto;
 }
 
@@ -92,19 +87,6 @@ const toolbarFilters = computed(() => [
   margin-bottom: var(--spacing-xl);
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  margin-bottom: var(--spacing-md);
-  transition: color var(--transition-fast);
-}
-
-.back-link:hover {
-  color: var(--primary);
-}
 
 .page-title {
   font-family: var(--font-heading);

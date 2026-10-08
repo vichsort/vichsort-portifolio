@@ -111,7 +111,7 @@ const adjacent = computed(() => {
 }
 
 .page-container {
-  max-width: 1000px;
+  max-width: var(--page-width);
   margin: 0 auto;
 }
 

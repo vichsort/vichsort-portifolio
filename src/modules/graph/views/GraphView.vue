@@ -6,7 +6,6 @@ import { knowledgeGraph, graphStats } from '../core/graphData'
 import KnowledgeGraph from '../components/KnowledgeGraph.vue'
 import TechAdoptionChart from '../components/TechAdoptionChart.vue'
 import TechMatrix from '../components/TechMatrix.vue'
-import { ArrowLeft } from 'lucide-vue-next'
 
 const { t } = useI18n()
 const { ofType, linked, node, outlinks } = useContent()
@@ -25,10 +24,6 @@ const tiles = computed(() => [
 <template>
   <main class="graph-page">
     <div class="page-container">
-      <router-link to="/overview" class="back-link">
-        <ArrowLeft :size="18" />
-        <span>{{ t('graph.back') }}</span>
-      </router-link>
 
       <header class="page-header">
         <h1 class="page-title">{{ t('graph.title') }}</h1>
@@ -76,26 +71,13 @@ const tiles = computed(() => [
 }
 
 .page-container {
-  max-width: 1100px;
+  max-width: var(--page-width);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  transition: color var(--transition-fast);
-  width: fit-content;
-}
-
-.back-link:hover {
-  color: var(--primary);
-}
 
 .page-title {
   font-family: var(--font-heading);

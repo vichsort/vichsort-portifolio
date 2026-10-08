@@ -2,7 +2,6 @@
   "gallery_page": {
     "title": "Galería",
     "subtitle": "Registros de campo, presentaciones técnicas y detrás de escena del recorrido.",
-    "back_to_about": "Volver a Sobre mí",
     "back_to_gallery": "Volver a la galería",
     "count": "{count} fotos",
     "size_label": "Tamaño de las fotos",

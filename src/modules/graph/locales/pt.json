@@ -1,7 +1,6 @@
 {
   "graph": {
     "title": "Grafo",
-    "back": "Voltar para o Sobre",
     "subtitle": "Como projetos, pesquisas e tecnologias se conectam, e como meu stack mudou com o tempo.",
     "projects_count": "{n} projeto | {n} projetos",
     "table_view": "Ver como tabela",

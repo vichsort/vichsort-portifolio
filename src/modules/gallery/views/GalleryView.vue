@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useLocalStorage } from '@vueuse/core'
-import { ArrowLeft, Grid3x3, Grid2x2, RectangleHorizontal } from 'lucide-vue-next'
+import { Grid3x3, Grid2x2, RectangleHorizontal } from 'lucide-vue-next'
 import { allPhotos } from '@/core/content/photos'
 import GalleryCard from '../components/GalleryCard.vue'
 
@@ -27,10 +27,6 @@ const photos = computed(() => allPhotos(locale.value))
 <template>
   <main class="gallery-page">
     <header class="page-header">
-      <router-link to="/overview" class="back-link">
-        <ArrowLeft :size="18" />
-        <span>{{ t('gallery_page.back_to_about') }}</span>
-      </router-link>
 
       <h1 class="page-title">{{ t('gallery_page.title') }}</h1>
       <p class="page-subtitle">{{ t('gallery_page.subtitle') }}</p>
@@ -69,7 +65,7 @@ const photos = computed(() => allPhotos(locale.value))
 .gallery-page {
   min-height: 100vh;
   padding: 6rem var(--spacing-xl) var(--spacing-2xl) var(--spacing-xl);
-  max-width: 1300px;
+  max-width: calc(var(--page-width) + 2 * var(--spacing-xl));
   margin: 0 auto;
 }
 
@@ -77,19 +73,6 @@ const photos = computed(() => allPhotos(locale.value))
   margin-bottom: var(--spacing-xl);
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  margin-bottom: var(--spacing-md);
-  transition: color var(--transition-fast);
-}
-
-.back-link:hover {
-  color: var(--primary);
-}
 
 .page-title {
   font-family: var(--font-heading);

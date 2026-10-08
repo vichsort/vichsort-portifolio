@@ -8,7 +8,6 @@ import { useListingView } from '@/shared/composables/useListingView'
 import ListingToolbar from '@/shared/components/ui/ListingToolbar.vue'
 import ListingEmpty from '@/shared/components/ui/ListingEmpty.vue'
 import ResearchCard from '../components/ResearchCard.vue'
-import { ArrowLeft } from 'lucide-vue-next'
 
 const { t } = useI18n()
 const { ofType, text, fallback, label, linked } = useContent()
@@ -55,10 +54,6 @@ const toolbarFilters = computed(() => [
 <template>
   <main class="researches-page">
     <div class="page-container">
-      <router-link to="/" class="back-link">
-        <ArrowLeft :size="18" />
-        <span>{{ t('common.back_to_home') }}</span>
-      </router-link>
 
       <header class="page-header">
         <h1 class="page-title">{{ t('researches_page.title') }}</h1>
@@ -110,23 +105,10 @@ const toolbarFilters = computed(() => [
 }
 
 .page-container {
-  max-width: 1000px;
+  max-width: var(--page-width);
   margin: 0 auto;
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  margin-bottom: var(--spacing-lg);
-  transition: color var(--transition-fast);
-}
-
-.back-link:hover {
-  color: var(--primary);
-}
 
 .page-header {
   margin-bottom: var(--spacing-2xl);

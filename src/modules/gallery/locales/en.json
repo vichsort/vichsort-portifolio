@@ -2,7 +2,6 @@
   "gallery_page": {
     "title": "Gallery",
     "subtitle": "Field records, technical talks and behind the scenes of the journey.",
-    "back_to_about": "Back to About",
     "back_to_gallery": "Back to the gallery",
     "count": "{count} photos",
     "size_label": "Photo size",

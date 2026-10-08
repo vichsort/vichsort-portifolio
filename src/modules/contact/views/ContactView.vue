@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ArrowLeft, Mail, Github, Linkedin, Send, Copy, Check } from 'lucide-vue-next'
+import { Mail, Github, Linkedin, Send, Copy, Check } from 'lucide-vue-next'
 import { EMAIL, SOCIALS } from '@/core/config/profile'
 
 const { t } = useI18n()
@@ -31,10 +31,6 @@ const channels = SOCIALS.map(social => ({
 <template>
   <main class="contact-page">
     <div class="page-container">
-      <router-link to="/" class="back-link">
-        <ArrowLeft :size="18" />
-        <span>{{ t('common.back_to_home') }}</span>
-      </router-link>
 
       <header class="page-header">
         <h1 class="page-title">{{ t('contact_page.title') }}</h1>
@@ -92,19 +88,6 @@ const channels = SOCIALS.map(social => ({
   margin: 0 auto;
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  margin-bottom: var(--spacing-lg);
-  transition: color var(--transition-fast);
-}
-
-.back-link:hover {
-  color: var(--primary);
-}
 
 .page-header {
   margin-bottom: var(--spacing-2xl);
