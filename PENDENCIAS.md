@@ -21,9 +21,8 @@ Planejamento original em `terminal.md` (raiz, fora do git). A lista abaixo é o 
 | **`t9`** | **Comandos de sistema**: `history` e `exit` / `gui` | `commands/system/` | O `exit` pode reaproveitar o que o vermelho/amarelo da janela já fazem na página; o `context.router` existe e ninguém usa |
 | **`t11`** | **Ctrl+A / Ctrl+E** (início / fim da linha) | `TerminalPrompt.vue` | No `<input>` o Ctrl+A seleciona tudo: precisa de `preventDefault` |
 | **`t13`** | **Terminal no mobile (≤ 768px)** | `TerminalView.vue`, `TerminalSection.vue` | Decidido: no celular o terminal não roda; no lugar, uma landing com vídeo de demonstração e um convite para abrir no computador (vale para a página e para a seção da home). Falta gravar o vídeo |
-| **`t16`** | **Markdown no terminal** (`cat *.md`) | `OutputMarkdown.vue` | Links externos não abrem em nova aba. A spec pedia estética `glow`/`bat` (títulos em caixa alta, separadores ASCII, `•` nas listas); hoje é um card de Markdown comum. Decidir se ainda quer |
 
-Ordem sugerida: `t9`/`t11` → `t13`. `t16` depende de decisão; `t6` espera os PDFs (`c7`). O `terminal.md` fica fora do git (no outro computador): a fonte daqui é este arquivo.
+Ordem sugerida: `t9`/`t11` → `t13`. `t6` espera os PDFs (`c7`). O `terminal.md` fica fora do git (no outro computador): a fonte daqui é este arquivo.
 
 ## Fundação técnica
 
@@ -51,6 +50,7 @@ Os projetos já são reais; o resto do conteúdo ainda é fictício. Depende de 
 
 ## Concluído
 
+* Markdown no terminal no estilo glow (`t16`): `cat *.md` sem card, títulos em caixa alta nos neons com régua (═ no h1, ─ no h2), • nas listas, código em bloco com barra lateral; links externos abrem em nova aba (↗), os internos navegam no site
 * Projetos em destaque (`t12`): campo `featured: true` nos projetos (PlantE, tera-cli, Atena, Escutas, Criptografy, Next Signage); o carrossel da home mostra só os destaques, do mais recente ao mais antigo (sem nenhum marcado, mostra todos), e o terminal ganhou `projects --featured`
 * Easter eggs do terminal (`t10`): `neofetch` (logo neat reduzido em `ascii/neofetch.txt`, dados reais do site e o stack mais usado, vindo do grafo; num pipe sai como texto), `matrix` (chuva em canvas cobrindo a janela, cores dos tokens, sai com Ctrl+C, Esc, q ou toque; com movimento reduzido só avisa) e `rm` (VFS só leitura; `rm -rf /` treme a janela por ~2s e reinicia a sessão). O terminal ganhou processos em primeiro plano: `context.spawn(nome)` segura o prompt até o fim ou um Ctrl+C
 * Gráficos a partir do grafo (`a4`): página `/graph` (módulo `graph`) com contagens, mapa de conhecimento (projetos, pesquisas e techs, cor + forma por tipo, layout de forças determinístico), adoção de techs no tempo e matriz tech × projeto (uma `<table>`, que já é a versão acessível); prévia com as 10 techs mais usadas no Sobre, logo depois do stack. Tokens `--viz-*` com a paleta categórica validada nos dois temas. Ficou de fora a métrica de "projeto complexo"

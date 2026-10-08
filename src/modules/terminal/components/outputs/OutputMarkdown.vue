@@ -1,8 +1,14 @@
 <script setup>
 import { computed } from 'vue'
 import { renderMarkdown } from '@/core/content/markdown'
-import { FileText } from 'lucide-vue-next'
 
+/**
+ * Markdown no terminal (cat *.md), no estilo do glow: renderizado e legível,
+ * mas com cara de terminal. Sem card; títulos em caixa alta com separadores,
+ * • nas listas, blocos de código com barra lateral.
+ *
+ * Links externos abrem em nova aba (marcados com ↗); os internos navegam no site.
+ */
 const props = defineProps({
   content: {
     type: String,
@@ -14,19 +20,21 @@ const props = defineProps({
   }
 })
 
+const EXTERNAL_LINK = /<a href="(https?:\/\/[^"]+)"/g
+
 const renderedHtml = computed(() => {
   if (!props.content) return ''
-  return renderMarkdown(props.content)
+  return renderMarkdown(props.content).replace(EXTERNAL_LINK, '<a href="$1" target="_blank" rel="noopener noreferrer"')
 })
 </script>
 
 <template>
   <div class="output-markdown">
-    <div v-if="filename" class="markdown-header">
-      <FileText :size="14" class="header-icon" />
-      <span class="header-filename">{{ filename }}</span>
-      <span class="header-badge">MARKDOWN</span>
-    </div>
+    <p v-if="filename" class="file-rule">
+      <span class="rule" aria-hidden="true">───</span>
+      <span class="filename">{{ filename }}</span>
+      <span class="rule rule-fill" aria-hidden="true" />
+    </p>
 
     <div class="markdown-body" v-html="renderedHtml"></div>
   </div>
@@ -34,63 +42,48 @@ const renderedHtml = computed(() => {
 
 <style scoped>
 .output-markdown {
-  margin: 0.5rem 0;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
-  background: var(--bg-surface-1);
-  overflow: hidden;
+  margin: 0.25rem 0 0.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
 }
 
-.markdown-header {
+.file-rule {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.35rem 0.75rem;
-  background: var(--bg-surface-2);
-  border-bottom: 1px solid var(--border-subtle);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
+  margin: 0 0 0.75rem;
   color: var(--text-muted);
-}
-
-.header-icon {
-  color: var(--neon-cyan);
-}
-
-.header-filename {
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.header-badge {
-  margin-left: auto;
   font-size: var(--text-xs);
-  padding: 0.1rem 0.4rem;
-  border-radius: var(--radius-sm);
-  background: var(--primary-subtle);
-  color: var(--neon-cyan);
-  letter-spacing: 0.05em;
-  font-weight: 700;
+}
+
+.filename {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.rule-fill {
+  flex: 1;
+  border-top: 1px solid var(--border-medium);
 }
 
 .markdown-body {
-  padding: 1rem;
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
+  max-width: 88ch;
+  padding-left: 0.5rem;
   line-height: 1.7;
   color: var(--text-secondary);
   word-break: break-word;
 }
 
+/* Títulos: caixa alta nos neons, com régua embaixo (═ no h1, ─ no h2) */
 .markdown-body :deep(h1),
 .markdown-body :deep(h2),
 .markdown-body :deep(h3),
 .markdown-body :deep(h4) {
-  color: var(--text-primary);
+  font-size: var(--text-sm);
   font-weight: 700;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-  line-height: 1.3;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  margin: 1.5rem 0 0.6rem;
 }
 
 .markdown-body :deep(h1:first-child),
@@ -100,38 +93,66 @@ const renderedHtml = computed(() => {
 }
 
 .markdown-body :deep(h1) {
-  font-size: var(--text-xl);
-  border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 0.25rem;
+  text-transform: uppercase;
+  color: var(--neon-magenta);
+  padding-bottom: 0.3rem;
+  border-bottom: 3px double var(--neon-magenta);
 }
 
 .markdown-body :deep(h2) {
-  font-size: var(--text-lg);
+  text-transform: uppercase;
   color: var(--neon-cyan);
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--border-medium);
 }
 
-.markdown-body :deep(h3) {
-  font-size: var(--text-base);
-  color: var(--text-primary);
+.markdown-body :deep(h3),
+.markdown-body :deep(h4) {
+  color: var(--neon-pink);
+}
+
+.markdown-body :deep(h3)::before,
+.markdown-body :deep(h4)::before {
+  content: '▍';
+  margin-right: 0.35rem;
 }
 
 .markdown-body :deep(p) {
-  margin-bottom: 0.75rem;
+  margin: 0 0 0.75rem;
 }
 
-.markdown-body :deep(ul),
-.markdown-body :deep(ol) {
-  margin: 0.5rem 0 0.75rem 1.5rem;
+/* Listas: • neon no lugar do marcador do navegador */
+.markdown-body :deep(ul) {
+  list-style: none;
+  margin: 0 0 0.75rem;
   padding: 0;
 }
 
-.markdown-body :deep(li) {
+.markdown-body :deep(ul > li) {
+  position: relative;
+  padding-left: 1.4rem;
   margin-bottom: 0.25rem;
+}
+
+.markdown-body :deep(ul > li)::before {
+  content: '•';
+  position: absolute;
+  left: 0.4rem;
+  color: var(--neon-yellow);
+}
+
+.markdown-body :deep(ol) {
+  margin: 0 0 0.75rem 1.6rem;
+  padding: 0;
+}
+
+.markdown-body :deep(ol > li)::marker {
+  color: var(--neon-yellow);
 }
 
 .markdown-body :deep(strong) {
   color: var(--text-primary);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .markdown-body :deep(em) {
@@ -140,27 +161,25 @@ const renderedHtml = computed(() => {
 }
 
 .markdown-body :deep(code) {
-  padding: 0.15rem 0.35rem;
-  border-radius: var(--radius-sm);
+  padding: 0.05rem 0.3rem;
+  border-radius: 4px;
   background: var(--bg-surface-2);
-  border: 1px solid var(--border-subtle);
   color: var(--neon-pink);
-  font-size: 0.85em;
+  font-size: 0.92em;
 }
 
+/* Bloco de código: barra lateral, como o glow */
 .markdown-body :deep(pre) {
   margin: 0.75rem 0;
-  padding: 0.75rem;
-  border-radius: var(--radius-sm);
-  background: var(--bg-canvas);
-  border: 1px solid var(--border-subtle);
+  padding: 0.6rem 0.9rem;
+  border-left: 2px solid var(--neon-magenta);
+  background: var(--bg-surface-1);
   overflow-x: auto;
 }
 
 .markdown-body :deep(pre code) {
   padding: 0;
   background: transparent;
-  border: none;
   color: var(--text-primary);
 }
 
@@ -174,17 +193,44 @@ const renderedHtml = computed(() => {
   color: var(--neon-magenta);
 }
 
+.markdown-body :deep(a[target='_blank'])::after {
+  content: ' ↗';
+  text-decoration: none;
+  display: inline-block;
+}
+
 .markdown-body :deep(blockquote) {
   margin: 0.75rem 0;
-  padding-left: 0.75rem;
-  border-left: 3px solid var(--neon-cyan);
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--border-medium);
   color: var(--text-muted);
+  font-style: italic;
 }
 
 .markdown-body :deep(hr) {
-  margin: 1rem 0;
+  margin: 1.25rem 0;
   border: 0;
-  border-top: 1px solid var(--border-subtle);
+  border-top: 1px dashed var(--border-medium);
+}
+
+.markdown-body :deep(img) {
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+}
+
+.markdown-body :deep(table) {
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+}
+
+.markdown-body :deep(th),
+.markdown-body :deep(td) {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--border-subtle);
+  text-align: left;
+}
+
+.markdown-body :deep(th) {
+  color: var(--neon-cyan);
 }
 </style>
-
