@@ -114,6 +114,7 @@ generated: true
 - [[faif]]
 - [[hotel]]
 - [[iarte]]
+- [[lago-azul]]
 - [[next-signage]]
 - [[plante]]
 - [[tera-cli]]
