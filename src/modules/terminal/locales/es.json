@@ -267,6 +267,15 @@
     "section": {
       "label": "¿Prefieres la línea de comandos?",
       "hint": "Un shell de verdad sobre el contenido del sitio: navega con ls y cd, lee con cat, sigue las conexiones con links. Escribe help para empezar; el botón verde abre la terminal en pantalla completa."
+    },
+    "mobile": {
+      "title": "El terminal pide un teclado de verdad",
+      "text": "Abre {url} en una computadora para usarlo. Mientras tanto, mira una sesión grabada.",
+      "share": "Compartir enlace",
+      "copy": "Copiar enlace",
+      "copied": "Enlace copiado",
+      "back": "Volver al sitio",
+      "video_label": "Sesión grabada del terminal: neofetch, proyectos destacados, lectura de un artículo, conexiones del grafo y la lluvia de matrix"
     }
   }
 }

@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useMediaQuery } from '@vueuse/core'
 import TerminalWindow from './TerminalWindow.vue'
+import TerminalMobileDemo from './TerminalMobileDemo.vue'
 import { useTerminal } from '../composables/useTerminal'
 import { navigateWithTransition } from '@/shared/composables/useViewTransition'
 
@@ -10,11 +12,13 @@ import { navigateWithTransition } from '@/shared/composables/useViewTransition'
  * página /terminal, numa janela de altura fixa.
  * Vermelho encerra a sessão, amarelo recolhe a janela até a barra de título,
  * verde abre a página do terminal com a janela crescendo até a tela cheia.
+ * No celular, o vídeo de demonstração no lugar da janela (t13).
  */
 const { t } = useI18n()
 const { reset } = useTerminal()
 
 const collapsed = ref(false)
+const isMobile = useMediaQuery('(max-width: 768px)')
 
 const open = () => navigateWithTransition('/terminal', { waitFor: 'terminal-page' })
 </script>
@@ -25,10 +29,12 @@ const open = () => navigateWithTransition('/terminal', { waitFor: 'terminal-page
       <div class="section-introduction">
         <span class="small-label">{{ t('terminal.section.label') }}</span>
         <h2 class="main-title">VSH<span class="highlight">.</span></h2>
-        <p class="section-hint">{{ t('terminal.section.hint') }}</p>
+        <p v-if="!isMobile" class="section-hint">{{ t('terminal.section.hint') }}</p>
       </div>
 
-      <div class="window-slot" :class="{ 'is-collapsed': collapsed }">
+      <TerminalMobileDemo v-if="isMobile" />
+
+      <div v-else class="window-slot" :class="{ 'is-collapsed': collapsed }">
         <TerminalWindow
           :autofocus="false"
           :close-label="t('terminal.window.end_session')"

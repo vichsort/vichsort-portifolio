@@ -267,6 +267,15 @@
     "section": {
       "label": "Preferisci la riga di comando?",
       "hint": "Una vera shell sui contenuti del sito: naviga con ls e cd, leggi con cat, segui i collegamenti con links. Digita help per iniziare; il pulsante verde apre il terminale a schermo intero."
+    },
+    "mobile": {
+      "title": "Il terminale vuole una vera tastiera",
+      "text": "Apri {url} su un computer per usarlo. Nel frattempo, guarda una sessione registrata.",
+      "share": "Condividi link",
+      "copy": "Copia link",
+      "copied": "Link copiato",
+      "back": "Torna al sito",
+      "video_label": "Sessione registrata del terminale: neofetch, progetti in evidenza, lettura di un articolo, collegamenti del grafo e la pioggia di matrix"
     }
   }
 }

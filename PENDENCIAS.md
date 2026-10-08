@@ -18,9 +18,8 @@ Planejamento original em `terminal.md` (raiz, fora do git). A lista abaixo é o 
 | # | Pendência | Arquivos | Observação |
 | :--- | :--- | :--- | :--- |
 | **`t6`** | **Currículo (`resume.pdf`)** | `public/`, `vfs/manifest.js`, `commands/portfolio/resume.js` | Decidido: vai ter, um PDF por idioma, feito pelo Vitor (`c7`). Quando os PDFs existirem, o `resume` e o `cat resume.pdf` baixam o do idioma ativo. Até lá o comando anuncia um download que falha |
-| **`t13`** | **Terminal no mobile (≤ 768px)** | `TerminalView.vue`, `TerminalSection.vue` | Decidido: no celular o terminal não roda; no lugar, uma landing com vídeo de demonstração e um convite para abrir no computador (vale para a página e para a seção da home). Falta gravar o vídeo |
 
-`t13` espera o vídeo de demonstração; `t6` espera os PDFs (`c7`). O `terminal.md` fica fora do git (no outro computador): a fonte daqui é este arquivo.
+`t6` espera os PDFs (`c7`). O `terminal.md` fica fora do git (no outro computador): a fonte daqui é este arquivo.
 
 ## Fundação técnica
 
@@ -48,6 +47,7 @@ Os projetos já são reais; o resto do conteúdo ainda é fictício. Depende de 
 
 ## Concluído
 
+* Terminal no celular (`t13`): em telas ≤ 768px, a página `/terminal` e a seção da home mostram um vídeo de uma sessão gravada (`public/videos/terminal-demo.{webm,mp4}` + pôster; neofetch, projetos em destaque, um artigo, `links` e matrix) e o convite para abrir no computador, com o endereço à vista e o botão de compartilhar (folha nativa) ou copiar o link; na página, também "Voltar ao site". Com movimento reduzido o vídeo fica parado, com controles. No `neofetch`, o Host (que mostraria o domínio) virou Resolution
 * Comandos e atalhos do terminal (`t9` + `t11`): `history` (numerado como no bash; `-c` limpa), `exit`/`logout` (encerra a sessão como o vermelho e, na página, volta à home), `gui`/`startx` (volta à interface mantendo a sessão, como o amarelo); Ctrl+A e Ctrl+E levam o cursor ao início e ao fim da linha
 * Markdown no terminal no estilo glow (`t16`): `cat *.md` sem card, títulos em caixa alta nos neons com régua (═ no h1, ─ no h2), • nas listas, código em bloco com barra lateral; links externos abrem em nova aba (↗), os internos navegam no site
 * Projetos em destaque (`t12`): campo `featured: true` nos projetos (PlantE, tera-cli, Atena, Escutas, Criptografy, Next Signage); o carrossel da home mostra só os destaques, do mais recente ao mais antigo (sem nenhum marcado, mostra todos), e o terminal ganhou `projects --featured`

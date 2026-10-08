@@ -267,6 +267,15 @@
     "section": {
       "label": "Rather use the command line?",
       "hint": "A real shell over the site's content: browse with ls and cd, read with cat, follow connections with links. Type help to start; the green button opens the terminal full screen."
+    },
+    "mobile": {
+      "title": "The terminal wants a real keyboard",
+      "text": "Open {url} on a computer to use it. Meanwhile, watch a recorded session.",
+      "share": "Share link",
+      "copy": "Copy link",
+      "copied": "Link copied",
+      "back": "Back to the site",
+      "video_label": "Recorded terminal session: neofetch, featured projects, reading an article, graph links and the matrix rain"
     }
   }
 }

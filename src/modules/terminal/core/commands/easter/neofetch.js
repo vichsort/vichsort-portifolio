@@ -8,6 +8,7 @@ const bootedAt = Date.now()
 
 /**
  * Linhas de informação do neofetch, com dados reais do site e do grafo.
+ * Sem domínio (o Host do original): a resolução da janela no lugar.
  *
  * @returns {[string, string][]}
  */
@@ -22,7 +23,7 @@ function systemInfo({ t, locale, globalState }) {
 
   return [
     ['OS', 'VichOS x86_64'],
-    ['Host', typeof location !== 'undefined' ? location.host : 'vichsort'],
+    ['Resolution', typeof window !== 'undefined' ? `${window.innerWidth}x${window.innerHeight}` : '-'],
     ['Kernel', `vue ${version}`],
     ['Uptime', o('uptime', minutes)],
     ['Packages', o('packages', usage.length)],
