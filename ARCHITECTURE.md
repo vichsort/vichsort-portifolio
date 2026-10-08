@@ -84,6 +84,7 @@ src/
     ├── certifications/             # /certifications
     ├── contact/                    # /contact
     ├── gallery/                    # /gallery e /gallery/:id: grade de polaroids (3, 2 ou 1 por linha) e página da foto
+    ├── graph/                      # /graph: contagens, mapa de conhecimento, adoção de techs e matriz; prévia no Sobre
     ├── testimonials/               # Seção de depoimentos (usada pela home)
     └── terminal/                   # Shell (parser, dispatcher, comandos) e VFS sobre o grafo; sessão única (useTerminal)
                                     # mostrada na seção do fim da home (TerminalSection) e em /terminal
@@ -91,7 +92,7 @@ src/
 
 Cada módulo com dados próprios de interface tem `locales/<idioma>.json`. Os dados de conteúdo (projetos, pesquisas, certificações, timeline, techs, fotos da galeria) não ficam nos módulos: vêm do grafo em `src/content/`.
 
-**Dependências entre módulos.** Um módulo importa de `core/` e `shared/`. As exceções aceitas hoje: a `home` monta seções de `projects` (`ProjectShowcaseSection`) e de `testimonials`.
+**Dependências entre módulos.** Um módulo importa de `core/` e `shared/`. As exceções aceitas hoje: a `home` monta seções de `projects` (`ProjectShowcaseSection`), `testimonials` e `terminal` (`TerminalSection`); o `about` monta a prévia do `graph` (`GraphPreviewSection`); e o `neofetch` do terminal usa o `techUsage` do `graph` (o stack mais usado).
 
 ---
 
@@ -132,6 +133,19 @@ Formato, regras e API completos em [GRAPH.md](GRAPH.md). Validação: `npm run c
 | `/certifications` | `CertificationsView` | `certifications` | Credenciais e certificações |
 | `/gallery` | `GalleryView` | `gallery` | Fotos em polaroid, com tamanho médio, grande ou extra grande |
 | `/gallery/:id` | `GalleryDetailView` | `gallery` | Foto inteira, história, ligações e navegação entre fotos |
+| `/graph` | `GraphView` | `graph` | Gráficos a partir do grafo de conteúdo |
 | `/contact` | `ContactView` | `contact` | Canais de contato e redes sociais |
 | `/terminal` | `TerminalView` | `terminal` | Shell interativo sobre o grafo, só a janela (sem navbar nem footer) |
 | `/*` | `NotFoundView` | `shared` | Página 404 |
+
+Na navbar, as seis primeiras rotas ficam na pílula; Galeria, Grafo e Terminal ficam na segunda página dela, atrás da seta (`NAV_MORE_ITEMS` em `core/config/profile.js`). As rotas de detalhe são irmãs da listagem, não filhas: a aba ativa é decidida por prefixo do caminho.
+
+---
+
+## 5. Build e Publicação
+
+`npm run build` roda `vite build` e depois `scripts/meta.mjs`, que grava um `index.html` por rota (páginas, projetos e fotos) com título, descrição e imagem próprios, em inglês: é o que LinkedIn, WhatsApp e buscadores leem, sem rodar JavaScript. A imagem é a capa do nó ou o hero (`public/images/og-default.jpg`); a URL absoluta vem de `SITE_URL` (`core/config/profile.js` ou variável de ambiente).
+
+O site é publicado no Cloudflare Pages (`vichsort.com`): ele serve a pasta da rota (`/projects/plante/index.html`) e, para o resto, o `index.html` da raiz, onde o router resolve.
+
+Antes de publicar conteúdo: `npm run check:content` (grafo válido) e `npm run typecheck`.
