@@ -7,39 +7,15 @@
  *   node scripts/content.mjs new <tipo> <id>
  *                                    cria a pasta do nó a partir de _templates/
  */
-import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
-import { join, relative, sep } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { buildGraph } from '../src/core/content/graph.ts'
+import { join, relative } from 'node:path'
 import { validateGraph } from '../src/core/content/validate.ts'
 import { LANGS, REQUIRED_LANGS, TYPES, TYPE_BY_FOLDER } from '../src/core/content/schema.ts'
+import { ROOT, load } from './vault.mjs'
 
-const ROOT = fileURLToPath(new URL('../src/content/', import.meta.url))
 const INDEX = join(ROOT, 'index.md')
 const TEMPLATES = join(ROOT, '_templates')
-
-async function walk(dir) {
-  const out = []
-  for (const entry of await readdir(dir, { withFileTypes: true })) {
-    if (entry.name.startsWith('.')) continue
-    const full = join(dir, entry.name)
-    if (entry.isDirectory()) out.push(...(await walk(full)))
-    else out.push(full)
-  }
-  return out
-}
-
-async function load() {
-  const files = []
-  const assets = []
-  for (const full of await walk(ROOT)) {
-    const path = relative(ROOT, full).split(sep).join('/')
-    if (path.endsWith('.md')) files.push({ path, raw: await readFile(full, 'utf-8') })
-    else assets.push({ path, url: path })
-  }
-  return buildGraph(files, assets)
-}
 
 function renderIndex(graph) {
   const lines = [

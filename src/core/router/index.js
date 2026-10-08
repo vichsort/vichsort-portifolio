@@ -100,7 +100,7 @@ router.afterEach((to) => {
   closeNav()
 
   // Update browser tab title dynamically
-  const appBaseTitle = 'Vitor — Software Engineering'
+  const appBaseTitle = 'Vitor /// Software Engineering'
   if (to.meta && to.meta.titleKey) {
     const pageTitle = i18n.global.t(to.meta.titleKey)
     document.title = to.name === 'home' ? appBaseTitle : `${pageTitle} | ${appBaseTitle}`

@@ -457,6 +457,8 @@ src/core/content/
 ├── markdown.js      # renderiza o corpo: wikilinks viram texto, imagens relativas viram arquivos do nó
 └── useContent.js    # as mesmas consultas no idioma ativo, para componentes
 scripts/content.mjs  # npm run check:content / content:index / content:new
+scripts/vault.mjs    # lê o vault do disco no Node (sem Vite), para os dois scripts
+scripts/meta.mjs     # depois do vite build: um index.html por rota com a prévia de link (s10)
 ```
 
 API para componentes:

@@ -8,6 +8,16 @@
 export const EMAIL = 'vitor@example.com'
 
 /**
+ * Endereço público do site, sem barra no fim (ex.: https://vitor.dev).
+ * As prévias de link (scripts/meta.mjs) precisam dele para a URL absoluta da
+ * imagem; no build, a variável de ambiente SITE_URL tem precedência.
+ */
+export const SITE_URL = 'https://vichsort.com'
+
+/** Hero do site (1200×630): capa de projeto sem cover.jpg e imagem padrão das prévias de link. */
+export const DEFAULT_COVER = '/images/og-default.jpg'
+
+/**
  * Redes sociais. Os ícones ficam a cargo de cada componente (mapeados por `id`),
  * para este arquivo continuar sendo dado puro e importável fora do Vue.
  */
