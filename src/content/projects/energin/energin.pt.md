@@ -7,7 +7,7 @@ summary: Painel em tempo real de uma micro usina hidrelétrica, com os dados lid
 
 O **Energin** é o painel de uma micro usina hidrelétrica: a água entra, faz girar uma turbina e a turbina move o gerador. Um [[raspberry-pi|Raspberry Pi]] ligado ao gerador lê os sensores e expõe as medições numa pequena API que escrevi para ele; o site consulta essa API a cada dois segundos e mostra a geração ao vivo, para quem estiver olhando a apresentação acompanhar pelo celular.
 
-O projeto ficou em [[feira-energia-limpa-ita|1º lugar na Feira de Energia Limpa do Consórcio Itá]].
+O projeto ficou em [[feira-energia-limpa-ita|1º lugar na Feira de Ciências: Circuito da Energia do Consórcio Itá]], na categoria Ensino Médio/Técnico.
 
 ### O que o painel mostra
 

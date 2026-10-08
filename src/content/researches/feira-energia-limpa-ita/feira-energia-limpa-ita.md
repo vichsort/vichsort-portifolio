@@ -1,7 +1,6 @@
 ---
 source: auto-generated
-date: 2025
-authors: Vitor Mignoni, et al.
+date: 2025-10
 techs:
   - "[[raspberry-pi]]"
   - "[[vue]]"

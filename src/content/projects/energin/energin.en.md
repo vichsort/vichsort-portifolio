@@ -7,7 +7,7 @@ summary: A real-time dashboard for a micro hydroelectric plant, with data read b
 
 **Energin** is the dashboard for a micro hydroelectric plant: water flows in, spins a turbine and the turbine drives the generator. A [[raspberry-pi|Raspberry Pi]] connected to the generator reads the sensors and exposes the measurements through a small API I wrote for it; the site polls that API every two seconds and shows generation live, so anyone watching the presentation can follow along on their phone.
 
-The project won [[feira-energia-limpa-ita|1st place at the Consórcio Itá Clean Energy Fair]].
+The project won [[feira-energia-limpa-ita|1st place at Consórcio Itá's Science Fair: Energy Circuit]], in the High School/Technical category.
 
 ### What the dashboard shows
 
