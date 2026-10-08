@@ -120,6 +120,7 @@ generated: true
 - [[lago-azul]]
 - [[next-signage]]
 - [[plante]]
+- [[prisma]]
 - [[tera-cli]]
 
 ## certifications
