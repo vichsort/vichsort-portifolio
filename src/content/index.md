@@ -112,6 +112,7 @@ generated: true
 - [[energin]]
 - [[escutas]]
 - [[faif]]
+- [[hotel]]
 - [[iarte]]
 - [[next-signage]]
 - [[plante]]
