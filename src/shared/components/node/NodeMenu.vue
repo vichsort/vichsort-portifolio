@@ -17,11 +17,13 @@ const props = defineProps({
   id: { type: String, required: true },
   // Tipos e ordem dos grupos; o padrão é NODE_MENU_TYPES (core/content/nodeMenu.ts)
   types: { type: Array, default: undefined },
-  placement: { type: String, default: 'bottom-start' }
+  placement: { type: String, default: 'bottom-start' },
+  // Nós que não entram no menu (ex.: a página em que o menu está)
+  exclude: { type: Array, default: () => [] }
 })
 
 const { t } = useI18n()
-const items = useNodeMenu(() => props.id, { types: props.types })
+const items = useNodeMenu(() => props.id, { types: props.types, exclude: () => props.exclude })
 </script>
 
 <template>

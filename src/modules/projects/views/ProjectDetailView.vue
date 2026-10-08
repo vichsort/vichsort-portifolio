@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useProjects } from '../composables/useProjects'
 import ProjectPagination from '../components/ProjectPagination.vue'
+import NodeMenu from '@/shared/components/node/NodeMenu.vue'
 import { ArrowLeft, ExternalLink, Github, Calendar } from 'lucide-vue-next'
 
 const props = defineProps({
@@ -85,13 +86,19 @@ watch(
           </p>
 
           <div v-if="project.techs && project.techs.length > 0" class="tags-row">
-            <span
-              v-for="tech in project.techs"
-              :key="tech"
-              class="badge"
+            <!-- s7: cada tech abre o menu de nó (onde mais ela aparece), sem o próprio projeto;
+                 sem nada para mostrar, fica só o badge -->
+            <NodeMenu
+              v-for="(tech, index) in project.techs"
+              :id="project.techIds[index]"
+              :key="project.techIds[index]"
+              :exclude="[project.id]"
+              class="tech-trigger"
             >
-              {{ tech }}
-            </span>
+              <template #default="{ open }">
+                <span class="badge" :class="{ 'is-open': open }">{{ tech }}</span>
+              </template>
+            </NodeMenu>
           </div>
 
           <div class="action-buttons">
@@ -214,6 +221,23 @@ watch(
   margin-bottom: var(--spacing-lg);
 }
 
+/* Badge de tech com menu: o gatilho é um <button> (NodeMenu) em volta do badge */
+.tech-trigger {
+  border-radius: var(--radius-full);
+}
+
+.tech-trigger .badge {
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.tech-trigger:hover .badge,
+.tech-trigger .badge.is-open {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--text-on-primary);
+}
+
 .action-buttons {
   display: flex;
   gap: 1rem;
@@ -275,6 +299,16 @@ watch(
   line-height: 1.8;
   color: var(--text-secondary);
   margin-bottom: var(--spacing-2xl);
+}
+
+/* O padding do card já dá o respiro: o primeiro título não soma a margem dele */
+.markdown-content > :deep(:first-child) {
+  margin-top: 0;
+}
+
+/* Largura de leitura: texto em ~75 caracteres por linha; imagens e código usam o card todo */
+.markdown-content > :deep(:where(p, ul, ol, blockquote, h2, h3, h4)) {
+  max-width: 75ch;
 }
 
 .markdown-content :deep(h2) {
