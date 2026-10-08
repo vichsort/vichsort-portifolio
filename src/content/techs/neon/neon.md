@@ -1,8 +1,8 @@
 ---
 source: placeholder
-name: NeonDB
+name: Neon
 aliases:
-  - Neon
+  - NeonDB
 techs:
   - "[[postgresql]]"
 ---

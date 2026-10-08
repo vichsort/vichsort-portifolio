@@ -1,6 +1,6 @@
 ---
 source: placeholder
-name: Raspberry PI
+name: Raspberry Pi
 aliases:
   - Raspberry Pi
 ---

@@ -1,8 +1,8 @@
 ---
 source: placeholder
-name: ExpressJS
+name: Express
 aliases:
-  - Express
+  - ExpressJS
 techs:
   - "[[nodejs]]"
 ---
