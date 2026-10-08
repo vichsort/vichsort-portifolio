@@ -107,6 +107,7 @@ generated: true
 - [[atena]]
 - [[cemiterio]]
 - [[cicc]]
+- [[energin]]
 - [[escutas]]
 - [[faif]]
 - [[next-signage]]
@@ -121,6 +122,7 @@ generated: true
 
 ## researches
 
+- [[feira-energia-limpa-ita]]
 - [[heritage-mapping]]
 - [[microservices-energy]]
 
