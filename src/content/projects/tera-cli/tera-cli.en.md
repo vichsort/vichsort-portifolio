@@ -15,6 +15,10 @@ HAR (traffic) ──────────┤                     ├─→ HT
 URL / Git revision ─────┘                     └─→ Postman v2.1
 ```
 
+### Where it came from
+
+At first, the idea was just a website: **Tera Docs**, a [[vue|Vue]] dashboard for browsing the documentation of the APIs I built, read from OpenAPI JSON files. tera-cli was created to feed that dashboard by generating those files from code. As the CLI grew, it started exporting HTML, serving Swagger UI and Redoc locally and doing everything the site did, and Tera Docs stopped making sense.
+
 ### What it does
 
 It has 17 commands, all built around the same `docs.yaml`:
