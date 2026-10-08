@@ -17,6 +17,7 @@
   --text-3xl: 2rem;      /* 32px */
   --text-4xl: 2.75rem;   /* 44px */
   --text-5xl: 3.75rem;   /* 60px */
+  --text-page-title: clamp(2.5rem, 6vw, 4.5rem); /* título das páginas internas */
 
   /* Spacing Scale */
   --spacing-xs: 0.5rem;
@@ -33,7 +34,6 @@
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 24px;
-  --radius-xl: 32px;
   --radius-full: 9999px;
 
   /* Transitions */
@@ -69,7 +69,6 @@
   --accent-subtle: rgba(93, 29, 231, 0.15);
 
   /* Layered Surfaces */
-  --background: #080711;
   --bg-canvas: #080711;
   --bg-surface-1: #110f22;
   --bg-surface-2: #191632;
@@ -77,19 +76,16 @@
   --bg-glass: rgba(17, 15, 34, 0.7);
 
   /* Legacy Secondary mapping */
-  --secondary: #110f22;
 
   /* Text & Contrast Hierarchy */
   --text: #f8fafc;
   --text-primary: #f8fafc;
   --text-secondary: rgba(248, 250, 252, 0.75);
   --text-muted: rgba(248, 250, 252, 0.45);
-  --icon-color: #f8fafc;
 
   /* Borders & Dividers */
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-medium: rgba(255, 255, 255, 0.15);
-  --border-strong: rgba(255, 255, 255, 0.25);
   --border-accent: rgba(93, 29, 231, 0.4);
 
   /* Shadows */
@@ -145,7 +141,6 @@
   --accent-subtle: rgba(88, 24, 226, 0.08);
 
   /* Layered Surfaces */
-  --background: #f8f9fe;
   --bg-canvas: #f8f9fe;
   --bg-surface-1: #ffffff;
   --bg-surface-2: #f0f2fa;
@@ -153,19 +148,16 @@
   --bg-glass: rgba(255, 255, 255, 0.8);
 
   /* Legacy Secondary mapping */
-  --secondary: #eef0fc;
 
   /* Text & Contrast Hierarchy */
   --text: #0f172a;
   --text-primary: #0f172a;
   --text-secondary: #475569;
   --text-muted: #94a3b8;
-  --icon-color: #0f172a;
 
   /* Borders & Dividers */
   --border-subtle: rgba(15, 23, 42, 0.08);
   --border-medium: rgba(15, 23, 42, 0.15);
-  --border-strong: rgba(15, 23, 42, 0.25);
   --border-accent: rgba(88, 24, 226, 0.3);
 
   /* Shadows */

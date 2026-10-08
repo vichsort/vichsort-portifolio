@@ -95,7 +95,7 @@ const channels = SOCIALS.map(social => ({
 
 .page-title {
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: var(--text-page-title);
   line-height: 1;
   color: var(--text-primary);
   margin-bottom: var(--spacing-xs);
