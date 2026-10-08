@@ -27,4 +27,4 @@ Fiz o projeto sozinho, em dois repositórios: uma API em [[flask|Flask]] e um fr
 
 ### Próximos passos
 
-O Escutas foi um projeto de aprendizado, e aprendi bastante com ele. Hoje estou reescrevendo o sistema do zero, com tudo o que aprendi desde então.
+O Escutas foi um projeto de aprendizado, e aprendi bastante com ele. Hoje estou reescrevendo o sistema do zero, com tudo o que aprendi desde então, agora sobre o [[supabase|Supabase]].

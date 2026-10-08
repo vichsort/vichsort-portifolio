@@ -27,4 +27,4 @@ I built it on my own, in two repositories: a [[flask|Flask]] API and a [[vue|Vue
 
 ### What's next
 
-Escutas was a learning project, and I learned a lot from it. I'm now rewriting it from scratch, with everything I've learned since.
+Escutas was a learning project, and I learned a lot from it. I'm now rewriting it from scratch, with everything I've learned since, this time on [[supabase|Supabase]].
