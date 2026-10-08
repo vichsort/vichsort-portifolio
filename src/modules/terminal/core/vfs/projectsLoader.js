@@ -1,5 +1,5 @@
-import { content } from '../../../../core/content/index.js'
-import { projectView } from '../../../../core/content/projects.js'
+import { content } from '../../../../core/content/index.ts'
+import { projectView } from '../../../../core/content/projects.ts'
 import { plainBody } from './graphNodes.js'
 
 // Campos do projeto expostos no info.json do VFS

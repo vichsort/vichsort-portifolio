@@ -1,5 +1,5 @@
 import { useI18n } from 'vue-i18n'
-import { content } from './index.js'
+import { content } from './index.ts'
 
 /**
  * Acesso ao grafo de conteúdo no idioma ativo.
@@ -21,11 +21,11 @@ export function useContent() {
     asset: content.asset,
     icon: content.icon,
     cover: content.cover,
-    text: (id) => content.text(id, lang()),
-    fallback: (id) => content.fallback(id, lang()),
-    label: (id) => content.label(id, lang()),
-    html: (id) => content.html(id, lang()),
-    backlinks: (id, options = {}) => content.backlinks(id, { lang: lang(), ...options }),
-    outlinks: (id) => content.outlinks(id, { lang: lang() })
+    text: (id: string) => content.text(id, lang()),
+    fallback: (id: string) => content.fallback(id, lang()),
+    label: (id: string) => content.label(id, lang()),
+    html: (id: string) => content.html(id, lang()),
+    backlinks: (id: string, options: { includeCollections?: boolean } = {}) => content.backlinks(id, { lang: lang(), ...options }),
+    outlinks: (id: string) => content.outlinks(id, { lang: lang() })
   }
 }

@@ -7,7 +7,9 @@
  *
  * JavaScript puro, sem depender do grafo carregado: recebe o nó já resolvido.
  */
-const ROUTES = {
+import type { NodeType } from './types.ts'
+
+const ROUTES: Partial<Record<NodeType, (id: string) => string>> = {
   project: (id) => `/projects/${id}`,
   photo: (id) => `/gallery/${id}`,
   research: (id) => `/researches#${id}`,
@@ -16,7 +18,7 @@ const ROUTES = {
 }
 
 /** Listagens que aceitam o filtro ?ref=<id> (ver shared/composables/useRefFilter.js). */
-const LISTINGS = {
+const LISTINGS: Partial<Record<NodeType, string>> = {
   project: '/projects',
   research: '/researches',
   certification: '/certifications'
@@ -25,23 +27,18 @@ const LISTINGS = {
 /**
  * Caminho da página do nó, ou null se o tipo não tem página.
  *
- * @param {{ id: string, type: string }|null} node
- * @returns {string|null}
  */
-export function nodeRoute(node) {
-  const route = node && ROUTES[node.type]
-  return route ? route(node.id) : null
+export function nodeRoute(node: { id: string; type: NodeType } | null | undefined): string | null {
+  const route = node ? ROUTES[node.type] : undefined
+  return node && route ? route(node.id) : null
 }
 
 /**
  * Listagem de um tipo filtrada pelos nós que apontam para refId, ou null se o
  * tipo não tem listagem com esse filtro.
  *
- * @param {string} type
- * @param {string} refId
- * @returns {string|null}
  */
-export function listingRoute(type, refId) {
+export function listingRoute(type: NodeType, refId: string): string | null {
   const path = LISTINGS[type]
   return path ? `${path}?ref=${encodeURIComponent(refId)}` : null
 }

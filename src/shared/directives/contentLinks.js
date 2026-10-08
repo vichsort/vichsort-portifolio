@@ -5,7 +5,7 @@ import { useNodeMenuHost } from '@/shared/composables/useNodeMenuHost'
  * Cliques no HTML gerado do corpo dos nós (v-html):
  * - links internos navegam pelo router, sem recarregar a página, como um router-link
  *   (Ctrl/Cmd/Shift ou botão do meio continuam abrindo em outra aba);
- * - wikilinks de nós sem página (<button data-node>, ver core/content/markdown.js)
+ * - wikilinks de nós sem página (<button data-node>, ver core/content/markdown.ts)
  *   abrem o menu de nó (NodeMenuHost); ↓ também abre.
  *
  * Uso: <section v-content-links v-html="html" />

@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["vite/client", "node"],
+
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
+
+    // O Node roda os .ts do core/content direto (scripts/content.mjs), removendo os tipos:
+    // só sintaxe que pode ser apagada, e imports com a extensão .ts
+    "erasableSyntaxOnly": true,
+    "allowImportingTsExtensions": true,
+
+    // A migração é gradual: .js e .vue sem lang="ts" convivem com o .ts, sem checagem
+    "allowJs": true,
+    "checkJs": false,
+
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.vue", "scripts/**/*.mjs"],
+  "exclude": ["node_modules", "dist"]
+}

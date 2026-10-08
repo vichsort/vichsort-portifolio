@@ -1,6 +1,6 @@
-import { buildGraph } from './graph.js'
-import { validateGraph } from './validate.js'
-import { createQueries } from './queries.js'
+import { buildGraph } from './graph.ts'
+import { validateGraph } from './validate.ts'
+import { createQueries } from './queries.ts'
 
 /**
  * Carrega o vault em src/content/ e monta o grafo uma única vez.
@@ -11,19 +11,19 @@ import { createQueries } from './queries.js'
 const ROOT = '/src/content/'
 
 // Notas na raiz (índice, guia) e pastas com "_" (modelos) não são conteúdo do site
-const markdown = import.meta.glob(['/src/content/**/*.md', '!/src/content/*.md', '!/src/content/_*/**'], {
+const markdown = import.meta.glob<string>(['/src/content/**/*.md', '!/src/content/*.md', '!/src/content/_*/**'], {
   query: '?raw',
   import: 'default',
   eager: true
 })
 
-const files = import.meta.glob(['/src/content/**/*', '!/src/content/**/*.md', '!/src/content/_*/**'], {
+const files = import.meta.glob<string>(['/src/content/**/*', '!/src/content/**/*.md', '!/src/content/_*/**'], {
   query: '?url',
   import: 'default',
   eager: true
 })
 
-const strip = (path) => path.slice(ROOT.length)
+const strip = (path: string) => path.slice(ROOT.length)
 
 export const graph = buildGraph(
   Object.entries(markdown).map(([path, raw]) => ({ path: strip(path), raw })),

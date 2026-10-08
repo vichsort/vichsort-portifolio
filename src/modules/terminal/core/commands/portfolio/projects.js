@@ -1,4 +1,4 @@
-import { projectView, allProjects, featuredProjects } from '@/core/content/projects.js'
+import { projectView, allProjects, featuredProjects } from '@/core/content/projects.ts'
 import { RULE, row } from '../../format.js'
 
 const WIDTH = 13

@@ -1,6 +1,6 @@
 import { version } from 'vue'
 import logo from '@/modules/terminal/ascii/neofetch.txt?raw'
-import { content } from '@/core/content/index.js'
+import { content } from '@/core/content/index.ts'
 import { techUsage } from '@/modules/graph/core/graphData.js'
 
 // Hora em que o site abriu: o "uptime" da máquina

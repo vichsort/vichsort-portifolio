@@ -1,11 +1,27 @@
-import { nodeRoute, listingRoute } from './routes.js'
+import { nodeRoute, listingRoute } from './routes.ts'
+import type { Queries } from './queries.ts'
+import type { ContentNode, NodeType } from './types.ts'
+
+export interface NodeMenuOptions {
+  lang?: string
+  types?: NodeType[]
+  limit?: number
+  exclude?: string[]
+}
+
+export interface NodeMenuGroup {
+  type: NodeType
+  count: number
+  items: Array<{ id: string; label: string; meta: string; to: string | null }>
+  more: string | null
+}
 
 /** Ordem padrão dos grupos do menu de nó. */
-export const NODE_MENU_TYPES = ['project', 'research', 'certification', 'timeline', 'photo', 'tech']
+export const NODE_MENU_TYPES: NodeType[] = ['project', 'research', 'certification', 'timeline', 'photo', 'tech']
 
-const startDate = (node) => String([node.data.date].flat()[0] ?? '')
+const startDate = (node: ContentNode) => String([node.data.date].flat()[0] ?? '')
 
-const byRecent = (a, b) => startDate(b).localeCompare(startDate(a)) || a.id.localeCompare(b.id)
+const byRecent = (a: ContentNode, b: ContentNode) => startDate(b).localeCompare(startDate(a)) || a.id.localeCompare(b.id)
 
 /**
  * Grupos do menu de um nó (n4/n5): quem aponta para ele, por tipo.
@@ -19,18 +35,10 @@ const byRecent = (a, b) => startDate(b).localeCompare(startDate(a)) || a.id.loca
  * Recebe as consultas do grafo em vez de importá-las: assim o próprio queries.js
  * usa esta regra para saber se um wikilink do corpo abre menu (sem import circular).
  *
- * @param {ReturnType<import('./queries.js').createQueries>} queries
- * @param {string} id
- * @param {{ lang?: string, types?: string[], limit?: number, exclude?: string[] }} [options]
- *   exclude: nós que não entram (ex.: o nó em cujo texto o wikilink está)
- * @returns {Array<{
- *   type: string,
- *   count: number,
- *   items: Array<{ id: string, label: string, meta: string, to: string|null }>,
- *   more: string|null
- * }>}
+ * exclude: nós que não entram (ex.: o nó em cujo texto o wikilink está)
  */
-export function buildNodeMenu(queries, id, { lang = 'pt', types = NODE_MENU_TYPES, limit = 6, exclude = [] } = {}) {
+export function buildNodeMenu(queries: Queries, id: string, options: NodeMenuOptions = {}): NodeMenuGroup[] {
+  const { lang = 'pt', types = NODE_MENU_TYPES, limit = 6, exclude = [] } = options
   if (!queries.node(id)) return []
 
   const backlinks = queries.backlinks(id, { lang })

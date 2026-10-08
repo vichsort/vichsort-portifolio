@@ -15,7 +15,7 @@ defineOptions({ inheritAttrs: false })
 
 const props = defineProps({
   id: { type: String, required: true },
-  // Tipos e ordem dos grupos; o padrão é NODE_MENU_TYPES (core/content/nodeMenu.js)
+  // Tipos e ordem dos grupos; o padrão é NODE_MENU_TYPES (core/content/nodeMenu.ts)
   types: { type: Array, default: undefined },
   placement: { type: String, default: 'bottom-start' }
 })

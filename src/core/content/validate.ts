@@ -1,4 +1,5 @@
-import { LANGS, REQUIRED_LANGS, SOURCES, TYPES } from './schema.js'
+import { LANGS, REQUIRED_LANGS, SOURCES, TYPES } from './schema.ts'
+import type { ContentGraph, ContentNode, Issue, Report } from './types.ts'
 
 const DATE = /^\d{4}(-\d{2})?$/
 
@@ -6,14 +7,12 @@ const DATE = /^\d{4}(-\d{2})?$/
  * Regras de conteúdo do GRAPH.md (seção 6) que dependem do grafo já montado.
  * Os erros de leitura e de ligação vêm do próprio buildGraph.
  *
- * @param {ReturnType<import('./graph.js').buildGraph>} graph
- * @returns {Array<{ level: 'error'|'warning', code: string, where: string, message: string }>}
  */
-export function validateGraph(graph) {
-  const issues = []
-  const report = (level, code, where, message) => issues.push({ level, code, where, message })
+export function validateGraph(graph: ContentGraph): Issue[] {
+  const issues: Issue[] = []
+  const report: Report = (level, code, where, message) => issues.push({ level, code, where, message })
 
-  const collected = new Set()
+  const collected = new Set<string>()
   for (const node of graph.nodes.values()) {
     if (node.type !== 'collection') continue
     for (const { items } of node.groups || []) items.forEach((id) => collected.add(id))
@@ -32,13 +31,13 @@ export function validateGraph(graph) {
 
     for (const [field, allowed] of Object.entries(def.enums || {})) {
       const value = node.data[field]
-      if (!isEmpty(value) && !allowed.includes(value)) {
+      if (!isEmpty(value) && !allowed.includes(String(value))) {
         report('error', 'bad-enum', file, `${field}: "${value}" não é um de ${allowed.join(', ')}`)
       }
     }
 
     const { source } = node.data
-    if (!isEmpty(source) && !SOURCES.includes(source)) {
+    if (!isEmpty(source) && !SOURCES.includes(String(source))) {
       report('error', 'bad-enum', file, `source: "${source}" não é um de ${SOURCES.join(', ')}`)
     }
 
@@ -72,15 +71,15 @@ export function validateGraph(graph) {
 
 // Campos opcionais e wikilinks do corpo presentes num idioma e não em outro.
 // Compara o idioma base com cada um dos outros (os opcionais, só se existirem).
-function checkAsymmetry(node, required, report) {
+function checkAsymmetry(node: ContentNode, required: string[], report: Report) {
   const [base] = REQUIRED_LANGS
   const others = LANGS.filter((l) => l !== base && (node.texts[l] || REQUIRED_LANGS.includes(l)))
   for (const other of others) compareTexts(node, base, other, required, report)
 }
 
-function compareTexts(node, a, b, required, report) {
-  const ta = node.texts[a] || {}
-  const tb = node.texts[b] || {}
+function compareTexts(node: ContentNode, a: string, b: string, required: string[], report: Report) {
+  const ta: Record<string, unknown> = node.texts[a] || {}
+  const tb: Record<string, unknown> = node.texts[b] || {}
   const fields = new Set([...Object.keys(ta), ...Object.keys(tb)])
 
   for (const field of fields) {
@@ -103,7 +102,7 @@ function compareTexts(node, a, b, required, report) {
   }
 }
 
-function isEmpty(value) {
+function isEmpty(value: unknown): boolean {
   if (value === undefined || value === null) return true
   if (typeof value === 'string') return value.trim() === ''
   if (Array.isArray(value)) return value.length === 0

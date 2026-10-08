@@ -1,6 +1,6 @@
 import i18n from '../../../../core/i18n/index.js'
 import { EMAIL, SOCIALS } from '../../../../core/config/profile.js'
-import { content } from '../../../../core/content/index.js'
+import { content } from '../../../../core/content/index.ts'
 import { RULE, row } from '../format.js'
 
 /**

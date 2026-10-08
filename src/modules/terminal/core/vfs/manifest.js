@@ -9,8 +9,8 @@ import {
 } from './connectors.js'
 import { getProjectSlugs, loadRawMarkdown, getProjectMetadataJson } from './projectsLoader.js'
 import { GRAPH_DIR_TYPES, getNodeMarkdown } from './graphNodes.js'
-import { content } from '../../../../core/content/index.js'
-import { TYPES } from '../../../../core/content/schema.js'
+import { content } from '../../../../core/content/index.ts'
+import { TYPES } from '../../../../core/content/schema.ts'
 
 // Arquivo com conteúdo gerado no idioma pedido: getContent(locale) => string
 const file = (mime, getContent) => ({ type: VfsNodeType.FILE, mime, getContent })

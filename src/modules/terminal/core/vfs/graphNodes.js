@@ -1,6 +1,6 @@
-import { content } from '../../../../core/content/index.js'
-import { replaceBodyLinks } from '../../../../core/content/links.js'
-import { TYPES } from '../../../../core/content/schema.js'
+import { content } from '../../../../core/content/index.ts'
+import { replaceBodyLinks } from '../../../../core/content/links.ts'
+import { TYPES } from '../../../../core/content/schema.ts'
 import { translator } from './connectors.js'
 
 // Tipos do grafo que viram pastas próprias no VFS, com um <id>.md por nó

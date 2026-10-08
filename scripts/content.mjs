@@ -11,9 +11,9 @@ import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { buildGraph } from '../src/core/content/graph.js'
-import { validateGraph } from '../src/core/content/validate.js'
-import { LANGS, REQUIRED_LANGS, TYPES, TYPE_BY_FOLDER } from '../src/core/content/schema.js'
+import { buildGraph } from '../src/core/content/graph.ts'
+import { validateGraph } from '../src/core/content/validate.ts'
+import { LANGS, REQUIRED_LANGS, TYPES, TYPE_BY_FOLDER } from '../src/core/content/schema.ts'
 
 const ROOT = fileURLToPath(new URL('../src/content/', import.meta.url))
 const INDEX = join(ROOT, 'index.md')

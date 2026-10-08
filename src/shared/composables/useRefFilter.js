@@ -4,7 +4,7 @@ import { useContent } from '@/core/content/useContent'
 
 /**
  * Filtro ?ref=<id> das listagens: só os itens que apontam para esse nó.
- * É o destino do "Ver todos" do menu de nó (core/content/nodeMenu.js) e usa
+ * É o destino do "Ver todos" do menu de nó (core/content/nodeMenu.ts) e usa
  * os mesmos backlinks, então a listagem mostra exatamente o que o menu contou.
  *
  * Uso: useListingFilters(items, { ..., predicates: [refFilter.matches] })

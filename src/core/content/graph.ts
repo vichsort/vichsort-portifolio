@@ -1,6 +1,21 @@
 import frontMatter from 'front-matter'
-import { LANGS, TYPES, TYPE_BY_FOLDER, LINK_FIELDS } from './schema.js'
-import { parseLink, parseLinkList, extractBodyLinks } from './links.js'
+import { LANGS, TYPES, TYPE_BY_FOLDER, LINK_FIELDS } from './schema.ts'
+import { parseLink, parseLinkList, extractBodyLinks } from './links.ts'
+import type { CollectionGroup, ContentGraph, ContentNode, Edge, Issue, NodeText, NodeType, Report } from './types.ts'
+
+interface ParsedFile {
+  attributes: Record<string, unknown>
+  body: string
+}
+
+interface FolderEntry {
+  type: NodeType
+  id: string
+  structure: ParsedFile | null
+  texts: Record<string, ParsedFile>
+}
+
+type Link = (node: ContentNode, field: string, target: string, expectedType: NodeType | '*' | undefined, lang?: string | null) => string | null
 
 /**
  * Monta o grafo de conteúdo a partir dos arquivos do vault.
@@ -8,17 +23,15 @@ import { parseLink, parseLinkList, extractBodyLinks } from './links.js'
  * Não depende do Vite: recebe os arquivos já lidos, para ser usado tanto
  * pelo site (import.meta.glob) quanto pelo script de validação (fs).
  *
- * @param {Array<{ path: string, raw: string }>} files
- *   Markdown, com caminho relativo a src/content (ex.: 'techs/python/python.md').
- * @param {Array<{ path: string, url: string }>} [assets]
- *   Demais arquivos das pastas dos nós (ícones, capas, imagens).
+ * @param files Markdown, com caminho relativo a src/content (ex.: 'techs/python/python.md').
+ * @param assets Demais arquivos das pastas dos nós (ícones, capas, imagens).
  */
-export function buildGraph(files, assets = []) {
-  const issues = []
-  const report = (level, code, where, message) => issues.push({ level, code, where, message })
+export function buildGraph(files: Array<{ path: string; raw: string }>, assets: Array<{ path: string; url: string }> = []): ContentGraph {
+  const issues: Issue[] = []
+  const report: Report = (level, code, where, message) => issues.push({ level, code, where, message })
 
-  const nodes = new Map()
-  const folders = new Map() // 'techs/python' → { type, id, structure, texts }
+  const nodes = new Map<string, ContentNode>()
+  const folders = new Map<string, FolderEntry>() // 'techs/python' → { type, id, structure, texts }
 
   // 1. Agrupa os arquivos por pasta de nó
   for (const { path, raw } of files) {
@@ -39,8 +52,11 @@ export function buildGraph(files, assets = []) {
     }
 
     const key = `${folder}/${id}`
-    if (!folders.has(key)) folders.set(key, { type, id, structure: null, texts: {} })
-    const entry = folders.get(key)
+    let entry = folders.get(key)
+    if (!entry) {
+      entry = { type, id, structure: null, texts: {} }
+      folders.set(key, entry)
+    }
 
     const parsed = parseFrontMatter(raw, path, report)
     if (!parsed) continue
@@ -72,7 +88,7 @@ export function buildGraph(files, assets = []) {
     }
 
     const { aliases, ...data } = entry.structure.attributes
-    const texts = {}
+    const texts: Record<string, NodeText> = {}
     for (const [lang, { attributes, body }] of Object.entries(entry.texts)) {
       texts[lang] = { ...attributes, body }
     }
@@ -100,7 +116,7 @@ export function buildGraph(files, assets = []) {
   }
 
   // 4. Resolve as ligações
-  const lookup = new Map()
+  const lookup = new Map<string, string>()
   for (const node of nodes.values()) {
     lookup.set(node.id.toLowerCase(), node.id)
   }
@@ -116,16 +132,16 @@ export function buildGraph(files, assets = []) {
     }
   }
 
-  const resolve = (target) => lookup.get(String(target).toLowerCase()) || null
-  const edges = []
+  const resolve = (target: unknown): string | null => lookup.get(String(target).toLowerCase()) || null
+  const edges: Edge[] = []
 
-  const link = (node, field, target, expectedType, lang = null) => {
+  const link: Link = (node, field, target, expectedType, lang = null) => {
     const id = resolve(target)
     if (!id) {
       report('error', 'broken-link', where(node, lang), `[[${target}]] (${field}) não existe`)
       return null
     }
-    const targetType = nodes.get(id).type
+    const targetType = nodes.get(id)!.type
     if (expectedType && expectedType !== '*' && targetType !== expectedType) {
       report('error', 'wrong-link-type', where(node, lang), `[[${target}]] em "${field}" é ${targetType}, esperado ${expectedType}`)
       return null
@@ -162,45 +178,52 @@ export function buildGraph(files, assets = []) {
   }
 
   // 5. Backlinks
-  const backlinks = new Map()
+  const backlinks = new Map<string, Edge[]>()
   for (const edge of edges) {
-    if (!backlinks.has(edge.to)) backlinks.set(edge.to, [])
-    backlinks.get(edge.to).push(edge)
+    let list = backlinks.get(edge.to)
+    if (!list) {
+      list = []
+      backlinks.set(edge.to, list)
+    }
+    list.push(edge)
   }
 
   return { nodes, edges, backlinks, resolve, issues }
 }
 
-function parseFrontMatter(raw, path, report) {
+function parseFrontMatter(raw: string, path: string, report: Report): ParsedFile | null {
   try {
-    const { attributes, body } = frontMatter(raw || '')
+    const { attributes, body } = frontMatter<Record<string, unknown>>(raw || '')
     return { attributes: attributes || {}, body: body || '' }
   } catch (e) {
-    report('error', 'bad-yaml', path, `frontmatter inválido: ${e.message}`)
+    report('error', 'bad-yaml', path, `frontmatter inválido: ${e instanceof Error ? e.message : String(e)}`)
     return null
   }
 }
 
-function parseAliases(value) {
+function parseAliases(value: unknown): string[] {
   if (!value) return []
   return (Array.isArray(value) ? value : [value]).map((a) => String(a).trim()).filter(Boolean)
 }
+
+const isGroupEntry = (entry: unknown): entry is { group?: unknown; items?: unknown } =>
+  Boolean(entry) && typeof entry === 'object' && !Array.isArray(entry)
 
 /**
  * Coleções aceitam uma lista de links ou uma lista de grupos
  * ({ group: "[[id]]", items: [...] }). Sempre devolve grupos;
  * uma lista simples vira um único grupo sem nó.
  */
-function resolveItems(node, value, link, report) {
-  const list = Array.isArray(value) ? value : []
-  const isGrouped = list.some((entry) => entry && typeof entry === 'object' && !Array.isArray(entry))
+function resolveItems(node: ContentNode, value: unknown, link: Link, report: Report): CollectionGroup[] {
+  const list: unknown[] = Array.isArray(value) ? value : []
+  const isGrouped = list.some(isGroupEntry)
 
   if (!isGrouped) {
     return [{ group: null, items: unique(parseLinkList(list).map((t) => link(node, 'items', t, '*'))) }]
   }
 
   return list.map((entry, i) => {
-    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) {
+    if (!isGroupEntry(entry)) {
       report('error', 'bad-collection', node.path, `item ${i + 1}: misture de grupos e links soltos`)
       return { group: null, items: [] }
     }
@@ -212,10 +235,10 @@ function resolveItems(node, value, link, report) {
   })
 }
 
-function where(node, lang) {
+function where(node: ContentNode, lang: string | null | undefined): string {
   return lang ? `${node.path}/${node.id}.${lang}.md` : `${node.path}/${node.id}.md`
 }
 
-function unique(ids) {
-  return [...new Set(ids.filter(Boolean))]
+function unique(ids: Array<string | null>): string[] {
+  return [...new Set(ids.filter((id): id is string => Boolean(id)))]
 }

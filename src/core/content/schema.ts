@@ -11,13 +11,14 @@
  */
 
 import { LANGS, REQUIRED_LANGS } from '../i18n/languages.js'
+import type { NodeType, TypeDef } from './types.ts'
 
 export { LANGS, REQUIRED_LANGS }
 
-const CONCEPT_LINKS = { techs: 'tech', topics: 'topic' }
-const CONTENT_LINKS = { techs: 'tech', topics: 'topic', roles: 'role' }
+const CONCEPT_LINKS: Record<string, NodeType> = { techs: 'tech', topics: 'topic' }
+const CONTENT_LINKS: Record<string, NodeType> = { techs: 'tech', topics: 'topic', roles: 'role' }
 
-export const TYPES = {
+export const TYPES: Record<NodeType, TypeDef> = {
   tech: {
     folder: 'techs',
     required: ['name'],
@@ -85,12 +86,12 @@ export const TYPES = {
 
 // Origem do conteúdo de um nó (campo `source`, opcional em qualquer tipo).
 // placeholder: texto provisório; auto-generated: gerado por IA a partir do GitHub.
-export const SOURCES = ['placeholder', 'auto-generated']
+export const SOURCES: string[] = ['placeholder', 'auto-generated']
 
-export const TYPE_BY_FOLDER = Object.fromEntries(
-  Object.entries(TYPES).map(([type, def]) => [def.folder, type])
+export const TYPE_BY_FOLDER: Record<string, NodeType> = Object.fromEntries(
+  Object.entries(TYPES).map(([type, def]) => [def.folder, type as NodeType])
 )
 
 // Todo campo que, em qualquer tipo, carrega ligações. Usado para acusar
 // ligações em tipos que não as aceitam.
-export const LINK_FIELDS = ['techs', 'topics', 'roles', 'category', 'link', 'items']
+export const LINK_FIELDS: string[] = ['techs', 'topics', 'roles', 'category', 'link', 'items']
