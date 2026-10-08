@@ -108,6 +108,7 @@ generated: true
 ## projects
 
 - [[atena]]
+- [[bratz]]
 - [[cemiterio]]
 - [[cicc]]
 - [[criptografy]]
