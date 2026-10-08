@@ -116,6 +116,7 @@ generated: true
 - [[energin]]
 - [[escutas]]
 - [[faif]]
+- [[gnx]]
 - [[hotel]]
 - [[iarte]]
 - [[lago-azul]]
