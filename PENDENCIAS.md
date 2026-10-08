@@ -1,6 +1,6 @@
 # Pendências — vichsort-portifolio
 
-Lista do que falta na interface tradicional. Revisada em 2026-10-07 contra o código.
+Lista do que falta na interface tradicional. Revisada em 2026-10-08 contra o código.
 
 ---
 
@@ -9,6 +9,8 @@ Lista do que falta na interface tradicional. Revisada em 2026-10-07 contra o có
 | # | Pendência | Arquivos | A decidir |
 | :--- | :--- | :--- | :--- |
 | **`n7`** | **Redesenhar a tela de contato** | `ContactView.vue` | Alinhar à identidade do hero e do footer |
+| **`n15`** | **Números da home vindos do grafo** | `LeadsSection.vue` | Hoje são fixos no componente e já divergem: "20 projetos publicados" com 18 no grafo; "3 anos", "5 premiações" e "12" também à mão. Contar do grafo (projetos, pesquisas com prêmio, primeiro projeto/timeline) |
+| **`n16`** | **Esconder placeholders em produção** | `core/content/` (consultas) | Certificações, timeline, galeria e techs com `source: placeholder` aparecem no site como se fossem reais (a certificação AWS, por exemplo). Em produção, filtrar esses nós; no dev, continuar mostrando. Resolver antes de divulgar o link, junto do `c1` |
 | **`n8`** | **Modal de certificação** | `CertificationsView.vue`, novo `CertificationModal.vue` | Decidido: vai ter. Mostra o que foi estudado (conteúdo, carga horária, techs) e a imagem da credencial sem obrigar a baixar nada. Fazer quando os certificados reais entrarem (`c3`) |
 
 ## Terminal
@@ -26,6 +28,15 @@ Planejamento original em `terminal.md` (raiz, fora do git). A lista abaixo é o 
 | # | Pendência | Observação |
 | :--- | :--- | :--- |
 | **`a5`** | **Revisar as traduções es/it** da interface | Feitas por IA a partir do pt; conferir tom e termos, principalmente nos textos do Sobre e dos depoimentos |
+| **`a10`** | **ARCHITECTURE.md como guia de construção** | Hoje mistura mapa de pastas com explicação e deixa liberdade demais. Reescrever como as leis do sistema, curto e normativo: o que **deve** e o que **nunca** se faz; camadas e quem importa quem (`core` não importa `shared`/`modules`; `shared` não importa `modules`; módulo não importa módulo, exceções registradas); onde cada coisa mora; receitas de construção (página, módulo, componente, tipo de nó, idioma, comando do terminal); definição de pronto (`check:content`, `typecheck`, `build`, PENDENCIAS, formato do commit). Não explica o funcionamento: aponta para o README da pasta (`a11`). Regra que dá para checar vira script: `npm run check` falha com cor fixa, `aria-label`/`title`/`alt` escrito à mão, import entre módulos fora da lista, `height` fixo em `px` com texto |
+| **`a11`** | **README por pasta** | O guia que conversa, no tom do Beta (Atena): o que a pasta é, como funciona, por quê, armadilhas e como estender. Existem só `about`, `graph`, `projects` e `researches` (o GRAPH.md da raiz é, na prática, o do `core/content`). Faltam: `core/i18n`, `core/router`, `core/styles`, `core/config`; `shared/ascii`, `shared/components/ui/menu`, `shared/components/node`, `shared/composables`; os módulos `home`, `gallery`, `certifications`, `contact`, `testimonials` e `terminal` (com `parser`, `dispatcher`, `vfs` e `commands`); e `scripts/`. Esperando um README do Beta como modelo de tom e estrutura |
+| **`a12`** | **Testes** | Não há nenhum. Vitest no que é lógica pura: `core/content` (montagem do grafo, validação, consultas, fallback de idioma, menu de nó) e o núcleo do terminal (lexer, pipes e `&&`, dispatcher, completion, histórico, VFS). Uma dúzia de testes já dá segurança para o refactor do `a13` e é sinal de qualidade para quem avalia o código. Rodar no `npm run check` (`a10`) |
+| **`a13`** | **Bundle principal menor** | O arquivo que toda página baixa tem 702kB (239kB comprimido): bibliotecas (~350kB), **todo o conteúdo do vault em pt e en** (~143kB de Markdown, inclusive o texto completo dos 18 projetos para quem só abre a home) e **os dicionários de interface dos 4 idiomas** (~96kB; o do terminal é o maior). Cresce com cada projeto novo e dobra a parte de conteúdo quando es/it entrarem. Em ordem de impacto: (1) separar estrutura de texto no grafo, com a estrutura (~16kB) carregando junto e o texto de cada nó só quando alguém abre o nó (a API de texto do `core/content` fica assíncrona); (2) carregar só o idioma ativo, de dicionários e conteúdo; (3) bibliotecas num arquivo à parte, para o navegador guardar entre deploys. (1) + (2) devem cortar ~40% do arquivo principal. Depois do `a11` e do `a12` |
+| **`a14`** | **Uma fonte só para as rotas** | O `scripts/meta.mjs` repete os títulos e as páginas do router. Uma tabela de rotas em JavaScript puro (caminho, `titleKey`, descrição, se tem prévia), lida pelo router, pelo `meta.mjs` e pela navbar |
+| **`a15`** | **README do repositório** | Ainda é o do template do Vite. Dizer o que o site é, print, stack, como rodar, como publicar e apontar para ARCHITECTURE, DESIGN e GRAPH |
+| **`a16`** | **Tamanhos de fonte fora da escala** | `0.8125rem` (navbar, menu de contexto), `0.6875rem` (menu), `0.78rem` (banner do terminal), `0.92em`. Criar um `--text-2xs` ou encaixar na escala |
+
+Ordem combinada: `a10` (com o `npm run check`), `a11`, `a12`, `a13`.
 
 O `a5` fica para depois da reescrita do Sobre com os dados reais (`c3`), para não revisar texto que vai sair.
 
@@ -42,6 +53,7 @@ Ideias ainda não decididas. Viram pendência quando forem aprovadas.
 | **`s3`** | **Atividade do GitHub no build** | Script puxa linguagens e commits por mês para um JSON; heatmap de atividade. Depende da API e de um token |
 | **`s4`** | **Gráficos a partir de CSV no nó** | `data.csv` na pasta do projeto ou da pesquisa, desenhado na página. Para quando houver análises de dados reais |
 | **`s5`** | **Revisar as ligações de data science** | O cargo `data-science` está em só 2 dos 18 projetos (Lago Azul e Prisma); pytorch, databricks, qgis, postgis, leaflet e openstreetmap existem como nós, mas nenhum projeto aponta para eles; o PlantE é computer-vision sem tech de ML. Como os gráficos saem dos dados, sem isso eles contam a história de um dev web |
+| **`s11`** | **Hero da capa padrão por idioma** | A imagem padrão (`og-default.jpg`) é o hero em inglês: no site em pt, os projetos sem capa mostram "Hello! My name is". Gerar uma por idioma, ou uma sem texto |
 
 ## Conteúdo real
 
