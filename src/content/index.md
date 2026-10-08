@@ -74,6 +74,7 @@ generated: true
 - [[distributed-systems]]
 - [[domain-driven-design]]
 - [[edge-computing]]
+- [[edtech]]
 - [[frontend-architecture]]
 - [[gis]]
 - [[open-data]]
@@ -103,6 +104,7 @@ generated: true
 
 ## projects
 
+- [[atena]]
 - [[cemiterio]]
 - [[cicc]]
 - [[faif]]
