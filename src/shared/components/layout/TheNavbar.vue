@@ -1,13 +1,13 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
-import { useScrollLock, onKeyStroke } from '@vueuse/core'
+import { useScrollLock, onKeyStroke, useElementSize } from '@vueuse/core'
 import { useSmartScroll } from '@/shared/composables/useSmartScroll'
 import { useSettings } from '@/shared/composables/useSettings'
 import { useHeroPresence } from '@/shared/composables/useHeroPresence'
 import { useI18n } from 'vue-i18n'
-import { Github, Linkedin, Settings, Menu, X } from 'lucide-vue-next'
-import { NAV_ITEMS, getSocial } from '@/core/config/profile'
+import { Github, Linkedin, Settings, Menu, X, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+import { NAV_ITEMS, NAV_MORE_ITEMS, getSocial } from '@/core/config/profile'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -17,7 +17,7 @@ const { isHeroActive } = useHeroPresence()
 
 const isMobileNavOpen = ref(false)
 
-const menuItems = NAV_ITEMS
+const mobileItems = [...NAV_ITEMS, ...NAV_MORE_ITEMS]
 const githubUrl = getSocial('github').url
 const linkedinUrl = getSocial('linkedin').url
 
@@ -29,15 +29,42 @@ const closeMobileNav = () => {
   isMobileNavOpen.value = false
 }
 
+// Pílula do desktop em duas páginas: as abas principais e as demais (NAV_MORE_ITEMS).
+// A seta troca de página e muda de lado; a pílula anima a largura entre as duas,
+// centralizada. A página fora de vista fica absoluta e inerte, mas continua medida.
+const navPages = [NAV_ITEMS, NAV_MORE_ITEMS]
+// Aba ativa por prefixo: /projects/<id> marca Projetos (as rotas de detalhe são irmãs, não filhas)
+const isUnder = (path, base) => path === base || (base !== '/' && path.startsWith(`${base}/`))
+const isActive = (item) => isUnder(route.path, item.path)
+const isMorePath = (path) => NAV_MORE_ITEMS.some((item) => isUnder(path, item.path))
+const navPage = ref(isMorePath(route.path) ? 1 : 0)
+
+const pageEls = [ref(null), ref(null)]
+const pageSizes = pageEls.map((el) => useElementSize(el, undefined, { box: 'border-box' }))
+
+// Sem medida ainda, a pílula fica com a largura natural da página em vista
+const pillStyle = computed(() => {
+  const width = pageSizes[navPage.value].width.value
+  return width ? { width: `${width}px` } : {}
+})
+
+// A seta some com a página: o foco passa para a seta da outra
+const showNavPage = async (page) => {
+  navPage.value = page
+  await nextTick()
+  pageEls[page].value?.querySelector('.nav-pill-arrow')?.focus()
+}
+
 // Lock background scroll when mobile menu is open
 const isLocked = useScrollLock(typeof document !== 'undefined' ? document.body : null)
 watch(isMobileNavOpen, (open) => {
   isLocked.value = open
 })
 
-// Auto close on route change
-watch(() => route.path, () => {
+// Auto close on route change; a pílula vai para a página da rota ativa
+watch(() => route.path, (path) => {
   closeMobileNav()
+  navPage.value = isMorePath(path) ? 1 : 0
 })
 
 // Close with Escape key
@@ -90,14 +117,45 @@ onKeyStroke('Escape', (e) => {
       </div>
 
       <!-- Center: Apple-style Desktop Nav Pill -->
-      <nav class="desktop-nav" aria-label="Navegação Principal">
-        <ul class="nav-pill-list">
-          <li v-for="item in menuItems" :key="item.path">
-            <router-link :to="item.path" class="nav-pill-link">
-              {{ t(item.labelKey) }}
-            </router-link>
-          </li>
-        </ul>
+      <nav class="desktop-nav" :aria-label="t('nav.main_label')">
+        <div class="nav-pill" :style="pillStyle">
+          <ul
+            v-for="(items, page) in navPages"
+            :key="page"
+            :ref="(el) => (pageEls[page].value = el)"
+            class="nav-pill-list"
+            :class="{ 'is-away': page !== navPage }"
+            :inert="page !== navPage"
+          >
+            <li v-if="page === 1" class="nav-pill-arrow-item">
+              <button
+                type="button"
+                class="nav-pill-arrow"
+                :aria-label="t('nav.back')"
+                :title="t('nav.back')"
+                @click="showNavPage(0)"
+              >
+                <ChevronLeft :size="16" />
+              </button>
+            </li>
+            <li v-for="item in items" :key="item.path">
+              <router-link :to="item.path" class="nav-pill-link" :class="{ 'is-active': isActive(item) }">
+                {{ t(item.labelKey) }}
+              </router-link>
+            </li>
+            <li v-if="page === 0" class="nav-pill-arrow-item">
+              <button
+                type="button"
+                class="nav-pill-arrow"
+                :aria-label="t('nav.more')"
+                :title="t('nav.more')"
+                @click="showNavPage(1)"
+              >
+                <ChevronRight :size="16" />
+              </button>
+            </li>
+          </ul>
+        </div>
       </nav>
 
       <!-- Right: Settings & Mobile Toggle -->
@@ -132,10 +190,11 @@ onKeyStroke('Escape', (e) => {
       >
         <div class="mobile-menu-card">
           <ul class="mobile-nav-list">
-            <li v-for="item in menuItems" :key="item.path">
+            <li v-for="item in mobileItems" :key="item.path">
               <router-link
                 :to="item.path"
                 class="mobile-nav-link"
+                :class="{ 'is-active': isActive(item) }"
                 @click="closeMobileNav"
               >
                 <span>{{ t(item.labelKey) }}</span>
@@ -254,15 +313,59 @@ onKeyStroke('Escape', (e) => {
   align-items: center;
 }
 
-.nav-pill-list {
+.nav-pill {
+  position: relative;
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 0.25rem;
+  /* width (inline) é a da página em vista; o padding fica por fora */
+  box-sizing: content-box;
   padding: 0.3rem 0.4rem;
   background-color: var(--bg-surface-2);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-full);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: width 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* max-content: a medida é a mesma dentro ou fora do fluxo */
+.nav-pill-list {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: max-content;
+  flex-shrink: 0;
+  transition: opacity 0.25s ease 0.12s, visibility 0s;
+}
+
+.nav-pill-list.is-away {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease, visibility 0s 0.15s;
+}
+
+.nav-pill-arrow-item {
+  display: flex;
+}
+
+.nav-pill-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-block: -0.4rem;
+  padding: 0.4rem 0.45rem;
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.nav-pill-arrow:hover {
+  color: var(--text-primary);
+  background-color: var(--primary-subtle);
 }
 
 .nav-pill-link {
@@ -285,7 +388,7 @@ onKeyStroke('Escape', (e) => {
   background-color: var(--primary-subtle);
 }
 
-.nav-pill-link.router-link-active {
+.nav-pill-link.is-active {
   color: var(--text-on-primary);
   background-color: var(--primary);
   box-shadow: 0 2px 10px var(--primary-glow);
@@ -297,14 +400,14 @@ onKeyStroke('Escape', (e) => {
    A cor fica num ::before para o fade de entrada/saída do hero ser suave
    sem disputar com a animação.
    -------------------------------------------------------------------------- */
-.nav-pill-link.router-link-active,
-.mobile-nav-link.router-link-active {
+.nav-pill-link.is-active,
+.mobile-nav-link.is-active {
   position: relative;
   isolation: isolate;
 }
 
-.nav-pill-link.router-link-active::before,
-.mobile-nav-link.router-link-active::before {
+.nav-pill-link.is-active::before,
+.mobile-nav-link.is-active::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -316,14 +419,14 @@ onKeyStroke('Escape', (e) => {
   animation: hero-pill-cycle 6s ease-in-out infinite;
 }
 
-.on-hero .nav-pill-link.router-link-active,
-.on-hero .mobile-nav-link.router-link-active {
+.on-hero .nav-pill-link.is-active,
+.on-hero .mobile-nav-link.is-active {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
   animation: hero-pill-glow 6s ease-in-out infinite;
 }
 
-.on-hero .nav-pill-link.router-link-active::before,
-.on-hero .mobile-nav-link.router-link-active::before {
+.on-hero .nav-pill-link.is-active::before,
+.on-hero .mobile-nav-link.is-active::before {
   opacity: 1;
 }
 
@@ -341,10 +444,10 @@ onKeyStroke('Escape', (e) => {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-pill-link.router-link-active::before,
-  .mobile-nav-link.router-link-active::before,
-  .on-hero .nav-pill-link.router-link-active,
-  .on-hero .mobile-nav-link.router-link-active {
+  .nav-pill-link.is-active::before,
+  .mobile-nav-link.is-active::before,
+  .on-hero .nav-pill-link.is-active,
+  .on-hero .mobile-nav-link.is-active {
     animation: none;
   }
 }
@@ -436,7 +539,7 @@ onKeyStroke('Escape', (e) => {
   padding-left: 1.25rem;
 }
 
-.mobile-nav-link.router-link-active {
+.mobile-nav-link.is-active {
   color: var(--text-on-primary);
   background-color: var(--primary);
 }

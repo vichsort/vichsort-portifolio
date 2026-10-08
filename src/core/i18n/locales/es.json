@@ -5,7 +5,13 @@
     "projects": "Proyectos",
     "researches": "Investigaciones",
     "certifications": "Certificaciones",
-    "contact": "Contacto"
+    "contact": "Contacto",
+    "gallery": "Galería",
+    "graph": "Grafo",
+    "terminal": "Terminal",
+    "more": "Más páginas",
+    "back": "Volver a las páginas principales",
+    "main_label": "Navegación principal"
   },
   "settings": {
     "close_menu": "Cerrar menú",

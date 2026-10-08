@@ -26,4 +26,11 @@ export const NAV_ITEMS = [
   { labelKey: 'nav.contact', path: '/contact' }
 ]
 
+/** Páginas fora da pílula principal da navbar: aparecem pela seta (desktop) e no fim do menu mobile. */
+export const NAV_MORE_ITEMS = [
+  { labelKey: 'nav.gallery', path: '/gallery' },
+  { labelKey: 'nav.graph', path: '/graph' },
+  { labelKey: 'nav.terminal', path: '/terminal' }
+]
+
 export const getSocial = id => SOCIALS.find(social => social.id === id)
