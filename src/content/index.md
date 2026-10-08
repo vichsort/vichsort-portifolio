@@ -134,9 +134,15 @@ generated: true
 
 ## researches
 
+- [[compreensao-politica]]
+- [[eyetracking-programacao]]
 - [[feira-energia-limpa-ita]]
 - [[heritage-mapping]]
+- [[iarte-fecitac]]
 - [[microservices-energy]]
+- [[sinalizacao-digital]]
+- [[sinalizacao-latinoware]]
+- [[tokamak]]
 
 ## timeline
 

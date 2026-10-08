@@ -7,12 +7,12 @@ summary: Plataforma brasileira de sinalização digital que cadastra players em 
 
 O **Next Signage** é uma plataforma de sinalização digital, aquelas telas de avisos e mídia espalhadas por corredores, recepções e lojas. Cada tela é ligada a um player de baixo custo feito com [[raspberry-pi|Raspberry Pi]]. Num painel web, o administrador cadastra os players, monta playlists de imagens e vídeos e decide o que cada tela exibe e por quanto tempo.
 
-O projeto nasceu num grupo de colegas do Instituto Federal Catarinense e chegou a ser apresentado na **Latinoware 2025**, o congresso latino-americano de software livre e tecnologias abertas.
+O projeto nasceu num grupo de colegas do Instituto Federal Catarinense e virou pesquisa: foi apresentado na [[sinalizacao-digital|XV Mostra de Iniciação Científica]] do campus e publicado como artigo nos anais da **Latinoware 2025**, o congresso latino-americano de software livre e tecnologias abertas ([[sinalizacao-latinoware|leia o artigo]]).
 
 ### Como funciona
 
 - **Painel administrativo.** Cadastro e login de administradores, com confirmação por e-mail e recuperação de senha. Pelo painel se cadastram players, se envia mídia e se criam playlists, com tempo de exibição por item e reordenação por arrastar e soltar.
-- **Players.** Cada Raspberry Pi roda uma página de player em tela cheia, em [[linux|Linux]], que busca a playlist associada a ele e passa as mídias em sequência.
+- **Players.** Cada Raspberry Pi roda, em [[linux|Linux]], um cliente em [[python|Python]] que busca a playlist associada a ele e passa as mídias em sequência, em tela cheia.
 - **Envio de playlists.** Um módulo à parte cuida de levar os arquivos do servidor até o player e de manter as duas pontas sincronizadas.
 
 ### Arquitetura

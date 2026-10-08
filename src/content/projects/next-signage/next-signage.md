@@ -5,6 +5,7 @@ date: [2025-08, 2026-07]
 techs:
   - "[[php]]"
   - "[[mysql]]"
+  - "[[python]]"
   - "[[javascript]]"
   - "[[raspberry-pi]]"
   - "[[linux]]"
