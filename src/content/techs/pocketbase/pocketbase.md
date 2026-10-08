@@ -1,4 +1,0 @@
----
-source: placeholder
-name: Pocketbase
----

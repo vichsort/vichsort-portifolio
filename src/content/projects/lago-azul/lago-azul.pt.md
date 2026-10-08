@@ -22,4 +22,4 @@ O **Lago Azul** junta o histórico de chuva de Santa Catarina num só lugar e te
 
 ### Próximos passos
 
-O projeto está sendo reescrito sobre a plataforma Databricks, levando a ingestão e a modelagem para uma arquitetura de dados de verdade.
+O projeto está sendo reescrito sobre a plataforma [[databricks|Databricks]], levando a ingestão e a modelagem para uma arquitetura de dados de verdade.

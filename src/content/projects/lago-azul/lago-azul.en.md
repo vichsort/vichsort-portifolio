@@ -22,4 +22,4 @@ summary: A rainfall analysis and forecasting dashboard for Santa Catarina, Brazi
 
 ### What's next
 
-The project is being rewritten on the Databricks platform, moving ingestion and modeling onto a proper data architecture.
+The project is being rewritten on the [[databricks|Databricks]] platform, moving ingestion and modeling onto a proper data architecture.
