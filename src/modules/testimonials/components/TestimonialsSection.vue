@@ -115,7 +115,10 @@ const scrollRight = () => {
   display: flex;
   gap: var(--spacing-lg);
   overflow-x: auto;
-  padding: 0 var(--spacing-xl) 1rem var(--spacing-xl);
+  /* Respiro para a subida e a sombra do card no hover: com overflow-x: auto o
+     eixo y também recorta. A margem negativa devolve o espaço ao layout. */
+  padding: 1.5rem var(--spacing-xl) 3rem var(--spacing-xl);
+  margin: -1.5rem 0 -2rem;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   scrollbar-width: none;
@@ -143,7 +146,7 @@ const scrollRight = () => {
   }
 
   .carousel-track {
-    padding: 0 var(--spacing-md) 1rem var(--spacing-md);
+    padding: 1.5rem var(--spacing-md) 3rem var(--spacing-md);
   }
 }
 </style>
