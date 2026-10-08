@@ -88,7 +88,7 @@ onKeyStroke('Escape', (e) => {
     <div class="navbar-container">
       <!-- Left: Brand Logo & Socials -->
       <div class="brand-group">
-        <router-link to="/" class="brand-logo" aria-label="Página Inicial">
+        <router-link to="/" class="brand-logo" :aria-label="t('nav.home')">
           <span class="brand-text">VITOR</span>
           <span class="brand-dot">.</span>
         </router-link>
@@ -163,8 +163,8 @@ onKeyStroke('Escape', (e) => {
         <button
           @click="toggleSidebar"
           class="icon-btn settings-btn"
-          aria-label="Configurações e Acessibilidade"
-          title="Configurações"
+          :aria-label="t('nav.settings')"
+          :title="t('nav.settings')"
         >
           <Settings :size="19" />
         </button>
@@ -172,7 +172,7 @@ onKeyStroke('Escape', (e) => {
         <button
           @click="toggleMobileNav"
           class="icon-btn mobile-toggle-btn"
-          :aria-label="isMobileNavOpen ? 'Fechar menu' : 'Abrir menu de navegação'"
+          :aria-label="isMobileNavOpen ? t('nav.close_menu') : t('nav.open_menu')"
           :aria-expanded="isMobileNavOpen"
         >
           <X v-if="isMobileNavOpen" :size="22" />

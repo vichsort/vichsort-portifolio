@@ -11,7 +11,10 @@
     "terminal": "Terminal",
     "more": "Mais páginas",
     "back": "Voltar às páginas principais",
-    "main_label": "Navegação principal"
+    "main_label": "Navegação principal",
+    "settings": "Configurações e acessibilidade",
+    "open_menu": "Abrir menu de navegação",
+    "close_menu": "Fechar menu"
   },
   "settings": {
     "close_menu": "Fechar Menu",
@@ -26,7 +29,9 @@
       "font_size": "Tamanho da Fonte",
       "animations": "Animações",
       "on": "LIGADO",
-      "off": "DESLIGADO"
+      "off": "DESLIGADO",
+      "font_decrease": "Diminuir fonte",
+      "font_increase": "Aumentar fonte"
     },
     "terminal": {
       "label": "Terminal",
@@ -42,7 +47,10 @@
     "view_grid": "Grade",
     "view_list": "Lista",
     "remove_filter": "Remover filtro",
-    "back": "Voltar"
+    "back": "Voltar",
+    "search_label": "Buscar",
+    "clear_search": "Limpar busca",
+    "logo_alt": "Logo NEAT"
   },
   "node_menu": {
     "title": "Ações",

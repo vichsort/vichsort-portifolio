@@ -20,6 +20,8 @@
         "role": "Professor",
         "text": "Working with Vitor guarantees a robust delivery. He doesn't just write code, he thinks about the product."
       }
-    ]
+    ],
+    "prev": "Previous testimonial",
+    "next": "Next testimonial"
   }
 }

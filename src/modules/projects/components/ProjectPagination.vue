@@ -17,7 +17,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <nav v-if="prevProject || nextProject" class="project-pagination" aria-label="Navegação entre projetos">
+  <nav v-if="prevProject || nextProject" class="project-pagination" :aria-label="t('project_detail.pagination_label')">
     <!-- Slot Esquerdo (Anterior) -->
     <div class="pagination-slot left-slot">
       <router-link

@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Search, X } from 'lucide-vue-next'
 
 const props = defineProps({
@@ -7,9 +8,10 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  // Sem placeholder, usa o rótulo da busca no idioma ativo
   placeholder: {
     type: String,
-    default: 'Buscar...'
+    default: ''
   },
   clearable: {
     type: Boolean,
@@ -22,6 +24,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue', 'clear'])
+
+const { t } = useI18n()
 
 const hasValue = computed(() => Boolean(props.modelValue && props.modelValue.trim().length > 0))
 
@@ -52,11 +56,11 @@ const handleKeydown = (event) => {
       :value="modelValue"
       @input="handleInput"
       @keydown="handleKeydown"
-      :placeholder="placeholder"
+      :placeholder="placeholder || t('common.search_label')"
       :disabled="disabled"
       type="text"
       class="input-field"
-      aria-label="Campo de busca"
+      :aria-label="t('common.search_label')"
     />
 
     <button
@@ -64,8 +68,8 @@ const handleKeydown = (event) => {
       @click="clearInput"
       type="button"
       class="clear-btn"
-      aria-label="Limpar busca"
-      title="Limpar"
+      :aria-label="t('common.clear_search')"
+      :title="t('common.clear_search')"
     >
       <X :size="14" />
     </button>

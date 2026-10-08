@@ -102,7 +102,7 @@ const renderedDescription = computed(() => {
             target="_blank"
             rel="noopener noreferrer"
             class="icon-btn"
-            aria-label="Repositório no GitHub"
+            :aria-label="t('projects_section.card.github')"
             title="GitHub"
           >
             <Github :size="18" />
@@ -113,8 +113,8 @@ const renderedDescription = computed(() => {
             target="_blank"
             rel="noopener noreferrer"
             class="icon-btn"
-            aria-label="Demonstração Online"
-            title="Live Demo"
+            :aria-label="t('projects_section.card.live')"
+            :title="t('projects_section.card.live')"
           >
             <ExternalLink :size="18" />
           </a>

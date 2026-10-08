@@ -20,6 +20,8 @@
         "role": "Professor",
         "text": "Trabalhar com o Vitor é ter a certeza de que a entrega será robusta. Ele não apenas escreve código, ele pensa no produto."
       }
-    ]
+    ],
+    "prev": "Depoimento anterior",
+    "next": "Próximo depoimento"
   }
 }

@@ -63,7 +63,7 @@ onBeforeUnmount(() => setHeroActive(false))
     <canvas ref="fieldCanvas" class="hero-field" aria-hidden="true"></canvas>
 
     <div class="hero-branding" data-ascii-safe>
-      <img :src="logoSrc" alt="Logo NEAT" class="brand-logo" />
+      <img :src="logoSrc" :alt="t('common.logo_alt')" class="brand-logo" />
     </div>
 
     <div class="hero-content">

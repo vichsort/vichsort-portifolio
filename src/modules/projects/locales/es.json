@@ -3,8 +3,12 @@
     "title": "Algunos proyectos de los que me enorgullezco:",
     "action_view_all": "Ver todos los proyectos",
     "card": {
-      "view_more": "Ver más"
-    }
+      "view_more": "Ver más",
+      "github": "Repositorio en GitHub",
+      "live": "Demostración en línea"
+    },
+    "prev": "Proyecto anterior",
+    "next": "Siguiente proyecto"
   },
   "projects_page": {
     "title": "Todos los proyectos",
@@ -31,6 +35,7 @@
     "next_project": "Proyecto siguiente",
     "prev_project": "Proyecto anterior",
     "project_not_found": "Proyecto no encontrado.",
-    "not_found_desc": "El proyecto que buscas no existe o fue movido."
+    "not_found_desc": "El proyecto que buscas no existe o fue movido.",
+    "pagination_label": "Navegación entre proyectos"
   }
 }

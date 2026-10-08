@@ -115,7 +115,7 @@ const openTerminal = () => {
                   <button
                     @click="changeFontSize('down')"
                     :disabled="fontSizeLevel <= -1"
-                    aria-label="Diminuir fonte"
+                    :aria-label="t('settings.accessibility.font_decrease')"
                   >
                     <Minus :size="14" />
                   </button>
@@ -125,7 +125,7 @@ const openTerminal = () => {
                   <button
                     @click="changeFontSize('up')"
                     :disabled="fontSizeLevel >= 3"
-                    aria-label="Aumentar fonte"
+                    :aria-label="t('settings.accessibility.font_increase')"
                   >
                     <Plus :size="14" />
                   </button>

@@ -69,7 +69,7 @@ function backToTop() {
 
       <div class="footer-columns">
         <section class="footer-brand">
-          <img :src="logoSrc" alt="Logo NEAT" class="footer-logo" data-ascii-safe />
+          <img :src="logoSrc" :alt="t('common.logo_alt')" class="footer-logo" data-ascii-safe />
           <router-link to="/" class="footer-name" data-ascii-safe>
             VITOR<span class="highlight">.</span>
           </router-link>

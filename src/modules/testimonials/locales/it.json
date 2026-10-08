@@ -20,6 +20,8 @@
         "role": "Professore",
         "text": "Lavorare con Vitor significa avere la certezza che la consegna sarà solida. Non scrive solo codice, pensa al prodotto."
       }
-    ]
+    ],
+    "prev": "Testimonianza precedente",
+    "next": "Testimonianza successiva"
   }
 }

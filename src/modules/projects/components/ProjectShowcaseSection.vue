@@ -43,14 +43,14 @@ const scrollRight = () => {
         <button
           @click="scrollLeft"
           class="nav-btn"
-          aria-label="Projeto anterior"
+          :aria-label="t('projects_section.prev')"
         >
           <ChevronLeft :size="20" />
         </button>
         <button
           @click="scrollRight"
           class="nav-btn"
-          aria-label="Próximo projeto"
+          :aria-label="t('projects_section.next')"
         >
           <ChevronRight :size="20" />
         </button>

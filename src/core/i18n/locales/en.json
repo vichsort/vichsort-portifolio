@@ -11,7 +11,10 @@
     "terminal": "Terminal",
     "more": "More pages",
     "back": "Back to main pages",
-    "main_label": "Main navigation"
+    "main_label": "Main navigation",
+    "settings": "Settings and accessibility",
+    "open_menu": "Open navigation menu",
+    "close_menu": "Close menu"
   },
   "settings": {
     "close_menu": "Close Menu",
@@ -26,7 +29,9 @@
       "font_size": "Font Size",
       "animations": "Animations",
       "on": "ON",
-      "off": "OFF"
+      "off": "OFF",
+      "font_decrease": "Decrease font size",
+      "font_increase": "Increase font size"
     },
     "terminal": {
       "label": "Terminal",
@@ -42,7 +47,10 @@
     "view_grid": "Grid",
     "view_list": "List",
     "remove_filter": "Remove filter",
-    "back": "Back"
+    "back": "Back",
+    "search_label": "Search",
+    "clear_search": "Clear search",
+    "logo_alt": "NEAT logo"
   },
   "node_menu": {
     "title": "Actions",
