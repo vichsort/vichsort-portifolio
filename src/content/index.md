@@ -107,6 +107,7 @@ generated: true
 - [[atena]]
 - [[cemiterio]]
 - [[cicc]]
+- [[escutas]]
 - [[faif]]
 - [[next-signage]]
 - [[plante]]
