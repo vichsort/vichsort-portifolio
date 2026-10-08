@@ -33,10 +33,9 @@ Ordem sugerida: `t9`/`t11` → `t10` → `t13`. `t6`, `t12` e `t16` dependem de 
 | # | Pendência | Observação |
 | :--- | :--- | :--- |
 | **`a3`** | **TypeScript** em `core/content/` e no núcleo do terminal | Componentes migram aos poucos, quando forem mexidos. O núcleo do terminal já foi limpo (`t15`) e o contrato de comando está documentado em `registry.js` |
-| **`a4`** | **Gráficos a partir do grafo** | Visualização do grafo, matriz tech × projeto, adoção de techs no tempo. Definir a métrica de "projeto complexo". Só faz sentido com conteúdo real |
 | **`a5`** | **Revisar as traduções es/it** da interface | Feitas por IA a partir do pt; conferir tom e termos, principalmente nos textos do Sobre e dos depoimentos |
 
-Ordem sugerida: `a3` → `a4`.
+Próxima: `a3`.
 
 Os depoimentos ficam nos dicionários de interface (`testimonials/locales`), não no grafo: cada idioma novo precisa traduzir esses itens também.
 
@@ -54,6 +53,7 @@ Os projetos já são reais; o resto do conteúdo ainda é fictício. Depende de 
 
 ## Concluído
 
+* Gráficos a partir do grafo (`a4`): página `/graph` (módulo `graph`) com contagens, mapa de conhecimento (projetos, pesquisas e techs, cor + forma por tipo, layout de forças determinístico), adoção de techs no tempo e matriz tech × projeto (uma `<table>`, que já é a versão acessível); prévia com as 10 techs mais usadas no Sobre, logo depois do stack. Tokens `--viz-*` com a paleta categórica validada nos dois temas. Ficou de fora a métrica de "projeto complexo"
 * Projetos reais (`c2`): 18 projetos em `src/content/projects/` (Atena, Bratz, Cemitério Caboclo, CICC, Criptografy, Dicionário IFC, Energin, Escutas, FAIF, GNX, Hotel MVP, IArte, Lago Azul, Next Signage, PlantE, Projeto Prisma, tera-cli, trucaralho), um por projeto mesmo quando são vários repositórios. Novos nós de apoio: tópicos `edtech` e `generative-ai`, techs `laravel` e `nextjs` (no stack da home) e o prêmio da Feira de Energia Limpa
 * Limpeza do núcleo do terminal (`t15`): erros esperados saem como `CommandError` e o dispatcher os formata (sumiram os try/catch repetidos e os `if (!vfs)`); `context.locale`; os 5 comandos que só mostram um arquivo viraram uma fábrica (`fileCommands.js`); `vfs.walk()` para `find` e `grep`; `RULE`/`row` em `core/format.js`; `PromptPrefix` compartilhado. O contrato do comando ganhou `valueFlags` e `complete` (o lexer e o Tab não conhecem mais comandos), e descrição e uso saem do nome (`terminal.commands.<nome>`). Histórico ↑/↓ e Tab viraram lógica pura em `core/input/`; o `useVFS` usa `onChange` do engine no lugar do patch em `cd`. Código morto e `export default` duplicados removidos. Bugs: `help` e `aria-label` do prompt traduzidos, `whoami` lê o cargo do perfil, `sudo` lê o usuário do contexto, chaves que faltavam (`execution_failed`, `links.types.photo`), `ls -l` numa pasta com um só arquivo saía no formato de arquivo. O `grep` passou a diferenciar maiúsculas como o de verdade (antes o `-i` era ignorado e a busca nunca diferenciava); `-i` ignora
 * Escopo do terminal recuperado (`t0`): o `terminal.md` voltou para a raiz; o que faltava dele virou `t9`–`t16`

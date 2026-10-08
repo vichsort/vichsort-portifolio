@@ -1,0 +1,49 @@
+{
+  "graph": {
+    "title": "Grafo",
+    "back": "Voltar para o Sobre",
+    "subtitle": "Como projetos, pesquisas e tecnologias se conectam, e como meu stack mudou com o tempo.",
+    "projects_count": "{n} projeto | {n} projetos",
+    "table_view": "Ver como tabela",
+    "stats": {
+      "projects": "Projetos",
+      "techs": "Tecnologias",
+      "researches": "Pesquisas e prêmios",
+      "links": "Ligações"
+    },
+    "preview": {
+      "title": "Stack em uso",
+      "subtitle": "As tecnologias que mais aparecem nos meus projetos, ao longo do tempo.",
+      "cta": "Explorar o grafo"
+    },
+    "network": {
+      "title": "Mapa de conhecimento",
+      "subtitle": "Cada projeto e pesquisa ligado às tecnologias que usa.",
+      "hint": "Passe o mouse para ver as ligações; clique para abrir.",
+      "aria": "Grafo de projetos, pesquisas e tecnologias",
+      "links": "{n} ligação | {n} ligações",
+      "legend": {
+        "project": "Projeto",
+        "tech": "Tecnologia",
+        "research": "Pesquisa ou prêmio"
+      }
+    },
+    "adoption": {
+      "title": "Adoção no tempo",
+      "subtitle": "Uma barra por projeto, no período em que ele aconteceu. Quanto mais escura, mais projetos ao mesmo tempo.",
+      "aria": "Linha do tempo de uso das tecnologias nos projetos",
+      "col_tech": "Tecnologia",
+      "col_period": "Período",
+      "col_projects": "Projetos"
+    },
+    "matrix": {
+      "title": "Tecnologia × projeto",
+      "subtitle": "Quais tecnologias cada projeto usa, do mais antigo ao mais recente.",
+      "hint": "Passe o mouse sobre a matriz para ler cada cruzamento.",
+      "uses": "{project} usa {tech}",
+      "not_uses": "{project} não usa {tech}",
+      "yes": "usa",
+      "no": "não usa"
+    }
+  }
+}

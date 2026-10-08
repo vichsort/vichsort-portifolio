@@ -56,6 +56,12 @@ const routes = [
     meta: { titleKey: 'gallery_page.title' }
   },
   {
+    path: '/graph',
+    name: 'graph',
+    component: () => import('@/modules/graph/views/GraphView.vue'),
+    meta: { titleKey: 'graph.title' }
+  },
+  {
     path: '/contact',
     name: 'contact',
     component: () => import('@/modules/contact/views/ContactView.vue'),

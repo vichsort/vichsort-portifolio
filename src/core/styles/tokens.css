@@ -117,6 +117,12 @@
 
   /* Estados */
   --danger: #f87171;
+
+  /* Gráficos (a4): marca de tom único e paleta categórica validada (3 tipos de nó) */
+  --viz-accent: #7a72f0;
+  --viz-project: #3987e5;
+  --viz-tech: #d95926;
+  --viz-research: #199e70;
 }
 
 /* --------------------------------------------------------------------------
@@ -187,4 +193,9 @@
 
   /* Estados */
   --danger: #dc2626;
+
+  --viz-accent: #2f27ce;
+  --viz-project: #2a78d6;
+  --viz-tech: #eb6834;
+  --viz-research: #1baf7a;
 }

@@ -1,0 +1,49 @@
+{
+  "graph": {
+    "title": "Graph",
+    "back": "Back to About",
+    "subtitle": "How projects, research and technologies connect, and how my stack has changed over time.",
+    "projects_count": "{n} project | {n} projects",
+    "table_view": "View as table",
+    "stats": {
+      "projects": "Projects",
+      "techs": "Technologies",
+      "researches": "Research and awards",
+      "links": "Links"
+    },
+    "preview": {
+      "title": "Stack in use",
+      "subtitle": "The technologies that show up most in my projects, over time.",
+      "cta": "Explore the graph"
+    },
+    "network": {
+      "title": "Knowledge map",
+      "subtitle": "Every project and paper linked to the technologies it uses.",
+      "hint": "Hover to see connections; click to open.",
+      "aria": "Graph of projects, research and technologies",
+      "links": "{n} link | {n} links",
+      "legend": {
+        "project": "Project",
+        "tech": "Technology",
+        "research": "Research or award"
+      }
+    },
+    "adoption": {
+      "title": "Adoption over time",
+      "subtitle": "One bar per project, over the period it ran. Darker means more projects at once.",
+      "aria": "Timeline of technology use across projects",
+      "col_tech": "Technology",
+      "col_period": "Period",
+      "col_projects": "Projects"
+    },
+    "matrix": {
+      "title": "Technology × project",
+      "subtitle": "Which technologies each project uses, from oldest to newest.",
+      "hint": "Hover over the matrix to read each intersection.",
+      "uses": "{project} uses {tech}",
+      "not_uses": "{project} doesn't use {tech}",
+      "yes": "uses",
+      "no": "doesn't use"
+    }
+  }
+}

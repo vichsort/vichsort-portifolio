@@ -8,6 +8,7 @@ import { useSettings } from '@/shared/composables/useSettings'
 
 import ProfileSummarySection from '../components/ProfileSummarySection.vue'
 import CoreStackSection from '../components/CoreStackSection.vue'
+import GraphPreviewSection from '@/modules/graph/components/GraphPreviewSection.vue'
 import DescriptionSection from '../components/DescriptionSection.vue'
 import TimelineScrollSection from '../components/TimelineScrollSection.vue'
 import TimelineFullSection from '../components/TimelineFullSection.vue'
@@ -67,6 +68,9 @@ const {
 
       <!-- s2: Core Stack & Ecossistema -->
       <CoreStackSection />
+
+      <!-- s2b: Stack em uso (prévia dos gráficos, módulo graph) -->
+      <GraphPreviewSection />
 
       <!-- s3: Janela macOS + README GitHub -->
       <DescriptionSection />

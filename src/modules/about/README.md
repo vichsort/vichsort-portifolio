@@ -11,6 +11,7 @@ Módulo responsável pela página de apresentação pessoal e profissional (`/ov
   * No modo padrão, a seção **s4** oferece uma experiência imersiva de rolagem ano a ano via `useScrollProgress`.
   * Quando a preferência de movimento reduzido (`reduceMotion`) estiver ativa, o módulo omite o scroll lock e exibe diretamente a **s5** consolidada.
 * **Galeria Bento Box (3x2)**: A seção **s6** exibe registros de fotos e momentos em uma grade assimétrica (retrato, paisagem e quadrados) com placeholders visuais e link para a galeria completa (`/gallery`, módulo `gallery`).
+* **Stack em uso (s2b)**: logo depois do stack entra a prévia dos gráficos (`GraphPreviewSection`, do módulo [graph](../graph/README.md)), com o link para `/graph`.
 * **Fontes de Dados**: Os eventos da timeline e o stack vêm do grafo de conteúdo (`src/content/timeline/` e a coleção `about-stack`, ver [GRAPH.md](../../../GRAPH.md)). As fotos da galeria vêm de `src/content/gallery/`. Perfil e textos do README ficam em `src/modules/about/locales/`, um arquivo por idioma.
 
 ---
