@@ -17,7 +17,7 @@ import GallerySection from '../components/GallerySection.vue'
 import { ArrowLeft, FolderGit2, Mail, ArrowUpRight } from 'lucide-vue-next'
 
 const { t } = useI18n()
-const { reduceMotion } = useSettings()
+const { isMotionAllowed } = useSettings()
 const { ofType, node, text, fallback, label, linked } = useContent()
 
 const rawEvents = computed(() =>
@@ -77,7 +77,7 @@ const {
 
       <!-- s4: Timeline Interativa com Scroll Lock (Ocultada se movimento reduzido ativo) -->
       <TimelineScrollSection
-        v-if="!reduceMotion && eventsByYear.length > 0"
+        v-if="isMotionAllowed && eventsByYear.length > 0"
         :events-by-year="eventsByYear"
       />
 
