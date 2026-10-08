@@ -8,7 +8,8 @@ export const TerminalError = {
   NOT_A_DIRECTORY: 'not_a_directory',
   MISSING_ARG: 'missing_arg',
   EXECUTION_FAILED: 'execution_failed',
-  SYNTAX_ERROR: 'syntax_error'
+  SYNTAX_ERROR: 'syntax_error',
+  READ_ONLY: 'read_only'
 }
 
 /**

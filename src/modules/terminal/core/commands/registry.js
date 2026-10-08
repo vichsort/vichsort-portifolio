@@ -23,6 +23,9 @@ import { resumeCommand } from './portfolio/resume.js'
 import { linksCommand } from './portfolio/links.js'
 import { cowsayCommand } from './easter/cowsay.js'
 import { sudoCommand } from './easter/sudo.js'
+import { neofetchCommand } from './easter/neofetch.js'
+import { matrixCommand } from './easter/matrix.js'
+import { rmCommand } from './easter/rm.js'
 import { themeCommand } from './settings/theme.js'
 import { langCommand } from './settings/lang.js'
 
@@ -32,7 +35,8 @@ import { langCommand } from './settings/lang.js'
  *   aliases?    - outros nomes
  *   valueFlags? - flags que recebem valor no token seguinte (--stack vue, -L 2)
  *   complete?   - (word, context) => string[]: o que o Tab sugere nos argumentos (padrão: caminhos do VFS)
- *   execute     - (args, flags, context) => { type, payload } | null; erros esperados saem como CommandError
+ *   execute     - (args, flags, context) => { type, payload } | null; erros esperados saem como CommandError.
+ *                 Um processo em primeiro plano (matrix, glitch) é um `await context.spawn(nome)` dentro do execute
  */
 const COMMANDS = [
   // Sistema
@@ -64,7 +68,10 @@ const COMMANDS = [
   langCommand,
   // Easter eggs
   cowsayCommand,
-  sudoCommand
+  sudoCommand,
+  neofetchCommand,
+  matrixCommand,
+  rmCommand
 ]
 
 /**

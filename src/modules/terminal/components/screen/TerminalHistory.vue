@@ -2,6 +2,7 @@
 import OutputText from '../outputs/OutputText.vue'
 import OutputMarkdown from '../outputs/OutputMarkdown.vue'
 import OutputBanner from '../outputs/OutputBanner.vue'
+import OutputNeofetch from '../outputs/OutputNeofetch.vue'
 import PromptPrefix from './PromptPrefix.vue'
 
 defineProps({
@@ -31,6 +32,10 @@ defineProps({
       >
         <OutputBanner
           v-if="output.type === 'banner'"
+          :content="output.payload"
+        />
+        <OutputNeofetch
+          v-else-if="output.type === 'neofetch'"
           :content="output.payload"
         />
         <OutputMarkdown

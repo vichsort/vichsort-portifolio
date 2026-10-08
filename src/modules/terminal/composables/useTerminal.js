@@ -31,12 +31,14 @@ export function useTerminal() {
 
 function createSession() {
   const { t, locale } = i18n.global
-  const { setLanguage } = useSettings()
+  const { setLanguage, isMotionAllowed } = useSettings()
   const { theme } = useTheme()
   const { vfs, displayPath } = useVFS()
 
   const input = ref('')
   const isExecuting = ref(false)
+  // Processo em primeiro plano (matrix, glitch do rm): ocupa a tela até acabar ou levar um Ctrl+C
+  const running = ref(null)
   // O que está na tela: cada entrada é uma linha digitada e as saídas dela
   const history = ref([])
   const commandHistory = new CommandHistory()
@@ -60,6 +62,29 @@ function createSession() {
     history.value.push({ id: nextEntryId++, command, user: USER, host: HOST, cwd, outputs })
   }
 
+  /**
+   * Inicia um processo em primeiro plano. Resolve quando ele acaba: pelo tempo
+   * (duration, em ms) ou por kill(). O comando que chamou fica esperando,
+   * então o prompt continua ocupado enquanto isso.
+   *
+   * @param {string} name - O que a tela mostra (ver TerminalWindow).
+   * @param {{ duration?: number }} [options]
+   * @returns {Promise<{ interrupted: boolean }>}
+   */
+  const spawn = (name, { duration } = {}) =>
+    new Promise((resolve) => {
+      running.value = { name, resolve }
+      if (duration) setTimeout(() => kill(false), duration)
+    })
+
+  /** Encerra o processo em primeiro plano; interrupted indica Ctrl+C (ou toque) do usuário. */
+  const kill = (interrupted = true) => {
+    const current = running.value
+    if (!current) return
+    running.value = null
+    current.resolve({ interrupted })
+  }
+
   // Troca de idioma feita pelo comando lang: ele mesmo responde, sem a linha de aviso
   let localeFromCommand = false
 
@@ -68,11 +93,15 @@ function createSession() {
     registry: createDefaultRegistry(),
     router,
     user: USER,
+    host: HOST,
     t: (key, params) => t(key, params),
     clear,
+    spawn,
+    restart: () => reset(),
     globalState: {
       locale,
       theme,
+      motionAllowed: isMotionAllowed,
       setTheme: (value) => {
         theme.value = value
       },
@@ -153,8 +182,12 @@ function createSession() {
     else if (result?.options) pushEntry(input.value, [{ type: 'text', payload: result.options.join('  ') }])
   }
 
-  /** Ctrl+C: abandona a linha atual, que fica na tela com ^C. */
+  /** Ctrl+C: encerra o processo em primeiro plano ou, sem processo, abandona a linha atual (que fica na tela com ^C). */
   const interrupt = () => {
+    if (running.value) {
+      kill(true)
+      return
+    }
     pushEntry(`${input.value}^C`)
     input.value = ''
     commandHistory.resetNavigation()
@@ -165,6 +198,7 @@ function createSession() {
    * diretório voltam ao início, com um banner novo.
    */
   const reset = () => {
+    kill(false)
     history.value = []
     commandHistory.clear()
     input.value = ''
@@ -180,6 +214,7 @@ function createSession() {
     banner,
     welcome,
     isExecuting,
+    running,
     displayPath,
     execute,
     clear,
@@ -187,6 +222,7 @@ function createSession() {
     historyNext,
     complete,
     interrupt,
+    kill,
     reset
   }
 }

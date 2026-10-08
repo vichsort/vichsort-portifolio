@@ -104,6 +104,18 @@
       "lang": {
         "description": "Elenca le lingue o cambia la lingua del sito",
         "usage": "lang [codice]"
+      },
+      "neofetch": {
+        "description": "Mostra le informazioni di sistema accanto al logo",
+        "usage": "neofetch"
+      },
+      "matrix": {
+        "description": "Entra in Matrix (Ctrl+C per uscire)",
+        "usage": "matrix"
+      },
+      "rm": {
+        "description": "Rimuove file (il sistema è in sola lettura... quasi sempre)",
+        "usage": "rm [-rf] <file>"
       }
     },
     "errors": {
@@ -115,7 +127,8 @@
       "missing_arg": "{cmd}: argomento obbligatorio mancante: {arg}",
       "execution_failed": "{cmd}: esecuzione non riuscita: {message}",
       "syntax_error": "errore di sintassi vicino a '{token}'",
-      "internal": "vsh: errore interno: {message}"
+      "internal": "vsh: errore interno: {message}",
+      "read_only": "{cmd}: impossibile rimuovere '{path}': File system di sola lettura"
     },
     "output": {
       "help": {
@@ -212,6 +225,18 @@
         "list": "Lingue (* = attuale). Usa: lang <codice>",
         "changed": "Lingua cambiata in {lang}.",
         "invalid": "vsh: lang: '{value}' non è una lingua. Disponibili: {codes}"
+      },
+      "neofetch": {
+        "uptime": "{n} min | {n} min",
+        "packages": "{n} (techs) | {n} (techs)"
+      },
+      "matrix": {
+        "reduced": "matrix: animazione disattivata (il movimento ridotto è attivo nelle impostazioni)",
+        "exit_hint": "Ctrl+C o tocca per uscire"
+      },
+      "rm": {
+        "restored": "Sistema ripristinato dal backup. Scherzo: il VFS è in sola lettura, non è stato cancellato nulla. 😉",
+        "panic": "kernel panic: impossibile montare la radice"
       }
     },
     "language_changed": "[vsh]: lingua cambiata in {lang}. Ciò che è già sullo schermo resta nella lingua precedente.",

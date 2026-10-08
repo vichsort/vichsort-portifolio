@@ -104,6 +104,18 @@
       "lang": {
         "description": "Lists the languages or switches the site language",
         "usage": "lang [code]"
+      },
+      "neofetch": {
+        "description": "Shows system info next to the logo",
+        "usage": "neofetch"
+      },
+      "matrix": {
+        "description": "Enter the Matrix (Ctrl+C to exit)",
+        "usage": "matrix"
+      },
+      "rm": {
+        "description": "Removes files (the system is read-only... almost always)",
+        "usage": "rm [-rf] <file>"
       }
     },
     "errors": {
@@ -115,7 +127,8 @@
       "missing_arg": "{cmd}: missing required argument: {arg}",
       "execution_failed": "{cmd}: execution failed: {message}",
       "syntax_error": "syntax error near '{token}'",
-      "internal": "vsh: internal error: {message}"
+      "internal": "vsh: internal error: {message}",
+      "read_only": "{cmd}: cannot remove '{path}': Read-only file system"
     },
     "output": {
       "help": {
@@ -212,6 +225,18 @@
         "list": "Languages (* = current). Use: lang <code>",
         "changed": "Language switched to {lang}.",
         "invalid": "vsh: lang: '{value}' is not a language. Available: {codes}"
+      },
+      "neofetch": {
+        "uptime": "{n} min | {n} mins",
+        "packages": "{n} (techs) | {n} (techs)"
+      },
+      "matrix": {
+        "reduced": "matrix: animation disabled (reduced motion is on in settings)",
+        "exit_hint": "Ctrl+C or tap to exit"
+      },
+      "rm": {
+        "restored": "System restored from backup. Just kidding: the VFS is read-only, nothing was deleted. 😉",
+        "panic": "kernel panic: unable to mount root"
       }
     },
     "language_changed": "[vsh]: language changed to {lang}. What is already on screen stays in the previous language.",
