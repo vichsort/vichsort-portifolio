@@ -42,18 +42,19 @@ Os depoimentos ficam nos dicionários de interface (`testimonials/locales`), nã
 
 ## Conteúdo real
 
-Todo o conteúdo atual é fictício. Depende de material, não de código.
+Os projetos já são reais; o resto do conteúdo ainda é fictício. Depende de material, não de código.
 
 * **`c1`** — Dados de contato e redes em `core/config/profile.js` (placeholders, há um `TODO`).
-* **`c2`** — Projetos reais em `src/content/projects/`, incluindo os mais antigos (antigo `n6`). Hoje há 3 de exemplo.
+* **`c6`** — Acabamento dos projetos: `cover.jpg` em 16 dos 18 (só Cemitério e CICC têm); a premiação do Energin (`researches/feira-energia-limpa-ita`) é provisória e falta o grupo nos autores; revisar os textos marcados `source: auto-generated` e apagar a linha.
 * **`c5`** — Fotos da galeria: as 4 de exemplo em `src/content/gallery/` não têm imagem (aparecem com placeholder). Colocar cada foto como `cover.jpg` na pasta do nó.
-* **`c3`** — Certificações, pesquisas, timeline e definições das techs em `src/content/`. Várias techs só têm o arquivo de estrutura, sem texto pt/en.
+* **`c3`** — Certificações, pesquisas, timeline e definições das techs em `src/content/`. Várias techs só têm o arquivo de estrutura, sem texto pt/en. A timeline deve ligar (`link`) os projetos reais.
 * **`c4`** — Abrir `src/content/` no Obsidian e confirmar que as ligações das propriedades aparecem no grafo ([GRAPH.md](GRAPH.md), seção 10).
 
 ---
 
 ## Concluído
 
+* Projetos reais (`c2`): 18 projetos em `src/content/projects/` (Atena, Bratz, Cemitério Caboclo, CICC, Criptografy, Dicionário IFC, Energin, Escutas, FAIF, GNX, Hotel MVP, IArte, Lago Azul, Next Signage, PlantE, Projeto Prisma, tera-cli, trucaralho), um por projeto mesmo quando são vários repositórios. Novos nós de apoio: tópicos `edtech` e `generative-ai`, techs `laravel` e `nextjs` (no stack da home) e o prêmio da Feira de Energia Limpa
 * Limpeza do núcleo do terminal (`t15`): erros esperados saem como `CommandError` e o dispatcher os formata (sumiram os try/catch repetidos e os `if (!vfs)`); `context.locale`; os 5 comandos que só mostram um arquivo viraram uma fábrica (`fileCommands.js`); `vfs.walk()` para `find` e `grep`; `RULE`/`row` em `core/format.js`; `PromptPrefix` compartilhado. O contrato do comando ganhou `valueFlags` e `complete` (o lexer e o Tab não conhecem mais comandos), e descrição e uso saem do nome (`terminal.commands.<nome>`). Histórico ↑/↓ e Tab viraram lógica pura em `core/input/`; o `useVFS` usa `onChange` do engine no lugar do patch em `cd`. Código morto e `export default` duplicados removidos. Bugs: `help` e `aria-label` do prompt traduzidos, `whoami` lê o cargo do perfil, `sudo` lê o usuário do contexto, chaves que faltavam (`execution_failed`, `links.types.photo`), `ls -l` numa pasta com um só arquivo saía no formato de arquivo. O `grep` passou a diferenciar maiúsculas como o de verdade (antes o `-i` era ignorado e a busca nunca diferenciava); `-i` ignora
 * Escopo do terminal recuperado (`t0`): o `terminal.md` voltou para a raiz; o que faltava dele virou `t9`–`t16`
 * Terminal na home (`t8`): seção no fim da home com o terminal funcionando numa janela do macOS; o verde abre `/terminal`, que agora é só a janela (sem navbar nem footer), com a janela crescendo até a tela cheia (View Transitions). A sessão é uma só: histórico e diretório seguem entre as duas telas; na página, o vermelho encerra a sessão e o amarelo volta mantendo-a. Tema e idioma pelos comandos `theme` e `lang`; trocar o idioma por fora deixa uma linha de aviso (o que já está na tela fica no idioma em que rodou). Entradas no footer (coluna de contato) e nas configurações. A moldura de janela virou `MacWindowFrame`, compartilhada com o README do Sobre. Substitui o `a9`
