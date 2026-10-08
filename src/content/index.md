@@ -108,6 +108,7 @@ generated: true
 - [[cemiterio]]
 - [[cicc]]
 - [[faif]]
+- [[next-signage]]
 - [[plante]]
 - [[tera-cli]]
 
