@@ -1,5 +1,6 @@
 ---
 source: auto-generated
+featured: true
 category: "[[app]]"
 date: [2025-08, 2026-07]
 techs:

@@ -55,7 +55,7 @@
       },
       "projects": {
         "description": "Lists projects or displays project details",
-        "usage": "projects [--stack=x] [slug]"
+        "usage": "projects [--featured] [--stack=x] [slug]"
       },
       "skills": {
         "description": "Displays technology stack matrix",

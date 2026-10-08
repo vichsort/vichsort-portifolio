@@ -1,5 +1,6 @@
 ---
 source: auto-generated
+featured: true
 category: "[[app]]"
 date: [2025-10, 2026-05]
 github: "https://github.com/vichsort/plante-api"

@@ -29,6 +29,7 @@ export function projectView(id, lang = 'pt') {
     image: content.cover(id),
     github: node.data.github || '',
     live: node.data.live || '',
+    featured: node.data.featured === true,
     body: text.body || '',
     html: content.html(id, lang)
   }
@@ -37,3 +38,10 @@ export function projectView(id, lang = 'pt') {
 /** Todos os projetos, em ordem de id. */
 export const allProjects = (lang = 'pt') =>
   content.ofType('project').map((node) => projectView(node.id, lang))
+
+/** Projetos em destaque (featured: true), do mais recente para o mais antigo. */
+export const featuredProjects = (lang = 'pt') =>
+  content
+    .ofType('project', { recent: true })
+    .filter((node) => node.data.featured === true)
+    .map((node) => projectView(node.id, lang))

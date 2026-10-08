@@ -55,7 +55,7 @@
       },
       "projects": {
         "description": "Lista proyectos o muestra los metadatos de un proyecto",
-        "usage": "projects [--stack=x] [slug]"
+        "usage": "projects [--featured] [--stack=x] [slug]"
       },
       "skills": {
         "description": "Muestra la matriz de tecnologías agrupadas por stack",

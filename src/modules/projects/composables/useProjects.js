@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { projectView, allProjects } from '@/core/content/projects'
+import { projectView, allProjects, featuredProjects } from '@/core/content/projects'
 
 // 'AAAA-MM' → 'MM/AAAA'; 'AAAA' fica como está
 const formatDate = (value) => {
@@ -36,6 +36,12 @@ export function useProjects() {
     return allProjects(locale)
   }
 
+  // Destaques da home; sem nenhum marcado, mostra todos
+  const loadFeaturedProjects = async (locale = 'pt') => {
+    const featured = featuredProjects(locale)
+    return featured.length ? featured : allProjects(locale)
+  }
+
   const getAdjacentProjects = async (currentId, locale = 'pt') => {
     const all = await loadAllProjects(locale)
     if (!all || all.length === 0) return { prev: null, next: null }
@@ -55,6 +61,7 @@ export function useProjects() {
   return {
     loadProject,
     loadAllProjects,
+    loadFeaturedProjects,
     getAdjacentProjects,
     formatDateRange,
     isLoading,

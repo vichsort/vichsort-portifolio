@@ -1,5 +1,6 @@
 ---
 source: auto-generated
+featured: true
 category: "[[app]]"
 date: [2025-05, 2026-09]
 github: "https://github.com/vichsort/Criptografy"

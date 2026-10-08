@@ -7,13 +7,13 @@ import ProjectCard from './ProjectCard.vue'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-vue-next'
 
 const { t, locale } = useI18n()
-const { loadAllProjects } = useProjects()
+const { loadFeaturedProjects } = useProjects()
 const { containerRef, isDragging, startDrag, stopDrag, moveDrag } = useDraggableScroll()
 
 const projects = ref([])
 
 const fetchProjects = async () => {
-  projects.value = await loadAllProjects(locale.value)
+  projects.value = await loadFeaturedProjects(locale.value)
 }
 
 onMounted(() => {

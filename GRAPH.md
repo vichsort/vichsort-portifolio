@@ -186,6 +186,7 @@ A ordem no hero vem da coleção `hero-roles`, não de um campo no cargo.
 | `date`* — `[início, fim]` em `AAAA-MM` | `summary`* |
 | `techs`, `topics`, `roles` | corpo — artigo completo |
 | `github`, `live` | |
+| `featured` — `true` para destacar | |
 | arquivo `cover.*` | |
 
 ### 4.6 `certifications/` — certificação ou curso

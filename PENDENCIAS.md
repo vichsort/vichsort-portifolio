@@ -9,7 +9,7 @@ Lista do que falta na interface tradicional. Revisada em 2026-10-07 contra o có
 | # | Pendência | Arquivos | A decidir |
 | :--- | :--- | :--- | :--- |
 | **`n7`** | **Redesenhar a tela de contato** | `ContactView.vue` | Alinhar à identidade do hero e do footer |
-| **`n8`** | **Modal de certificação** | `CertificationsView.vue`, novo `CertificationModal.vue` | Ainda faz sentido? O card já tem link direto para a credencial |
+| **`n8`** | **Modal de certificação** | `CertificationsView.vue`, novo `CertificationModal.vue` | Decidido: vai ter. Mostra o que foi estudado (conteúdo, carga horária, techs) e a imagem da credencial sem obrigar a baixar nada. Fazer quando os certificados reais entrarem (`c3`) |
 
 ## Terminal
 
@@ -17,15 +17,13 @@ Planejamento original em `terminal.md` (raiz, fora do git). A lista abaixo é o 
 
 | # | Pendência | Arquivos | Observação |
 | :--- | :--- | :--- | :--- |
-| **`t6`** | **Currículo (`resume.pdf`)**: decidir se o site terá um | `public/`, `vfs/manifest.js`, `commands/portfolio/resume.js` | O PDF não existe (`public/` só tem `images/`): o comando `resume` anuncia um download que falha. Com PDF (um por idioma?), o `cat resume.pdf` também baixa; sem PDF, remover o arquivo do `ls` e o comando |
+| **`t6`** | **Currículo (`resume.pdf`)** | `public/`, `vfs/manifest.js`, `commands/portfolio/resume.js` | Decidido: vai ter, um PDF por idioma, feito pelo Vitor (`c7`). Quando os PDFs existirem, o `resume` e o `cat resume.pdf` baixam o do idioma ativo. Até lá o comando anuncia um download que falha |
 | **`t9`** | **Comandos de sistema**: `history` e `exit` / `gui` | `commands/system/` | O `exit` pode reaproveitar o que o vermelho/amarelo da janela já fazem na página; o `context.router` existe e ninguém usa |
 | **`t11`** | **Ctrl+A / Ctrl+E** (início / fim da linha) | `TerminalPrompt.vue` | No `<input>` o Ctrl+A seleciona tudo: precisa de `preventDefault` |
-| **`t12`** | **`projects --featured`** | `commands/portfolio/projects.js` | Só o `--stack` existe (o `--featured` saiu do uso anunciado no `help` até existir). Ver antes se o projeto tem (ou deve ter) um campo de destaque |
-| **`t13`** | **Terminal no mobile (≤ 768px)** | `TerminalView.vue`, `TerminalSection.vue` | Hoje não há tratamento nenhum. A spec previa uma landing com vídeo de demo e CTA; com o terminal também na home, decidir se vale isso ou só um aviso |
-| **`t14`** | **Atualizar o `terminal.md`** ou aposentá-lo | `terminal.md`, `.gitignore` | Caminhos antigos (`modules/projects/content`), sem `links`, `header`, pastas do grafo, pipes; o callout `e3.6` virou o `t8`. Decidir se vai para o git ou se este arquivo vira a única fonte |
+| **`t13`** | **Terminal no mobile (≤ 768px)** | `TerminalView.vue`, `TerminalSection.vue` | Decidido: no celular o terminal não roda; no lugar, uma landing com vídeo de demonstração e um convite para abrir no computador (vale para a página e para a seção da home). Falta gravar o vídeo |
 | **`t16`** | **Markdown no terminal** (`cat *.md`) | `OutputMarkdown.vue` | Links externos não abrem em nova aba. A spec pedia estética `glow`/`bat` (títulos em caixa alta, separadores ASCII, `•` nas listas); hoje é um card de Markdown comum. Decidir se ainda quer |
 
-Ordem sugerida: `t9`/`t11` → `t13`. `t6`, `t12` e `t16` dependem de decisão; `t14` quando o resto assentar.
+Ordem sugerida: `t9`/`t11` → `t13`. `t16` depende de decisão; `t6` espera os PDFs (`c7`). O `terminal.md` fica fora do git (no outro computador): a fonte daqui é este arquivo.
 
 ## Fundação técnica
 
@@ -45,6 +43,7 @@ Os projetos já são reais; o resto do conteúdo ainda é fictício. Depende de 
 * **`c1`** — Dados de contato e redes em `core/config/profile.js` (placeholders, há um `TODO`).
 * **`c6`** — Acabamento dos projetos: `cover.jpg` em 16 dos 18 (só Cemitério e CICC têm); a premiação do Energin (`researches/feira-energia-limpa-ita`) é provisória e falta o grupo nos autores; revisar os textos marcados `source: auto-generated` e apagar a linha.
 * **`c5`** — Fotos da galeria: as 4 de exemplo em `src/content/gallery/` não têm imagem (aparecem com placeholder). Colocar cada foto como `cover.jpg` na pasta do nó.
+* **`c7`** — Currículo em PDF, um por idioma (pt, en, es, it), feito pelo Vitor. Destrava o `t6`.
 * **`c3`** — Certificações, pesquisas, timeline e definições das techs em `src/content/`. Várias techs só têm o arquivo de estrutura, sem texto pt/en. A timeline deve ligar (`link`) os projetos reais.
 * **`c4`** — Abrir `src/content/` no Obsidian e confirmar que as ligações das propriedades aparecem no grafo ([GRAPH.md](GRAPH.md), seção 10).
 
@@ -52,6 +51,7 @@ Os projetos já são reais; o resto do conteúdo ainda é fictício. Depende de 
 
 ## Concluído
 
+* Projetos em destaque (`t12`): campo `featured: true` nos projetos (PlantE, tera-cli, Atena, Escutas, Criptografy, Next Signage); o carrossel da home mostra só os destaques, do mais recente ao mais antigo (sem nenhum marcado, mostra todos), e o terminal ganhou `projects --featured`
 * Easter eggs do terminal (`t10`): `neofetch` (logo neat reduzido em `ascii/neofetch.txt`, dados reais do site e o stack mais usado, vindo do grafo; num pipe sai como texto), `matrix` (chuva em canvas cobrindo a janela, cores dos tokens, sai com Ctrl+C, Esc, q ou toque; com movimento reduzido só avisa) e `rm` (VFS só leitura; `rm -rf /` treme a janela por ~2s e reinicia a sessão). O terminal ganhou processos em primeiro plano: `context.spawn(nome)` segura o prompt até o fim ou um Ctrl+C
 * Gráficos a partir do grafo (`a4`): página `/graph` (módulo `graph`) com contagens, mapa de conhecimento (projetos, pesquisas e techs, cor + forma por tipo, layout de forças determinístico), adoção de techs no tempo e matriz tech × projeto (uma `<table>`, que já é a versão acessível); prévia com as 10 techs mais usadas no Sobre, logo depois do stack. Tokens `--viz-*` com a paleta categórica validada nos dois temas. Ficou de fora a métrica de "projeto complexo"
 * Projetos reais (`c2`): 18 projetos em `src/content/projects/` (Atena, Bratz, Cemitério Caboclo, CICC, Criptografy, Dicionário IFC, Energin, Escutas, FAIF, GNX, Hotel MVP, IArte, Lago Azul, Next Signage, PlantE, Projeto Prisma, tera-cli, trucaralho), um por projeto mesmo quando são vários repositórios. Novos nós de apoio: tópicos `edtech` e `generative-ai`, techs `laravel` e `nextjs` (no stack da home) e o prêmio da Feira de Energia Limpa

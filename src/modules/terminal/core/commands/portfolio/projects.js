@@ -1,11 +1,11 @@
-import { projectView, allProjects } from '@/core/content/projects.js'
+import { projectView, allProjects, featuredProjects } from '@/core/content/projects.js'
 import { RULE, row } from '../../format.js'
 
 const WIDTH = 13
 
 /**
  * Comando 'projects'
- * Lista os projetos (filtrando por tecnologia com --stack) ou mostra a ficha de um projeto.
+ * Lista os projetos (só os destaques com --featured, filtrando por tecnologia com --stack) ou mostra a ficha de um projeto.
  */
 export const projectsCommand = {
   name: 'projects',
@@ -34,9 +34,10 @@ export const projectsCommand = {
       return { type: 'text', payload: lines.join('\n') }
     }
 
-    // Listagem, com filtro opcional por tecnologia (--stack=vue)
+    // Listagem: só os destaques com --featured, e filtro opcional por tecnologia (--stack=vue)
     const stack = typeof flags.stack === 'string' ? flags.stack.toLowerCase() : null
-    const projects = allProjects(locale).filter((p) => !stack || p.techs.some((tech) => tech.toLowerCase().includes(stack)))
+    const base = flags.featured ? featuredProjects(locale) : allProjects(locale)
+    const projects = base.filter((p) => !stack || p.techs.some((tech) => tech.toLowerCase().includes(stack)))
 
     if (!projects.length) return { type: 'text', payload: o('no_match') }
 
