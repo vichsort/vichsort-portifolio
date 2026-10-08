@@ -107,6 +107,7 @@ generated: true
 - [[atena]]
 - [[cemiterio]]
 - [[cicc]]
+- [[dicionario-ifc]]
 - [[energin]]
 - [[escutas]]
 - [[faif]]
