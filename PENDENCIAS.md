@@ -25,10 +25,9 @@ Planejamento original em `terminal.md` (raiz, fora do git). A lista abaixo é o 
 
 | # | Pendência | Observação |
 | :--- | :--- | :--- |
-| **`a3`** | **TypeScript** em `core/content/` e no núcleo do terminal | Componentes migram aos poucos, quando forem mexidos. O núcleo do terminal já foi limpo (`t15`) e o contrato de comando está documentado em `registry.js` |
 | **`a5`** | **Revisar as traduções es/it** da interface | Feitas por IA a partir do pt; conferir tom e termos, principalmente nos textos do Sobre e dos depoimentos |
 
-Próxima: `a3`.
+O `a5` fica para depois da reescrita do Sobre com os dados reais (`c3`), para não revisar texto que vai sair.
 
 Os depoimentos ficam nos dicionários de interface (`testimonials/locales`), não no grafo: cada idioma novo precisa traduzir esses itens também.
 
@@ -47,6 +46,7 @@ Os projetos já são reais; o resto do conteúdo ainda é fictício. Depende de 
 
 ## Concluído
 
+* TypeScript no núcleo (`a3`): `core/content/` e `modules/terminal/core/` em TypeScript estrito, com tipos do grafo (`core/content/types.ts`) e do shell (contrato `Command`, `CommandContext`, `CommandOutput` em `modules/terminal/core/types.ts`); `npm run typecheck` (vue-tsc) sem erros. Só sintaxe apagável e imports `.ts`, para o `scripts/content.mjs` continuar rodando direto no Node. Componentes e o resto do código migram aos poucos, quando forem mexidos
 * Terminal no celular (`t13`): em telas ≤ 768px, a página `/terminal` e a seção da home mostram um vídeo de uma sessão gravada (`public/videos/terminal-demo.{webm,mp4}` + pôster; neofetch, projetos em destaque, um artigo, `links` e matrix) e o convite para abrir no computador, com o endereço à vista e o botão de compartilhar (folha nativa) ou copiar o link; na página, também "Voltar ao site". Com movimento reduzido o vídeo fica parado, com controles. No `neofetch`, o Host (que mostraria o domínio) virou Resolution
 * Comandos e atalhos do terminal (`t9` + `t11`): `history` (numerado como no bash; `-c` limpa), `exit`/`logout` (encerra a sessão como o vermelho e, na página, volta à home), `gui`/`startx` (volta à interface mantendo a sessão, como o amarelo); Ctrl+A e Ctrl+E levam o cursor ao início e ao fim da linha
 * Markdown no terminal no estilo glow (`t16`): `cat *.md` sem card, títulos em caixa alta nos neons com régua (═ no h1, ─ no h2), • nas listas, código em bloco com barra lateral; links externos abrem em nova aba (↗), os internos navegam no site

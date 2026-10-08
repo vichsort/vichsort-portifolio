@@ -20,6 +20,10 @@ A arquitetura foi desenhada para resolver os problemas de escalabilidade, coesã
 4. **CSS Tokens-First Fatiado**:
    - Estilos globais divididos por responsabilidade única (`tokens`, `fonts`, `reset`, `utilities`).
    - Componentes utilizam estritamente `<style scoped>` consumindo as variáveis dos tokens.
+5. **TypeScript onde o código é núcleo**:
+   - `core/content/` (o grafo) e `modules/terminal/core/` (o shell) são TypeScript estrito; o resto migra aos poucos, quando for mexido (`allowJs` deixa os dois conviverem). `npm run typecheck` roda o `vue-tsc`.
+   - Só sintaxe que pode ser apagada (`erasableSyntaxOnly`, sem `enum` nem `namespace`) e imports com a extensão `.ts`: o script do vault (`scripts/content.mjs`) importa o `core/content/` e roda direto no Node, que remove os tipos sozinho.
+   - Os tipos do grafo ficam em `core/content/types.ts`; o contrato de comando, o contexto e as saídas do terminal, em `modules/terminal/core/types.ts`.
 
 ---
 

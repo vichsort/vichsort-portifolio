@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
-import { createVfsManifest } from '../core/vfs/manifest.js'
-import { VfsEngine, formatDisplayPath } from '../core/vfs/engine.js'
+import { createVfsManifest } from '../core/vfs/manifest.ts'
+import { VfsEngine, formatDisplayPath } from '../core/vfs/engine.ts'
 
 /**
  * VFS com o diretório atual reativo, para o prompt e o título da janela.
