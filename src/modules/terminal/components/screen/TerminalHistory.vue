@@ -2,6 +2,7 @@
 import OutputText from '../outputs/OutputText.vue'
 import OutputMarkdown from '../outputs/OutputMarkdown.vue'
 import OutputBanner from '../outputs/OutputBanner.vue'
+import PromptPrefix from './PromptPrefix.vue'
 
 defineProps({
   history: {
@@ -18,13 +19,8 @@ defineProps({
       :key="entry.id"
       class="history-entry"
     >
-      <div v-if="entry.command !== undefined && entry.command !== null" class="history-command-line">
-        <span class="prompt-prefix">
-          <span class="prompt-user">{{ entry.user || 'vitor' }}@{{ entry.host || 'vichos' }}</span>
-          <span class="prompt-separator">:</span>
-          <span class="prompt-cwd">{{ entry.cwd || '~' }}</span>
-          <span class="prompt-symbol">$</span>
-        </span>
+      <div v-if="entry.command !== null" class="history-command-line">
+        <PromptPrefix :user="entry.user" :host="entry.host" :cwd="entry.cwd" />
         <span class="history-command-text">{{ entry.command }}</span>
       </div>
 
@@ -76,33 +72,6 @@ defineProps({
   gap: 0.5rem;
 }
 
-.prompt-prefix {
-  display: inline-flex;
-  align-items: center;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.prompt-user {
-  color: var(--neon-cyan);
-  font-weight: 600;
-}
-
-.prompt-separator {
-  color: var(--text-muted);
-}
-
-.prompt-cwd {
-  color: var(--neon-magenta);
-  font-weight: 600;
-}
-
-.prompt-symbol {
-  color: var(--text-primary);
-  margin-left: 0.25rem;
-  font-weight: 700;
-}
-
 .history-command-text {
   color: var(--text-primary);
   word-break: break-word;
@@ -111,15 +80,6 @@ defineProps({
 .history-output {
   color: var(--text-secondary);
   overflow-x: auto;
-}
-
-.output-raw {
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  white-space: pre-wrap;
-  word-break: break-word;
 }
 </style>
 

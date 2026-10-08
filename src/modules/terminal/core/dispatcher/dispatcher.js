@@ -1,117 +1,50 @@
-import { parseCommand, splitLine } from '../parser/lexer.js'
-import { TerminalError } from '../errors/codes.js'
+import { tokenize, parseArgs, splitLine } from '../parser/lexer.js'
+import { TerminalError, CommandError } from '../errors/codes.js'
 import { formatError } from '../errors/formatter.js'
 import { findClosestCommand } from './similarity.js'
 
+const errorOutput = (code, params, t) => ({ type: 'error', payload: formatError(code, params, t) })
+
 /**
- * Resolve o objeto de comando no catálogo/registro fornecido.
+ * Saída de "comando não encontrado", com a sugestão do comando mais parecido.
  *
- * @param {string} name - Nome ou alias do comando.
- * @param {Object} registry - Catálogo de comandos.
- * @returns {Object|null} Definição do comando ou null.
+ * @param {string} name - O que foi digitado.
+ * @param {Object} context - CommandContext (usa registry e t).
+ * @returns {{ type: 'error', payload: string }}
  */
-function resolveCommand(name, registry) {
-  if (!registry) return null
-
-  if (typeof registry.get === 'function') {
-    return registry.get(name)
-  }
-
-  if (registry instanceof Map) {
-    return registry.get(name) || null
-  }
-
-  if (typeof registry === 'object' && registry[name]) {
-    return registry[name]
-  }
-
-  return null
+export function commandNotFound(name, { registry, t }) {
+  const suggestion = findClosestCommand(name, registry.getAllNames(), 2)
+  return errorOutput(TerminalError.COMMAND_NOT_FOUND, { cmd: name, suggestion }, t)
 }
 
 /**
- * Obtém todos os nomes e aliases disponíveis para busca de similaridade e autocompletion.
+ * Executa um comando cru (sem `|` nem `&&`).
+ * Erros esperados (CommandError) viram a mensagem traduzida com o nome do comando;
+ * qualquer outra exceção vira "falha na execução".
  *
- * @param {Object} registry - Catálogo de comandos.
- * @returns {string[]} Lista de identificadores de comandos.
+ * @param {string} input - Comando cru.
+ * @param {Object} context - CommandContext.
+ * @returns {Promise<{ type: string, payload: any }|null>}
  */
-function getAvailableNames(registry) {
-  if (!registry) return []
+export async function dispatch(input, context) {
+  const [name, ...rest] = tokenize(input)
+  if (!name) return null
 
-  if (typeof registry.getAllNames === 'function') {
-    return registry.getAllNames()
-  }
+  const cmd = context.registry.get(name)
+  if (!cmd) return commandNotFound(name, context)
 
-  if (registry instanceof Map) {
-    return Array.from(registry.keys())
-  }
+  const { args, flags } = parseArgs(rest, cmd.valueFlags)
 
-  if (typeof registry === 'object') {
-    return Object.keys(registry)
-  }
-
-  return []
-}
-
-/**
- * Orquestrador central do interpretador de comandos (Command Dispatcher).
- *
- * @param {string|Object} input - Linha de comando bruta ou objeto parseado pelo lexer.
- * @param {Object} context - Instância de CommandContext.
- * @returns {Promise<{ type: string, payload: any }|null>} Resultado formatado da execução.
- */
-export async function dispatch(input, context = {}) {
-  const parsed = typeof input === 'string' ? parseCommand(input) : input
-
-  if (!parsed || !parsed.command) {
-    return null
-  }
-
-  const { command: cmdName, args = [], flags = {} } = parsed
-  const cmd = resolveCommand(cmdName, context.registry)
-
-  // Caso o comando não exista no catálogo
-  if (!cmd) {
-    const candidates = getAvailableNames(context.registry)
-    const suggestion = findClosestCommand(cmdName, candidates, 2)
-    const errorMsg = formatError(
-      TerminalError.COMMAND_NOT_FOUND,
-      { cmd: cmdName, suggestion },
-      context.t
-    )
-
-    return {
-      type: 'error',
-      payload: errorMsg
-    }
-  }
-
-  // Executa o comando encapsulado com tratamento de exceções
   try {
     const result = await cmd.execute(args, flags, context)
-
-    if (result === null || result === undefined) {
-      return null
-    }
-
-    if (typeof result === 'object' && typeof result.type === 'string') {
-      return result
-    }
-
-    return {
-      type: 'text',
-      payload: String(result)
-    }
+    if (result == null) return null
+    if (typeof result.type === 'string') return result
+    return { type: 'text', payload: String(result) }
   } catch (err) {
-    const errorMsg = formatError(
-      TerminalError.EXECUTION_FAILED,
-      { cmd: cmdName, message: err.message || String(err) },
-      context.t
-    )
-
-    return {
-      type: 'error',
-      payload: errorMsg
+    if (err instanceof CommandError) {
+      return errorOutput(err.code, { ...err.params, cmd: cmd.name }, context.t)
     }
+    return errorOutput(TerminalError.EXECUTION_FAILED, { cmd: cmd.name, message: err.message || String(err) }, context.t)
   }
 }
 
@@ -123,7 +56,7 @@ const toText = (result) => (result?.payload == null ? '' : String(result.payload
  * Um erro no meio interrompe o pipeline e é o que aparece.
  *
  * @param {string[]} commands - Comandos crus, na ordem do `|`.
- * @param {Object} context - Instância de CommandContext.
+ * @param {Object} context - CommandContext.
  * @returns {Promise<{ type: string, payload: any }|null>}
  */
 async function runPipeline(commands, context) {
@@ -145,15 +78,13 @@ async function runPipeline(commands, context) {
  * Como no shell, o `&&` só segue se o pipeline anterior não terminou em erro.
  *
  * @param {string} input - Linha de comando bruta.
- * @param {Object} context - Instância de CommandContext.
+ * @param {Object} context - CommandContext.
  * @returns {Promise<Array<{ type: string, payload: any }>>} Saídas de cada pipeline, na ordem.
  */
-export async function dispatchLine(input, context = {}) {
+export async function dispatchLine(input, context) {
   const { chain, error } = splitLine(input)
 
-  if (error) {
-    return [{ type: 'error', payload: formatError(TerminalError.SYNTAX_ERROR, { token: error }, context.t) }]
-  }
+  if (error) return [errorOutput(TerminalError.SYNTAX_ERROR, { token: error }, context.t)]
 
   const outputs = []
   for (const pipeline of chain) {
@@ -163,9 +94,3 @@ export async function dispatchLine(input, context = {}) {
   }
   return outputs
 }
-
-export default {
-  dispatch,
-  dispatchLine
-}
-

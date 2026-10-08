@@ -1,45 +1,5 @@
-import { TerminalError } from '../../errors/codes.js'
-import { formatError } from '../../errors/formatter.js'
-import { VfsError } from '../../vfs/engine.js'
-
-/**
- * Coleta recursivamente todos os nós a partir do caminho raiz informado.
- *
- * @param {Object} vfs - Instância do motor VfsEngine.
- * @param {string} rootPath - Caminho de partida.
- * @returns {Array<{ path: string, name: string, type: string }>}
- */
-function collectAllNodes(vfs, rootPath) {
-  const resolved = vfs.resolveNode(rootPath)
-  if (!resolved.exists) {
-    throw new VfsError(TerminalError.NO_SUCH_FILE, rootPath)
-  }
-
-  if (resolved.isFile) {
-    const fileName = resolved.path.split('/').pop()
-    return [{ path: resolved.path, name: fileName, type: 'file' }]
-  }
-
-  const results = []
-
-  function traverse(dirPath) {
-    const entries = vfs.list(dirPath)
-    for (const entry of entries) {
-      const fullPath = dirPath === '/' ? `/${entry.name}` : `${dirPath}/${entry.name}`
-      results.push({
-        path: fullPath,
-        name: entry.name,
-        type: entry.type
-      })
-      if (entry.type === 'dir') {
-        traverse(fullPath)
-      }
-    }
-  }
-
-  traverse(resolved.path)
-  return results
-}
+import { TerminalError, CommandError } from '../../errors/codes.js'
+import { VfsNodeType } from '../../vfs/types.js'
 
 /**
  * Comando 'find'
@@ -48,58 +8,17 @@ function collectAllNodes(vfs, rootPath) {
 export const findCommand = {
   name: 'find',
   aliases: ['search'],
-  descriptionKey: 'terminal.commands.find.description',
-  usageKey: 'terminal.commands.find.usage',
-  async execute(args, flags, context) {
-    const { vfs, t = (k) => k } = context
+  async execute(args, flags, { vfs, t }) {
+    if (!args.length) throw new CommandError(TerminalError.MISSING_ARG, { arg: '<termo>' })
 
-    if (!vfs) {
-      return {
-        type: 'error',
-        payload: 'vsh: vfs não inicializado'
-      }
-    }
+    const [term, startPath = '.'] = args
+    const query = term.toLowerCase()
+    const matches = vfs
+      .walk(startPath)
+      .filter(({ name }) => name.toLowerCase().includes(query))
+      .map(({ path, type }) => (type === VfsNodeType.DIR ? `${path}/` : path))
 
-    if (!args || args.length === 0) {
-      return {
-        type: 'error',
-        payload: formatError(TerminalError.MISSING_ARG, { cmd: 'find', arg: '<termo>' }, t)
-      }
-    }
-
-    const query = args[0].toLowerCase()
-    const startPath = args[1] || '.'
-
-    try {
-      const allNodes = collectAllNodes(vfs, startPath)
-      const matches = allNodes.filter((node) => node.name.toLowerCase().includes(query))
-
-      if (matches.length === 0) {
-        return {
-          type: 'text',
-          payload: t('terminal.output.find.no_match', { term: args[0] })
-        }
-      }
-
-      const formatted = matches.map((m) => {
-        return m.type === 'dir' ? `${m.path}/` : m.path
-      })
-
-      return {
-        type: 'text',
-        payload: formatted.join('\n')
-      }
-    } catch (err) {
-      if (err instanceof VfsError) {
-        return {
-          type: 'error',
-          payload: formatError(err.code, { cmd: 'find', path: startPath }, t)
-        }
-      }
-      throw err
-    }
+    if (!matches.length) return { type: 'text', payload: t('terminal.output.find.no_match', { term }) }
+    return { type: 'text', payload: matches.join('\n') }
   }
 }
-
-export default findCommand
-

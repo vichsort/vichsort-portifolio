@@ -25,7 +25,7 @@ const emit = defineEmits(['close', 'minimize', 'maximize'])
 const session = useTerminal()
 const { user, host, input, history, displayPath, isExecuting, banner, welcome } = session
 
-const title = computed(() => `${user.value}@${host.value}: ${displayPath.value}`)
+const title = computed(() => `${user}@${host}: ${displayPath.value}`)
 
 const screen = ref(null)
 

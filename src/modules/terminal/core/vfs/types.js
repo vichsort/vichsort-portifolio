@@ -31,11 +31,3 @@ export function isDirNode(node) {
 export function isFileNode(node) {
   return Boolean(node && node.type === VfsNodeType.FILE)
 }
-
-export default {
-  VfsNodeType,
-  VfsMimeType,
-  isDirNode,
-  isFileNode
-}
-

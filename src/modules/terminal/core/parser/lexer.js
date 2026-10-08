@@ -72,108 +72,62 @@ export function tokenize(input) {
 }
 
 /**
- * Interpreta uma linha de comando e extrai o nome do comando,
- * argumentos posicionais e mapa de flags.
+ * Separa os argumentos de um comando (os tokens depois do nome) em posicionais e flags.
+ * Flags longas (--stack=vue, --featured), curtas combinadas (-la) e com valor (-L=2).
+ * As flags listadas em valueFlags também aceitam o valor no token seguinte (--stack vue, -L 2).
+ * Depois de `--`, tudo é posicional.
  *
  * Exemplo:
- *   parseCommand('projects --stack=vue -la "meu app"')
- *   => {
- *        command: 'projects',
- *        args: ['meu app'],
- *        flags: { stack: 'vue', l: true, a: true },
- *        raw: 'projects --stack=vue -la "meu app"'
- *      }
+ *   parseArgs(['--stack', 'vue', '-la', 'meu app'], ['stack'])
+ *   => { args: ['meu app'], flags: { stack: 'vue', l: true, a: true } }
  *
- * @param {string} input - Linha de comando bruta.
- * @returns {{ command: string, args: string[], flags: Record<string, string|boolean>, raw: string }}
+ * @param {string[]} tokens - Tokens depois do nome do comando.
+ * @param {string[]} [valueFlags=[]] - Flags que recebem valor (do contrato do comando).
+ * @returns {{ args: string[], flags: Record<string, string|boolean> }}
  */
-export function parseCommand(input) {
-  const raw = typeof input === 'string' ? input : ''
-  const tokens = tokenize(raw)
-
-  if (tokens.length === 0) {
-    return {
-      command: '',
-      args: [],
-      flags: {},
-      raw
-    }
-  }
-
-  const command = tokens[0]
+export function parseArgs(tokens, valueFlags = []) {
   const args = []
   const flags = {}
-  let stopFlags = false
+  // Valor no token seguinte, se a flag recebe valor e ele não é outra flag
+  const nextValue = (name, i) =>
+    valueFlags.includes(name) && i + 1 < tokens.length && !tokens[i + 1].startsWith('-')
 
-  for (let i = 1; i < tokens.length; i++) {
+  for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i]
 
-    if (stopFlags) {
-      args.push(token)
-      continue
-    }
-
     if (token === '--') {
-      stopFlags = true
-      continue
+      args.push(...tokens.slice(i + 1))
+      break
     }
 
-    // Flag longa: --nome ou --nome=valor (ou --stack valor)
+    // Flag longa: --nome, --nome=valor ou --nome valor
     if (token.startsWith('--') && token.length > 2) {
-      const flagBody = token.slice(2)
-      const eqIdx = flagBody.indexOf('=')
-
-      if (eqIdx !== -1) {
-        const key = flagBody.slice(0, eqIdx)
-        const val = flagBody.slice(eqIdx + 1)
-        flags[key] = val
-      } else if (i + 1 < tokens.length && !tokens[i + 1].startsWith('-') && (flagBody === 'stack' || flagBody === 'depth')) {
-        flags[flagBody] = tokens[++i]
-      } else {
-        flags[flagBody] = true
-      }
+      const [name, ...value] = token.slice(2).split('=')
+      if (value.length) flags[name] = value.join('=')
+      else if (nextValue(name, i)) flags[name] = tokens[++i]
+      else flags[name] = true
       continue
     }
 
-    // Flag curta: -a ou combinadas como -la ou com valor -s=vue / -L 2
+    // Flag curta: -a, combinadas (-la), com valor (-L=2 ou -L 2)
     if (token.startsWith('-') && token.length > 1) {
-      const flagBody = token.slice(1)
-      const eqIdx = flagBody.indexOf('=')
-
-      if (eqIdx !== -1) {
-        const keys = flagBody.slice(0, eqIdx)
-        const val = flagBody.slice(eqIdx + 1)
-        for (let j = 0; j < keys.length - 1; j++) {
-          flags[keys[j]] = true
-        }
-        if (keys.length > 0) {
-          flags[keys[keys.length - 1]] = val
-        }
-      } else if (flagBody.length === 1 && (flagBody === 'L' || flagBody === 's') && i + 1 < tokens.length && !tokens[i + 1].startsWith('-')) {
-        flags[flagBody] = tokens[++i]
-      } else {
-        for (let j = 0; j < flagBody.length; j++) {
-          flags[flagBody[j]] = true
-        }
-      }
+      const [letters, ...value] = token.slice(1).split('=')
+      for (const letter of letters) flags[letter] = true
+      const last = letters.at(-1)
+      if (value.length) flags[last] = value.join('=')
+      else if (letters.length === 1 && nextValue(last, i)) flags[last] = tokens[++i]
       continue
     }
 
-    // Argumento posicional limpo
     args.push(token)
   }
 
-  return {
-    command,
-    args,
-    flags,
-    raw
-  }
+  return { args, flags }
 }
 
 /**
  * Divide uma linha em comandos ligados por `&&` e `|`, respeitando aspas e escapes
- * (um `|` entre aspas é texto). Cada comando segue cru, para o parseCommand.
+ * (um `|` entre aspas é texto). Cada comando segue cru, para o dispatch.
  *
  * Exemplo:
  *   splitLine('ls && cat a.md | grep vue')
@@ -254,10 +208,3 @@ export function splitLine(input) {
 
   return { chain }
 }
-
-export default {
-  tokenize,
-  parseCommand,
-  splitLine
-}
-

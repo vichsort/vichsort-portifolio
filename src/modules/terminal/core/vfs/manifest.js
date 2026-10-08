@@ -7,145 +7,50 @@ import {
   getResearchesList,
   getContact
 } from './connectors.js'
-import {
-  getProjectSlugs,
-  loadRawMarkdown,
-  getProjectMetadataJson
-} from './projectsLoader.js'
+import { getProjectSlugs, loadRawMarkdown, getProjectMetadataJson } from './projectsLoader.js'
 import { GRAPH_DIR_TYPES, getNodeMarkdown } from './graphNodes.js'
 import { content } from '../../../../core/content/index.js'
 import { TYPES } from '../../../../core/content/schema.js'
 
+// Arquivo com conteúdo gerado no idioma pedido: getContent(locale) => string
+const file = (mime, getContent) => ({ type: VfsNodeType.FILE, mime, getContent })
+const text = (getContent) => file(VfsMimeType.TEXT_PLAIN, getContent)
+const markdown = (getContent) => file(VfsMimeType.TEXT_MARKDOWN, getContent)
+const dir = (children) => ({ type: VfsNodeType.DIR, children })
+
 /**
  * Pasta de um tipo do grafo (techs/, topics/...): um <id>.md por nó, com texto e ligações.
  */
-function graphDir(type) {
-  return {
-    type: VfsNodeType.DIR,
-    children: Object.fromEntries(
-      content.ofType(type).map((node) => [
-        `${node.id}.md`,
-        {
-          type: VfsNodeType.FILE,
-          mime: VfsMimeType.TEXT_MARKDOWN,
-          getContent: (locale) => getNodeMarkdown(node.id, locale)
-        }
-      ])
-    )
-  }
-}
+const graphDir = (type) =>
+  dir(Object.fromEntries(content.ofType(type).map(({ id }) => [`${id}.md`, markdown((locale) => getNodeMarkdown(id, locale))])))
 
 /**
  * Pasta de um projeto no VFS: README.md (artigo) e info.json (metadados).
  */
-function projectDir(slug) {
-  return {
-    type: VfsNodeType.DIR,
-    children: {
-      'README.md': {
-        type: VfsNodeType.FILE,
-        mime: VfsMimeType.TEXT_MARKDOWN,
-        getContent: (locale) => loadRawMarkdown(slug, locale) || ''
-      },
-      'info.json': {
-        type: VfsNodeType.FILE,
-        mime: VfsMimeType.APPLICATION_JSON,
-        getContent: (locale) => getProjectMetadataJson(slug, locale)
-      }
-    }
-  }
-}
+const projectDir = (slug) =>
+  dir({
+    'README.md': markdown((locale) => loadRawMarkdown(slug, locale) || ''),
+    'info.json': file(VfsMimeType.APPLICATION_JSON, (locale) => getProjectMetadataJson(slug, locale))
+  })
 
 /**
  * Cria a árvore declarativa do Virtual File System (VFS).
  *
- * @param {Object} [services={}] - Serviços opcionais injetados (i18n, projects, etc.).
  * @returns {Object} Árvore de nós a partir da raiz '/'.
  */
-export function createVfsManifest(services = {}) {
-  const { i18n = null, projects = null } = services
-
-  return {
-    type: VfsNodeType.DIR,
-    name: '/',
-    children: {
-      about: {
-        type: VfsNodeType.DIR,
-        children: {
-          'profile.txt': {
-            type: VfsNodeType.FILE,
-            mime: VfsMimeType.TEXT_PLAIN,
-            getContent: (locale) => {
-              if (typeof i18n?.getAboutProfile === 'function') return i18n.getAboutProfile(locale)
-              return getAboutProfile(locale)
-            }
-          },
-          'stack.txt': {
-            type: VfsNodeType.FILE,
-            mime: VfsMimeType.TEXT_PLAIN,
-            getContent: (locale) => {
-              if (typeof i18n?.getAboutStack === 'function') return i18n.getAboutStack(locale)
-              return getAboutStack(locale)
-            }
-          },
-          'timeline.txt': {
-            type: VfsNodeType.FILE,
-            mime: VfsMimeType.TEXT_PLAIN,
-            getContent: (locale) => {
-              if (typeof i18n?.getAboutTimeline === 'function') return i18n.getAboutTimeline(locale)
-              return getAboutTimeline(locale)
-            }
-          }
-        }
-      },
-      projects: {
-        type: VfsNodeType.DIR,
-        children: Object.fromEntries(getProjectSlugs().map((slug) => [slug, projectDir(slug)]))
-      },
-      certifications: {
-        type: VfsNodeType.DIR,
-        children: {
-          'list.txt': {
-            type: VfsNodeType.FILE,
-            mime: VfsMimeType.TEXT_PLAIN,
-            getContent: (locale) => {
-              if (typeof i18n?.getCertificationsList === 'function') return i18n.getCertificationsList(locale)
-              return getCertificationsList(locale)
-            }
-          }
-        }
-      },
-      researches: {
-        type: VfsNodeType.DIR,
-        children: {
-          'list.txt': {
-            type: VfsNodeType.FILE,
-            mime: VfsMimeType.TEXT_PLAIN,
-            getContent: (locale) => {
-              if (typeof i18n?.getResearchesList === 'function') return i18n.getResearchesList(locale)
-              return getResearchesList(locale)
-            }
-          }
-        }
-      },
-      ...Object.fromEntries(GRAPH_DIR_TYPES.map((type) => [TYPES[type].folder, graphDir(type)])),
-      'contact.txt': {
-        type: VfsNodeType.FILE,
-        mime: VfsMimeType.TEXT_PLAIN,
-        getContent: (locale) => {
-          if (typeof i18n?.getContact === 'function') return i18n.getContact(locale)
-          return getContact(locale)
-        }
-      },
-      'resume.pdf': {
-        type: VfsNodeType.FILE,
-        mime: VfsMimeType.APPLICATION_PDF,
-        action: 'download_resume'
-      }
-    }
-  }
-}
-
-export default {
-  createVfsManifest
+export function createVfsManifest() {
+  return dir({
+    about: dir({
+      'profile.txt': text(getAboutProfile),
+      'stack.txt': text(getAboutStack),
+      'timeline.txt': text(getAboutTimeline)
+    }),
+    projects: dir(Object.fromEntries(getProjectSlugs().map((slug) => [slug, projectDir(slug)]))),
+    certifications: dir({ 'list.txt': text(getCertificationsList) }),
+    researches: dir({ 'list.txt': text(getResearchesList) }),
+    ...Object.fromEntries(GRAPH_DIR_TYPES.map((type) => [TYPES[type].folder, graphDir(type)])),
+    'contact.txt': text(getContact),
+    // Sem conteúdo: o cat avisa que é binário e aponta para o comando resume
+    'resume.pdf': { type: VfsNodeType.FILE, mime: VfsMimeType.APPLICATION_PDF }
+  })
 }

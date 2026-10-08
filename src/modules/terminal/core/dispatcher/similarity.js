@@ -65,9 +65,3 @@ export function findClosestCommand(input, candidates = [], maxDistance = 2) {
 
   return closest
 }
-
-export default {
-  levenshteinDistance,
-  findClosestCommand
-}
-

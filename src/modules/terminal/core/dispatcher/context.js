@@ -1,53 +1,29 @@
 /**
- * Fábrica de Contexto de Execução de Comandos (CommandContext)
- * 
- * Injeta dependências desacopladas nos comandos em execução,
- * seguindo o Dependency Inversion Principle (DIP).
- */
-
-/**
- * Cria uma instância de CommandContext com os serviços necessários.
+ * Contexto de execução injetado em todo comando (o terceiro parâmetro do execute).
  *
  * @param {Object} options
  * @param {Object} options.vfs - Motor do Virtual File System.
- * @param {Object} [options.globalState] - Estado global { theme, locale, setTheme, setLocale }.
- * @param {Object} [options.router] - Roteador Vue Router.
- * @param {Object} [options.i18n] - Instância de internacionalização.
- * @param {Function} [options.t] - Função de tradução direta t(key, params).
- * @param {Object} [options.registry] - Catálogo de comandos registrados.
- * @param {Function} [options.clear] - Callback para limpar a tela do terminal.
- * @returns {Object} Instância de contexto para execução do comando.
+ * @param {Object} options.registry - Catálogo de comandos.
+ * @param {(key: string, params?: Object) => string} options.t - Tradutor no idioma ativo.
+ * @param {Object} options.globalState - { locale, theme, setTheme, setLocale } (locale e theme são refs).
+ * @param {Object} [options.router] - Vue Router, para comandos que saem do terminal.
+ * @param {string} [options.user='vitor'] - Usuário do prompt.
+ * @param {Function} [options.clear] - Limpa a tela.
+ * @returns {Object}
  */
-export function createCommandContext(options = {}) {
-  const {
-    vfs = null,
-    globalState = {},
-    router = null,
-    i18n = null,
-    t = null,
-    registry = null,
-    clear = () => {}
-  } = options
-
-  // Resolver função t delegada caso t não venha explícito mas i18n sim
-  const resolveT = (key, params) => {
-    if (typeof t === 'function') {
-      return t(key, params)
-    }
-    if (i18n && i18n.global && typeof i18n.global.t === 'function') {
-      return i18n.global.t(key, params)
-    }
-    return key
-  }
-
+export function createCommandContext({ vfs, registry, t, globalState, router = null, user = 'vitor', clear = () => {} }) {
   return {
     vfs,
+    registry,
+    t,
     globalState,
     router,
-    i18n,
-    t: resolveT,
-    registry,
+    user,
     clear,
+    // Idioma ativo, lido na hora (um `lang en && about` já sai em inglês)
+    get locale() {
+      return globalState.locale.value
+    },
     // Saída do comando anterior num pipe (texto), ou null fora de um pipe.
     // Preenchido pelo dispatchLine a cada comando.
     stdin: null,
@@ -55,8 +31,3 @@ export function createCommandContext(options = {}) {
     isPiped: false
   }
 }
-
-export default {
-  createCommandContext
-}
-

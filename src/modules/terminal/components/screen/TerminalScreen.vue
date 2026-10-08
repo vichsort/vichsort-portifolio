@@ -11,15 +11,15 @@ const props = defineProps({
   },
   cwd: {
     type: String,
-    default: '~'
+    required: true
   },
   user: {
     type: String,
-    default: 'vitor'
+    required: true
   },
   host: {
     type: String,
-    default: 'vichos'
+    required: true
   },
   modelValue: {
     type: String,
@@ -59,7 +59,7 @@ const scrollToBottom = () => {
 }
 
 const handleScreenClick = (event) => {
-  // If user is selecting text, do not force focus back to input
+  // Clicar para selecionar texto não pode devolver o foco ao prompt
   const selection = window.getSelection()
   if (selection && selection.toString().length > 0) {
     return

@@ -4,17 +4,7 @@
  */
 export const dateCommand = {
   name: 'date',
-  aliases: [],
-  descriptionKey: 'terminal.commands.date.description',
-  usageKey: 'terminal.commands.date.usage',
-  async execute(args, flags, context) {
-    const now = new Date()
-    return {
-      type: 'text',
-      payload: now.toString()
-    }
+  async execute() {
+    return { type: 'text', payload: new Date().toString() }
   }
 }
-
-export default dateCommand
-

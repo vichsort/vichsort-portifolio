@@ -29,9 +29,3 @@ export function getRandomHeader() {
   const randomIndex = Math.floor(Math.random() * HEADERS.length)
   return HEADERS[randomIndex]
 }
-
-export default {
-  HEADERS,
-  getRandomHeader
-}
-

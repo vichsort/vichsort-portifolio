@@ -1,31 +1,17 @@
+import i18n from '../../../../core/i18n/index.js'
 import { EMAIL, SOCIALS } from '../../../../core/config/profile.js'
 import { content } from '../../../../core/content/index.js'
-
-let i18nInstance = null
-
-// Tentativa segura de carregar o singleton do i18n
-try {
-  const mod = await import('../../../../core/i18n/index.js')
-  i18nInstance = mod.default
-} catch {
-  // Ambiente de teste Node puro sem polyfill do Vite
-}
+import { RULE, row } from '../format.js'
 
 /**
  * Tradução num idioma explícito (o VFS recebe o idioma por parâmetro).
- * Sem i18n carregado, devolve a própria chave.
  *
  * @param {string} locale
  * @returns {(key: string, params?: Object) => string}
  */
 export function translator(locale) {
-  return (key, params = {}) => (i18nInstance ? i18nInstance.global.t(key, params, { locale }) : key)
+  return (key, params = {}) => i18n.global.t(key, params, { locale })
 }
-
-const RULE = '='.repeat(80)
-
-// "Rótulo:" alinhado numa coluna fixa, seguido do valor
-const row = (label, value, width = 14) => `${`${label}:`.padEnd(width)} ${value}`
 
 // Nomes das techs e tópicos ligados a um nó, separados por vírgula
 function linkedLabels(id, locale) {
@@ -172,13 +158,3 @@ export function getContact(locale = 'pt') {
     RULE
   ].join('\n')
 }
-
-export default {
-  getAboutProfile,
-  getAboutStack,
-  getAboutTimeline,
-  getCertificationsList,
-  getResearchesList,
-  getContact
-}
-

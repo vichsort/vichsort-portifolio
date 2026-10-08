@@ -1,19 +1,10 @@
 /**
  * Comando 'whoami'
- * Exibe o usuário ativo da sessão e perfil de engenharia.
+ * Usuário da sessão e o cargo do perfil (o mesmo do Sobre).
  */
 export const whoamiCommand = {
   name: 'whoami',
-  aliases: [],
-  descriptionKey: 'terminal.commands.whoami.description',
-  usageKey: 'terminal.commands.whoami.usage',
-  async execute(args, flags, context) {
-    return {
-      type: 'text',
-      payload: 'vitor — Software Engineer & Computer Engineering Student'
-    }
+  async execute(args, flags, { user, t }) {
+    return { type: 'text', payload: `${user} — ${t('about_page.s1_profile.role')}` }
   }
 }
-
-export default whoamiCommand
-

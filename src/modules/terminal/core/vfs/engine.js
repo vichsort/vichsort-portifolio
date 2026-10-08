@@ -1,17 +1,9 @@
-import { TerminalError } from '../errors/codes.js'
+import { TerminalError, CommandError } from '../errors/codes.js'
 import { VfsNodeType, isDirNode, isFileNode } from './types.js'
 
-/**
- * Erro específico lançado por operações no VFS.
- */
-export class VfsError extends Error {
-  constructor(code, path) {
-    super(code)
-    this.name = 'VfsError'
-    this.code = code
-    this.path = path
-  }
-}
+const notFound = (path) => new CommandError(TerminalError.NO_SUCH_FILE, { path })
+const baseName = (path) => path.split('/').pop()
+const joinPath = (dir, name) => (dir === '/' ? `/${name}` : `${dir}/${name}`)
 
 /**
  * Normaliza um caminho dentro da árvore do VFS.
@@ -39,20 +31,11 @@ export function normalizePath(path, currentDir = '/') {
   }
 
   // Quebra segmentos e processa '.' e '..'
-  const segments = raw.split('/').filter(Boolean)
   const stack = []
-
-  for (const segment of segments) {
-    if (segment === '.') {
-      continue
-    }
-    if (segment === '..') {
-      if (stack.length > 0) {
-        stack.pop()
-      }
-    } else {
-      stack.push(segment)
-    }
+  for (const segment of raw.split('/').filter(Boolean)) {
+    if (segment === '.') continue
+    if (segment === '..') stack.pop()
+    else stack.push(segment)
   }
 
   return '/' + stack.join('/')
@@ -73,21 +56,24 @@ export function formatDisplayPath(path) {
 
 /**
  * Motor de execução e navegação do Virtual File System (VfsEngine).
+ * Erros de caminho saem como CommandError, que o dispatcher formata.
  */
 export class VfsEngine {
   /**
    * @param {Object} manifest - Árvore declarativa gerada por createVfsManifest.
    * @param {Object} [options={}]
    * @param {string} [options.initialPath='/']
+   * @param {(path: string) => void} [options.onChange] - Chamado a cada troca de diretório.
    */
   constructor(manifest, options = {}) {
-    if (!manifest || manifest.type !== VfsNodeType.DIR) {
+    if (!isDirNode(manifest)) {
       throw new Error('Manifest inválido: a raiz deve ser um nó de diretório.')
     }
 
     this.manifest = manifest
     this.currentPath = options.initialPath || '/'
     this.previousPath = '/'
+    this.onChange = options.onChange || (() => {})
   }
 
   /**
@@ -99,168 +85,107 @@ export class VfsEngine {
   }
 
   /**
-   * Retorna o caminho atual formatado para exibição no prompt.
-   * @returns {string}
-   */
-  getDisplayPath() {
-    return formatDisplayPath(this.currentPath)
-  }
-
-  /**
    * Localiza um nó na árvore do VFS a partir de um caminho relativo ou absoluto.
    *
    * @param {string} targetPath - Caminho de destino.
    * @returns {{ node: Object|null, path: string, exists: boolean, isDir: boolean, isFile: boolean }}
    */
   resolveNode(targetPath) {
-    const normalized = normalizePath(targetPath, this.currentPath)
+    const path = normalizePath(targetPath, this.currentPath)
+    let node = this.manifest
 
-    if (normalized === '/') {
-      return {
-        node: this.manifest,
-        path: '/',
-        exists: true,
-        isDir: true,
-        isFile: false
-      }
+    for (const segment of path.split('/').filter(Boolean)) {
+      node = node.children?.[segment]
+      if (!node) return { node: null, path, exists: false, isDir: false, isFile: false }
     }
 
-    const segments = normalized.split('/').filter(Boolean)
-    let current = this.manifest
-
-    for (let i = 0; i < segments.length; i++) {
-      const segment = segments[i]
-
-      if (!current.children || !current.children[segment]) {
-        return {
-          node: null,
-          path: normalized,
-          exists: false,
-          isDir: false,
-          isFile: false
-        }
-      }
-
-      current = current.children[segment]
-    }
-
-    return {
-      node: current,
-      path: normalized,
-      exists: true,
-      isDir: isDirNode(current),
-      isFile: isFileNode(current)
-    }
+    return { node, path, exists: true, isDir: isDirNode(node), isFile: isFileNode(node) }
   }
 
   /**
-   * Altera o diretório de trabalho atual.
+   * Resolve um caminho que precisa existir.
+   *
+   * @param {string} targetPath
+   * @returns {{ node: Object, path: string, isDir: boolean, isFile: boolean }}
+   */
+  resolveExisting(targetPath) {
+    const resolved = this.resolveNode(targetPath)
+    if (!resolved.exists) throw notFound(targetPath)
+    return resolved
+  }
+
+  /**
+   * Altera o diretório de trabalho atual. `cd` sem destino ou `~` vai à raiz; `-` volta ao anterior.
    *
    * @param {string} [targetPath='~'] - Caminho do diretório de destino.
    * @returns {string} Novo caminho absoluto atual.
    */
   cd(targetPath = '~') {
-    let dest = targetPath
-    if (!dest || dest === '~') {
-      dest = '/'
-    } else if (dest === '-') {
-      dest = this.previousPath
-    }
-
-    const resolved = this.resolveNode(dest)
-
-    if (!resolved.exists) {
-      throw new VfsError(TerminalError.NO_SUCH_FILE, targetPath)
-    }
+    const dest = targetPath === '-' ? this.previousPath : targetPath || '/'
+    const resolved = this.resolveExisting(dest)
 
     if (!resolved.isDir) {
-      throw new VfsError(TerminalError.NOT_A_DIRECTORY, targetPath)
+      throw new CommandError(TerminalError.NOT_A_DIRECTORY, { path: targetPath })
     }
 
     this.previousPath = this.currentPath
     this.currentPath = resolved.path
+    this.onChange(this.currentPath)
     return this.currentPath
   }
 
   /**
-   * Lista as entradas de um diretório ou os detalhes de um arquivo.
+   * Lista as entradas de um diretório; num arquivo, só ele mesmo.
    *
    * @param {string} [targetPath='.'] - Caminho a listar.
-   * @returns {Array<{ name: string, type: string, mime?: string, action?: string, node: Object }>}
+   * @returns {Array<{ name: string, type: string, mime?: string, node: Object }>}
    */
   list(targetPath = '.') {
-    const resolved = this.resolveNode(targetPath)
+    const { node, path, isFile } = this.resolveExisting(targetPath)
+    const entry = (name, child) => ({ name, type: child.type, mime: child.mime, node: child })
 
-    if (!resolved.exists) {
-      throw new VfsError(TerminalError.NO_SUCH_FILE, targetPath)
+    if (isFile) return [entry(baseName(path), node)]
+    return Object.entries(node.children).map(([name, child]) => entry(name, child))
+  }
+
+  /**
+   * Percorre recursivamente a árvore a partir do caminho; num arquivo, só ele mesmo.
+   *
+   * @param {string} [targetPath='.']
+   * @returns {Array<{ path: string, name: string, type: string }>} Nós em pré-ordem (sem o ponto de partida).
+   */
+  walk(targetPath = '.') {
+    const { path, isFile } = this.resolveExisting(targetPath)
+    if (isFile) return [{ path, name: baseName(path), type: VfsNodeType.FILE }]
+
+    const results = []
+    const visit = (dir) => {
+      for (const { name, type } of this.list(dir)) {
+        const fullPath = joinPath(dir, name)
+        results.push({ path: fullPath, name, type })
+        if (type === VfsNodeType.DIR) visit(fullPath)
+      }
     }
-
-    if (resolved.isFile) {
-      const name = resolved.path.split('/').pop()
-      return [
-        {
-          name,
-          type: VfsNodeType.FILE,
-          mime: resolved.node.mime,
-          action: resolved.node.action,
-          node: resolved.node
-        }
-      ]
-    }
-
-    const children = resolved.node.children || {}
-    const entries = []
-
-    for (const name of Object.keys(children)) {
-      const child = children[name]
-      entries.push({
-        name,
-        type: child.type,
-        mime: child.mime,
-        action: child.action,
-        node: child
-      })
-    }
-
-    return entries
+    visit(path)
+    return results
   }
 
   /**
    * Lê o conteúdo textual de um arquivo no VFS.
    *
    * @param {string} targetPath - Caminho do arquivo.
-   * @param {string} [locale='pt'] - Idioma ativo.
-   * @returns {Promise<{ content: string, mime: string, action?: string, name: string }>}
+   * @param {string} locale - Idioma ativo.
+   * @returns {Promise<{ content: string, mime: string, name: string }>}
    */
-  async readFile(targetPath, locale = 'pt') {
-    const resolved = this.resolveNode(targetPath)
+  async readFile(targetPath, locale) {
+    const { node, path, isDir } = this.resolveExisting(targetPath)
 
-    if (!resolved.exists) {
-      throw new VfsError(TerminalError.NO_SUCH_FILE, targetPath)
+    if (isDir) {
+      throw new CommandError(TerminalError.IS_A_DIRECTORY, { path: targetPath })
     }
 
-    if (resolved.isDir) {
-      throw new VfsError(TerminalError.IS_A_DIRECTORY, targetPath)
-    }
-
-    const { node } = resolved
-    let content = ''
-
-    if (typeof node.getContent === 'function') {
-      content = await node.getContent(locale)
-    } else if (typeof node.loader === 'function') {
-      const loaded = await node.loader(locale)
-      content = loaded && loaded.default !== undefined ? loaded.default : loaded
-    } else if (typeof node.content === 'string') {
-      content = node.content
-    }
-
-    return {
-      content: typeof content === 'string' ? content : JSON.stringify(content, null, 2),
-      mime: node.mime || 'text/plain',
-      action: node.action,
-      name: resolved.path.split('/').pop()
-    }
+    const content = node.getContent ? await node.getContent(locale) : ''
+    return { content: String(content ?? ''), mime: node.mime, name: baseName(path) }
   }
 
   /**
@@ -271,35 +196,23 @@ export class VfsEngine {
    * @returns {string}
    */
   tree(targetPath = '.', maxDepth = 4) {
-    const resolved = this.resolveNode(targetPath)
-    if (!resolved.exists) {
-      throw new VfsError(TerminalError.NO_SUCH_FILE, targetPath)
-    }
-    if (resolved.isFile) {
-      return resolved.path.split('/').pop()
-    }
+    const { node, path, isFile } = this.resolveExisting(targetPath)
+    if (isFile) return baseName(path)
 
-    const lines = []
-    const rootName = resolved.path === '/' ? '.' : resolved.path.split('/').pop()
-    lines.push(rootName)
+    const lines = [path === '/' ? '.' : baseName(path)]
 
-    const buildTree = (dirNode, prefix = '', depth = 1) => {
-      if (depth > maxDepth || !dirNode.children) return
+    const buildTree = (dirNode, prefix, depth) => {
+      if (depth > maxDepth) return
       const keys = Object.keys(dirNode.children)
       keys.forEach((key, index) => {
         const isLast = index === keys.length - 1
         const child = dirNode.children[key]
-        const branch = isLast ? '└── ' : '├── '
-        lines.push(`${prefix}${branch}${key}`)
-
-        if (child.type === VfsNodeType.DIR) {
-          const extension = isLast ? '    ' : '│   '
-          buildTree(child, prefix + extension, depth + 1)
-        }
+        lines.push(`${prefix}${isLast ? '└── ' : '├── '}${key}`)
+        if (isDirNode(child)) buildTree(child, prefix + (isLast ? '    ' : '│   '), depth + 1)
       })
     }
 
-    buildTree(resolved.node, '', 1)
+    buildTree(node, '', 1)
     return lines.join('\n')
   }
 
@@ -320,9 +233,8 @@ export class VfsEngine {
     }
 
     try {
-      const entries = this.list(dirPath)
       const prefixDir = dirPath === '.' ? '' : (dirPath.endsWith('/') ? dirPath : dirPath + '/')
-      return entries
+      return this.list(dirPath)
         .filter((e) => e.name.startsWith(filePrefix))
         .map((e) => `${prefixDir}${e.name}${e.type === VfsNodeType.DIR ? '/' : ''}`)
     } catch {
@@ -330,23 +242,3 @@ export class VfsEngine {
     }
   }
 }
-
-/**
- * Cria e inicializa uma nova instância de VfsEngine.
- *
- * @param {Object} manifest - Árvore declarativa do VFS.
- * @param {Object} [options={}]
- * @returns {VfsEngine}
- */
-export function createVfsEngine(manifest, options = {}) {
-  return new VfsEngine(manifest, options)
-}
-
-export default {
-  VfsError,
-  VfsEngine,
-  normalizePath,
-  formatDisplayPath,
-  createVfsEngine
-}
-

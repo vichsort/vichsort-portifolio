@@ -1,19 +1,12 @@
 /**
  * Comando 'clear'
- * Limpa o histórico de comandos da tela do terminal.
+ * Limpa a tela do terminal (o mesmo que Ctrl+L).
  */
 export const clearCommand = {
   name: 'clear',
   aliases: ['cls'],
-  descriptionKey: 'terminal.commands.clear.description',
-  usageKey: 'terminal.commands.clear.usage',
-  async execute(args, flags, context) {
-    if (typeof context.clear === 'function') {
-      context.clear()
-    }
+  async execute(args, flags, { clear }) {
+    clear()
     return null
   }
 }
-
-export default clearCommand
-

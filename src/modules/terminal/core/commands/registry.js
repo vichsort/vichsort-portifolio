@@ -1,156 +1,115 @@
-import clearCommand from './system/clear.js'
-import whoamiCommand from './system/whoami.js'
-import echoCommand from './system/echo.js'
-import dateCommand from './system/date.js'
-import helpCommand from './system/help.js'
-import headerCommand from './system/header.js'
-import pwdCommand from './fs/pwd.js'
-import cdCommand from './fs/cd.js'
-import lsCommand from './fs/ls.js'
-import catCommand from './fs/cat.js'
-import treeCommand from './fs/tree.js'
-import findCommand from './fs/find.js'
-import grepCommand from './fs/grep.js'
-import aboutCommand from './portfolio/about.js'
-import skillsCommand from './portfolio/skills.js'
-import projectsCommand from './portfolio/projects.js'
-import certificationsCommand from './portfolio/certifications.js'
-import researchesCommand from './portfolio/researches.js'
-import contactCommand from './portfolio/contact.js'
-import resumeCommand from './portfolio/resume.js'
-import linksCommand from './portfolio/links.js'
-import cowsayCommand from './easter/cowsay.js'
-import sudoCommand from './easter/sudo.js'
-import themeCommand from './settings/theme.js'
-import langCommand from './settings/lang.js'
+import { clearCommand } from './system/clear.js'
+import { whoamiCommand } from './system/whoami.js'
+import { echoCommand } from './system/echo.js'
+import { dateCommand } from './system/date.js'
+import { helpCommand } from './system/help.js'
+import { headerCommand } from './system/header.js'
+import { pwdCommand } from './fs/pwd.js'
+import { cdCommand } from './fs/cd.js'
+import { lsCommand } from './fs/ls.js'
+import { catCommand } from './fs/cat.js'
+import { treeCommand } from './fs/tree.js'
+import { findCommand } from './fs/find.js'
+import { grepCommand } from './fs/grep.js'
+import {
+  aboutCommand,
+  skillsCommand,
+  certificationsCommand,
+  researchesCommand,
+  contactCommand
+} from './portfolio/fileCommands.js'
+import { projectsCommand } from './portfolio/projects.js'
+import { resumeCommand } from './portfolio/resume.js'
+import { linksCommand } from './portfolio/links.js'
+import { cowsayCommand } from './easter/cowsay.js'
+import { sudoCommand } from './easter/sudo.js'
+import { themeCommand } from './settings/theme.js'
+import { langCommand } from './settings/lang.js'
 
 /**
- * Catálogo de registro de comandos do Vitor Shell (vsh).
- * Segue o Open/Closed Principle (OCP), permitindo o registro dinâmico de novos comandos.
+ * Contrato de um comando:
+ *   name        - nome primário; descrição e uso ficam em terminal.commands.<name>.{description,usage}
+ *   aliases?    - outros nomes
+ *   valueFlags? - flags que recebem valor no token seguinte (--stack vue, -L 2)
+ *   complete?   - (word, context) => string[]: o que o Tab sugere nos argumentos (padrão: caminhos do VFS)
+ *   execute     - (args, flags, context) => { type, payload } | null; erros esperados saem como CommandError
+ */
+const COMMANDS = [
+  // Sistema
+  clearCommand,
+  whoamiCommand,
+  echoCommand,
+  dateCommand,
+  helpCommand,
+  headerCommand,
+  // Filesystem (VFS)
+  pwdCommand,
+  cdCommand,
+  lsCommand,
+  catCommand,
+  treeCommand,
+  findCommand,
+  grepCommand,
+  // Portfólio
+  aboutCommand,
+  skillsCommand,
+  projectsCommand,
+  certificationsCommand,
+  researchesCommand,
+  contactCommand,
+  resumeCommand,
+  linksCommand,
+  // Configurações do site (a página do terminal não tem navbar)
+  themeCommand,
+  langCommand,
+  // Easter eggs
+  cowsayCommand,
+  sudoCommand
+]
+
+/**
+ * Catálogo de comandos do Vitor Shell (vsh), por nome e por alias (sem diferenciar maiúsculas).
  */
 export class CommandRegistry {
-  constructor() {
+  constructor(commands = []) {
     this.commands = new Map()
     this.aliases = new Map()
+    commands.forEach((command) => this.register(command))
   }
 
   /**
-   * Registra um novo comando no catálogo.
-   *
-   * @param {Object} command - Definição do comando que satisfaz o commandContract.
-   * @returns {CommandRegistry} A própria instância para encadeamento.
+   * @param {Object} command - Definição que segue o contrato acima.
+   * @returns {CommandRegistry}
    */
   register(command) {
-    if (!command || !command.name) {
-      throw new Error('Comando inválido: objeto deve conter uma propriedade "name".')
-    }
-
-    const primaryName = command.name.toLowerCase()
-    this.commands.set(primaryName, command)
-
-    if (Array.isArray(command.aliases)) {
-      for (const alias of command.aliases) {
-        if (alias && typeof alias === 'string') {
-          this.aliases.set(alias.toLowerCase(), command)
-        }
-      }
-    }
-
+    this.commands.set(command.name.toLowerCase(), command)
+    for (const alias of command.aliases ?? []) this.aliases.set(alias.toLowerCase(), command)
     return this
   }
 
   /**
-   * Obtém a definição de um comando por nome primário ou alias.
-   *
    * @param {string} nameOrAlias
    * @returns {Object|null}
    */
   get(nameOrAlias) {
-    if (!nameOrAlias || typeof nameOrAlias !== 'string') return null
-    const key = nameOrAlias.toLowerCase()
+    const key = nameOrAlias?.toLowerCase()
     return this.commands.get(key) || this.aliases.get(key) || null
   }
 
-  /**
-   * Verifica se o comando ou alias está registrado.
-   *
-   * @param {string} nameOrAlias
-   * @returns {boolean}
-   */
-  has(nameOrAlias) {
-    if (!nameOrAlias || typeof nameOrAlias !== 'string') return false
-    const key = nameOrAlias.toLowerCase()
-    return this.commands.has(key) || this.aliases.has(key)
-  }
-
-  /**
-   * Retorna a lista de comandos únicos registrados (sem duplicar por aliases).
-   *
-   * @returns {Object[]}
-   */
+  /** Comandos únicos (sem repetir por alias). */
   getAll() {
-    return Array.from(this.commands.values())
+    return [...this.commands.values()]
   }
 
-  /**
-   * Retorna todos os nomes primários e aliases registrados.
-   *
-   * @returns {string[]}
-   */
+  /** Nomes primários e aliases, para sugestões e autocomplete. */
   getAllNames() {
-    const names = Array.from(this.commands.keys())
-    const aliasKeys = Array.from(this.aliases.keys())
-    return Array.from(new Set([...names, ...aliasKeys]))
+    return [...this.commands.keys(), ...this.aliases.keys()]
   }
 }
 
 /**
- * Cria e inicializa o catálogo padrão com todos os comandos de sistema, VFS e portfólio.
+ * Catálogo com todos os comandos do terminal.
  *
  * @returns {CommandRegistry}
  */
-export function createDefaultRegistry() {
-  const registry = new CommandRegistry()
-
-  // Comandos de Sistema
-  registry.register(clearCommand)
-  registry.register(whoamiCommand)
-  registry.register(echoCommand)
-  registry.register(dateCommand)
-  registry.register(helpCommand)
-  registry.register(headerCommand)
-
-  // Comandos de Filesystem (VFS)
-  registry.register(pwdCommand)
-  registry.register(cdCommand)
-  registry.register(lsCommand)
-  registry.register(catCommand)
-  registry.register(treeCommand)
-  registry.register(findCommand)
-  registry.register(grepCommand)
-
-  // Comandos de Portfólio (Domínio)
-  registry.register(aboutCommand)
-  registry.register(skillsCommand)
-  registry.register(projectsCommand)
-  registry.register(certificationsCommand)
-  registry.register(researchesCommand)
-  registry.register(contactCommand)
-  registry.register(resumeCommand)
-  registry.register(linksCommand)
-
-  // Configurações do site (a página do terminal não tem navbar)
-  registry.register(themeCommand)
-  registry.register(langCommand)
-
-  // Comandos Easter Eggs
-  registry.register(cowsayCommand)
-  registry.register(sudoCommand)
-
-  return registry
-}
-
-export default {
-  CommandRegistry,
-  createDefaultRegistry
-}
+export const createDefaultRegistry = () => new CommandRegistry(COMMANDS)

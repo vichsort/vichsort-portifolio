@@ -1,103 +1,52 @@
-import { TerminalError } from '../../errors/codes.js'
-import { formatError } from '../../errors/formatter.js'
-import { findClosestCommand } from '../../dispatcher/similarity.js'
+import { commandNotFound } from '../../dispatcher/dispatcher.js'
+
+// Textos de um comando, por convenção em terminal.commands.<nome>
+const usageOf = (cmd, t) => t(`terminal.commands.${cmd.name}.usage`)
+const descriptionOf = (cmd, t) => t(`terminal.commands.${cmd.name}.description`)
 
 /**
  * Comando 'help' / 'man'
- * Exibe a listagem de comandos disponíveis ou a documentação de um comando específico.
+ * Sem argumento, lista os comandos; com um nome, mostra o manual dele.
  */
 export const helpCommand = {
   name: 'help',
   aliases: ['man'],
-  descriptionKey: 'terminal.commands.help.description',
-  usageKey: 'terminal.commands.help.usage',
   async execute(args, flags, context) {
-    const { registry, t = (k) => k } = context
+    const { registry, t } = context
+    const o = (key) => t(`terminal.output.help.${key}`)
 
-    if (!registry) {
-      return {
-        type: 'text',
-        payload: 'vsh: catálogo de comandos indisponível'
-      }
-    }
-
-    // Se o usuário passou um comando específico (ex: help ls)
-    if (args.length > 0) {
-      const targetName = args[0].toLowerCase()
-      const targetCmd = registry.get(targetName)
-
-      if (!targetCmd) {
-        const availableNames = registry.getAllNames ? registry.getAllNames() : []
-        const suggestion = findClosestCommand(targetName, availableNames, 2)
-        return {
-          type: 'error',
-          payload: formatError(
-            TerminalError.COMMAND_NOT_FOUND,
-            { cmd: targetName, suggestion },
-            t
-          )
-        }
-      }
-
-      const description = t(targetCmd.descriptionKey) || 'Sem descrição.'
-      const usage = t(targetCmd.usageKey) || targetCmd.name
-      const aliases = targetCmd.aliases && targetCmd.aliases.length > 0
-        ? targetCmd.aliases.join(', ')
-        : 'nenhum'
+    if (args.length) {
+      const cmd = registry.get(args[0])
+      if (!cmd) return commandNotFound(args[0].toLowerCase(), context)
 
       const lines = [
-        `MANUAL: ${targetCmd.name}`,
+        `${o('manual')}: ${cmd.name}`,
         '',
-        `SINTAXE:`,
-        `  ${usage}`,
+        `${o('usage')}:`,
+        `  ${usageOf(cmd, t)}`,
         '',
-        `DESCRIÇÃO:`,
-        `  ${description}`,
+        `${o('description')}:`,
+        `  ${descriptionOf(cmd, t)}`,
         '',
-        `ALIASES:`,
-        `  ${aliases}`
+        `${o('aliases')}:`,
+        `  ${cmd.aliases?.join(', ') || o('no_aliases')}`
       ]
-
-      return {
-        type: 'text',
-        payload: lines.join('\n')
-      }
+      return { type: 'text', payload: lines.join('\n') }
     }
 
-    // Listagem geral de todos os comandos registrados
-    const commands = typeof registry.getAll === 'function'
-      ? registry.getAll()
-      : Array.from(registry.values || [])
-
-    // Ordenar alfabeticamente
-    commands.sort((a, b) => a.name.localeCompare(b.name))
+    // Duas colunas: uso alinhado e descrição
+    const commands = registry.getAll().sort((a, b) => a.name.localeCompare(b.name))
+    const usages = commands.map((cmd) => usageOf(cmd, t))
+    const width = Math.max(22, ...usages.map((usage) => usage.length + 4))
 
     const lines = [
-      'VSH (Vitor Shell) — v1.0.0',
-      'Comandos disponíveis:',
-      ''
+      t('terminal.welcome'),
+      o('title'),
+      '',
+      ...commands.map((cmd, i) => `  ${usages[i].padEnd(width)}${descriptionOf(cmd, t)}`),
+      '',
+      o('footer')
     ]
-
-    // Formatação em duas colunas alinhadas
-    const maxLen = commands.reduce((max, c) => Math.max(max, (t(c.usageKey) || c.name).length), 0)
-    const colWidth = Math.max(maxLen + 4, 22)
-
-    for (const cmd of commands) {
-      const usage = t(cmd.usageKey) || cmd.name
-      const desc = t(cmd.descriptionKey) || ''
-      const padding = ' '.repeat(Math.max(colWidth - usage.length, 2))
-      lines.push(`  ${usage}${padding}${desc}`)
-    }
-
-    lines.push('')
-    lines.push("Digite 'help <comando>' para detalhes e opções de sintaxe.")
-
-    return {
-      type: 'text',
-      payload: lines.join('\n')
-    }
+    return { type: 'text', payload: lines.join('\n') }
   }
 }
-
-export default helpCommand
-

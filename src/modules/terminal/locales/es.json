@@ -3,9 +3,7 @@
     "title": "Terminal",
     "welcome": "VSH (Vitor Shell) — v1.0.0",
     "help_hint": "Escribe 'help' para listar los comandos disponibles.",
-    "prompt_user": "vitor",
-    "prompt_host": "vichos",
-    "placeholder": "Escribe un comando...",
+    "prompt_label": "Línea de comandos del terminal",
     "commands": {
       "help": {
         "description": "Lista los comandos disponibles o los detalles de un comando",
@@ -57,7 +55,7 @@
       },
       "projects": {
         "description": "Lista proyectos o muestra los metadatos de un proyecto",
-        "usage": "projects [--stack=x] [--featured] [slug]"
+        "usage": "projects [--stack=x] [slug]"
       },
       "skills": {
         "description": "Muestra la matriz de tecnologías agrupadas por stack",
@@ -93,7 +91,7 @@
       },
       "grep": {
         "description": "Busca un patrón de texto dentro de los archivos",
-        "usage": "grep <término> [ruta]"
+        "usage": "grep [-i] <término> [ruta]"
       },
       "links": {
         "description": "Muestra los enlaces de un nodo del grafo: a dónde apunta y quién apunta a él",
@@ -115,10 +113,20 @@
       "is_a_directory": "{cmd}: {path}: Es un directorio",
       "not_a_directory": "{cmd}: {path}: No es un directorio",
       "missing_arg": "{cmd}: falta el argumento obligatorio: {arg}",
+      "execution_failed": "{cmd}: fallo en la ejecución: {message}",
       "syntax_error": "error de sintaxis cerca de '{token}'",
       "internal": "vsh: error interno: {message}"
     },
     "output": {
+      "help": {
+        "title": "Comandos disponibles:",
+        "footer": "Escribe 'help <comando>' para ver detalles y sintaxis.",
+        "manual": "MANUAL",
+        "usage": "SINTAXIS",
+        "description": "DESCRIPCIÓN",
+        "aliases": "ALIAS",
+        "no_aliases": "ninguno"
+      },
       "about": {
         "location": "Ubicación",
         "education": "Formación",
@@ -182,7 +190,8 @@
           "certification": "Certificaciones",
           "research": "Investigaciones",
           "timeline": "Línea de tiempo",
-          "collection": "Colecciones"
+          "collection": "Colecciones",
+          "photo": "Fotos"
         }
       },
       "grep": {

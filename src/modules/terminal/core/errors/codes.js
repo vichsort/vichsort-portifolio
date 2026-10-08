@@ -1,5 +1,5 @@
 /**
- * Constantes de Códigos de Erro do Vitor Shell (vsh)
+ * Códigos de erro do Vitor Shell (vsh): cada um é uma chave em terminal.errors.*
  */
 export const TerminalError = {
   COMMAND_NOT_FOUND: 'command_not_found',
@@ -11,5 +11,19 @@ export const TerminalError = {
   SYNTAX_ERROR: 'syntax_error'
 }
 
-export default TerminalError
-
+/**
+ * Erro esperado de um comando (arquivo inexistente, argumento faltando...).
+ * O dispatcher o transforma na mensagem traduzida, com o nome do comando.
+ */
+export class CommandError extends Error {
+  /**
+   * @param {string} code - Um dos TerminalError.
+   * @param {Record<string, any>} [params] - Parâmetros da mensagem ({ path }, { arg }...).
+   */
+  constructor(code, params = {}) {
+    super(code)
+    this.name = 'CommandError'
+    this.code = code
+    this.params = params
+  }
+}

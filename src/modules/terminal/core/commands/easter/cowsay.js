@@ -71,17 +71,7 @@ export function formatCowsay(message) {
 export const cowsayCommand = {
   name: 'cowsay',
   aliases: ['cow'],
-  descriptionKey: 'terminal.commands.cowsay.description',
-  usageKey: 'terminal.commands.cowsay.usage',
-  async execute(args, flags, context) {
-    const text = args && args.length > 0 ? args.join(' ') : ''
-    const output = formatCowsay(text)
-
-    return {
-      type: 'text',
-      payload: output
-    }
+  async execute(args) {
+    return { type: 'text', payload: formatCowsay(args.join(' ')) }
   }
 }
-
-export default cowsayCommand

@@ -9,13 +9,17 @@ import { createDefaultRegistry } from '../core/commands/registry.js'
 import { createCommandContext } from '../core/dispatcher/context.js'
 import { dispatchLine } from '../core/dispatcher/dispatcher.js'
 import { getRandomHeader } from '../core/banner/headers.js'
-import { graph } from '@/core/content'
+import { CommandHistory } from '../core/input/history.js'
+import { completeLine } from '../core/input/completion.js'
+
+const USER = 'vitor'
+const HOST = 'vichos'
 
 // Uma sessão só no site: a janela da home e a página /terminal mostram o mesmo terminal
 let session = null
 
 /**
- * Sessão do terminal interativo (VSH): histórico, diretório, buffer de comandos e I/O.
+ * Sessão do terminal interativo (VSH): tela, prompt, histórico e execução.
  * Criada na primeira chamada e compartilhada por todas as telas que mostram o terminal.
  *
  * @returns {Object} Estado reativo e métodos de controle do terminal.
@@ -29,30 +33,20 @@ function createSession() {
   const { t, locale } = i18n.global
   const { setLanguage } = useSettings()
   const { theme } = useTheme()
+  const { vfs, displayPath } = useVFS()
 
-  const { vfs, currentPath, displayPath, getCompletions } = useVFS()
-  const registry = createDefaultRegistry()
-
-  const user = ref('vitor')
-  const host = ref('vichos')
   const input = ref('')
   const isExecuting = ref(false)
-
-  // Histórico de saídas renderizadas na tela
+  // O que está na tela: cada entrada é uma linha digitada e as saídas dela
   const history = ref([])
-
-  // Histórico de linhas brutas de comandos (navegação com ↑/↓)
-  const commandHistory = ref([])
-
-  // Posição na navegação: null = editando uma linha nova (guardada em draft)
-  let historyIndex = null
-  let draft = ''
+  const commandHistory = new CommandHistory()
 
   let wasCleared = false
   let nextEntryId = 0
 
   // Banner ASCII do topo: sorteado por sessão, para as duas telas mostrarem o mesmo
-  const banner = ref(getRandomHeader()?.content || '')
+  const randomBanner = () => getRandomHeader()?.content || ''
+  const banner = ref(randomBanner())
 
   const welcome = computed(() => `${t('terminal.welcome')}\n${t('terminal.help_hint')}`)
 
@@ -63,30 +57,19 @@ function createSession() {
 
   // Uma linha da tela: o comando digitado (null = só saídas) e as saídas de cada pipeline do &&
   const pushEntry = (command, outputs = [], cwd = displayPath.value) => {
-    history.value.push({
-      id: nextEntryId++,
-      command,
-      user: user.value,
-      host: host.value,
-      cwd,
-      outputs
-    })
-  }
-
-  const resetNavigation = () => {
-    historyIndex = null
-    draft = ''
+    history.value.push({ id: nextEntryId++, command, user: USER, host: HOST, cwd, outputs })
   }
 
   // Troca de idioma feita pelo comando lang: ele mesmo responde, sem a linha de aviso
   let localeFromCommand = false
 
-  // Montagem do CommandContext injetado nos comandos
   const context = createCommandContext({
     vfs,
-    registry,
+    registry: createDefaultRegistry(),
     router,
-    // Idioma ativo: os comandos e o VFS leem de globalState.locale
+    user: USER,
+    t: (key, params) => t(key, params),
+    clear,
     globalState: {
       locale,
       theme,
@@ -98,9 +81,7 @@ function createSession() {
         localeFromCommand = true
         setLanguage(value)
       }
-    },
-    t: (key, params) => t(key, params),
-    clear
+    }
   })
 
   // O que já está na tela fica no idioma em que rodou, como num terminal de verdade;
@@ -122,107 +103,61 @@ function createSession() {
   const execute = async (rawCommand) => {
     if (isExecuting.value) return
 
-    const trimmed = typeof rawCommand === 'string' ? rawCommand.trim() : ''
-    resetNavigation()
+    const line = rawCommand.trim()
+    input.value = ''
 
-    // Caso linha em branco (apenas pressionou Enter)
-    if (!trimmed) {
+    // Enter numa linha vazia só repete o prompt
+    if (!line) {
+      commandHistory.resetNavigation()
       pushEntry('')
-      input.value = ''
       return
     }
 
     isExecuting.value = true
     wasCleared = false
-
-    // Grava no histórico de navegação, sem repetir o comando anterior (como o ignoredups do bash)
-    if (commandHistory.value.at(-1) !== trimmed) commandHistory.value.push(trimmed)
+    commandHistory.push(line)
 
     // A linha aparece no diretório em que foi digitada, mesmo que o comando seja um cd
-    const executionCwd = displayPath.value
+    const cwd = displayPath.value
 
     let outputs
     try {
-      outputs = await dispatchLine(trimmed, context)
+      outputs = await dispatchLine(line, context)
     } catch (err) {
       outputs = [{ type: 'error', payload: t('terminal.errors.internal', { message: err.message || String(err) }) }]
     } finally {
       // Se um comando chamou clear(), a linha digitada some junto com a tela;
       // o que veio depois dele (ex.: clear && ls) ainda aparece
-      if (!wasCleared) pushEntry(trimmed, outputs, executionCwd)
+      if (!wasCleared) pushEntry(line, outputs, cwd)
       else if (outputs?.length) pushEntry(null, outputs)
-
-      input.value = ''
       isExecuting.value = false
     }
   }
 
   /** ↑: comando anterior. A linha que estava sendo digitada fica guardada para o ↓. */
   const historyPrev = () => {
-    const list = commandHistory.value
-    if (!list.length) return
-    if (historyIndex === null) {
-      draft = input.value
-      historyIndex = list.length - 1
-    } else if (historyIndex > 0) {
-      historyIndex--
-    }
-    input.value = list[historyIndex]
+    const line = commandHistory.prev(input.value)
+    if (line !== null) input.value = line
   }
 
   /** ↓: comando seguinte; depois do último, volta para a linha que estava sendo digitada. */
   const historyNext = () => {
-    if (historyIndex === null) return
-    const list = commandHistory.value
-    if (historyIndex < list.length - 1) {
-      historyIndex++
-      input.value = list[historyIndex]
-    } else {
-      input.value = draft
-      resetNavigation()
-    }
+    const line = commandHistory.next()
+    if (line !== null) input.value = line
   }
 
-  /**
-   * Tab: completa a última palavra da linha. No início da linha ou depois de
-   * `|` / `&&`, completa nomes de comando; no argumento do `links`, ids de nós;
-   * no resto, caminhos do VFS.
-   * Um candidato: completa. Vários: avança até o prefixo comum; se não houver
-   * o que avançar, lista os candidatos abaixo da linha, como o bash.
-   */
+  /** Tab: completa a linha ou lista as opções abaixo dela. */
   const complete = () => {
-    const line = input.value
-    const start = line.lastIndexOf(' ') + 1
-    const word = line.slice(start)
-    const before = line.slice(0, start)
-    const isCommand = /(^|\||&&)\s*$/.test(before)
-    const commandName = before.split(/\||&&/).pop().trim().split(/\s+/)[0]
+    const result = completeLine(input.value, context)
+    if (result?.line !== undefined) input.value = result.line
+    else if (result?.options) pushEntry(input.value, [{ type: 'text', payload: result.options.join('  ') }])
+  }
 
-    const startingWith = (list) => list.filter((name) => name.startsWith(word)).sort()
-    const candidates = isCommand
-      ? startingWith(registry.getAllNames())
-      : registry.get(commandName)?.name === 'links'
-        ? startingWith([...graph.nodes.keys()])
-        : getCompletions(word)
-
-    if (!candidates.length) return
-
-    if (candidates.length === 1) {
-      const [match] = candidates
-      // Diretório continua aberto para o próximo nível; o resto ganha um espaço
-      input.value = line.slice(0, start) + match + (match.endsWith('/') ? '' : ' ')
-      return
-    }
-
-    const prefix = commonPrefix(candidates)
-    if (prefix.length > word.length) {
-      input.value = line.slice(0, start) + prefix
-      return
-    }
-
-    // Só o último segmento de cada caminho, como o bash mostra
-    const names = candidates.map((c) => c.replace(/\/$/, '').split('/').pop() + (c.endsWith('/') ? '/' : ''))
-    pushEntry(line, [{ type: 'text', payload: names.join('  ') }])
+  /** Ctrl+C: abandona a linha atual, que fica na tela com ^C. */
+  const interrupt = () => {
+    pushEntry(`${input.value}^C`)
+    input.value = ''
+    commandHistory.resetNavigation()
   }
 
   /**
@@ -231,31 +166,20 @@ function createSession() {
    */
   const reset = () => {
     history.value = []
-    commandHistory.value = []
+    commandHistory.clear()
     input.value = ''
-    resetNavigation()
     vfs.cd('~')
-    banner.value = getRandomHeader()?.content || ''
-  }
-
-  /** Ctrl+C: abandona a linha atual, que fica na tela com ^C. */
-  const interrupt = () => {
-    pushEntry(`${input.value}^C`)
-    input.value = ''
-    resetNavigation()
+    banner.value = randomBanner()
   }
 
   return {
-    user,
-    host,
+    user: USER,
+    host: HOST,
     input,
     history,
     banner,
     welcome,
-    reset,
-    commandHistory,
     isExecuting,
-    currentPath,
     displayPath,
     execute,
     clear,
@@ -263,18 +187,6 @@ function createSession() {
     historyNext,
     complete,
     interrupt,
-    vfs,
-    registry,
-    getCompletions
+    reset
   }
-}
-
-export default useTerminal
-
-function commonPrefix(words) {
-  let prefix = words[0]
-  for (const word of words) {
-    while (!word.startsWith(prefix)) prefix = prefix.slice(0, -1)
-  }
-  return prefix
 }

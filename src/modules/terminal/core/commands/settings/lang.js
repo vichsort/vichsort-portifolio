@@ -9,11 +9,8 @@ import { LANGUAGES, isLang } from '@/core/i18n/languages'
 export const langCommand = {
   name: 'lang',
   aliases: ['language'],
-  descriptionKey: 'terminal.commands.lang.description',
-  usageKey: 'terminal.commands.lang.usage',
   async execute(args, flags, context) {
-    const { globalState = {}, t = (k) => k } = context
-    const current = globalState.locale?.value
+    const { globalState, t, locale: current } = context
     const [value] = args
 
     if (!value) {
@@ -29,10 +26,8 @@ export const langCommand = {
       }
     }
 
-    globalState.setLocale?.(code)
+    globalState.setLocale(code)
     const label = LANGUAGES.find((l) => l.code === code).label
     return { type: 'text', payload: t('terminal.output.lang.changed', { lang: label }) }
   }
 }
-
-export default langCommand

@@ -5,8 +5,6 @@
 export const resumeCommand = {
   name: 'resume',
   aliases: ['cv', 'download'],
-  descriptionKey: 'terminal.commands.resume.description',
-  usageKey: 'terminal.commands.resume.usage',
   async execute(args, flags, context) {
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {
       try {
@@ -28,6 +26,4 @@ export const resumeCommand = {
     }
   }
 }
-
-export default resumeCommand
 

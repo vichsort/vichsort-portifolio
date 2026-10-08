@@ -1,18 +1,20 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import PromptPrefix from './PromptPrefix.vue'
 
 const props = defineProps({
   user: {
     type: String,
-    default: 'vitor'
+    required: true
   },
   host: {
     type: String,
-    default: 'vichos'
+    required: true
   },
   cwd: {
     type: String,
-    default: '~'
+    required: true
   },
   disabled: {
     type: Boolean,
@@ -30,6 +32,7 @@ const props = defineProps({
 
 const emit = defineEmits(['submit', 'update:modelValue', 'history-prev', 'history-next', 'complete', 'interrupt', 'clear-screen'])
 
+const { t } = useI18n()
 const inputRef = ref(null)
 
 // preventScroll: focar não pode arrastar a página até o terminal
@@ -125,12 +128,7 @@ defineExpose({
 
 <template>
   <div class="terminal-prompt-line">
-    <span class="prompt-prefix">
-      <span class="prompt-user">{{ user }}@{{ host }}</span>
-      <span class="prompt-separator">:</span>
-      <span class="prompt-cwd">{{ cwd }}</span>
-      <span class="prompt-symbol">$</span>
-    </span>
+    <PromptPrefix :user="user" :host="host" :cwd="cwd" />
 
     <div class="prompt-input-wrapper">
       <input
@@ -143,7 +141,7 @@ defineExpose({
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
-        aria-label="Terminal input prompt"
+        :aria-label="t('terminal.prompt_label')"
         @input="handleInput"
         @paste="handlePaste"
         @keydown="handleKeydown"
@@ -162,33 +160,6 @@ defineExpose({
   font-size: var(--text-sm);
   line-height: 1.5;
   width: 100%;
-}
-
-.prompt-prefix {
-  display: inline-flex;
-  align-items: center;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.prompt-user {
-  color: var(--neon-cyan);
-  font-weight: 600;
-}
-
-.prompt-separator {
-  color: var(--text-muted);
-}
-
-.prompt-cwd {
-  color: var(--neon-magenta);
-  font-weight: 600;
-}
-
-.prompt-symbol {
-  color: var(--text-primary);
-  margin-left: 0.25rem;
-  font-weight: 700;
 }
 
 .prompt-input-wrapper {

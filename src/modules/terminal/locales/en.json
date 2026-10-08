@@ -3,9 +3,7 @@
     "title": "Terminal",
     "welcome": "VSH (Vitor Shell) — v1.0.0",
     "help_hint": "Type 'help' to list available commands.",
-    "prompt_user": "vitor",
-    "prompt_host": "vichos",
-    "placeholder": "Type a command...",
+    "prompt_label": "Terminal command line",
     "commands": {
       "help": {
         "description": "Lists available commands or details about a command",
@@ -57,7 +55,7 @@
       },
       "projects": {
         "description": "Lists projects or displays project details",
-        "usage": "projects [--stack=x] [--featured] [slug]"
+        "usage": "projects [--stack=x] [slug]"
       },
       "skills": {
         "description": "Displays technology stack matrix",
@@ -93,7 +91,7 @@
       },
       "grep": {
         "description": "Searches for text patterns inside files",
-        "usage": "grep <term> [path]"
+        "usage": "grep [-i] <term> [path]"
       },
       "links": {
         "description": "Shows a graph node's links: what it points to and what points to it",
@@ -115,10 +113,20 @@
       "is_a_directory": "{cmd}: {path}: Is a directory",
       "not_a_directory": "{cmd}: {path}: Not a directory",
       "missing_arg": "{cmd}: missing required argument: {arg}",
+      "execution_failed": "{cmd}: execution failed: {message}",
       "syntax_error": "syntax error near '{token}'",
       "internal": "vsh: internal error: {message}"
     },
     "output": {
+      "help": {
+        "title": "Available commands:",
+        "footer": "Type 'help <command>' for details and syntax.",
+        "manual": "MANUAL",
+        "usage": "USAGE",
+        "description": "DESCRIPTION",
+        "aliases": "ALIASES",
+        "no_aliases": "none"
+      },
       "about": {
         "location": "Location",
         "education": "Education",
@@ -182,7 +190,8 @@
           "certification": "Certifications",
           "research": "Research",
           "timeline": "Timeline",
-          "collection": "Collections"
+          "collection": "Collections",
+          "photo": "Photos"
         }
       },
       "grep": {
