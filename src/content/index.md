@@ -122,6 +122,7 @@ generated: true
 - [[plante]]
 - [[prisma]]
 - [[tera-cli]]
+- [[trucaralho]]
 
 ## certifications
 
