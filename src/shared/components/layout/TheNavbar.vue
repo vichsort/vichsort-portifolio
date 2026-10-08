@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
-import { useScrollLock, onKeyStroke, useElementSize } from '@vueuse/core'
+import { useScrollLock, onKeyStroke, useElementSize, useWindowSize } from '@vueuse/core'
 import { useSmartScroll } from '@/shared/composables/useSmartScroll'
 import { useSettings } from '@/shared/composables/useSettings'
 import { useHeroPresence } from '@/shared/composables/useHeroPresence'
@@ -12,7 +12,7 @@ import { NAV_ITEMS, NAV_MORE_ITEMS, getSocial } from '@/core/config/profile'
 const route = useRoute()
 const { t } = useI18n()
 const { isVisible, isAtTop } = useSmartScroll()
-const { toggleSidebar } = useSettings()
+const { toggleSidebar, fontSizeLevel } = useSettings()
 const { isHeroActive } = useHeroPresence()
 
 const isMobileNavOpen = ref(false)
@@ -46,6 +46,22 @@ const pageSizes = pageEls.map((el) => useElementSize(el, undefined, { box: 'bord
 const pillStyle = computed(() => {
   const width = pageSizes[navPage.value].width.value
   return width ? { width: `${width}px` } : {}
+})
+
+// Compacta (menu mobile) quando a pílula não cabe entre o logo e as ações: depende do
+// idioma (em espanhol ela é bem mais larga) e do tamanho de fonte das configurações,
+// não só da tela. A pílula continua medida mesmo escondida (ver .is-compact).
+// 26.5rem = logo e redes (~16.5) + paddings do desktop (8) + folgas (2)
+const MOBILE_BREAKPOINT = 860
+const { width: viewportWidth } = useWindowSize()
+const isCompact = computed(() => {
+  void fontSizeLevel.value // recalcula quando o nível muda
+  const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16
+  const pill = pageSizes[0].width.value + 0.8 * rem
+  return viewportWidth.value <= MOBILE_BREAKPOINT || pill + 26.5 * rem > viewportWidth.value
+})
+watch(isCompact, (compact) => {
+  if (!compact) closeMobileNav()
 })
 
 // A seta some com a página: o foco passa para a seta da outra
@@ -82,6 +98,7 @@ onKeyStroke('Escape', (e) => {
     :class="{
       'hidden': !isVisible && !isMobileNavOpen,
       'scrolled': !isAtTop || isMobileNavOpen,
+      'is-compact': isCompact,
       'on-hero': isHeroActive
     }"
   >
@@ -117,7 +134,7 @@ onKeyStroke('Escape', (e) => {
       </div>
 
       <!-- Center: Apple-style Desktop Nav Pill -->
-      <nav class="desktop-nav" :aria-label="t('nav.main_label')">
+      <nav class="desktop-nav" :aria-label="t('nav.main_label')" :inert="isCompact">
         <div class="nav-pill" :style="pillStyle">
           <ul
             v-for="(items, page) in navPages"
@@ -613,25 +630,27 @@ onKeyStroke('Escape', (e) => {
 }
 
 /* Responsive Breakpoints */
-@media (max-width: 860px) {
-  .desktop-only {
-    display: none !important;
-  }
+/* Compacta: decidido no script (isCompact), não por largura fixa. A pílula
+   sai de vista mas segue no layout, para a medida dela continuar valendo. */
+.is-compact .desktop-only {
+  display: none !important;
+}
 
-  .desktop-nav {
-    display: none !important;
-  }
+.is-compact .desktop-nav {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+}
 
-  .mobile-toggle-btn {
-    display: flex;
-  }
+.is-compact .mobile-toggle-btn {
+  display: flex;
+}
 
-  .smart-navbar {
-    padding: 0.9rem var(--spacing-md);
-  }
+.smart-navbar.is-compact {
+  padding: 0.9rem var(--spacing-md);
+}
 
-  .smart-navbar.scrolled {
-    padding: 0.75rem var(--spacing-md);
-  }
+.smart-navbar.is-compact.scrolled {
+  padding: 0.75rem var(--spacing-md);
 }
 </style>

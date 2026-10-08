@@ -173,6 +173,9 @@ const statsCards = [
   color: var(--text-primary);
   letter-spacing: -0.5px;
   margin: 0;
+  /* A fonte arcade é larga: com fonte ampliada no celular, "Publicados" não cabe inteira */
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .hover-label {
@@ -207,6 +210,10 @@ const statsCards = [
 }
 
 @media (max-width: 900px) {
+  .leads-container {
+    padding: var(--spacing-2xl) var(--spacing-md);
+  }
+
   .grid-wrapper {
     display: flex;
     flex-direction: column;

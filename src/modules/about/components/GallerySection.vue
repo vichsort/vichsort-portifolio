@@ -166,7 +166,8 @@ const galleryItems = computed(() => allPhotos(locale.value).slice(0, 4))
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 240px;
+  /* rem e auto: a linha acompanha o tamanho de fonte das configurações e cresce se o texto pedir */
+  grid-auto-rows: minmax(15rem, auto);
   gap: var(--spacing-md);
 }
 
@@ -340,7 +341,7 @@ const galleryItems = computed(() => allPhotos(locale.value).slice(0, 4))
 @media (max-width: 900px) {
   .bento-grid {
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 220px;
+    grid-auto-rows: minmax(13.75rem, auto);
   }
 
   .format-portrait {
@@ -365,7 +366,7 @@ const galleryItems = computed(() => allPhotos(locale.value).slice(0, 4))
   .format-square {
     grid-column: span 1;
     grid-row: span 1;
-    min-height: 240px;
+    min-height: 15rem;
   }
 
   .card-content {

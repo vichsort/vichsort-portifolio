@@ -49,8 +49,6 @@ export function useSettings() {
     }
   }
 
-  const BASE_FONT_SIZE = 16
-
   const changeFontSize = (direction) => {
     if (direction === 'up' && fontSizeLevel.value < 3) fontSizeLevel.value++
     if (direction === 'down' && fontSizeLevel.value > -1) fontSizeLevel.value--
@@ -59,8 +57,9 @@ export function useSettings() {
 
   const applyFontSize = () => {
     if (typeof document !== 'undefined') {
-      const newSize = BASE_FONT_SIZE + (fontSizeLevel.value * 2)
-      document.documentElement.style.fontSize = `${newSize}px`
+      // Em % do tamanho do navegador, não em px: quem já usa fonte maior no sistema
+      // continua com ela, e cada nível soma 12,5% (2px sobre a base de 16px)
+      document.documentElement.style.fontSize = `${100 + fontSizeLevel.value * 12.5}%`
     }
   }
 

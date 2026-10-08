@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useElementSize, useWindowSize } from '@vueuse/core'
 import { useScrollProgress } from '@/shared/composables/useScrollProgress'
 import { useI18n } from 'vue-i18n'
 
@@ -7,6 +8,14 @@ const { t } = useI18n()
 
 const containerRef = ref(null)
 const { progress } = useScrollProgress(containerRef)
+
+// Texto maior que a tela (celular, fonte ampliada): a seção cresce com ele, rola até
+// mostrar o fim e só então prende (top negativo), em vez de cortar o texto
+const stickyRef = ref(null)
+const { height: stickyHeight } = useElementSize(stickyRef, undefined, { box: 'border-box' })
+const { height: viewportHeight } = useWindowSize()
+const stickyStyle = computed(() => ({ top: `${Math.min(0, viewportHeight.value - stickyHeight.value)}px` }))
+const containerStyle = computed(() => ({ height: `max(250vh, ${stickyHeight.value}px + 150vh)` }))
 
 const slides = [
   {
@@ -33,8 +42,8 @@ const barHeight = computed(() => {
 </script>
 
 <template>
-  <section ref="containerRef" class="scroll-container">
-    <div class="sticky-wrapper">
+  <section ref="containerRef" class="scroll-container" :style="containerStyle">
+    <div ref="stickyRef" class="sticky-wrapper" :style="stickyStyle">
       <div class="content-left">
         <div class="progress-track" aria-hidden="true">
           <div class="progress-fill" :style="{ height: barHeight }"></div>
@@ -82,7 +91,7 @@ const barHeight = computed(() => {
 .sticky-wrapper {
   position: sticky;
   top: 0;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   display: flex;
   background-color: var(--bg-canvas);

@@ -37,7 +37,8 @@ const { t } = useI18n()
 <style scoped>
 .description-section {
   display: grid;
-  grid-template-columns: 0.8fr 1.45fr;
+  /* minmax(0, …): o README largo não empurra a coluna para fora da tela */
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.45fr);
   gap: var(--spacing-2xl);
   align-items: center;
   margin-top: var(--spacing-xl);
