@@ -1,11 +1,11 @@
 ---
 title: Projeto Prisma
-summary: Dashboard financeiro para pequenas empresas que cruza receitas e despesas com indicadores do Banco Central e gera análises com IA. Finalista de hackathon.
+summary: Dashboard financeiro para pequenas empresas que cruza receitas e despesas com indicadores do Banco Central e gera análises com IA. Finalista do 1º Hackathon do IFC Concórdia.
 ---
 
 ## Sobre o projeto
 
-O **Projeto Prisma** é um dashboard financeiro para pequenas empresas, feito durante um hackathon em que ficou entre os **finalistas**. A ideia era ir além da planilha de entradas e saídas: além de mostrar como a empresa está, o painel coloca esses números ao lado do cenário econômico, para ajudar o dono a decidir.
+O **Projeto Prisma** é um dashboard financeiro para pequenas empresas, feito durante o [[hackathon-ifc-2025|1º Hackathon do IFC Campus Concórdia]], em outubro de 2025, onde ficou entre os **finalistas**. A ideia de cruzar os dados do negócio com o cenário de fora vinha do [[hackathon-agro-2024|AgroInsights]], que venceu o hackathon agro do campus no ano anterior. A ideia era ir além da planilha de entradas e saídas: além de mostrar como a empresa está, o painel coloca esses números ao lado do cenário econômico, para ajudar o dono a decidir.
 
 ### O que ele faz
 

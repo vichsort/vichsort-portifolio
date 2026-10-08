@@ -137,6 +137,8 @@ generated: true
 - [[compreensao-politica]]
 - [[eyetracking-programacao]]
 - [[feira-energia-limpa-ita]]
+- [[hackathon-agro-2024]]
+- [[hackathon-ifc-2025]]
 - [[heritage-mapping]]
 - [[iarte-fecitac]]
 - [[microservices-energy]]

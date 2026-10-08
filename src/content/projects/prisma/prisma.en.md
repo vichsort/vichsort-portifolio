@@ -1,11 +1,11 @@
 ---
 title: Projeto Prisma
-summary: A financial dashboard for small businesses that combines revenue and expenses with Brazilian Central Bank indicators and AI analysis. Hackathon finalist.
+summary: A financial dashboard for small businesses that combines revenue and expenses with Brazilian Central Bank indicators and AI analysis. Finalist at the 1st IFC Concórdia Hackathon.
 ---
 
 ## About the project
 
-**Projeto Prisma** is a financial dashboard for small businesses, built during a hackathon where it made the **finals**. The idea was to go beyond an income-and-expenses spreadsheet: besides showing how the business is doing, the dashboard puts those numbers next to the economic picture to help the owner make decisions.
+**Projeto Prisma** is a financial dashboard for small businesses, built during the [[hackathon-ifc-2025|1st IFC Campus Concórdia Hackathon]] in October 2025, where it made the **finals**. The idea of combining business data with the outside picture came from [[hackathon-agro-2024|AgroInsights]], which won the campus agro hackathon the year before. The idea was to go beyond an income-and-expenses spreadsheet: besides showing how the business is doing, the dashboard puts those numbers next to the economic picture to help the owner make decisions.
 
 ### What it does
 
