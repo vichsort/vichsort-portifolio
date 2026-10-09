@@ -33,9 +33,9 @@ function flash(el) {
 }
 
 /**
- * Posição de rolagem para uma rota com âncora (/certifications#aws-cloud-practitioner):
+ * Posição de rolagem para uma rota com âncora (/certifications#aws-serverless-mindset):
  * o card com esse id, abaixo da navbar, destacado. Sem o card, o topo da página.
- * Usa getElementById porque ids de nós podem começar com dígito (2023-fullstack-developer),
+ * Usa getElementById porque ids de nós podem começar com dígito (2023-ifc-tecnico),
  * o que não é um seletor CSS válido.
  *
  * @param {string} hash '#id'
