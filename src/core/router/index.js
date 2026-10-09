@@ -5,6 +5,7 @@ import { scrollToHash } from './scrollToHash'
 import { PAGES, pageTitle } from './pages'
 import { requireBodies } from '@/core/content'
 import { isViewTransitioning } from '@/shared/composables/useViewTransition'
+import { setNavigating } from '@/shared/composables/useLoading'
 
 // Componente de cada página da tabela (pages.js), por nome
 const VIEWS = {
@@ -44,14 +45,21 @@ const router = createRouter({
   routes
 })
 
-// Páginas com o texto completo dos nós: o download dos corpos começa junto com o do chunk
+// Toda navegação marca o carregamento (a LoadingScreen só aparece se passar de 0,3s). Nas
+// páginas com o texto completo dos nós, o download dos corpos começa junto com o do chunk
 // da página (beforeEach) e a navegação espera os dois (beforeResolve, a mesma busca)
 router.beforeEach((to) => {
+  setNavigating(true)
   if (to.meta.bodies) requireBodies(to.meta.bodies, i18n.global.locale.value).catch(() => {})
 })
 router.beforeResolve((to) => (to.meta.bodies ? requireBodies(to.meta.bodies, i18n.global.locale.value) : undefined))
 
+// Fim da navegação, concluída ou não (afterEach também recebe as canceladas); onError, quando
+// um chunk ou os corpos não chegam
+router.onError(() => setNavigating(false))
+
 router.afterEach((to) => {
+  setNavigating(false)
   // Automatically close navigation sidebar
   const { closeNav } = useNavigation()
   closeNav()

@@ -8,6 +8,7 @@ import SettingsSidebar from '@/shared/components/layout/SettingsSidebar.vue'
 import TheFooter from '@/shared/components/layout/TheFooter.vue'
 import NodeMenuHost from '@/shared/components/node/NodeMenuHost.vue'
 import PartialTranslationNotice from '@/shared/components/ui/PartialTranslationNotice.vue'
+import LoadingScreen from '@/shared/components/ui/LoadingScreen.vue'
 import { isViewTransitioning } from '@/shared/composables/useViewTransition'
 
 const route = useRoute()
@@ -47,6 +48,9 @@ onMounted(() => {
 
   <!-- Em es e it, aviso de que parte do conteúdo aparece em inglês (fora do terminal) -->
   <PartialTranslationNotice v-if="!route.meta.bare" />
+
+  <!-- Navegação ou troca de idioma que demora (chunk da página, textos do conteúdo) -->
+  <LoadingScreen />
 </template>
 
 <style>

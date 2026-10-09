@@ -1,6 +1,7 @@
 import { computed, ref, watch } from 'vue'
 import { useLocalStorage, usePreferredReducedMotion } from '@vueuse/core'
 import i18n, { loadLocale } from '@/core/i18n'
+import { trackLoading } from './useLoading'
 import { DEFAULT_LANG, isLang } from '@/core/i18n/languages'
 
 const isSidebarOpen = ref(false)
@@ -31,7 +32,7 @@ export function useSettings() {
     const lang = isLang(value) ? value : DEFAULT_LANG
     const request = ++languageRequest
     currentLang.value = lang
-    await loadLocale(lang)
+    await trackLoading(loadLocale(lang))
     if (request !== languageRequest) return
     i18n.global.locale.value = lang
 

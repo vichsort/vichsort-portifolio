@@ -46,11 +46,17 @@
   /* Altura dos campos de formulário (busca, selects), para alinharem lado a lado */
   --control-height: 2.625rem;   /* 42px */
 
-  /* Camadas: menus de contexto acima da navbar (1000), abaixo da sidebar de ajustes */
+  /* Camadas: menus de contexto acima da navbar (1000), abaixo da sidebar de ajustes;
+     a tela de carregamento acima de tudo, inclusive da sidebar (9999) */
   --z-menu: 1100;
+  --z-loading: 10000;
 
   /* Texto sobre fundos na cor primária (igual nos dois temas) */
   --text-on-primary: #ffffff;
+
+  /* Cores do logo NEAT (tela de carregamento), iguais nos dois temas como no index.html */
+  --logo-purple: #5d1de7;
+  --logo-blue: #3a31d8;
 }
 
 /* --------------------------------------------------------------------------

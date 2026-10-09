@@ -42,6 +42,7 @@ Este documento consolida os princípios visuais, o sistema de tokens, as camadas
 | `--border-medium` | `rgba(255, 255, 255, 0.15)` | `rgba(15, 23, 42, 0.15)` | Bordas de botões e inputs |
 | `--border-accent` | `rgba(93, 29, 231, 0.4)` | `rgba(88, 24, 226, 0.3)` | Destaques de borda no hover |
 | `--text-on-primary` | `#ffffff` | `#ffffff` | Texto sobre fundos em `--primary` (botões e pills ativos) |
+| `--logo-purple` / `--logo-blue` | `#5d1de7` / `#3a31d8` | iguais | Quadrados do logo NEAT na tela de carregamento (os mesmos do `index.html`) |
 | `--danger` | `#f87171` | `#dc2626` | Erros e estados destrutivos |
 | `--neon-cyan` | `#00e5ff` | `#0086a3` | Neon: campos ASCII, prompt e links do terminal |
 | `--neon-magenta` | `#c51bff` | `#8a12d6` | Neon: campos ASCII, diretório do prompt e ênfases do terminal |
@@ -89,6 +90,7 @@ Fora da escala, só três coisas: títulos de seção fluidos (`clamp` com `vw`,
 | `--page-width` | `1100px` | Largura do conteúdo de todas as páginas (listagens, Sobre, grafo e detalhes): o título começa na mesma borda |
 | `--control-height` | `2.625rem` | Altura dos campos e selects das listagens |
 | `--z-menu` | `1100` | Menus de contexto, acima da navbar (`1000`) |
+| `--z-loading` | `10000` | Tela de carregamento, acima de tudo (inclusive da sidebar de ajustes, `9999`) |
 
 ### Sombras e movimento
 
