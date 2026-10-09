@@ -9,7 +9,9 @@ generated: true
 ## techs
 
 - [[angular]]
+- [[arduino]]
 - [[aws]]
+- [[aws-lambda]]
 - [[c]]
 - [[celery]]
 - [[cloudflare]]
@@ -31,6 +33,7 @@ generated: true
 - [[leaflet]]
 - [[linux]]
 - [[linux-mint]]
+- [[mblock]]
 - [[mysql]]
 - [[neon]]
 - [[nextjs]]
@@ -52,6 +55,7 @@ generated: true
 - [[raspberry-pi]]
 - [[react]]
 - [[redis]]
+- [[scratch]]
 - [[sqlalchemy]]
 - [[sqlite]]
 - [[supabase]]
@@ -120,6 +124,17 @@ generated: true
 - [[tera-cli]]
 - [[trucaralho]]
 
+## certifications
+
+- [[aws-academy-cloud-foundations]]
+- [[aws-serverless-mindset]]
+- [[databricks-apache-spark]]
+- [[databricks-fundamentals]]
+- [[databricks-generative-ai-fundamentals]]
+- [[freecodecamp-data-visualization]]
+- [[ifc-sepe-2023]]
+- [[virtus-sensoriamento-industria]]
+
 ## researches
 
 - [[compreensao-politica]]
@@ -131,6 +146,25 @@ generated: true
 - [[sinalizacao-digital]]
 - [[sinalizacao-latinoware]]
 - [[tokamak]]
+
+## timeline
+
+- [[2023-ifc-tecnico]]
+- [[2024-fecitac-iarte]]
+- [[2024-hackathon-agro]]
+- [[2025-feira-energia-ita]]
+- [[2025-hackathon-ifc]]
+- [[2025-latinoware]]
+- [[2025-mic-ifc]]
+- [[2025-supergeeks]]
+- [[2026-arpa-sistemas]]
+
+## gallery
+
+- [[despedida-mazzutti]]
+- [[hackathon-agro-desafio]]
+- [[hackathon-agro-equipe]]
+- [[hackathon-agro-premiacao]]
 
 ## collections
 
