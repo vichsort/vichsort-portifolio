@@ -64,6 +64,11 @@ export function validateGraph(graph: ContentGraph): Issue[] {
     if (node.type === 'tech' && node.assets['icon.svg'] && !collected.has(node.id)) {
       report('warning', 'uncollected-tech', file, 'tech com ícone fora de qualquer coleção')
     }
+
+    // As stacks (home e Sobre) mostram só o ícone: sem ele, aparece uma imagem quebrada
+    if (node.type === 'tech' && !node.assets['icon.svg'] && collected.has(node.id)) {
+      report('error', 'missing-icon', file, 'tech numa coleção (stack) sem icon.svg na pasta')
+    }
   }
 
   return issues

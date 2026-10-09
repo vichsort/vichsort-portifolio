@@ -1,3 +1,0 @@
----
-name: AWS Certified Cloud Practitioner
----

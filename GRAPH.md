@@ -430,6 +430,7 @@ Roda no carregamento em dev (aviso no console) e num script `npm run check:conte
 | erro | campo de ligação que o tipo não aceita | `roles` em `techs/python/python.md` |
 | aviso | texto opcional só num idioma | `definition` em `python.pt.md` mas não em `python.en.md` |
 | aviso | wikilink do corpo só num idioma | `[[gemini]]` em `plante.pt.md` mas não em `plante.en.md` |
+| erro | tech numa coleção (stack) sem `icon.svg` | `fastapi` no `home-stack` sem o ícone na pasta |
 | aviso | tech com ícone fora de qualquer coleção | `techs/sass/` com `icon.svg` e fora dos stacks |
 | aviso | `index.md` desatualizado | nó novo sem rodar `content:index` |
 

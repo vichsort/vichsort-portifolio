@@ -25,7 +25,6 @@ generated: true
 - [[gemini]]
 - [[git]]
 - [[github-actions]]
-- [[go]]
 - [[google-cloud]]
 - [[javascript]]
 - [[laravel]]
@@ -43,7 +42,6 @@ generated: true
 - [[pinia]]
 - [[postgis]]
 - [[postgresql]]
-- [[prometheus]]
 - [[pydantic]]
 - [[pyright]]
 - [[pytest]]
@@ -66,14 +64,11 @@ generated: true
 
 ## topics
 
-- [[agritech]]
 - [[algorithms]]
-- [[cloud-computing]]
 - [[computer-vision]]
 - [[cultural-heritage]]
 - [[database-modeling]]
 - [[developer-tools]]
-- [[distributed-systems]]
 - [[domain-driven-design]]
 - [[edge-computing]]
 - [[edtech]]
@@ -81,7 +76,6 @@ generated: true
 - [[generative-ai]]
 - [[gis]]
 - [[open-data]]
-- [[spatial-analysis]]
 - [[sustainability]]
 
 ## roles
@@ -126,12 +120,6 @@ generated: true
 - [[tera-cli]]
 - [[trucaralho]]
 
-## certifications
-
-- [[aws-cloud-practitioner]]
-- [[postgresql-performance]]
-- [[vue-frontend-architecture]]
-
 ## researches
 
 - [[compreensao-politica]]
@@ -139,25 +127,10 @@ generated: true
 - [[feira-energia-limpa-ita]]
 - [[hackathon-agro-2024]]
 - [[hackathon-ifc-2025]]
-- [[heritage-mapping]]
 - [[iarte-fecitac]]
-- [[microservices-energy]]
 - [[sinalizacao-digital]]
 - [[sinalizacao-latinoware]]
 - [[tokamak]]
-
-## timeline
-
-- [[2021-computer-science]]
-- [[2022-gis-research]]
-- [[2023-fullstack-developer]]
-- [[2026-platform-engineering]]
-
-## gallery
-
-- [[hackathon-2023]]
-- [[laboratorio-edge]]
-- [[simposio-2024]]
 
 ## collections
 

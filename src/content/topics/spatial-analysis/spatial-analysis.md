@@ -1,5 +1,0 @@
----
-source: placeholder
-topics:
-  - "[[gis]]"
----

@@ -1,3 +1,0 @@
----
-name: Computação em Nuvem
----
