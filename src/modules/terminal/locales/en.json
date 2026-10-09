@@ -198,7 +198,8 @@
         "footer": "Run 'projects <name>' for details, or 'cat projects/<name>/README.md' for the case study."
       },
       "resume": {
-        "downloading": "[vsh]: Initiating download of resume (resume.pdf)..."
+        "downloading": "[vsh]: Downloading resume ({lang})...",
+        "unavailable": "[vsh]: resume not available yet. Meanwhile, try: contact"
       },
       "links": {
         "outgoing": "Points to",

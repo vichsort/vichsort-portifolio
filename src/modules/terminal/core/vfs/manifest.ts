@@ -12,6 +12,7 @@ import { getProjectSlugs, loadRawMarkdown, getProjectMetadataJson } from './proj
 import { GRAPH_DIR_TYPES, getNodeMarkdown } from './graphNodes.ts'
 import { content } from '../../../../core/content/index.ts'
 import { TYPES } from '../../../../core/content/schema.ts'
+import { hasResume } from '../resume.ts'
 
 // Arquivo com conteúdo gerado no idioma pedido: getContent(locale) => string
 type GetContent = (locale: string) => string
@@ -53,7 +54,7 @@ export function createVfsManifest(): VfsDir {
     researches: dir({ 'list.txt': text(getResearchesList) }),
     ...Object.fromEntries(GRAPH_DIR_TYPES.map((type) => [TYPES[type].folder, graphDir(type)])),
     'contact.txt': text(getContact),
-    // Sem conteúdo: o cat avisa que é binário e aponta para o comando resume
-    'resume.pdf': { type: VfsNodeType.FILE, mime: VfsMimeType.APPLICATION_PDF }
+    // Sem conteúdo: o cat avisa que é binário e aponta para o comando resume. Só aparece com algum PDF
+    ...(hasResume && { 'resume.pdf': { type: VfsNodeType.FILE, mime: VfsMimeType.APPLICATION_PDF } })
   })
 }

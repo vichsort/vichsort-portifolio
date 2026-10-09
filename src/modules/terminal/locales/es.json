@@ -198,7 +198,8 @@
         "footer": "Ejecuta 'projects <nombre>' para ver detalles, o 'cat projects/<nombre>/README.md' para el artículo."
       },
       "resume": {
-        "downloading": "[vsh]: Iniciando la descarga del currículum (resume.pdf)..."
+        "downloading": "[vsh]: Descargando el currículum ({lang})...",
+        "unavailable": "[vsh]: currículum aún no disponible. Mientras tanto, prueba: contact"
       },
       "links": {
         "outgoing": "Apunta a",
