@@ -11,7 +11,7 @@ Quem passava pela sala recebia uma mesa digitalizadora e fazia um rascunho no NV
 
 ### O site ao vivo
 
-As obras geradas iam para um site público, para cada visitante encontrar a sua depois. A primeira versão foi feita pelo Rômulo, um dos integrantes do grupo, com VuePress e GitHub Pages, e foi ela que ficou no ar no dia da feira. A cada nova obra, as imagens entravam no repositório com um commit e um workflow do [[github-actions|GitHub Actions]] reconstruía e publicava o site sozinho. A galeria foi crescendo ao longo do dia, sem ninguém precisar parar para fazer deploy.
+As obras geradas iam para um site público, para cada visitante encontrar a sua depois. A primeira versão foi feita pelo Rômulo, um dos integrantes do grupo, com VuePress e GitHub Pages, e foi ela que ficou no ar no dia da feira. A cada nova obra, as imagens entravam no repositório com um commit e um workflow do [[github-actions|GitHub Actions]] reconstruía e publicava o site sozinho. A galeria foi crescendo ao longo do dia, sem ninguém precisar parar para fazer deploy. No fim, foram 60 obras.
 
 ### A segunda versão
 

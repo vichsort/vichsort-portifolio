@@ -9,7 +9,7 @@ O **Criptografy** é um laboratório para entender criptografia mexendo nela: vo
 
 ### A primeira versão
 
-A versão 1.0, apelidada de "Mino", nasceu em poucos dias, em maio de 2025, em [[javascript|JavaScript]] puro com Web Components em Lit. Ela fazia uma coisa só: cifrar e decifrar texto com a cifra de Hill, a partir de uma matriz-chave aleatória que dava para editar à mão. Ainda está no ar.
+A versão 1.0, apelidada de "Mino", nasceu em poucos dias, em novembro de 2024, em [[javascript|JavaScript]] puro com Web Components em Lit. Ela fazia uma coisa só: cifrar e decifrar texto com a cifra de Hill, a partir de uma matriz-chave aleatória que dava para editar à mão. A ideia era mostrar o poder das matrizes: com uma única matriz aleatória dá para cifrar de senhas e textos até imagens. Ainda está no ar.
 
 ### A reescrita
 

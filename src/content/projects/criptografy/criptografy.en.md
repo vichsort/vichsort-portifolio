@@ -9,7 +9,7 @@ summary: A web lab for experimenting with cryptography, from classic ciphers lik
 
 ### The first version
 
-Version 1.0, nicknamed "Mino", came together in a few days in May 2025, in plain [[javascript|JavaScript]] with Lit web components. It did one thing: encrypt and decrypt text with the Hill cipher, from a random key matrix you could edit by hand. It's still live.
+Version 1.0, nicknamed "Mino", came together in a few days in November 2024, in plain [[javascript|JavaScript]] with Lit web components. It did one thing: encrypt and decrypt text with the Hill cipher, from a random key matrix you could edit by hand. The point was to show the power of matrices: a single random matrix can encrypt anything from passwords and text to images. It's still live.
 
 ### The rewrite
 

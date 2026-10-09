@@ -11,7 +11,7 @@ Anyone who stopped by got a graphics tablet and sketched in NVIDIA Canvas, NVIDI
 
 ### The live site
 
-The generated pieces went to a public website so every visitor could find theirs later. The first version was built by Rômulo, one of the group members, with VuePress and GitHub Pages, and that was the one live on the day of the fair. Each new piece was committed to the repository, and a [[github-actions|GitHub Actions]] workflow rebuilt and published the site on its own, so the gallery grew throughout the day without anyone stopping to deploy.
+The generated pieces went to a public website so every visitor could find theirs later. The first version was built by Rômulo, one of the group members, with VuePress and GitHub Pages, and that was the one live on the day of the fair. Each new piece was committed to the repository, and a [[github-actions|GitHub Actions]] workflow rebuilt and published the site on its own, so the gallery grew throughout the day without anyone stopping to deploy. By the end, there were 60 pieces.
 
 ### The second version
 

@@ -5,7 +5,7 @@ summary: App e API que reúnem dados abertos do governo federal (deputados, emen
 
 ## Sobre o projeto
 
-O **FAIF** (Facilitador de Acesso à Informação Federal) nasceu no Instituto Federal Catarinense como uma ferramenta de consciência política: em vez de navegar por meia dúzia de portais do governo, cada um com seu formato, a pessoa consulta tudo num só lugar. O projeto foi feito em equipe e tem duas partes: uma API intermediária em [[flask|Flask]] e um app em [[flutter|Flutter]].
+O **FAIF** (Facilitador de Acesso à Informação Federal) nasceu no Instituto Federal Catarinense como uma ferramenta de consciência política: em vez de navegar por meia dúzia de portais do governo, cada um com seu formato, a pessoa consulta tudo num só lugar. O projeto foi feito em equipe e tem duas partes: uma API intermediária em [[flask|Flask]] e um app em [[flutter|Flutter]]. A base teórica está na pesquisa [[compreensao-politica|sobre a compreensão política no Brasil]].
 
 ### A API
 

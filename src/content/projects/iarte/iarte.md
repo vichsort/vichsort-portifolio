@@ -1,7 +1,7 @@
 ---
 source: auto-generated
 category: "[[website]]"
-date: [2024-10, 2024-12]
+date: [2023-12, 2024-09]
 github: "https://github.com/IArte-ifc/IArte"
 techs:
   - "[[vue]]"

@@ -5,7 +5,7 @@ summary: An app and API that bring Brazilian federal open data (congress members
 
 ## About the project
 
-**FAIF** (*Facilitador de Acesso à Informação Federal*, or Federal Information Access Facilitator) started at the Instituto Federal Catarinense as a tool for political awareness: instead of navigating half a dozen government portals, each with its own format, people query everything in one place. It was a team project with two parts: an intermediary API in [[flask|Flask]] and a [[flutter|Flutter]] app.
+**FAIF** (*Facilitador de Acesso à Informação Federal*, or Federal Information Access Facilitator) started at the Instituto Federal Catarinense as a tool for political awareness: instead of navigating half a dozen government portals, each with its own format, people query everything in one place. It was a team project with two parts: an intermediary API in [[flask|Flask]] and a [[flutter|Flutter]] app. Its theoretical basis is the [[compreensao-politica|research on political understanding in Brazil]].
 
 ### The API
 

@@ -2,7 +2,7 @@
 source: auto-generated
 featured: true
 category: "[[app]]"
-date: [2025-05, 2026-09]
+date: [2024-11, 2026-09]
 github: "https://github.com/vichsort/Criptografy"
 live: "https://criptografy.vercel.app"
 techs:

@@ -7,6 +7,8 @@ summary: Dashboard financeiro para pequenas empresas que cruza receitas e despes
 
 O **Projeto Prisma** é um dashboard financeiro para pequenas empresas, feito durante o [[hackathon-ifc-2025|1º Hackathon do IFC Campus Concórdia]], em outubro de 2025, onde ficou entre os **finalistas**. A ideia de cruzar os dados do negócio com o cenário de fora vinha do [[hackathon-agro-2024|AgroInsights]], que venceu o hackathon agro do campus no ano anterior. A ideia era ir além da planilha de entradas e saídas: além de mostrar como a empresa está, o painel coloca esses números ao lado do cenário econômico, para ajudar o dono a decidir.
 
+Depois do hackathon, a equipe abriu um formulário para gestores, empresários e contadores contarem as dores reais de administrar um pequeno negócio (finanças, vendas, precificação, presença digital), para o Prisma crescer a partir de quem vive o problema.
+
 ### O que ele faz
 
 - **Painel.** Faturamento, gastos e lucro líquido em tempo real, com gestão de produtos, despesas e receitas.

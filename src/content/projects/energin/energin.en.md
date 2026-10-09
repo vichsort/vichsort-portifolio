@@ -1,11 +1,11 @@
 ---
 title: Energin
-summary: A real-time dashboard for a micro hydroelectric plant, with data read by a Raspberry Pi.
+summary: A real-time dashboard for a micro hydroelectric plant, with data read by sensors on the model.
 ---
 
 ## About the project
 
-**Energin** is the dashboard for a micro hydroelectric plant: water flows in, spins a turbine and the turbine drives the generator. A [[raspberry-pi|Raspberry Pi]] connected to the generator reads the sensors and exposes the measurements through a small API I wrote for it; the site polls that API every two seconds and shows generation live, so anyone watching the presentation can follow along on their phone.
+**Energin** is the dashboard for a micro hydroelectric plant: water flows in, spins a turbine and the turbine drives the generator. A [[raspberry-pi|Raspberry Pi]] connected to the generator reads the sensors and exposes the measurements through a small API I wrote for it; the site polls that API every two seconds and shows generation live, so anyone watching the presentation can follow along on their phone. The Raspberry Pi was used in the first tests; at the fair presentation, an [[arduino|Arduino Uno]] with an infrared sensor measuring the turbine's speed took over the readings.
 
 The project won [[feira-energia-limpa-ita|1st place at Consórcio Itá's Science Fair: Energy Circuit]], in the High School/Technical category.
 

@@ -8,6 +8,7 @@ techs:
   - "[[vue]]"
   - "[[vite]]"
   - "[[d3]]"
+  - "[[arduino]]"
   - "[[raspberry-pi]]"
 topics:
   - "[[sustainability]]"
