@@ -83,5 +83,10 @@
     "en": "inglês",
     "es": "espanhol",
     "it": "italiano"
+  },
+  "partial_translation": {
+    "message": "O site ainda não está todo traduzido para o português: alguns trechos aparecem em inglês.",
+    "dismiss": "Entendi",
+    "close": "Fechar aviso"
   }
 }

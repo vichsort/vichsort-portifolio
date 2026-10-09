@@ -19,5 +19,8 @@ export const REQUIRED_LANGS = ['pt', 'en']
 
 export const isLang = (value) => LANGS.includes(value)
 
+/** Idioma com conteúdo opcional (es, it): parte do site aparece em inglês (aviso no App.vue). */
+export const isPartialLang = (value) => isLang(value) && !REQUIRED_LANGS.includes(value)
+
 /** Ordem de busca de um texto: o idioma pedido, depois inglês, depois português. */
 export const fallbackChain = (lang) => [...new Set([lang, 'en', 'pt'])]

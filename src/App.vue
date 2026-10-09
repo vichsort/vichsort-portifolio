@@ -7,6 +7,7 @@ import TheNavbar from '@/shared/components/layout/TheNavbar.vue'
 import SettingsSidebar from '@/shared/components/layout/SettingsSidebar.vue'
 import TheFooter from '@/shared/components/layout/TheFooter.vue'
 import NodeMenuHost from '@/shared/components/node/NodeMenuHost.vue'
+import PartialTranslationNotice from '@/shared/components/ui/PartialTranslationNotice.vue'
 import { isViewTransitioning } from '@/shared/composables/useViewTransition'
 
 const route = useRoute()
@@ -43,6 +44,9 @@ onMounted(() => {
 
   <!-- Menu de nó dos wikilinks nos textos (v-content-links) -->
   <NodeMenuHost />
+
+  <!-- Em es e it, aviso de que parte do conteúdo aparece em inglês (fora do terminal) -->
+  <PartialTranslationNotice v-if="!route.meta.bare" />
 </template>
 
 <style>
