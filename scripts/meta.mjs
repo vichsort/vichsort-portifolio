@@ -18,6 +18,7 @@ import { dirname, extname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createQueries } from '../src/core/content/queries.ts'
 import { DEFAULT_COVER, SITE_URL } from '../src/core/config/profile.js'
+import { PAGES as ROUTES, SITE_TITLE, pageTitle } from '../src/core/router/pages.js'
 import { ROOT, load } from './vault.mjs'
 
 const LANG = 'en'
@@ -25,22 +26,10 @@ const DIST = fileURLToPath(new URL('../dist/', import.meta.url))
 const SRC = fileURLToPath(new URL('../src/', import.meta.url))
 const DEFAULT_IMAGE = DEFAULT_COVER
 
-// Mesmo título da aba que o router monta (core/router/index.js)
-const BASE_TITLE = 'Vitor /// Software Engineering'
 const SITE_DESCRIPTION = 'Portfolio of Vitor Mignoni: web and app development, data science and software architecture.'
 
-// Páginas fixas: título como no meta.titleKey do router; descrição do subtítulo da página
-const PAGES = [
-  { path: '/' },
-  { path: '/overview', title: 'nav.about', description: 'about_page.subtitle' },
-  { path: '/projects', title: 'nav.projects', description: 'projects_page.subtitle' },
-  { path: '/researches', title: 'nav.researches', description: 'researches_page.subtitle' },
-  { path: '/certifications', title: 'nav.certifications', description: 'certifications_page.subtitle' },
-  { path: '/gallery', title: 'gallery_page.title', description: 'gallery_page.subtitle' },
-  { path: '/graph', title: 'graph.title', description: 'graph.subtitle' },
-  { path: '/contact', title: 'nav.contact', description: 'contact_page.subtitle' },
-  { path: '/terminal', title: 'terminal.title' }
-]
+// Páginas fixas com prévia própria (preview na tabela de páginas); as de detalhe saem do grafo
+const PAGES = ROUTES.filter((page) => page.preview)
 
 const siteUrl = (process.env.SITE_URL || SITE_URL || '').replace(/\/$/, '')
 
@@ -82,7 +71,7 @@ function headTags({ path, title, description, image }) {
     `<link rel="canonical" href="${escape(url)}" />`,
     `<meta property="og:type" content="website" />`,
     `<meta property="og:locale" content="en_US" />`,
-    `<meta property="og:site_name" content="${escape(BASE_TITLE)}" />`,
+    `<meta property="og:site_name" content="${escape(SITE_TITLE)}" />`,
     `<meta property="og:url" content="${escape(url)}" />`,
     `<meta property="og:title" content="${escape(title)}" />`,
     `<meta property="og:description" content="${escape(description)}" />`,
@@ -107,12 +96,10 @@ async function writePage(template, page) {
 const template = await readFile(join(DIST, 'index.html'), 'utf-8')
 const t = await messages()
 const content = createQueries(await load())
-const pageTitle = (title) => (title ? `${title} | ${BASE_TITLE}` : BASE_TITLE)
-
 const pages = PAGES.map((page) => ({
   path: page.path,
-  title: pageTitle(t(page.title)),
-  description: t(page.description) || SITE_DESCRIPTION,
+  title: pageTitle(t(page.titleKey), page.name),
+  description: t(page.descriptionKey) || SITE_DESCRIPTION,
   image: DEFAULT_IMAGE
 }))
 

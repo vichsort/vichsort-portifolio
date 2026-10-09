@@ -41,14 +41,15 @@ src/
 │
 ├── core/                           # Infraestrutura transversal
 │   ├── config/
-│   │   └── profile.js              # E-mail, redes e itens de navegação (navbar, footer, contato, terminal)
+│   │   └── profile.js              # E-mail, redes, endereço do site e capa padrão (navbar, footer, contato, terminal)
 │   ├── content/                    # Grafo de conteúdo: leitura, validação, consultas e Markdown
 │   ├── i18n/
 │   │   ├── languages.js            # Idiomas suportados, obrigatórios e cadeia de fallback
 │   │   ├── index.js                # Mescla os dicionários de core e dos módulos (import.meta.glob)
 │   │   └── locales/                # Dicionários globais: <idioma>.json (nav, settings, common, footer)
 │   ├── router/
-│   │   ├── index.js                # Rotas com lazy-loading + título da aba
+│   │   ├── index.js                # Componente de cada página (lazy-loading), rolagem e título da aba
+│   │   ├── pages.js                # Tabela de páginas, JS puro: caminho, título, prévia, navegação (router, navbar, footer, meta.mjs)
 │   │   └── scrollToHash.js         # Rota com âncora (/certifications#id): rola até o card e o destaca
 │   └── styles/                     # tokens, fonts, reset, utilities e o agregador index.css
 │
@@ -138,7 +139,7 @@ Formato, regras e API completos em [GRAPH.md](GRAPH.md). Validação: `npm run c
 | `/terminal` | `TerminalView` | `terminal` | Shell interativo sobre o grafo, só a janela (sem navbar nem footer) |
 | `/*` | `NotFoundView` | `shared` | Página 404 |
 
-Na navbar, as seis primeiras rotas ficam na pílula; Galeria, Grafo e Terminal ficam na segunda página dela, atrás da seta (`NAV_MORE_ITEMS` em `core/config/profile.js`). As rotas de detalhe são irmãs da listagem, não filhas: a aba ativa é decidida por prefixo do caminho.
+As páginas vivem numa tabela só, [`core/router/pages.js`](src/core/router/pages.js) (caminho, `titleKey`, descrição e se tem prévia de link, lugar na navbar), lida pelo router, pela navbar, pelo footer e pelo `scripts/meta.mjs`. Página nova: uma linha na tabela e o componente em `VIEWS` (`core/router/index.js`). Na navbar, as páginas `nav: 'main'` ficam na pílula; as `nav: 'more'` (Galeria, Grafo e Terminal) ficam na segunda página dela, atrás da seta. As rotas de detalhe são irmãs da listagem, não filhas: a aba ativa é decidida por prefixo do caminho.
 
 ---
 

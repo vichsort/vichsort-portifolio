@@ -2,85 +2,32 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useNavigation } from '@/shared/composables/useNavigation'
 import i18n from '@/core/i18n'
 import { scrollToHash } from './scrollToHash'
+import { PAGES, pageTitle } from './pages'
 import { isViewTransitioning } from '@/shared/composables/useViewTransition'
 
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: () => import('@/modules/home/views/HomeView.vue'),
-    meta: { titleKey: 'nav.home' }
-  },
-  {
-    path: '/overview',
-    name: 'overview',
-    component: () => import('@/modules/about/views/OverviewView.vue'),
-    meta: { titleKey: 'nav.about' }
-  },
-  {
-    path: '/projects',
-    name: 'projects',
-    component: () => import('@/modules/projects/views/ProjectsListView.vue'),
-    meta: { titleKey: 'nav.projects' }
-  },
-  {
-    path: '/projects/:slug',
-    name: 'project-detail',
-    component: () => import('@/modules/projects/views/ProjectDetailView.vue'),
-    props: true,
-    meta: { titleKey: 'nav.projects' }
-  },
-  {
-    path: '/researches',
-    name: 'researches',
-    component: () => import('@/modules/researches/views/ResearchesView.vue'),
-    meta: { titleKey: 'nav.researches' }
-  },
-  {
-    path: '/certifications',
-    name: 'certifications',
-    component: () => import('@/modules/certifications/views/CertificationsView.vue'),
-    meta: { titleKey: 'nav.certifications' }
-  },
-  {
-    path: '/gallery',
-    name: 'gallery',
-    component: () => import('@/modules/gallery/views/GalleryView.vue'),
-    meta: { titleKey: 'gallery_page.title' }
-  },
-  {
-    path: '/gallery/:id',
-    name: 'gallery-detail',
-    component: () => import('@/modules/gallery/views/GalleryDetailView.vue'),
-    props: true,
-    meta: { titleKey: 'gallery_page.title' }
-  },
-  {
-    path: '/graph',
-    name: 'graph',
-    component: () => import('@/modules/graph/views/GraphView.vue'),
-    meta: { titleKey: 'graph.title' }
-  },
-  {
-    path: '/contact',
-    name: 'contact',
-    component: () => import('@/modules/contact/views/ContactView.vue'),
-    meta: { titleKey: 'nav.contact' }
-  },
-  {
-    path: '/terminal',
-    name: 'terminal',
-    component: () => import('@/modules/terminal/views/TerminalView.vue'),
-    // bare: só o conteúdo da página, sem navbar nem footer
-    meta: { titleKey: 'terminal.title', bare: true }
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    name: 'not-found',
-    component: () => import('@/shared/views/NotFoundView.vue'),
-    meta: { titleKey: 'not_found.subtitle' }
-  }
-]
+// Componente de cada página da tabela (pages.js), por nome
+const VIEWS = {
+  home: () => import('@/modules/home/views/HomeView.vue'),
+  overview: () => import('@/modules/about/views/OverviewView.vue'),
+  projects: () => import('@/modules/projects/views/ProjectsListView.vue'),
+  'project-detail': () => import('@/modules/projects/views/ProjectDetailView.vue'),
+  researches: () => import('@/modules/researches/views/ResearchesView.vue'),
+  certifications: () => import('@/modules/certifications/views/CertificationsView.vue'),
+  gallery: () => import('@/modules/gallery/views/GalleryView.vue'),
+  'gallery-detail': () => import('@/modules/gallery/views/GalleryDetailView.vue'),
+  graph: () => import('@/modules/graph/views/GraphView.vue'),
+  contact: () => import('@/modules/contact/views/ContactView.vue'),
+  terminal: () => import('@/modules/terminal/views/TerminalView.vue'),
+  'not-found': () => import('@/shared/views/NotFoundView.vue')
+}
+
+const routes = PAGES.map(({ name, path, titleKey, bare, props }) => ({
+  path,
+  name,
+  component: VIEWS[name],
+  props: Boolean(props),
+  meta: { titleKey, bare: Boolean(bare) }
+}))
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -99,14 +46,7 @@ router.afterEach((to) => {
   const { closeNav } = useNavigation()
   closeNav()
 
-  // Update browser tab title dynamically
-  const appBaseTitle = 'Vitor /// Software Engineering'
-  if (to.meta && to.meta.titleKey) {
-    const pageTitle = i18n.global.t(to.meta.titleKey)
-    document.title = to.name === 'home' ? appBaseTitle : `${pageTitle} | ${appBaseTitle}`
-  } else {
-    document.title = appBaseTitle
-  }
+  document.title = pageTitle(to.meta.titleKey && i18n.global.t(to.meta.titleKey), to.name)
 })
 
 export default router

@@ -1,6 +1,7 @@
 /**
- * Fonte única dos dados de perfil e navegação.
+ * Fonte única dos dados de perfil.
  * Consumida pela navbar, pelo footer, pela página de contato e pelo terminal.
+ * As páginas e os itens de navegação ficam em core/router/pages.js.
  *
  * TODO: substituir os placeholders pelos dados reais.
  */
@@ -25,22 +26,6 @@ export const SOCIALS = [
   { id: 'github', label: 'GitHub', handle: 'github.com/vitor', url: 'https://github.com/vitor' },
   { id: 'linkedin', label: 'LinkedIn', handle: 'linkedin.com/in/vitor', url: 'https://linkedin.com/in/vitor' },
   { id: 'telegram', label: 'Telegram', handle: '@vitor', url: 'https://t.me/vitor' }
-]
-
-export const NAV_ITEMS = [
-  { labelKey: 'nav.home', path: '/' },
-  { labelKey: 'nav.about', path: '/overview' },
-  { labelKey: 'nav.projects', path: '/projects' },
-  { labelKey: 'nav.researches', path: '/researches' },
-  { labelKey: 'nav.certifications', path: '/certifications' },
-  { labelKey: 'nav.contact', path: '/contact' }
-]
-
-/** Páginas fora da pílula principal da navbar: aparecem pela seta (desktop) e no fim do menu mobile. */
-export const NAV_MORE_ITEMS = [
-  { labelKey: 'nav.gallery', path: '/gallery' },
-  { labelKey: 'nav.graph', path: '/graph' },
-  { labelKey: 'nav.terminal', path: '/terminal' }
 ]
 
 export const getSocial = id => SOCIALS.find(social => social.id === id)

@@ -7,7 +7,8 @@ import { useSettings } from '@/shared/composables/useSettings'
 import { useHeroPresence } from '@/shared/composables/useHeroPresence'
 import { useI18n } from 'vue-i18n'
 import { Github, Linkedin, Settings, Menu, X, ChevronLeft, ChevronRight } from 'lucide-vue-next'
-import { NAV_ITEMS, NAV_MORE_ITEMS, getSocial } from '@/core/config/profile'
+import { getSocial } from '@/core/config/profile'
+import { NAV_ITEMS, NAV_MORE_ITEMS } from '@/core/router/pages'
 
 const route = useRoute()
 const { t } = useI18n()
