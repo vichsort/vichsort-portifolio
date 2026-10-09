@@ -1,47 +1,40 @@
 <script setup>
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowUpRight } from 'lucide-vue-next'
+import { useContent } from '@/core/content/useContent'
+import { LANGS } from '@/core/i18n/languages'
 
 const { t } = useI18n()
+const { ofType, node } = useContent()
 
-const statsCards = [
-  {
-    id: 'projects',
-    value: '20',
-    unit: '',
-    labelKey: 'leads.stats.projects',
-    route: '/projects',
-    gridClass: 'span-7',
-    glowClass: 'glow-primary'
-  },
-  {
-    id: 'experience',
-    value: '3',
-    unit: '+',
-    labelKey: 'leads.stats.experience',
-    route: '/overview',
-    gridClass: 'span-3',
-    glowClass: 'glow-accent'
-  },
-  {
-    id: 'researches',
-    value: '5',
-    unit: '',
-    labelKey: 'leads.stats.researches',
-    route: '/researches',
-    gridClass: 'span-5',
-    glowClass: 'glow-surface'
-  },
-  {
-    id: 'certs',
-    value: '12',
-    unit: '',
-    labelKey: 'leads.stats.certs',
-    route: '/certifications',
-    gridClass: 'span-5',
-    glowClass: 'glow-accent'
-  }
+const projects = ofType('project')
+const researches = ofType('research')
+
+// Ano mais antigo entre projetos e pesquisas: date é 'AAAA', 'AAAA-MM' ou [início, fim]
+const firstYear = Math.min(
+  ...[...projects, ...researches].flatMap(({ data }) => [data.date].flat()).map((d) => parseInt(String(d), 10)).filter(Boolean)
+)
+const yearsCoding = Number.isFinite(firstYear) ? new Date().getFullYear() - firstYear : 0
+
+// Prêmio fica no texto (award), em qualquer idioma
+const awards = researches.filter(({ id }) => LANGS.some((lang) => node(id)?.texts[lang]?.award)).length
+
+// Larguras na grade de 10 colunas, pelo número de cards visíveis
+const LAYOUTS = { 4: ['span-7', 'span-3', 'span-5', 'span-5'], 3: ['span-4', 'span-3', 'span-3'], 2: ['span-5', 'span-5'], 1: ['span-10'] }
+
+const STATS = [
+  { id: 'projects', value: projects.length, unit: '', labelKey: 'leads.stats.projects', route: '/projects', glowClass: 'glow-primary' },
+  { id: 'experience', value: yearsCoding, unit: '+', labelKey: 'leads.stats.experience', route: '/overview', glowClass: 'glow-accent' },
+  { id: 'researches', value: awards, unit: '', labelKey: 'leads.stats.researches', route: '/researches', glowClass: 'glow-surface' },
+  { id: 'certs', value: ofType('certification').length, unit: '', labelKey: 'leads.stats.certs', route: '/certifications', glowClass: 'glow-accent' }
 ]
+
+// Card com zero fica de fora (sem certificações, por exemplo, não aparece "0 Certificações")
+const statsCards = computed(() => {
+  const visible = STATS.filter((card) => card.value > 0)
+  return visible.map((card, i) => ({ ...card, gridClass: LAYOUTS[visible.length][i] }))
+})
 </script>
 
 <template>
@@ -93,8 +86,10 @@ const statsCards = [
 }
 
 .span-7 { grid-column: span 7; }
+.span-4 { grid-column: span 4; }
 .span-3 { grid-column: span 3; }
 .span-5 { grid-column: span 5; }
+.span-10 { grid-column: span 10; }
 
 .stat-card {
   padding: var(--spacing-lg);
