@@ -1,5 +1,4 @@
 import { content } from '../../../../core/content/index.ts'
-import { replaceBodyLinks } from '../../../../core/content/links.ts'
 import { TYPES } from '../../../../core/content/schema.ts'
 import { translator } from './connectors.ts'
 import type { NodesByType } from '../../../../core/content/queries.ts'
@@ -22,17 +21,6 @@ export function nodePath(id: string): string | null {
   if (node.type === 'certification') return '/certifications/list.txt'
   if (node.type === 'research') return '/researches/list.txt'
   return null
-}
-
-/**
- * Corpo em texto: wikilinks viram o rótulo (ou o nome do nó) e embeds somem.
- */
-export function plainBody(body: string, locale: string): string {
-  const label = (target: string) => {
-    const id = content.resolve(target)
-    return id ? content.label(id, locale) : target
-  }
-  return replaceBodyLinks(body || '', (target, alias, embed) => (embed ? '' : alias || label(target)))
 }
 
 /**
@@ -73,7 +61,7 @@ export function getNodeMarkdown(id: string, locale = 'pt'): string {
     meta,
     lead ? `> ${lead}` : '',
     text.note || '',
-    plainBody(text.body || '', locale).trim(),
+    content.plain(id, locale).trim(),
     section(t('terminal.output.links.outgoing'), outgoing),
     section(t('terminal.output.links.incoming'), incoming)
   ]

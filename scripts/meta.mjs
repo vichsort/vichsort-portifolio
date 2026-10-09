@@ -16,7 +16,7 @@ import { copyFile, mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import { dirname, extname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { createQueries } from '../src/core/content/queries.ts'
+import { createBuildQueries } from '../src/core/content/render.ts'
 import { DEFAULT_COVER, SITE_URL } from '../src/core/config/profile.js'
 import { PAGES as ROUTES, SITE_TITLE, pageTitle } from '../src/core/router/pages.js'
 import { ROOT, load } from './vault.mjs'
@@ -95,7 +95,7 @@ async function writePage(template, page) {
 
 const template = await readFile(join(DIST, 'index.html'), 'utf-8')
 const t = await messages()
-const content = createQueries(await load())
+const content = createBuildQueries(await load())
 const pages = PAGES.map((page) => ({
   path: page.path,
   title: pageTitle(t(page.titleKey), page.name),

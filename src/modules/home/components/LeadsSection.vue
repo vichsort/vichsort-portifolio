@@ -3,10 +3,9 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowUpRight } from 'lucide-vue-next'
 import { useContent } from '@/core/content/useContent'
-import { LANGS } from '@/core/i18n/languages'
 
 const { t } = useI18n()
-const { ofType, node } = useContent()
+const { ofType, text } = useContent()
 
 const projects = ofType('project')
 const researches = ofType('research')
@@ -17,8 +16,8 @@ const firstYear = Math.min(
 )
 const yearsCoding = Number.isFinite(firstYear) ? new Date().getFullYear() - firstYear : 0
 
-// Prêmio fica no texto (award), em qualquer idioma
-const awards = researches.filter(({ id }) => LANGS.some((lang) => node(id)?.texts[lang]?.award)).length
+// Prêmio fica no texto (award); pt e en têm os mesmos campos, e es/it caem no inglês
+const awards = researches.filter(({ id }) => text(id).award).length
 
 // Larguras na grade de 10 colunas, pelo número de cards visíveis
 const LAYOUTS = { 4: ['span-7', 'span-3', 'span-5', 'span-5'], 3: ['span-4', 'span-3', 'span-3'], 2: ['span-5', 'span-5'], 1: ['span-10'] }

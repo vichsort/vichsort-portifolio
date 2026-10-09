@@ -17,6 +17,8 @@ export interface CommandOutput {
   payload: unknown
   /** Nome do arquivo mostrado no cabeçalho (saídas markdown do cat). */
   filename?: string
+  /** Saídas markdown: o HTML, preenchido pelo useTerminal depois do comando. */
+  html?: string
 }
 
 /** Flags já interpretadas: `-la` vira { l: true, a: true }; `--stack vue` vira { stack: 'vue' }. */

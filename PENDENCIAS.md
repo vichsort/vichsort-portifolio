@@ -29,7 +29,7 @@ Já decidido, melhora o site ou a base de código.
 
 ### Fundação técnica
 
-Ordem combinada: `a10` → `a11` → `a12` → `a13`.
+Ordem combinada: `a10` → `a11` → `a12`.
 
 - **`a10`** `[docs]` **ARCHITECTURE.md como guia de construção.** Curto e normativo: o que **deve** e o que **nunca** se faz; camadas e quem importa quem (`core` não importa `shared`/`modules`; `shared` não importa `modules`; módulo não importa módulo, salvo exceções registradas); onde cada coisa mora; receitas (página, módulo, componente, tipo de nó, idioma, comando do terminal); definição de pronto (`check:content`, `typecheck`, `build`, PENDENCIAS, formato do commit). Não explica o funcionamento: aponta para o README da pasta (`a11`). O que der para checar vira `npm run check`: cor fixa, `aria-label`/`title`/`alt` escritos à mão, import entre módulos fora da lista, `height` fixo em `px` com texto.
 - **`a11`** `[docs]` **README por pasta**, no tom do Beta (Atena): o que a pasta é, como funciona, por quê, armadilhas e como estender. Existem `about`, `graph`, `projects` e `researches` (o GRAPH.md faz o papel do de `core/content`). Faltam:
@@ -40,12 +40,6 @@ Ordem combinada: `a10` → `a11` → `a12` → `a13`.
 
   Esperando um README do Beta como modelo.
 - **`a12`** `[core]` `[terminal]` **Testes.** Não há nenhum. Vitest na lógica pura: `core/content` (montagem do grafo, validação, consultas, fallback de idioma, menu de nó) e o núcleo do terminal (lexer, pipes e `&&`, dispatcher, completion, histórico, VFS). Rodar no `npm run check` (`a10`).
-- **`a13`** `[core]` **Bundle principal menor.** O arquivo que toda página baixa tem ~718kB (~243kB comprimido): bibliotecas (~350kB), todo o conteúdo do vault em pt e en (~143kB, inclusive o texto completo dos projetos para quem só abre a home) e os dicionários dos 4 idiomas (~96kB; o do terminal é o maior). Em ordem de impacto:
-  1. separar estrutura de texto no grafo: a estrutura (~16kB) vai junto e o texto de cada nó só quando alguém abre o nó (a API de texto do `core/content` fica assíncrona);
-  2. carregar só o idioma ativo, de dicionários e de conteúdo;
-  3. bibliotecas num arquivo à parte, para o cache sobreviver aos deploys.
-
-  1 e 2 cortam ~40%. Fazer depois do `a11` e do `a12`.
 - **`a17`** `[core]` **TypeScript nos componentes.** O ganho real é `<script setup lang="ts">` com props tipadas: o `vue-tsc` passa a pegar prop errada e evento inexistente (o `ProjectCard` ainda trata campos que não existem mais: `name`, `link_github`, `tags`, `short_description`). Migrar só os `.js` rende pouco; vale para a lógica pura (`forceLayout`, `graphData`, `useListingFilters`, `useTimeline`), junto dos testes do `a12`. Quebrar os `.vue` grandes também rende pouco, porque o tamanho é CSS; o que reduz é extrair padrões repetidos (botões, badges, cabeçalhos de seção).
 - **`a15`** `[docs]` **README do repositório.** Ainda é o do template do Vite. Deve dizer o que o site é e mostrar um print, a stack, como rodar e publicar; e apontar para ARCHITECTURE, DESIGN e GRAPH.
 

@@ -1,6 +1,5 @@
 <script setup>
 import { computed } from 'vue'
-import { renderMarkdown } from '@/core/content/markdown'
 
 /**
  * Markdown no terminal (cat *.md), no estilo do glow: renderizado e legível,
@@ -10,7 +9,8 @@ import { renderMarkdown } from '@/core/content/markdown'
  * Links externos abrem em nova aba (marcados com ↗); os internos navegam no site.
  */
 const props = defineProps({
-  content: {
+  // Já renderizado pelo useTerminal (renderMarkdownOutputs)
+  html: {
     type: String,
     default: ''
   },
@@ -22,10 +22,7 @@ const props = defineProps({
 
 const EXTERNAL_LINK = /<a href="(https?:\/\/[^"]+)"/g
 
-const renderedHtml = computed(() => {
-  if (!props.content) return ''
-  return renderMarkdown(props.content).replace(EXTERNAL_LINK, '<a href="$1" target="_blank" rel="noopener noreferrer"')
-})
+const renderedHtml = computed(() => props.html.replace(EXTERNAL_LINK, '<a href="$1" target="_blank" rel="noopener noreferrer"'))
 </script>
 
 <template>

@@ -126,7 +126,7 @@ O campo `aliases` é o nativo do Obsidian. Com `aliases: [Vue 3, Vue.js]` em `vu
 
 ### 3.5 Corpo do arquivo de estrutura
 
-O site ignora o corpo de `python.md`. Ele pode ser usado para notas no Obsidian, por exemplo `![Python](icon.svg)` para ver o ícone na nota. Mas **vai junto no bundle**, então nada privado ali.
+O site ignora o corpo de `python.md`. Ele pode ser usado para notas no Obsidian, por exemplo `![Python](icon.svg)` para ver o ícone na nota. Não vai para o site, mas o repositório é público: nada privado ali.
 
 ### 3.6 Origem do conteúdo
 
@@ -442,23 +442,39 @@ Roda no carregamento em dev (aviso no console) e num script `npm run check:conte
 
 ## 7. Como o site consome
 
+O vault é lido no **build**, não no navegador (a13): o plugin `scripts/contentPlugin.mjs` monta o grafo no Node, valida, renderiza o Markdown e entrega módulos prontos. O site não recebe o parser de YAML nem o de Markdown.
+
+| Módulo gerado | O que tem | Quando o site baixa |
+| :--- | :--- | :--- |
+| `virtual:content/structure` | nós (dados, ligações, aliases, coleções) e as URLs dos arquivos | no arquivo principal |
+| `virtual:content/texts/<idioma>` | campos de texto de cada nó (sem o corpo), já com o fallback de idioma | antes da primeira tela e a cada troca de idioma (`loadLocale`, em `core/i18n`) |
+| `virtual:content/html/<idioma>` | corpos em HTML, com os wikilinks resolvidos | ao abrir uma página com `bodies: 'html'` (detalhe do projeto e da foto) |
+| `virtual:content/plain/<idioma>` | corpos em Markdown simples, sem wikilinks nem embeds | no terminal (`bodies: 'plain'` na página; na seção da home, no primeiro comando) |
+
+As arestas não viajam: o site as recalcula das ligações de cada nó (`edgesOf`). Os arquivos (`icon.svg`, `cover.*`, imagens dos artigos) são importados só pela estrutura; o HTML leva uma marca (`@@asset:<i>@@`) trocada pela URL quando chega.
+
+**Contrato:** as consultas continuam síncronas. Um texto pedido antes de o módulo dele chegar volta vazio; por isso o app só monta depois do `loadLocale` do idioma salvo, a troca de idioma só muda o `locale` depois de baixar o novo, e as páginas que mostram o corpo declaram `bodies` na tabela de páginas (`core/router/pages.js`), que o router espera. No dev, editar qualquer arquivo do vault refaz os módulos e recarrega a página.
+
 ```
 src/core/content/
-├── index.js         # import.meta.glob em src/content/**; monta o grafo uma vez e avisa problemas em dev
-├── schema.js        # tipos, campos obrigatórios e campos de ligação (seção 4)
-├── links.js         # lê "[[id|rótulo]]" no frontmatter e no corpo
-├── graph.js         # monta nós, resolve ids e aliases, arestas e backlinks (sem depender do Vite)
-├── validate.js      # regras da seção 6
-├── queries.js       # consultas com idioma explícito (usadas pelo terminal)
-├── projects.js      # formato de projeto usado pelas telas e pelo terminal (projectView, allProjects)
-├── photos.js        # formato de foto da galeria (photoView, allPhotos)
-├── routes.js        # destino de cada nó (nodeRoute) e listagem filtrada por ?ref= (listingRoute)
-├── nodeMenu.js      # grupos do menu de nó (n4/n5): backlinks por tipo, até 6 itens, "ver todos"
-├── useNodeMenu.js   # nodeMenu no idioma ativo, convertido para os itens do ContextMenu
-├── markdown.js      # renderiza o corpo: wikilinks viram texto, imagens relativas viram arquivos do nó
-└── useContent.js    # as mesmas consultas no idioma ativo, para componentes
+├── index.ts         # o grafo no site: estrutura + textos por idioma (loadLanguage, requireBodies)
+├── structure.ts     # remonta o grafo a partir da estrutura gerada (hydrateGraph, edgesOf)
+├── render.ts        # consultas com o vault inteiro e o Markdown renderizado: só no build (plugin, meta.mjs)
+├── schema.ts        # tipos, campos obrigatórios e campos de ligação (seção 4)
+├── links.ts         # lê "[[id|rótulo]]" no frontmatter e no corpo
+├── graph.ts         # monta nós, resolve ids e aliases, arestas e backlinks (no Node)
+├── validate.ts      # regras da seção 6
+├── queries.ts       # consultas com idioma explícito, sobre uma fonte de textos (TextSource)
+├── projects.ts      # formato de projeto usado pelas telas e pelo terminal (projectView, allProjects)
+├── photos.ts        # formato de foto da galeria (photoView, allPhotos)
+├── routes.ts        # destino de cada nó (nodeRoute) e listagem filtrada por ?ref= (listingRoute)
+├── nodeMenu.ts      # grupos do menu de nó (n4/n5): backlinks por tipo, até 6 itens, "ver todos"
+├── useNodeMenu.ts   # nodeMenu no idioma ativo, convertido para os itens do ContextMenu
+├── markdown.ts      # renderiza o corpo (no build) e o Markdown do terminal (baixado sob demanda)
+└── useContent.ts    # as mesmas consultas no idioma ativo, para componentes
+scripts/contentPlugin.mjs  # plugin do Vite: os módulos virtual:content/* (tabela acima)
 scripts/content.mjs  # npm run check:content / content:index / content:new
-scripts/vault.mjs    # lê o vault do disco no Node (sem Vite), para os dois scripts
+scripts/vault.mjs    # lê o vault do disco no Node (sem Vite), para os scripts e o plugin
 scripts/meta.mjs     # depois do vite build: um index.html por rota com a prévia de link (s10)
 ```
 
@@ -467,8 +483,8 @@ API para componentes:
 ```js
 const { node, text, fallback, label, ofType, linked, collection, backlinks, outlinks, related, icon, cover, html } = useContent()
 
-node('python')                     // { id, type, data, aliases, texts, assets, links }
-text('python')                     // { definition, note, body } no idioma ativo (ou no do fallback), ou {}
+node('python')                     // { id, type, data, aliases, assets, links } (texts fica vazio no site)
+text('python')                     // { definition, note } no idioma ativo (ou no do fallback), ou {}
 fallback('python')                 // idioma usado no lugar do ativo, ou null se não precisou
 label('python')                    // nome de exibição no idioma ativo
 ofType('research', { recent: true }) // nós do tipo; recent ordena por data, mais novo primeiro
@@ -479,7 +495,7 @@ outlinks('python')                 // o inverso: para onde o nó aponta, agrupad
 relatedTechs('vue')                // techs ligadas pelo campo techs, nos dois sentidos
 related('plante')                  // [{ node, shared }] do mais ao menos parecido
 icon('python'), cover('plante')    // URLs dos arquivos da pasta do nó
-html('plante')                     // corpo renderizado
+html('plante')                     // corpo em HTML; vazio até os corpos do idioma chegarem
 ```
 
 Fora de componentes (terminal), `content` de `@/core/content` tem as mesmas funções, recebendo o idioma como último argumento.

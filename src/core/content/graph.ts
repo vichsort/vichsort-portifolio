@@ -1,6 +1,7 @@
 import frontMatter from 'front-matter'
 import { LANGS, TYPES, TYPE_BY_FOLDER, LINK_FIELDS } from './schema.ts'
 import { parseLink, parseLinkList, extractBodyLinks } from './links.ts'
+import { backlinksOf } from './structure.ts'
 import type { CollectionGroup, ContentGraph, ContentNode, Edge, Issue, NodeText, NodeType, Report } from './types.ts'
 
 interface ParsedFile {
@@ -177,18 +178,7 @@ export function buildGraph(files: Array<{ path: string; raw: string }>, assets: 
     }
   }
 
-  // 5. Backlinks
-  const backlinks = new Map<string, Edge[]>()
-  for (const edge of edges) {
-    let list = backlinks.get(edge.to)
-    if (!list) {
-      list = []
-      backlinks.set(edge.to, list)
-    }
-    list.push(edge)
-  }
-
-  return { nodes, edges, backlinks, resolve, issues }
+  return { nodes, edges, backlinks: backlinksOf(edges), resolve, issues }
 }
 
 function parseFrontMatter(raw: string, path: string, report: Report): ParsedFile | null {

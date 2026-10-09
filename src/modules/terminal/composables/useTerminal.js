@@ -2,6 +2,7 @@ import { ref, computed, watch } from 'vue'
 import router from '@/core/router'
 import i18n from '@/core/i18n'
 import { LANGUAGES } from '@/core/i18n/languages'
+import { requireBodies } from '@/core/content'
 import { useSettings } from '@/shared/composables/useSettings'
 import { useTheme } from '@/shared/composables/useTheme'
 import { useVFS } from './useVFS.js'
@@ -24,6 +25,16 @@ let session = null
  *
  * @returns {Object} Estado reativo e métodos de controle do terminal.
  */
+/**
+ * HTML das saídas markdown (cat *.md). O markdown-it só é baixado no primeiro arquivo
+ * Markdown aberto, e não com o terminal: a seção da home não paga por ele (a13).
+ */
+async function renderMarkdownOutputs(outputs) {
+  if (!outputs?.some((output) => output.type === 'markdown')) return outputs
+  const { renderMarkdown } = await import('@/core/content/markdown')
+  return outputs.map((output) => (output.type === 'markdown' ? { ...output, html: renderMarkdown(output.payload) } : output))
+}
+
 export function useTerminal() {
   session ??= createSession()
   return session
@@ -155,7 +166,10 @@ function createSession() {
 
     let outputs
     try {
-      outputs = await dispatchLine(line, context)
+      // cat, grep e find leem o texto completo dos nós; na página /terminal o router já
+      // esperou os corpos, mas a seção da home só os baixa no primeiro comando
+      await requireBodies('plain', locale.value)
+      outputs = await renderMarkdownOutputs(await dispatchLine(line, context))
     } catch (err) {
       outputs = [{ type: 'error', payload: t('terminal.errors.internal', { message: err.message || String(err) }) }]
     } finally {

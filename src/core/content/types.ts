@@ -68,6 +68,7 @@ export interface ContentNode {
   path: string
   data: NodeData
   aliases: string[]
+  /** Idioma → texto. Só no build: no site fica vazio, e os textos vêm por idioma (index.ts). */
   texts: Record<string, NodeText>
   /** Arquivos extras da pasta: nome → URL. */
   assets: Record<string, string>
@@ -99,12 +100,16 @@ export interface Issue {
 
 export type Report = (level: IssueLevel, code: string, where: string, message: string) => void
 
-export interface ContentGraph {
+/** O grafo sem os textos: o que o site recebe no arquivo principal. */
+export interface GraphStructure {
   nodes: Map<string, ContentNode>
   edges: Edge[]
   backlinks: Map<string, Edge[]>
   /** Id de um alvo de wikilink (id ou alias, sem diferenciar maiúsculas), ou null. */
   resolve: (target: unknown) => string | null
+}
+
+export interface ContentGraph extends GraphStructure {
   issues: Issue[]
 }
 

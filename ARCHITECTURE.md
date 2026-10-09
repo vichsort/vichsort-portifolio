@@ -42,10 +42,10 @@ src/
 ├── core/                           # Infraestrutura transversal
 │   ├── config/
 │   │   └── profile.js              # E-mail, redes, endereço do site e capa padrão (navbar, footer, contato, terminal)
-│   ├── content/                    # Grafo de conteúdo: leitura, validação, consultas e Markdown
+│   ├── content/                    # Grafo de conteúdo: o vault é lido no build (scripts/contentPlugin.mjs); aqui, a estrutura e os textos por idioma (GRAPH.md, seção 7)
 │   ├── i18n/
 │   │   ├── languages.js            # Idiomas suportados, obrigatórios e cadeia de fallback
-│   │   ├── index.js                # Mescla os dicionários de core e dos módulos (import.meta.glob)
+│   │   ├── index.js                # Dicionários de core e dos módulos, um arquivo por idioma; loadLocale baixa o do idioma e os textos do conteúdo
 │   │   └── locales/                # Dicionários globais: <idioma>.json (nav, settings, common, footer)
 │   ├── router/
 │   │   ├── index.js                # Componente de cada página (lazy-loading), rolagem e título da aba

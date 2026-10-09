@@ -2,7 +2,6 @@
 import UntranslatedNote from '@/shared/components/ui/UntranslatedNote.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { renderMarkdown } from '@/core/content/markdown'
 import { formatDateRange } from '../composables/useProjects'
 import { Github, ExternalLink, ArrowRight, Calendar } from 'lucide-vue-next'
 
@@ -40,10 +39,7 @@ const liveLink = computed(() => {
   return link && String(link).trim().length > 0 ? String(link).trim() : null
 })
 
-const renderedDescription = computed(() => {
-  const desc = props.project?.summary || props.project?.short_description || ''
-  return renderMarkdown(desc)
-})
+const renderedDescription = computed(() => props.project?.summaryHtml || '')
 </script>
 
 <template>

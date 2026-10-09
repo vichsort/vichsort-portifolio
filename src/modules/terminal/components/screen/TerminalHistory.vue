@@ -40,7 +40,7 @@ defineProps({
         />
         <OutputMarkdown
           v-else-if="output.type === 'markdown'"
-          :content="output.payload"
+          :html="output.html"
           :filename="output.filename"
         />
         <OutputText

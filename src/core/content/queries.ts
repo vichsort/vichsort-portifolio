@@ -1,8 +1,4 @@
-import { renderBody } from './markdown.ts'
-import { fallbackChain } from '../i18n/languages.js'
-import { nodeRoute } from './routes.ts'
-import { buildNodeMenu } from './nodeMenu.ts'
-import type { ContentGraph, ContentNode, NodeText, NodeType } from './types.ts'
+import type { ContentNode, GraphStructure, NodeText, NodeType } from './types.ts'
 
 const startDate = (node: ContentNode) => String([node.data.date].flat()[0] ?? '')
 
@@ -10,27 +6,31 @@ const startDate = (node: ContentNode) => String([node.data.date].flat()[0] ?? ''
 export type NodesByType = Partial<Record<NodeType, ContentNode[]>>
 
 /**
+ * De onde vêm os textos dos nós. No build (render.ts), do vault inteiro; no site
+ * (index.ts), dos módulos de cada idioma, baixados sob demanda.
+ */
+export interface TextSource {
+  /** Idioma em que o texto do nó será mostrado: o pedido ou o primeiro da cadeia de fallback. */
+  textLang(id: string, lang: string): string | null
+  /** Campos do texto (sem o corpo), já no idioma de textLang. */
+  text(id: string, lang: string): Partial<NodeText>
+  /** Corpo renderizado em HTML, com os wikilinks resolvidos no idioma pedido. */
+  html(id: string, lang: string): string
+  /** Corpo em Markdown com os wikilinks trocados pelo nome do nó e sem embeds (terminal). */
+  plain(id: string, lang: string): string
+}
+
+/**
  * Consultas sobre o grafo, com o idioma passado explicitamente.
  * O composable useContent envolve estas funções com o idioma ativo.
  */
-export function createQueries(graph: ContentGraph) {
-  const htmlCache = new Map<string, string>()
-
+export function createQueries(graph: GraphStructure, texts: TextSource) {
   const node = (id: string | null | undefined): ContentNode | null => (id ? graph.nodes.get(id) || null : null)
 
   // Os ids que vêm de ligações já resolvidas sempre existem no grafo
   const existing = (id: string): ContentNode => graph.nodes.get(id)!
 
-  /** Idioma em que o texto do nó será mostrado: o pedido ou o primeiro da cadeia de fallback. */
-  const textLang = (id: string, lang: string): string | null => {
-    const texts = node(id)?.texts || {}
-    return fallbackChain(lang).find((l: string) => texts[l]) || null
-  }
-
-  const text = (id: string, lang: string): Partial<NodeText> => {
-    const used = textLang(id, lang)
-    return (used && node(id)?.texts[used]) || {}
-  }
+  const { textLang, text, html, plain } = texts
 
   /** Idioma substituto quando o nó não tem texto no idioma pedido; null se não precisou. */
   const fallback = (id: string, lang: string): string | null => {
@@ -148,35 +148,6 @@ export function createQueries(graph: ContentGraph) {
     return file ? assets[file] : ''
   }
 
-  const html = (id: string, lang: string): string => {
-    const key = `${id}.${lang}`
-    const cached = htmlCache.get(key)
-    if (cached !== undefined) return cached
-
-    const body = text(id, lang).body || ''
-    const rendered = renderBody(body, {
-      assets: node(id)?.assets,
-      label: (target) => {
-        const resolved = graph.resolve(target)
-        return resolved ? label(resolved, lang) : target
-      },
-      // Um link para a própria página do nó não leva a lugar nenhum: fica como texto
-      href: (target) => {
-        const path = nodeRoute(node(graph.resolve(target)))
-        return path && path !== nodeRoute(node(id)) ? path : null
-      },
-      // Sem página: abre o menu do nó, se houver o que mostrar além deste próprio nó
-      menu: (target) => {
-        const resolved = graph.resolve(target)
-        if (!resolved || resolved === id) return null
-        return buildNodeMenu(queries, resolved, { lang, exclude: [id] }).length ? resolved : null
-      },
-      source: id
-    })
-    htmlCache.set(key, rendered)
-    return rendered
-  }
-
   // resolve: id de um alvo de wikilink (id ou alias, sem diferenciar maiúsculas), ou null
   const queries = {
     resolve: graph.resolve,
@@ -195,7 +166,8 @@ export function createQueries(graph: ContentGraph) {
     asset,
     icon,
     cover,
-    html
+    html,
+    plain
   }
   return queries
 }

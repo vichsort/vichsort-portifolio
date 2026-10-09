@@ -3,6 +3,7 @@ import { useNavigation } from '@/shared/composables/useNavigation'
 import i18n from '@/core/i18n'
 import { scrollToHash } from './scrollToHash'
 import { PAGES, pageTitle } from './pages'
+import { requireBodies } from '@/core/content'
 import { isViewTransitioning } from '@/shared/composables/useViewTransition'
 
 // Componente de cada página da tabela (pages.js), por nome
@@ -21,12 +22,12 @@ const VIEWS = {
   'not-found': () => import('@/shared/views/NotFoundView.vue')
 }
 
-const routes = PAGES.map(({ name, path, titleKey, bare, props }) => ({
+const routes = PAGES.map(({ name, path, titleKey, bare, props, bodies }) => ({
   path,
   name,
   component: VIEWS[name],
   props: Boolean(props),
-  meta: { titleKey, bare: Boolean(bare) }
+  meta: { titleKey, bare: Boolean(bare), bodies: bodies || null }
 }))
 
 const router = createRouter({
@@ -42,6 +43,13 @@ const router = createRouter({
   },
   routes
 })
+
+// Páginas com o texto completo dos nós: o download dos corpos começa junto com o do chunk
+// da página (beforeEach) e a navegação espera os dois (beforeResolve, a mesma busca)
+router.beforeEach((to) => {
+  if (to.meta.bodies) requireBodies(to.meta.bodies, i18n.global.locale.value).catch(() => {})
+})
+router.beforeResolve((to) => (to.meta.bodies ? requireBodies(to.meta.bodies, i18n.global.locale.value) : undefined))
 
 router.afterEach((to) => {
   // Automatically close navigation sidebar

@@ -9,6 +9,8 @@ export interface ProjectView {
   /** Idioma do texto quando o pedido não existe (selo "não traduzido"), ou null. */
   fallback: string | null
   summary: string
+  /** O resumo em HTML (renderizado no build, como Markdown). */
+  summaryHtml: string
   /** Nome de exibição da categoria; o id fica em categoryId. */
   category: string
   categoryId: string
@@ -20,7 +22,7 @@ export interface ProjectView {
   github: string
   live: string
   featured: boolean
-  body: string
+  /** Corpo em HTML; vazio até os corpos do idioma chegarem (requireBodies). */
   html: string
 }
 
@@ -41,6 +43,7 @@ export function projectView(id: string, lang = 'pt'): ProjectView | null {
     title: text.title || id,
     fallback: content.fallback(id, lang),
     summary: text.summary || '',
+    summaryHtml: String(text.summaryHtml || ''),
     category: categoryId ? content.label(categoryId, lang) : '',
     categoryId,
     techs: techIds.map((t) => content.label(t, lang)),
@@ -51,7 +54,6 @@ export function projectView(id: string, lang = 'pt'): ProjectView | null {
     github: node.data.github || '',
     live: node.data.live || '',
     featured: node.data.featured === true,
-    body: text.body || '',
     html: content.html(id, lang)
   }
 }

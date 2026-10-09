@@ -1,6 +1,6 @@
 import { computed, ref, watch } from 'vue'
 import { useLocalStorage, usePreferredReducedMotion } from '@vueuse/core'
-import i18n from '@/core/i18n'
+import i18n, { loadLocale } from '@/core/i18n'
 import { DEFAULT_LANG, isLang } from '@/core/i18n/languages'
 
 const isSidebarOpen = ref(false)
@@ -14,6 +14,8 @@ const systemMotion = usePreferredReducedMotion()
 // animações no site ou se o sistema operacional pede movimento reduzido
 const isMotionAllowed = computed(() => areAnimationsEnabled.value && systemMotion.value !== 'reduce')
 const fontSizeLevel = useLocalStorage('user-font-size-level', 0)
+// Trocas seguidas de idioma: vale a última, mesmo que a anterior termine de baixar depois
+let languageRequest = 0
 
 export function useSettings() {
   const toggleSidebar = () => {
@@ -24,9 +26,13 @@ export function useSettings() {
     isSidebarOpen.value = false
   }
 
-  const setLanguage = (value) => {
+  // O idioma só muda quando o dicionário e os textos dele chegaram (a13)
+  const setLanguage = async (value) => {
     const lang = isLang(value) ? value : DEFAULT_LANG
+    const request = ++languageRequest
     currentLang.value = lang
+    await loadLocale(lang)
+    if (request !== languageRequest) return
     i18n.global.locale.value = lang
 
     if (typeof document !== 'undefined') {
