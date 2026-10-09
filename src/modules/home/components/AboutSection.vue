@@ -220,9 +220,10 @@ const barHeight = computed(() => {
   75% { translate: -8px -8px; }
 }
 
+/* Só translate e scale: rodam no compositor. Animar a box-shadow repintava a página a cada quadro */
 @keyframes circle-breathe {
-  0%, 100% { scale: 1; box-shadow: 0 20px 50px var(--accent-glow); }
-  50% { scale: 1.04; box-shadow: 0 32px 70px var(--accent-glow); }
+  0%, 100% { scale: 1; }
+  50% { scale: 1.04; }
 }
 
 @media (prefers-reduced-motion: reduce) {

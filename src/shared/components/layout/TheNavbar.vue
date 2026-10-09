@@ -434,13 +434,18 @@ onKeyStroke('Escape', (e) => {
   background-color: var(--neon-pink);
   opacity: 0;
   transition: opacity 0.6s ease;
-  animation: hero-pill-cycle 6s ease-in-out infinite;
 }
 
 .on-hero .nav-pill-link.is-active,
 .on-hero .mobile-nav-link.is-active {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
-  animation: hero-pill-glow 6s ease-in-out infinite;
+  box-shadow: 0 2px 14px var(--neon-pink);
+  animation: hero-pill-cycle 6s ease-in-out infinite;
+}
+
+:root[data-theme="light"] .on-hero .nav-pill-link.is-active,
+:root[data-theme="light"] .on-hero .mobile-nav-link.is-active {
+  animation-name: hero-pill-cycle-light;
 }
 
 .on-hero .nav-pill-link.is-active::before,
@@ -448,24 +453,27 @@ onKeyStroke('Escape', (e) => {
   opacity: 1;
 }
 
-/* Mesma sequência e ritmo nas duas animações: o brilho acompanha a cor */
+/* A pílula e o brilho ficam no rosa e um filter leva os dois ao magenta e ao ciano.
+   Filter anima no compositor; background-color e box-shadow não, e repintavam a
+   página a cada quadro. Os valores reproduzem os tokens --neon-magenta e --neon-cyan
+   a partir do --neon-pink de cada tema; o texto branco não muda */
 @keyframes hero-pill-cycle {
-  0%, 100% { background-color: var(--neon-pink); }
-  33.333% { background-color: var(--neon-magenta); }
-  66.666% { background-color: var(--neon-cyan); }
+  0%, 100% { filter: hue-rotate(0deg) saturate(1) brightness(1); }
+  33.333% { filter: hue-rotate(-58deg) saturate(2.6) brightness(1); }
+  66.666% { filter: hue-rotate(-91deg) saturate(1.9) brightness(2.3); }
 }
 
-@keyframes hero-pill-glow {
-  0%, 100% { box-shadow: 0 2px 14px var(--neon-pink); }
-  33.333% { box-shadow: 0 2px 14px var(--neon-magenta); }
-  66.666% { box-shadow: 0 2px 14px var(--neon-cyan); }
+@keyframes hero-pill-cycle-light {
+  0%, 100% { filter: hue-rotate(0deg) saturate(1) brightness(1); }
+  33.333% { filter: hue-rotate(-44deg) saturate(0.9) brightness(1.15); }
+  66.666% { filter: hue-rotate(-141deg) saturate(1.5) brightness(1.3); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-pill-link.is-active::before,
-  .mobile-nav-link.is-active::before,
   .on-hero .nav-pill-link.is-active,
-  .on-hero .mobile-nav-link.is-active {
+  .on-hero .mobile-nav-link.is-active,
+  :root[data-theme="light"] .on-hero .nav-pill-link.is-active,
+  :root[data-theme="light"] .on-hero .mobile-nav-link.is-active {
     animation: none;
   }
 }

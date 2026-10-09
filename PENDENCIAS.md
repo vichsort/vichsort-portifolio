@@ -12,13 +12,6 @@ O que falta, em ordem de prioridade. Revisada em 2026-10-08 contra o código.
 
 O que o visitante sente nos primeiros segundos, e o que impede divulgar o link.
 
-- **`n17`** `[core]` **Navegação e rolagem lentas.** Não é vazamento de memória (medido: nós, listeners e heap estáveis em 12 idas e voltas lista ↔ detalhe). Suspeitos, em ordem:
-  1. o fade entre páginas é `out-in` (0,25s + 0,25s): todo clique espera meio segundo; e o `scrollBehavior` sempre rola *smooth* até o topo (o detalhe ainda chama outro `scrollTo` smooth ao trocar de projeto);
-  2. `backdrop-filter: blur(8px)` no badge de data de cada card (18 blurs sobre imagens) e `blur(16px)` na navbar, refeito a cada quadro de rolagem;
-  3. o hover dos cards `.interactive` anima `box-shadow` dupla (repinta a cada quadro), e há ~30 `transition: all`;
-  4. o campo ASCII do hero roda a 60fps mesmo parado (com a CPU 4× mais lenta, 40% dos quadros da home passam de 33ms).
-
-  Confirmar no Chrome (aba Performance: rolar a lista e passar o mouse nos cards; Paint/Composite grandes confirmam 2 e 3).
 - **`n19`** `[graph]` `[contact]` **Mobile.** Em 390px, o Grafo fica com 530px (a matriz não tem contêiner de rolagem) e o Contato com 417px (um ícone 3px para fora). O `overflow-x: hidden` do `body` não impede o arrasto lateral no iOS. A matriz, o mapa e os tooltips dos gráficos dependem de hover e não funcionam no toque.
 - **`c1`** `[config]` **Contato e redes reais** em `core/config/profile.js` (placeholders, há um `TODO`).
 

@@ -100,6 +100,8 @@ Fora da escala, só três coisas: títulos de seção fluidos (`clamp` com `vw`,
 | `--transition-base` (`0.25s`, ease-out) | Subida de cards, bordas e sombras |
 | `--transition-smooth` (`0.4s`, ease-out) | Zoom de imagens e movimentos maiores |
 
+Animação que não para (`infinite`) só em `transform` (ou `translate`/`scale`), `opacity` e `filter`: são as que o navegador anima no compositor, sem repintar. Cor, `box-shadow` e tamanho repintam a cada quadro, e dentro da navbar fixa (que, em tela de densidade 1, não ganha camada própria) isso é a página inteira. Para trocar a cor de algo em loop, deixe a cor fixa e anime um `filter` (a pílula sobre o hero usa `hue-rotate` + `saturate` + `brightness`). Na troca de página, a saída não anima e a rolagem vai direto (`behavior: 'instant'`); o rolar suave fica para as âncoras.
+
 ### Menus e hero
 
 * `--menu-bg`, `--menu-border`, `--menu-separator`, `--menu-active`, `--menu-title`, `--menu-shadow`: o menu de contexto no estilo macOS (`ContextMenu`), translúcido sobre o conteúdo.

@@ -50,18 +50,14 @@ onMounted(() => {
 </template>
 
 <style>
-.page-fade-enter-active,
-.page-fade-leave-active {
-  transition: opacity 0.25s ease, transform 0.25s ease;
+/* A página antiga sai na hora (sem transição, o out-in não espera) e só a nova entra:
+   com saída animada, cada clique esperava meio segundo antes de mostrar algo */
+.page-fade-enter-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .page-fade-enter-from {
   opacity: 0;
-  transform: translateY(12px);
-}
-
-.page-fade-leave-to {
-  opacity: 0;
-  transform: translateY(-12px);
+  transform: translateY(8px);
 }
 </style>

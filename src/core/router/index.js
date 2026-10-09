@@ -34,9 +34,11 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     // Na troca animada (View Transition) quem posiciona a página é a própria transição
     if (isViewTransitioning.value) return false
-    if (savedPosition) return savedPosition
+    // Troca de página vai direto à posição: 'instant', porque o scroll-behavior: smooth
+    // do <html> tornaria suave o padrão ('auto'). O suave fica para as âncoras
+    if (savedPosition) return { ...savedPosition, behavior: 'instant' }
     if (to.hash) return scrollToHash(to.hash)
-    return { top: 0, behavior: 'smooth' }
+    return { top: 0, behavior: 'instant' }
   },
   routes
 })

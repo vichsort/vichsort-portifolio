@@ -49,7 +49,6 @@ watch(
     if (newSlug) {
       projectId.value = newSlug
       fetchProjectData()
-      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 )
