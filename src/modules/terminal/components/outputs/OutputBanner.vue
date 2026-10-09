@@ -24,7 +24,7 @@ defineProps({
   margin: 0;
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: var(--text-xs);
   line-height: 1.15;
   white-space: pre;
   background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--accent) 50%, var(--neon-magenta) 100%);

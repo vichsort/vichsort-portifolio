@@ -104,7 +104,7 @@ const kindOf = (item) => {
 .menu-title {
   padding: 0.4rem 0.7rem 0.3rem;
   color: var(--menu-title);
-  font-size: 0.6875rem;
+  font-size: var(--text-2xs);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;

@@ -65,7 +65,9 @@ Este documento consolida os princípios visuais, o sistema de tokens, as camadas
 
 | Token | Tamanho em Rem | Equivalente em Pixels | Utilização Recomendada |
 | :--- | :--- | :--- | :--- |
-| `--text-xs` | `0.75rem` | `12px` | Badges, tags e metadados compactos |
+| `--text-2xs` | `0.6875rem` | `11px` | Título dos grupos no menu de contexto |
+| `--text-xs` | `0.75rem` | `12px` | Badges, tags, metadados compactos e banner ASCII do terminal |
+| `--text-menu` | `0.8125rem` | `13px` | Itens de menu e abas da navbar (o tamanho dos menus do macOS) |
 | `--text-sm` | `0.875rem` | `14px` | Textos auxiliares e botões pequenos |
 | `--text-base` | `1rem` | `16px` | Texto de parágrafos padrão e corpo |
 | `--text-lg` | `1.125rem` | `18px` | Parágrafos de introdução e links de menu |
@@ -76,7 +78,7 @@ Este documento consolida os princípios visuais, o sistema de tokens, as camadas
 | `--text-5xl` | `3.75rem` | `60px` | Título do Hero e display principal |
 | `--text-page-title` | `clamp(2.5rem, 6vw, 4.5rem)` | `40–72px` | Título (h1) das páginas internas |
 
-Títulos de seção fluidos (`clamp` com `vw`) ficam no componente. Num `clamp`, o mínimo em `rem` precisa caber na tela mais estreita com a fonte no máximo; se não couber, use `min(<rem>, <vw>)` no mínimo (ver `HeroAsciiTitle`).
+Fora da escala, só três coisas: títulos de seção fluidos (`clamp` com `vw`, e o valor fixo que os substitui no celular), que ficam no componente; texto decorativo (o ano gigante ao fundo da linha do tempo, `8rem`); e tamanhos relativos em `em` onde o elemento acompanha o texto em volta (código inline no Markdown do terminal, `0.92em`; o sufixo dos números da home, `0.5em`). Num `clamp`, o mínimo em `rem` precisa caber na tela mais estreita com a fonte no máximo; se não couber, use `min(<rem>, <vw>)` no mínimo (ver `HeroAsciiTitle`).
 
 ### Espaçamento, raios e layout
 

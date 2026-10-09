@@ -267,7 +267,7 @@ const onSubmenuKeydown = useMenuKeyboard({
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   box-shadow: var(--menu-shadow);
   font-family: var(--font-body);
-  font-size: 0.8125rem;
+  font-size: var(--text-menu);
   font-weight: 500;
   overflow: hidden;
   outline: none;

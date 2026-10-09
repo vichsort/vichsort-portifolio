@@ -308,7 +308,7 @@ const openTerminal = () => {
 }
 
 .flag {
-  font-size: 1.25rem;
+  font-size: var(--text-xl);
 }
 
 .lang-name {

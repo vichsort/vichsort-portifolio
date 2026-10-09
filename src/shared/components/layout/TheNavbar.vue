@@ -391,7 +391,7 @@ onKeyStroke('Escape', (e) => {
      a margem negativa anula o padding vertical na altura, como no modo inline */
   display: inline-block;
   margin-block: -0.4rem;
-  font-size: 0.8125rem;
+  font-size: var(--text-menu);
   font-weight: 600;
   letter-spacing: 0.4px;
   color: var(--text-secondary);

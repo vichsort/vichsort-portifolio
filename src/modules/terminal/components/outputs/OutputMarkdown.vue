@@ -165,6 +165,7 @@ const renderedHtml = computed(() => {
   border-radius: 4px;
   background: var(--bg-surface-2);
   color: var(--neon-pink);
+  /* em, não token: o código inline acompanha o texto em volta (parágrafo ou título) */
   font-size: 0.92em;
 }
 
