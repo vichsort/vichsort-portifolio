@@ -1,6 +1,6 @@
 # Pendências /// vichsort-portifolio
 
-O que falta, em ordem de prioridade. Revisada em 2026-10-08 contra o código.
+O que falta, em ordem de prioridade. Revisada em 2026-10-09 contra o código.
 
 - **Concluído sai daqui.** O histórico fica no git: cada commit cita o código da pendência (`git log --grep n23`), e o que vira regra ou decisão vai para o documento da área (ARCHITECTURE, DESIGN, GRAPH, README da pasta).
 - **Códigos fixos.** `n` interface, `a` fundação técnica, `c` conteúdo, `s` sugestão. O número não muda nem é reaproveitado.
@@ -12,18 +12,36 @@ O que falta, em ordem de prioridade. Revisada em 2026-10-08 contra o código.
 
 O que o visitante sente nos primeiros segundos, e o que impede divulgar o link.
 
-- **`n19`** `[graph]` `[contact]` **Mobile.** Em 390px, o Grafo fica com 530px (a matriz não tem contêiner de rolagem) e o Contato com 417px (um ícone 3px para fora). O `overflow-x: hidden` do `body` não impede o arrasto lateral no iOS. A matriz, o mapa e os tooltips dos gráficos dependem de hover e não funcionam no toque.
+- **`n19`** `[graph]` `[contact]` **Mobile.** Em 390px, o Grafo fica com 530px (a matriz não tem contêiner de rolagem) e o Contato com 417px (um ícone 3px para fora). O `overflow-x: hidden` do `body` não impede o arrasto lateral no iOS. O toque no mapa e nos gráficos fica no `n21`.
 - **`c1`** `[config]` **Contato e redes reais** em `core/config/profile.js` (placeholders, há um `TODO`).
 
 ## 2. Próximo
 
 Já decidido, melhora o site ou a base de código.
 
+Ordem combinada: `s11` → documento de desenho do `n21` → `n21`.
+
 ### Interface
 
-- **`n21`** `[graph]` **Página do Grafo: UX e adições.**
-  - Problemas: na matriz tech × projeto, as colunas giram e cortam nomes ("Cemitério Caboclo" vira "Cemitério"), ela depende de hover e estoura no celular; a adoção no tempo tem 39 linhas sem agrupamento; no mapa, as techs são quadrados sem nome, sem zoom, busca nem filtro; os gráficos não conversam entre si.
-  - Adições: seleção ligada entre os três gráficos; filtro de período e de tipo no topo; "top 10 + ver todos"; techs agrupadas por área, nas cores das stacks; as análises do `s1`.
+- **`s11`** `[config]` **Capa padrão sem texto.** O `og-default.jpg` é o hero em inglês: no site em pt, os projetos sem capa mostram "Hello! My name is". Decidido: o fundo do site com o logo NEAT pequeno no centro, como na tela de carregamento. Sem texto, serve aos quatro idiomas e sobrevive aos cortes dos cards. Atenção: é também a prévia de link (WhatsApp, LinkedIn) de toda página sem capa própria, e um logo pequeno pode parecer imagem quebrada ali; avaliar o logo maior só na versão de prévia.
+- **`n21`** `[graph]` `[content]` **Página do Grafo como peça de arte e de dados.** A página não só mostra o que foi feito: mostra que o Vitor pensa fora da caixa, como num Obsidian. Tem que ser fonte de dados e impressionar. Três camadas na mesma página: **arte** (o mapa vivo, na identidade do site: neon, a estética ASCII do hero), **fonte** (tudo navegável até o nó) e **ciência** (análises que revelam o que não se vê lendo os projetos um a um, com o método à mostra).
+
+  Antes de código, um documento de desenho curto para aprovar: o modelo de interação, as perguntas que a página responde e a biblioteca do mapa. Em aberto: o que é mais importante mostrar (define a hierarquia) e quais análises são mais "o Vitor".
+
+  - **Problemas de hoje.** O clique leva à página quando o nó tem uma e abre o menu quando não tem (tech, tópico): quem usa não prevê. O layout é calculado uma vez e desenhado parado, sem zoom, arrastar nem movimento: parece travado. Tudo depende de hover e não funciona no toque. Na matriz tech × projeto, as colunas giram e cortam nomes ("Cemitério Caboclo" vira "Cemitério") e ela estoura no celular; a adoção no tempo tem 39 linhas sem agrupamento; os gráficos não conversam entre si.
+  - **Interação, no estilo Obsidian.** Clique esquerdo seleciona (destaca os vizinhos e abre um painel lateral com resumo, ligações e "abrir"), nunca navega direto; duplo clique ou o botão do painel abre a página; clique direito abre o menu de nó do site; roda dá zoom, arrastar o fundo move a vista, arrastar um nó mexe nele e a simulação reage e assenta; grafo local (o nó e os vizinhos de 1 ou 2 níveis). No toque: tocar seleciona, pinça dá zoom, pressionar e segurar abre o menu.
+  - **Biblioteca do mapa.** Em TS puro, sem Vue nem imports do site (física, canvas, zoom e arrastar, eventos), escrita como se já fosse biblioteca; o componente Vue só a envolve. Fica neste repositório, numa pasta isolada, enquanto a API muda; extrair para um repositório próprio (e publicar) quando estabilizar, e ela vira um projeto de portfólio por si. Um clone do Obsidian inteiro (editor, vault, plugins) fica fora: é outro produto.
+  - **Etapas, nesta ordem:**
+    1. **Auditoria do vault.** As análises só valem se as ligações estiverem certas: se o PlantE não aponta para as techs de ML, o grafo diz que o Vitor não faz ML. Hoje o cargo `data-science` está em só 2 dos 18 projetos; pytorch, databricks, qgis, postgis, leaflet e openstreetmap não têm projeto apontando; o PlantE é computer-vision sem tech de ML. Junto, os nós de vocabulário com `source: placeholder` (`c3`).
+    2. **Análises no build.** O plugin de conteúdo (`scripts/contentPlugin.mjs`) calcula e entrega um módulo pronto (`virtual:content/analytics`): leve no navegador, reproduzível e atualizado com o conteúdo. Cada análise responde uma pergunta que alguém faria sobre o Vitor, e traz uma nota de "como foi calculado". O dado é descritivo (cerca de 140 nós, 18 projetos), não estatístico; serve bem à análise de rede. Candidatas, da mais forte à mais simples:
+       - comunidades: o algoritmo descobre os grupos de atuação sozinho, para comparar com os tópicos manuais;
+       - centralidade de intermediação: as techs e os temas que fazem ponte entre áreas (o Python entre web e dados?);
+       - eras do stack: quando cada tech entra e sai, projetos em paralelo (pico de 9 em out/2025);
+       - similaridade entre projetos (Jaccard das ligações), projetada em 2D: o mapa dos parecidos;
+       - rede de coautoria: 32 coautores em 9 pesquisas.
+
+       Comunidades e centralidade também desenham o mapa: as comunidades viram regiões e a centralidade, o tamanho do nó. Ciência e arte na mesma peça.
+    3. **A página.** O mapa interativo como protagonista, em largura total, com o painel lateral; embaixo, as análises, que filtram junto com a seleção no mapa. Período e tipo como filtros; techs agrupadas por área, nas cores das stacks.
 - **`n27`** `[core]` **Seleção de texto restrita e colorida.** Moldura sem seleção (navbar, footer, botões, badges, títulos pixel); seleção só no texto corrido (markdown, resumos, terminal), com `::selection` no neon da área. Hoje: um `::selection` global em `reset.css` e alguns `user-select: none` soltos.
 - **`n7`** `[contact]` **Redesenhar a tela de contato** na identidade do hero e do footer.
 
@@ -40,7 +58,6 @@ Ordem combinada: `a10` → `a11` → `a12`.
 
   Esperando um README do Beta como modelo.
 - **`a12`** `[core]` `[terminal]` **Testes.** Não há nenhum. Vitest na lógica pura: `core/content` (montagem do grafo, validação, consultas, fallback de idioma, menu de nó) e o núcleo do terminal (lexer, pipes e `&&`, dispatcher, completion, histórico, VFS). Rodar no `npm run check` (`a10`).
-- **`a17`** `[core]` **TypeScript nos componentes.** O ganho real é `<script setup lang="ts">` com props tipadas: o `vue-tsc` passa a pegar prop errada e evento inexistente (o `ProjectCard` ainda trata campos que não existem mais: `name`, `link_github`, `tags`, `short_description`). Migrar só os `.js` rende pouco; vale para a lógica pura (`forceLayout`, `graphData`, `useListingFilters`, `useTimeline`), junto dos testes do `a12`. Quebrar os `.vue` grandes também rende pouco, porque o tamanho é CSS; o que reduz é extrair padrões repetidos (botões, badges, cabeçalhos de seção).
 - **`a15`** `[docs]` **README do repositório.** Ainda é o do template do Vite. Deve dizer o que o site é e mostrar um print, a stack, como rodar e publicar; e apontar para ARCHITECTURE, DESIGN e GRAPH.
 
 ## 3. Esperando material
@@ -60,15 +77,4 @@ Depende do Vitor, não de código.
 
 Não decididas. Viram pendência quando aprovadas.
 
-- **`s1`** `[graph]` **Análises com o que o grafo já tem.**
-  - domínios de atuação (`topics`);
-  - projetos em paralelo no tempo (pico de 9 em out/2025);
-  - coocorrência de techs (Flask + Python em 9 projetos);
-  - linguagem por trás de cada projeto (ligações tech → tech);
-  - rede de coautoria (32 coautores em 9 pesquisas);
-  - produção por ano, perfil por cargo (`roles`) e tipo de entrega (`category`).
-- **`s2`** `[projects]` **Métricas por projeto.** Campo `metrics:` no frontmatter (usuários, acurácia, dataset, latência) em cards de números no detalhe. Os números vêm do Vitor.
-- **`s3`** `[scripts]` **Atividade do GitHub no build.** Linguagens e commits por mês num JSON, com um heatmap. Depende da API e de um token.
-- **`s4`** `[content]` **Gráficos a partir de CSV no nó** (`data.csv` na pasta do projeto ou da pesquisa). Para quando houver análises de dados reais.
-- **`s5`** `[content]` **Revisar as ligações de data science.** O cargo `data-science` está em só 2 dos 18 projetos; pytorch, databricks, qgis, postgis, leaflet e openstreetmap não têm nenhum projeto apontando; o PlantE é computer-vision sem tech de ML. Como os gráficos saem dos dados, hoje eles contam a história de um dev web.
-- **`s11`** `[config]` **Capa padrão por idioma.** O `og-default.jpg` é o hero em inglês: no site em pt, os projetos sem capa mostram "Hello! My name is". Fazer uma por idioma, ou uma sem texto.
+Nenhuma aberta. Em 2026-10-09: `s11` foi decidido; `s1` (análises do grafo) e `s5` (ligações de data science) entraram no `n21`; `s2` (métricas por projeto), `s3` (atividade do GitHub: os commits recentes são privados, e o gráfico mostraria buracos onde mais houve trabalho), `s4` (gráficos de CSV no nó) e `a17` (TypeScript nos componentes) foram descartados.
