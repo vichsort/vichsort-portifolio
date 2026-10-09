@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useContent } from '@/core/content/useContent'
 import { useListingFilters, yearsOf } from '@/shared/composables/useListingFilters'
 import { useRefFilter } from '@/shared/composables/useRefFilter'
-import { useListingView } from '@/shared/composables/useListingView'
+import { useListingView, listingItemStyle } from '@/shared/composables/useListingView'
 import ListingToolbar from '@/shared/components/ui/ListingToolbar.vue'
 import ListingEmpty from '@/shared/components/ui/ListingEmpty.vue'
 import ResearchCard from '../components/ResearchCard.vue'
@@ -81,6 +81,8 @@ const toolbarFilters = computed(() => [
           :key="item.id"
           :id="item.id"
           :research="item"
+          class="listing-item"
+          :style="listingItemStyle(item.id)"
           :compact="view === 'grid'"
           @select-tag="(tag) => (searchQuery = tag)"
           @select-category="(category) => (selected.category = category)"

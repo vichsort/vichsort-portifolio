@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { allProjects } from '@/core/content/projects'
 import { useListingFilters, yearsOf } from '@/shared/composables/useListingFilters'
 import { useRefFilter } from '@/shared/composables/useRefFilter'
-import { useListingView } from '@/shared/composables/useListingView'
+import { useListingView, listingItemStyle } from '@/shared/composables/useListingView'
 import ListingToolbar from '@/shared/components/ui/ListingToolbar.vue'
 import ListingEmpty from '@/shared/components/ui/ListingEmpty.vue'
 import ProjectCard from '../components/ProjectCard.vue'
@@ -62,6 +62,8 @@ const toolbarFilters = computed(() => [
         :key="project.id"
         :project="project"
         :variant="view"
+        class="listing-item"
+        :style="listingItemStyle(project.id)"
       />
     </div>
 

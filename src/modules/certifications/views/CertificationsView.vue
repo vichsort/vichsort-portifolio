@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useContent } from '@/core/content/useContent'
 import { useListingFilters, yearsOf } from '@/shared/composables/useListingFilters'
 import { useRefFilter } from '@/shared/composables/useRefFilter'
-import { useListingView } from '@/shared/composables/useListingView'
+import { useListingView, listingItemStyle } from '@/shared/composables/useListingView'
 import ListingToolbar from '@/shared/components/ui/ListingToolbar.vue'
 import ListingEmpty from '@/shared/components/ui/ListingEmpty.vue'
 import UntranslatedNote from '@/shared/components/ui/UntranslatedNote.vue'
@@ -75,7 +75,8 @@ const toolbarFilters = computed(() => [
           v-for="cert in filtered"
           :key="cert.id"
           :id="cert.id"
-          class="cert-card surface-card interactive"
+          class="cert-card surface-card interactive listing-item"
+          :style="listingItemStyle(cert.id)"
         >
           <div class="cert-icon-wrapper">
             <CheckCircle2 :size="24" class="cert-icon" />

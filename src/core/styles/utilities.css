@@ -137,3 +137,49 @@ body.reduce-motion *::after {
   white-space: nowrap;
   border: 0;
 }
+
+/* Troca grade ↔ lista das listagens (n24, useListingView): durante a transição cada card
+   tem nome próprio; a caixa desliza e muda de tamanho, e o conteúdo velho e o novo trocam
+   em fade dentro dela, no tamanho real (sem esticar o snapshot de um formato para o outro) */
+:root.listing-morph .listing-item {
+  view-transition-name: var(--listing-vt);
+}
+
+:root.listing-morph::view-transition-group(*) {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  overflow: clip;
+  border-radius: var(--radius-lg);
+}
+
+:root.listing-morph::view-transition-old(*),
+:root.listing-morph::view-transition-new(*) {
+  width: 100%;
+  height: 100%;
+  object-fit: none;
+  object-position: left top;
+}
+
+/* Fade em sequência, não cruzado: o conteúdo velho some antes de o novo aparecer,
+   e os textos dos dois formatos não se sobrepõem */
+:root.listing-morph::view-transition-old(*) {
+  animation: listing-fade-out 0.15s ease-out both;
+}
+
+:root.listing-morph::view-transition-new(*) {
+  animation: listing-fade-in 0.25s ease-in 0.15s both;
+}
+
+@keyframes listing-fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes listing-fade-in {
+  from { opacity: 0; }
+}
+
+/* A página em volta (cabeçalho, filtros) não pisca */
+:root.listing-morph::view-transition-old(root),
+:root.listing-morph::view-transition-new(root) {
+  animation: none;
+}
