@@ -68,11 +68,14 @@ generated: true
 
 ## topics
 
+- [[agritech]]
 - [[algorithms]]
+- [[cloud-computing]]
 - [[computer-vision]]
 - [[cultural-heritage]]
 - [[database-modeling]]
 - [[developer-tools]]
+- [[distributed-systems]]
 - [[domain-driven-design]]
 - [[edge-computing]]
 - [[edtech]]
