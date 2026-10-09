@@ -1,6 +1,6 @@
 ---
 title: O Uso do Eyetracking na Programação
-institution: XV Mostra de Iniciação Científica — IFC Campus Concórdia
+institution: XV Mostra de Iniciação Científica /// IFC Campus Concórdia
 description: Revisão sistemática sobre como o rastreamento ocular vem sendo usado para entender como estudantes leem e raciocinam sobre código.
 ---
 

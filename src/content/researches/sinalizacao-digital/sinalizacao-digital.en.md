@@ -1,6 +1,6 @@
 ---
 title: "Digital Signage System: Accessibility and Sustainability in Internal Communication"
-institution: 15th Scientific Initiation Exhibition — IFC Campus Concórdia
+institution: 15th Scientific Initiation Exhibition /// IFC Campus Concórdia
 description: Digital signage for campus internal communication, reusing old monitors and TVs with Raspberry Pi and free software.
 ---
 

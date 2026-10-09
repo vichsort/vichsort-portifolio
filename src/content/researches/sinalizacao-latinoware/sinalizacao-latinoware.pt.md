@@ -1,6 +1,6 @@
 ---
 title: "Sustainable Digital Signage with Free Software: An Applied Study with Raspberry Pi in Smart Campuses"
-institution: XXII Latinoware — Sociedade Brasileira de Computação
+institution: XXII Latinoware /// Sociedade Brasileira de Computação
 description: Artigo curto nos anais da Latinoware 2025 apresentando o Next Signage, sinalização digital sustentável para campus com Raspberry Pi, hardware reaproveitado e software livre.
 ---
 

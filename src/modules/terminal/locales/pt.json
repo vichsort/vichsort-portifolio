@@ -1,7 +1,7 @@
 {
   "terminal": {
     "title": "Terminal",
-    "welcome": "VSH (Vitor Shell) — v1.0.0",
+    "welcome": "VSH (Vitor Shell) /// v1.0.0",
     "help_hint": "Digite 'help' para listar os comandos disponíveis.",
     "prompt_label": "Linha de comando do terminal",
     "commands": {

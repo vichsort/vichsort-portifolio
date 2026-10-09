@@ -1,6 +1,6 @@
 ---
 title: How the Lack of Incentive and Teaching Affects Political Understanding in Brazil
-institution: 15th Scientific Initiation Exhibition — IFC Campus Concórdia
+institution: 15th Scientific Initiation Exhibition /// IFC Campus Concórdia
 description: A theoretical study of how the lack of political education and reliable information pushes young people away from democratic participation.
 ---
 

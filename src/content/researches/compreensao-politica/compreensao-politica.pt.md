@@ -1,6 +1,6 @@
 ---
 title: Como a Falta de Incentivo e de Ensino Afeta a Compreensão Política no Brasil
-institution: XV Mostra de Iniciação Científica — IFC Campus Concórdia
+institution: XV Mostra de Iniciação Científica /// IFC Campus Concórdia
 description: Estudo teórico sobre como a falta de educação política e de informação confiável afasta os jovens da participação democrática.
 ---
 

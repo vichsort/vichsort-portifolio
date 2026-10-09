@@ -30,8 +30,8 @@ src/modules/researches/
 ## Como Cadastrar uma Nova Pesquisa
 
 As pesquisas são nós do grafo de conteúdo. Crie a pasta `src/content/researches/<id>/` com:
-1. `<id>.md` — estrutura: `date`, `authors`, `paper_url`, `techs`, `topics`, `roles`
-2. `<id>.pt.md` e `<id>.en.md` — `title`, `institution`, `award`, `description`
+1. `<id>.md` /// estrutura: `date`, `authors`, `paper_url`, `techs`, `topics`, `roles`
+2. `<id>.pt.md` e `<id>.en.md` /// `title`, `institution`, `award`, `description`
 
 O formato completo está no [GRAPH.md](../../../GRAPH.md) (seção 4.7). A antiga `category` passou a ser o primeiro tópico (`topics`), e as `tags` são os nomes das techs e tópicos ligados. Depois rode `npm run check:content` e `npm run content:index`.
 

@@ -1,4 +1,4 @@
-# Pendências — vichsort-portifolio
+# Pendências /// vichsort-portifolio
 
 O que falta, em ordem de prioridade. Revisada em 2026-10-08 contra o código.
 

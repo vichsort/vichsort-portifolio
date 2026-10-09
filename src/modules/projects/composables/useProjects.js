@@ -14,7 +14,7 @@ export const formatDateRange = (dateVal) => {
     const start = formatDate(dateVal[0])
     const end = formatDate(dateVal[1])
     if (start && end && start !== end) {
-      return `${start} — ${end}`
+      return `${start} /// ${end}`
     }
     return start || end
   }

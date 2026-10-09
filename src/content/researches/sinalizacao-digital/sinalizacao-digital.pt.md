@@ -1,6 +1,6 @@
 ---
 title: "Sistema de Sinalização Digital: Acessibilidade e Sustentabilidade na Comunicação Interna"
-institution: XV Mostra de Iniciação Científica — IFC Campus Concórdia
+institution: XV Mostra de Iniciação Científica /// IFC Campus Concórdia
 description: Sinalização digital para a comunicação interna do campus, reaproveitando monitores e TVs antigos com Raspberry Pi e software livre.
 ---
 

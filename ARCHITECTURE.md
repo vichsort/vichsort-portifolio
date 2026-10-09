@@ -1,4 +1,4 @@
-# Arquitetura do Projeto — vichsort-portifolio
+# Arquitetura do Projeto /// vichsort-portifolio
 
 Este documento detalha os princípios arquiteturais, a organização de diretórios e o fluxo de dados da aplicação **vichsort-portifolio**, estruturada sob o paradigma de **Arquitetura Modular Orientada a Domínios (Domain-Driven Modular Architecture)** em **Vue 3 + Vite**.
 

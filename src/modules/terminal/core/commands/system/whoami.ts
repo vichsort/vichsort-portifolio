@@ -7,6 +7,6 @@ import type { Command } from '../../types.ts'
 export const whoamiCommand: Command = {
   name: 'whoami',
   async execute(args, flags, { user, t }) {
-    return { type: 'text', payload: `${user} — ${t('about_page.s1_profile.role')}` }
+    return { type: 'text', payload: `${user} /// ${t('about_page.s1_profile.role')}` }
   }
 }

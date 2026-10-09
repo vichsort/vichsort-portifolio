@@ -119,7 +119,7 @@ const COMET_COLORS = ['cyan', 'pink', 'yellow']
 /**
  * Cometas espontâneos entram pelas laterais e descem levemente.
  * `launch(px, py)` dispara um cometa sob demanda, subindo a partir de um ponto
- * (em px, relativo ao container do canvas) — usado em interações.
+ * (em px, relativo ao container do canvas) /// usado em interações.
  */
 export function createCometsLayer({ max = 2, chance = 0.015, skyRatio = 0.6 } = {}) {
   let comets = []

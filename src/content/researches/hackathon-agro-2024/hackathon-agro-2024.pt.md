@@ -1,6 +1,6 @@
 ---
 title: AgroInsights
-institution: 1º Hackathon Agro do Ecossistema de Concórdia — IFC Campus Concórdia
+institution: 1º Hackathon Agro do Ecossistema de Concórdia /// IFC Campus Concórdia
 award: 1º Lugar
 description: Sistema que cruza os dados da propriedade rural com dados externos e gera relatórios com insights para toda a agroindústria.
 ---

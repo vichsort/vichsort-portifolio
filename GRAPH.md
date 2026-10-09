@@ -1,4 +1,4 @@
-# Grafo de Conteúdo — vichsort-portifolio
+# Grafo de Conteúdo /// vichsort-portifolio
 
 > **Status: migração implementada.** O vault está em `src/content/` e todas as telas e o terminal leem dele. Ainda não feito: o teste no Obsidian (seção 10). Todos os dados são exemplos (o conteúdo atual do portfólio é fictício).
 
@@ -143,16 +143,16 @@ Sem o campo, o conteúdo é considerado escrito à mão. Ao revisar um nó, apag
 
 Para cada tipo: o que vai na estrutura e o que vai na conversa. Campos marcados com `*` são obrigatórios.
 
-### 4.1 `techs/` — tecnologia
+### 4.1 `techs/` /// tecnologia
 
 | Estrutura | Conversa |
 | :--- | :--- |
-| `name`* — nome próprio, igual em todo idioma | `definition` — o que é (curto) |
-| `aliases` | `note` — como eu uso (curto) |
-| `techs`, `topics` — ligações entre conceitos | corpo — texto livre |
+| `name`* /// nome próprio, igual em todo idioma | `definition` /// o que é (curto) |
+| `aliases` | `note` /// como eu uso (curto) |
+| `techs`, `topics` /// ligações entre conceitos | corpo /// texto livre |
 | arquivo `icon.svg` | |
 
-### 4.2 `topics/` — área ou conceito
+### 4.2 `topics/` /// área ou conceito
 
 Mesmo formato da tech, mas o nome é traduzido ("Análise Espacial" / "Spatial Analysis"). Por isso o nome fica na conversa.
 
@@ -162,95 +162,95 @@ Mesmo formato da tech, mas o nome é traduzido ("Análise Espacial" / "Spatial A
 | `techs`, `topics` | `definition`, `note`, corpo |
 | arquivo `icon.svg` (opcional) | |
 
-### 4.3 `roles/` — cargo do hero
+### 4.3 `roles/` /// cargo do hero
 
 | Estrutura | Conversa |
 | :--- | :--- |
-| `techs`, `topics` | `name`* — "Desenvolvimento Web" / "Web Development" |
+| `techs`, `topics` | `name`* /// "Desenvolvimento Web" / "Web Development" |
 | | `description`, corpo |
 
 A ordem no hero vem da coleção `hero-roles`, não de um campo no cargo.
 
-### 4.4 `categories/` — categoria de projeto
+### 4.4 `categories/` /// categoria de projeto
 
 | Estrutura | Conversa |
 | :--- | :--- |
-| *(vazia)* | `name`* — "Aplicativo" / "App" |
+| *(vazia)* | `name`* /// "Aplicativo" / "App" |
 | | `description` |
 
-### 4.5 `projects/` — projeto
+### 4.5 `projects/` /// projeto
 
 | Estrutura | Conversa |
 | :--- | :--- |
-| `category`* — link | `title`* |
-| `date`* — `[início, fim]` em `AAAA-MM` | `summary`* |
-| `techs`, `topics`, `roles` | corpo — artigo completo |
+| `category`* /// link | `title`* |
+| `date`* /// `[início, fim]` em `AAAA-MM` | `summary`* |
+| `techs`, `topics`, `roles` | corpo /// artigo completo |
 | `github`, `live` | |
-| `featured` — `true` para destacar | |
+| `featured` /// `true` para destacar | |
 | arquivo `cover.*` | |
 
-### 4.6 `certifications/` — certificação ou curso
+### 4.6 `certifications/` /// certificação ou curso
 
 | Estrutura | Conversa |
 | :--- | :--- |
-| `issuer`* — instituição | `name`* |
-| `date`* — `AAAA-MM` | `description` |
+| `issuer`* /// instituição | `name`* |
+| `date`* /// `AAAA-MM` | `description` |
 | `credential_url` | |
 | `techs`, `topics`, `roles` | |
 | arquivo `cover.*` (imagem da credencial) | |
 
-### 4.7 `researches/` — pesquisa ou prêmio
+### 4.7 `researches/` /// pesquisa ou prêmio
 
 | Estrutura | Conversa |
 | :--- | :--- |
 | `date`* | `title`* |
-| `authors` | `institution` — traduzida ("Universidade Federal" / "Federal University") |
-| `paper_url` | `award` — "1º Lugar — Apresentação Técnica" |
+| `authors` | `institution` /// traduzida ("Universidade Federal" / "Federal University") |
+| `paper_url` | `award` /// "1º Lugar /// Apresentação Técnica" |
 | `techs`, `topics`, `roles` | `description`, corpo |
 
 A antiga `category` das pesquisas ("Iniciação Científica & GIS") é substituída por `topics`. A página de pesquisas usa o primeiro tópico como categoria.
 
-### 4.8 `timeline/` — evento da trajetória
+### 4.8 `timeline/` /// evento da trajetória
 
 | Estrutura | Conversa |
 | :--- | :--- |
 | `date`* | `title`* |
-| `kind`* — `education`, `work`, `research`, `project` | `organization` |
-| `link` — um nó (projeto, pesquisa, certificação) | `description` |
+| `kind`* /// `education`, `work`, `research`, `project` | `organization` |
+| `link` /// um nó (projeto, pesquisa, certificação) | `description` |
 | `techs`, `topics`, `roles` | |
 
 `link` vira o botão "Ver Projeto" / "Ver Pesquisa" do card, com a rota do nó citado.
 
-### 4.8b `gallery/` — foto da galeria (tipo `photo`)
+### 4.8b `gallery/` /// foto da galeria (tipo `photo`)
 
 | Estrutura | Conversa |
 | :--- | :--- |
 | `date`* | `title`* |
-| `format` — `portrait`, `landscape`, `square` (encaixe na grade do Sobre) | `caption` — legenda embaixo da foto |
-| `link` — um nó (projeto, pesquisa, certificação, marco) | `location` |
-| `techs`, `topics`, `roles` | corpo — a história da foto, na página de detalhes |
-| arquivo `cover.*` — a própria foto | |
+| `format` /// `portrait`, `landscape`, `square` (encaixe na grade do Sobre) | `caption` /// legenda embaixo da foto |
+| `link` /// um nó (projeto, pesquisa, certificação, marco) | `location` |
+| `techs`, `topics`, `roles` | corpo /// a história da foto, na página de detalhes |
+| arquivo `cover.*` /// a própria foto | |
 
 A página `/gallery` lista as fotos da mais recente para a mais antiga; `/gallery/<id>` mostra a foto inteira, o corpo, as ligações e o `link` como "Relacionado". A seção do Sobre mostra as quatro mais recentes. O formato de tela vem de `core/content/photos.js` (`photoView`, `allPhotos`).
 
-### 4.9 `groups/` — grupo de uma coleção
+### 4.9 `groups/` /// grupo de uma coleção
 
 Os grupos dos stacks ("Linguagens", "Backend & Dados") são nós próprios, para poderem ser explicados como qualquer outra coisa.
 
 | Estrutura | Conversa |
 | :--- | :--- |
-| `lucide` — nome do ícone Lucide (opcional) | `name`* |
+| `lucide` /// nome do ícone Lucide (opcional) | `name`* |
 | arquivo `icon.svg` (opcional, alternativa ao Lucide) | `description`, corpo |
 
 O mesmo grupo pode aparecer em mais de uma coleção (`frontend` na home e no Sobre).
 
-### 4.10 `collections/` — lista ordenada
+### 4.10 `collections/` /// lista ordenada
 
 Uma coleção diz **quais nós aparecem num lugar do site e em que ordem**. Os stacks e o hero são coleções.
 
 | Estrutura | Conversa |
 | :--- | :--- |
-| `items`* — links, ou grupos de links (ver 5.4) | `title` |
+| `items`* /// links, ou grupos de links (ver 5.4) | `title` |
 
 Coleções previstas: `home-stack`, `about-stack`, `hero-roles`.
 
@@ -393,7 +393,7 @@ Backlinks vindos de coleções servem para a validação e para o Obsidian, mas 
 
 ### 5.6 O que o visitante vê
 
-**`n4` — clicar no Vue.js no stack (idioma pt):** um menu de contexto, no estilo do macOS, com o que aponta para o nó. Sem contadores nem títulos; o rótulo segue o número de itens.
+**`n4` /// clicar no Vue.js no stack (idioma pt):** um menu de contexto, no estilo do macOS, com o que aponta para o nó. Sem contadores nem títulos; o rótulo segue o número de itens.
 ```
  [Vue]
 ┌──────────────────────┐   ┌───────────────────┐
@@ -410,7 +410,7 @@ Backlinks vindos de coleções servem para a validação e para o Obsidian, mas 
 - Certificações, pesquisas e timeline não têm página própria: o link vai ao card, por âncora (`/certifications#id`).
 - Passar o mouse abre o submenu; o clique o trava. No mobile, o submenu desliza para dentro do menu.
 
-**`n5` — clicar em "Ciência de Dados" no hero:** o mesmo menu, com o que aponta para `[[data-science]]`.
+**`n5` /// clicar em "Ciência de Dados" no hero:** o mesmo menu, com o que aponta para `[[data-science]]`.
 
 **Wikilink no corpo:** "Python" no texto do PlantE abre o mesmo menu, sem o próprio PlantE (que é a página em que se está). O HTML traz `<button class="node-ref" data-node="python" data-from="plante">`; a diretiva `v-content-links` abre o `NodeMenuHost`, um menu único montado no `App.vue`.
 

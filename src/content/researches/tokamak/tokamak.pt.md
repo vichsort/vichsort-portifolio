@@ -1,6 +1,6 @@
 ---
 title: O Tokamak e a Energia do Futuro
-institution: FECITAC 2023 — IFC Campus Concórdia
+institution: FECITAC 2023 /// IFC Campus Concórdia
 description: Pesquisa bibliográfica sobre a fusão nuclear controlada e o tokamak, o reator que confina plasma com campos magnéticos.
 ---
 

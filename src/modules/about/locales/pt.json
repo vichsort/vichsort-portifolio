@@ -10,9 +10,9 @@
     "subtitle": "Trajetória, mentalidade técnica e evolução na engenharia de software.",
     "s1_profile": {
       "name": "Vitor Mignoni",
-      "role": "Desenvolvedor de software — Full-stack & Dados",
-      "location": "Concórdia, SC — Brasil",
-      "education": "Técnico em Informática para Internet — IFC",
+      "role": "Desenvolvedor de software /// Full-stack & Dados",
+      "location": "Concórdia, SC /// Brasil",
+      "education": "Técnico em Informática para Internet /// IFC",
       "years_old": "anos",
       "bio_short": "Desenvolvedor full-stack e cientista de dados. Construo sistemas completos, da arquitetura da API à análise dos dados, e gosto de usar tecnologia para resolver problemas reais."
     },
@@ -22,7 +22,7 @@
     },
     "s3_readme": {
       "left_title": "Pra fugir um pouco do convencional...",
-      "left_p1": "Construir software para mim nunca foi apenas escrever linhas de código ou empilhar bibliotecas da moda. É sobre entender o problema a fundo, modelar o domínio com precisão e entregar algo que funcione com leveza — da tela do usuário até a infraestrutura.",
+      "left_p1": "Construir software para mim nunca foi apenas escrever linhas de código ou empilhar bibliotecas da moda. É sobre entender o problema a fundo, modelar o domínio com precisão e entregar algo que funcione com leveza /// da tela do usuário até a infraestrutura.",
       "left_p2": "Gosto de sistemas previsíveis, que não escondem complexidade sob camadas mágicas e que respeitam a performance do dispositivo de quem está usando.",
       "window_title": "profile.md",
       "readme_header": "Olá, eu sou o Vitor 👋",

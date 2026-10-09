@@ -1,4 +1,4 @@
-# Design System & Visual Guidelines — vichsort-portifolio
+# Design System & Visual Guidelines /// vichsort-portifolio
 
 Este documento consolida os princípios visuais, o sistema de tokens, as camadas de superfícies e os padrões de componentes do projeto.
 

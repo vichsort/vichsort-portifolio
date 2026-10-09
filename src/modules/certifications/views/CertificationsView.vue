@@ -263,7 +263,7 @@ const toolbarFilters = computed(() => [
   color: var(--primary);
 }
 
-/* Lista: uma linha por certificação — nome e emissor | habilidades | credencial */
+/* Lista: uma linha por certificação /// nome e emissor | habilidades | credencial */
 .view-list .cert-card {
   align-items: center;
   padding: var(--spacing-md) var(--spacing-lg);

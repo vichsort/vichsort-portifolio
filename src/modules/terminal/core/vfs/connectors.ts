@@ -29,7 +29,7 @@ export function getAboutProfile(locale = 'pt') {
 
   return [
     RULE,
-    `${p('name').toUpperCase()} — ${p('role')}`,
+    `${p('name').toUpperCase()} /// ${p('role')}`,
     RULE,
     row(o('location'), p('location'), 12),
     row(o('education'), p('education'), 12),

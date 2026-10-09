@@ -10,9 +10,9 @@
     "subtitle": "Journey, technical mindset and software engineering evolution.",
     "s1_profile": {
       "name": "Vitor Mignoni",
-      "role": "Software Developer — Full-stack & Data",
-      "location": "Concórdia, SC — Brazil",
-      "education": "Technical Course in Web Development — IFC",
+      "role": "Software Developer /// Full-stack & Data",
+      "location": "Concórdia, SC /// Brazil",
+      "education": "Technical Course in Web Development /// IFC",
       "years_old": "years old",
       "bio_short": "Full-stack developer and data scientist. I build complete systems, from API architecture to data analysis, and I like using technology to solve real problems."
     },
@@ -22,7 +22,7 @@
     },
     "s3_readme": {
       "left_title": "Stepping outside the ordinary...",
-      "left_p1": "Building software has never been just about writing lines of code or chasing the latest framework hype. It's about deeply understanding the core problem, modeling domain boundaries accurately, and delivering solutions that feel effortless — from pixel to cloud infrastructure.",
+      "left_p1": "Building software has never been just about writing lines of code or chasing the latest framework hype. It's about deeply understanding the core problem, modeling domain boundaries accurately, and delivering solutions that feel effortless /// from pixel to cloud infrastructure.",
       "left_p2": "I appreciate predictable systems that avoid hiding complexity beneath magic layers, and that genuinely respect the device resources of whoever is using them.",
       "window_title": "profile.md",
       "readme_header": "Hi, I'm Vitor 👋",

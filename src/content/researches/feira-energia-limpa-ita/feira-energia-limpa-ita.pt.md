@@ -1,7 +1,7 @@
 ---
 title: "Micro-usinas hidrelétricas inteligentes"
-institution: "Feira de Ciências: Circuito da Energia — Consórcio Itá"
-award: 1º Lugar — Ensino Médio/Técnico
+institution: "Feira de Ciências: Circuito da Energia /// Consórcio Itá"
+award: 1º Lugar /// Ensino Médio/Técnico
 description: Micro usina hidrelétrica monitorada em tempo real por Arduino e painel web, campeã da 1ª Feira de Ciências do Consórcio Itá.
 ---
 

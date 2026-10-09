@@ -25,7 +25,7 @@ export const projectsCommand: Command = {
         RULE,
         `${o('project')}: ${project.title} (${project.category || 'App'})`,
         RULE,
-        row(o('period'), [project.date].flat().join(' — '), WIDTH),
+        row(o('period'), [project.date].flat().join(' /// '), WIDTH),
         row(o('techs'), project.techs.join(', '), WIDTH)
       ]
       if (project.github) lines.push(row('GitHub', project.github, WIDTH))

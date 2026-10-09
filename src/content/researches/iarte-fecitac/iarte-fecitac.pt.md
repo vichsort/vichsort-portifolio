@@ -1,6 +1,6 @@
 ---
 title: "IArte: Inteligência Artificial Faz Arte?"
-institution: FECITAC 2024 — IFC Campus Concórdia
+institution: FECITAC 2024 /// IFC Campus Concórdia
 description: Apresentação interativa em que o público desenhava numa mesa digitalizadora e a IA transformava o rascunho em paisagem, para discutir se IA faz arte.
 ---
 

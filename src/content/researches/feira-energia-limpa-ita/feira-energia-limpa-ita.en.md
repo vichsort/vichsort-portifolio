@@ -1,7 +1,7 @@
 ---
 title: "Smart micro hydroelectric plants"
-institution: "Science Fair: Energy Circuit — Consórcio Itá"
-award: 1st Place — High School/Technical
+institution: "Science Fair: Energy Circuit /// Consórcio Itá"
+award: 1st Place /// High School/Technical
 description: A micro hydroelectric plant monitored in real time with an Arduino and a web dashboard, winner of Consórcio Itá's first Science Fair.
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: AgroInsights
-institution: 1st Concórdia Ecosystem Agro Hackathon — IFC Campus Concórdia
+institution: 1st Concórdia Ecosystem Agro Hackathon /// IFC Campus Concórdia
 award: 1st Place
 description: A system that combines rural property data with external data and produces insight reports for the whole agribusiness chain.
 ---

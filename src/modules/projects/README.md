@@ -34,9 +34,9 @@ src/modules/projects/
 ## Como Cadastrar um Novo Projeto
 
 Crie a pasta `src/content/projects/<id>/` com:
-1. `<id>.md` — estrutura: `category`, `date`, `techs`, `topics`, `roles`, `github`, `live`
-2. `<id>.pt.md` e `<id>.en.md` — `title`, `summary` e o artigo completo no corpo
-3. `cover.jpg` (opcional) — imagem de capa
+1. `<id>.md` /// estrutura: `category`, `date`, `techs`, `topics`, `roles`, `github`, `live`
+2. `<id>.pt.md` e `<id>.en.md` /// `title`, `summary` e o artigo completo no corpo
+3. `cover.jpg` (opcional) /// imagem de capa
 
 O formato completo, com exemplo, está no [GRAPH.md](../../../GRAPH.md) (seções 4.5 e 5.3). Depois rode `npm run check:content` e `npm run content:index`.
 
@@ -48,7 +48,7 @@ O formato completo, com exemplo, está no [GRAPH.md](../../../GRAPH.md) (seçõe
 * `loadAllProjects(locale = 'pt')`: Retorna array com todos os projetos do grafo. `category` e `techs` vêm como nomes de exibição; os ids ficam em `categoryId` e `techIds`.
 * `loadProject(id, locale = 'pt')`: Retorna o projeto específico com HTML compilado em `.html`.
 * `getAdjacentProjects(currentId, locale = 'pt')`: Retorna `{ prev, next }` com os projetos vizinhos para paginação circular.
-* `formatDateRange(dateVal)`: Helper que formata `["2024-08", "2024-12"]` para `"08/2024 — 12/2024"`.
+* `formatDateRange(dateVal)`: Helper que formata `["2024-08", "2024-12"]` para `"08/2024 /// 12/2024"`.
 
 ### 2. Busca e filtros
 * Na listagem, busca e filtros vêm do `useListingFilters` e da barra `ListingToolbar` (em `src/shared/`), comuns a projetos, pesquisas e certificações; a escolha grade/lista é global (`useListingView`). Com `?ref=<id>` na URL (`useRefFilter`), a listagem mostra só o que aponta para esse nó, com um chip removível na barra. A página só declara onde a busca procura (título, resumo, categoria, techs) e os filtros (categoria, tecnologia, ano).

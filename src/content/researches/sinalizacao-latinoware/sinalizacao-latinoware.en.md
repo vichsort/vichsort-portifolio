@@ -1,6 +1,6 @@
 ---
 title: "Sustainable Digital Signage with Free Software: An Applied Study with Raspberry Pi in Smart Campuses"
-institution: 22nd Latinoware — Brazilian Computer Society
+institution: 22nd Latinoware /// Brazilian Computer Society
 description: A short paper in the Latinoware 2025 proceedings presenting Next Signage, sustainable campus digital signage with Raspberry Pi, reused hardware and free software.
 ---
 

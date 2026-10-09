@@ -1,6 +1,6 @@
 ---
 title: Eye Tracking in Programming
-institution: 15th Scientific Initiation Exhibition — IFC Campus Concórdia
+institution: 15th Scientific Initiation Exhibition /// IFC Campus Concórdia
 description: A systematic review of how eye tracking is used to understand how students read and reason about code.
 ---
 

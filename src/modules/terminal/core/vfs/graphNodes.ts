@@ -49,7 +49,7 @@ export function getNodeMarkdown(id: string, locale = 'pt'): string {
   const text = content.text(id, locale)
   const fallback = content.fallback(id, locale)
   const lead = text.definition || text.description || text.summary
-  const meta = [[node?.data.date].flat().filter(Boolean).join(' — '), text.organization].filter(Boolean).join(' · ')
+  const meta = [[node?.data.date].flat().filter(Boolean).join(' /// '), text.organization].filter(Boolean).join(' · ')
   const { outgoing, incoming } = linkGroups(id, locale)
 
   const section = (title: string, rows: LinkRow[]) =>

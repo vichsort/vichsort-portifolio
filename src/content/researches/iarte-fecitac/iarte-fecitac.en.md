@@ -1,6 +1,6 @@
 ---
 title: "IArte: Does Artificial Intelligence Make Art?"
-institution: FECITAC 2024 — IFC Campus Concórdia
+institution: FECITAC 2024 /// IFC Campus Concórdia
 description: An interactive presentation where visitors drew on a graphics tablet and AI turned the sketch into a landscape, to discuss whether AI makes art.
 ---
 

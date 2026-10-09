@@ -6,7 +6,7 @@ import { DEFAULT_LANG, isLang } from '@/core/i18n/languages'
 
 const isSidebarOpen = ref(false)
 const currentLang = useLocalStorage('user-lang', DEFAULT_LANG)
-// writeDefaults: false — sem isso o valor padrão é gravado na hora e o initSettings
+// writeDefaults: false /// sem isso o valor padrão é gravado na hora e o initSettings
 // nunca percebe que é a primeira visita (e não aplica a preferência do sistema)
 const areAnimationsEnabled = useLocalStorage('user-animations-enabled', true, { writeDefaults: false })
 const systemMotion = usePreferredReducedMotion()
