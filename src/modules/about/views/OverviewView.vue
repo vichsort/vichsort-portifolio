@@ -4,48 +4,76 @@ import { useI18n } from 'vue-i18n'
 import { useContent } from '@/core/content/useContent'
 import { nodeRoute } from '@/core/content/routes'
 import { useTimeline } from '../composables/useTimeline'
-import { useSettings } from '@/shared/composables/useSettings'
+import { allPhotos } from '@/core/content/photos'
 
 import ProfileSummarySection from '../components/ProfileSummarySection.vue'
 import CoreStackSection from '../components/CoreStackSection.vue'
 import GraphPreviewSection from '@/modules/graph/components/GraphPreviewSection.vue'
 import DescriptionSection from '../components/DescriptionSection.vue'
-import TimelineScrollSection from '../components/TimelineScrollSection.vue'
-import TimelineFullSection from '../components/TimelineFullSection.vue'
+import TimelineSection from '../components/TimelineSection.vue'
 import GallerySection from '../components/GallerySection.vue'
 
 import { FolderGit2, Mail, ArrowUpRight } from 'lucide-vue-next'
 
 const { t } = useI18n()
-const { isMotionAllowed } = useSettings()
 const { ofType, node, text, fallback, label, linked } = useContent()
 
-const rawEvents = computed(() =>
-  ofType('timeline').map((event) => {
-    const target = event.links.link ? node(event.links.link) : null
+// date é 'AAAA', 'AAAA-MM' ou [início, fim]; o marco fica no início
+const startDate = (date) => String([date].flat()[0] ?? '')
+
+const event = (item, fields) => {
+  const route = nodeRoute(item)
+  return {
+    id: item.id,
+    date: startDate(item.data.date),
+    year: startDate(item.data.date).slice(0, 4),
+    fallback: fallback(item.id),
+    link_type: route ? item.type : '',
+    link_url: route || '',
+    ...fields
+  }
+}
+
+const tagsOf = (id, ...fields) => fields.flatMap((field) => linked(id, field)).map(label)
+
+/**
+ * Marcos da linha do tempo, todos reais e vindos do grafo: os nós da timeline
+ * (formação, trabalho), as pesquisas e os projetos em destaque.
+ */
+const timelineEvents = computed(() => {
+  const milestones = ofType('timeline').map((item) => {
+    const target = item.links.link ? node(item.links.link) : null
     const route = nodeRoute(target)
     return {
-      id: event.id,
-      year: String(event.data.date).slice(0, 4),
-      date: String(event.data.date),
-      type: event.data.kind,
-      ...text(event.id),
-      fallback: fallback(event.id),
+      ...event(item, { type: item.data.kind, ...text(item.id), tags: tagsOf(item.id, 'techs', 'topics') }),
       link_type: route ? target.type : '',
-      link_url: route || '',
-      tags: [...linked(event.id, 'techs'), ...linked(event.id, 'topics')].map(label)
+      link_url: route || ''
     }
   })
-)
+  const researches = ofType('research').map((item) => {
+    const { title, institution, award, description } = text(item.id)
+    return event(item, { type: 'research', title, organization: institution, award, description, tags: tagsOf(item.id, 'topics') })
+  })
+  const projects = ofType('project')
+    .filter((item) => item.data.featured === true)
+    .map((item) => {
+      const { title, summary } = text(item.id)
+      const [category] = linked(item.id, 'category')
+      return event(item, {
+        type: 'project',
+        title,
+        organization: category ? label(category) : '',
+        description: summary,
+        tags: tagsOf(item.id, 'techs').slice(0, 4)
+      })
+    })
+  return [...milestones, ...researches, ...projects]
+})
 
-const {
-  sortOrder,
-  selectedCategory,
-  eventsByYear,
-  consolidatedEvents,
-  toggleSortOrder,
-  setCategory
-} = useTimeline(rawEvents)
+const { sortOrder, selectedCategory, availableCategories, eventsByYear, totalCount, toggleSortOrder, setCategory } =
+  useTimeline(timelineEvents)
+
+const hasPhotos = allPhotos('pt').length > 0
 </script>
 
 <template>
@@ -70,23 +98,19 @@ const {
       <!-- s3: Janela macOS + README GitHub -->
       <DescriptionSection />
 
-      <!-- s4: Timeline Interativa com Scroll Lock (Ocultada se movimento reduzido ativo) -->
-      <TimelineScrollSection
-        v-if="isMotionAllowed && eventsByYear.length > 0"
+      <!-- s4: Linha do tempo (projetos em destaque, pesquisas e marcos) -->
+      <TimelineSection
+        v-if="totalCount > 0"
         :events-by-year="eventsByYear"
-      />
-
-      <!-- s5: Timeline Completa Consolidada -->
-      <TimelineFullSection
-        :events="consolidatedEvents"
-        :sort-order="sortOrder"
+        :categories="availableCategories"
         :selected-category="selectedCategory"
-        @toggle-sort="toggleSortOrder"
+        :sort-order="sortOrder"
         @select-category="setCategory"
+        @toggle-sort="toggleSortOrder"
       />
 
       <!-- s6: Galeria Bento Grid (Registros & Em Campo) -->
-      <GallerySection />
+      <GallerySection v-if="hasPhotos" />
 
       <!-- Bloco Final de CTA -->
       <section class="cta-section surface-card">

@@ -40,14 +40,11 @@
       "readme_now_text": "Approfondendo microservizi distribuiti, inferenza di modelli neurali su dispositivi edge e le nuove primitive reattive dell'ecosistema Vue 3."
     },
     "s4_timeline": {
+      "label": "Percorso",
       "title": "Linea del tempo",
-      "subtitle": "Il percorso cronologico dei miei studi, ricerche accademiche, aziende e progetti.",
-      "interactive_hint": "Scorri per esplorare il percorso anno per anno",
-      "year_label": "Anno"
+      "subtitle": "Progetti in evidenza, ricerche e traguardi, dal primo progetto a oggi."
     },
     "s5_timeline": {
-      "title": "Percorso completo",
-      "subtitle": "Panoramica completa di tutte le tappe, i traguardi e le esperienze professionali.",
       "sort_oldest": "Prima i più vecchi",
       "sort_newest": "Prima i più recenti",
       "all_events": "Tutte le tappe",

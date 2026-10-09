@@ -8,12 +8,14 @@ const { t } = useI18n()
 
 <template>
   <section class="description-section">
+    <!-- O título ocupa a largura toda: na coluna da esquerda, "convencional" não cabia
+         na fonte pixel e ficava por baixo da janela do README -->
+    <h2 class="section-title">
+      {{ t('about_page.s3_readme.left_title') }}
+    </h2>
+
     <!-- Coluna Esquerda: Texto Autoral & Mentalidade -->
     <div class="left-column">
-      <h2 class="section-title">
-        {{ t('about_page.s3_readme.left_title') }}
-      </h2>
-
       <div class="text-content">
         <p class="narrative-paragraph">
           {{ t('about_page.s3_readme.left_p1') }}
@@ -39,21 +41,28 @@ const { t } = useI18n()
   display: grid;
   /* minmax(0, …): o README largo não empurra a coluna para fora da tela */
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.45fr);
-  gap: var(--spacing-2xl);
+  grid-template-areas:
+    'title title'
+    'text window';
+  column-gap: var(--spacing-2xl);
+  row-gap: var(--spacing-xl);
   align-items: center;
   margin-top: var(--spacing-xl);
   margin-bottom: var(--spacing-xl);
 }
 
 .left-column {
+  grid-area: text;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
 }
 
 .section-title {
+  grid-area: title;
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  /* mínimo em vw: a palavra mais longa precisa caber numa tela de 360px */
+  font-size: clamp(min(2rem, 6vw), 3.5vw, 2.75rem);
   color: var(--text-primary);
   line-height: 1.15;
   letter-spacing: -0.5px;
@@ -73,13 +82,17 @@ const { t } = useI18n()
 }
 
 .right-column {
+  grid-area: window;
   width: 100%;
 }
 
 @media (max-width: 960px) {
   .description-section {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-xl);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'title'
+      'text'
+      'window';
   }
 }
 </style>

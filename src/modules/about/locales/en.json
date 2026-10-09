@@ -40,14 +40,11 @@
       "readme_now_text": "Deepening into distributed microservices, on-device edge neural inference, and reactive primitives in Vue 3."
     },
     "s4_timeline": {
+      "label": "Journey",
       "title": "Timeline",
-      "subtitle": "The chronological journey through studies, academic research, industry roles, and projects.",
-      "interactive_hint": "Scroll to explore the journey year by year",
-      "year_label": "Year"
+      "subtitle": "Featured projects, research and milestones, from the first project to today."
     },
     "s5_timeline": {
-      "title": "Consolidated Journey",
-      "subtitle": "A full, comprehensive overview of all milestones, achievements, and work experiences.",
       "sort_oldest": "Oldest first",
       "sort_newest": "Newest first",
       "all_events": "All milestones",

@@ -40,14 +40,11 @@
       "readme_now_text": "Aprofundando em microsserviços distribuídos, inferência de modelos neurais em dispositivos edge e novas primitivas reativas do ecossistema Vue 3."
     },
     "s4_timeline": {
-      "title": "Linha do Tempo",
-      "subtitle": "A jornada cronológica dos meus estudos, pesquisas acadêmicas, empresas e projetos.",
-      "interactive_hint": "Role para explorar a trajetória ano a ano",
-      "year_label": "Ano"
+      "label": "Trajetória",
+      "title": "Linha do tempo",
+      "subtitle": "Projetos em destaque, pesquisas e marcos, do primeiro projeto até hoje."
     },
     "s5_timeline": {
-      "title": "Trajetória Consolidada",
-      "subtitle": "Visão geral e completa de todos os marcos, conquistas e experiências profissionais.",
       "sort_oldest": "Mais antigos primeiro",
       "sort_newest": "Mais recentes primeiro",
       "all_events": "Todos os marcos",

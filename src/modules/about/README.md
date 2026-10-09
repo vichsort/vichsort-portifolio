@@ -8,11 +8,11 @@ Módulo responsável pela página de apresentação pessoal e profissional (`/ov
 
 * **Desacoplamento Visual & Semântico**: Cada seção da página (`s1` a `s6`) é um componente isolado e testável de forma independente.
 * **Storytelling Interativo & Acessibilidade**:
-  * No modo padrão, a seção **s4** oferece uma experiência imersiva de rolagem ano a ano via `useScrollProgress`.
-  * Quando a preferência de movimento reduzido (`reduceMotion`) estiver ativa, o módulo omite o scroll lock e exibe diretamente a **s5** consolidada.
-* **Galeria Bento Box (3x2)**: A seção **s6** exibe registros de fotos e momentos em uma grade assimétrica (retrato, paisagem e quadrados) com placeholders visuais e link para a galeria completa (`/gallery`, módulo `gallery`).
+  * A linha do tempo (**s4**, `TimelineSection`) tem a coluna da esquerda presa na tela (título, trilha de anos e filtros) e os marcos rolando à direita, agrupados por ano; o ano ativo acompanha a rolagem (`IntersectionObserver`). Sem scroll lock: igual com movimento reduzido, e uma coluna só no celular.
+  * Os marcos são todos reais e vêm do grafo: nós da timeline (formação, trabalho), pesquisas e projetos em destaque (`featured: true`), montados no `OverviewView`.
+* **Galeria Bento Box (3x2)**: A seção **s6** (só quando há fotos) exibe registros de fotos e momentos em uma grade assimétrica (retrato, paisagem e quadrados) com placeholders visuais e link para a galeria completa (`/gallery`, módulo `gallery`).
 * **Stack em uso (s2b)**: logo depois do stack entra a prévia dos gráficos (`GraphPreviewSection`, do módulo [graph](../graph/README.md)), com o link para `/graph`.
-* **Fontes de Dados**: Os eventos da timeline e o stack vêm do grafo de conteúdo (`src/content/timeline/` e a coleção `about-stack`, ver [GRAPH.md](../../../GRAPH.md)). As fotos da galeria vêm de `src/content/gallery/`. Perfil e textos do README ficam em `src/modules/about/locales/`, um arquivo por idioma.
+* **Fontes de Dados**: Os marcos da timeline (`src/content/timeline/`, pesquisas e projetos em destaque) e o stack vêm do grafo de conteúdo (a coleção `about-stack`, ver [GRAPH.md](../../../GRAPH.md)). As fotos da galeria vêm de `src/content/gallery/`. Perfil e textos do README ficam em `src/modules/about/locales/`, um arquivo por idioma.
 
 ---
 
@@ -26,12 +26,11 @@ src/modules/about/
 │   ├── DescriptionSection.vue       # s3: Grid dividindo narrativa autoral e janela macOS
 │   ├── MacWindow.vue                # Componente de moldura com controles de janela do macOS
 │   ├── GithubReadmeContent.vue      # Conteúdo estilizado como Markdown do GitHub
-│   ├── TimelineScrollSection.vue    # s4: Linha do tempo interativa com scroll lock ano a ano
-│   ├── TimelineFullSection.vue      # s5: Visão consolidada da timeline com filtros e ordenação
+│   ├── TimelineSection.vue          # s4: Linha do tempo: coluna presa (anos, filtros) e marcos por ano
 │   ├── TimelineItemCard.vue         # Card reutilizável de evento da timeline
 │   └── GallerySection.vue           # s6: Galeria Bento Grid de registros de campo e bastidores
 ├── composables/
-│   └── useTimeline.js               # Composable de normalização, agrupamento e ordenação
+│   └── useTimeline.js               # Filtro por categoria, ordem e agrupamento por ano
 ├── locales/
 │   └── <idioma>.json                # Textos de UI e perfil (pt, en, es, it)
 ├── views/

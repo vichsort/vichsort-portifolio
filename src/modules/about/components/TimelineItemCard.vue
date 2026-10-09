@@ -9,7 +9,8 @@ import {
   GraduationCap,
   Calendar,
   Building2,
-  ArrowUpRight
+  ArrowUpRight,
+  Trophy
 } from 'lucide-vue-next'
 
 const props = defineProps({
@@ -83,7 +84,13 @@ const linkLabel = computed(() => {
         </span>
       </div>
 
-      <span class="date-badge">
+      <span v-if="event.award" class="award-badge">
+        <Trophy :size="12" aria-hidden="true" />
+        <span>{{ event.award }}</span>
+      </span>
+
+      <!-- No compacto (linha do tempo agrupada por ano) a data repetiria o ano do grupo -->
+      <span v-if="!compact" class="date-badge">
         <Calendar :size="12" />
         <span>{{ event.year || event.date }}</span>
       </span>
@@ -146,7 +153,7 @@ const linkLabel = computed(() => {
 
 .card-top {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
   gap: var(--spacing-xs);
@@ -194,7 +201,21 @@ const linkLabel = computed(() => {
   color: var(--text-secondary);
 }
 
+.award-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-full);
+  background-color: var(--accent-subtle);
+  border: 1px solid var(--border-accent);
+  color: var(--accent);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
 .date-badge {
+  margin-left: auto;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
