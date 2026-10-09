@@ -10,11 +10,11 @@
     "subtitle": "Trajetória, mentalidade técnica e evolução na engenharia de software.",
     "s1_profile": {
       "name": "Vitor Mignoni",
-      "role": "Software Engineer — Fullstack & Systems",
-      "location": "Santa Maria, RS — Brasil",
-      "education": "Ciência da Computação — UFSM",
+      "role": "Desenvolvedor de software — Full-stack & Dados",
+      "location": "Concórdia, SC — Brasil",
+      "education": "Técnico em Informática para Internet — IFC",
       "years_old": "anos",
-      "bio_short": "Engenheiro de software focado em sistemas desacoplados, interfaces reativas e arquiteturas orientadas a domínio. Conectando performance de baixo nível a experiências de usuário fluidas."
+      "bio_short": "Desenvolvedor full-stack e cientista de dados. Construo sistemas completos, da arquitetura da API à análise dos dados, e gosto de usar tecnologia para resolver problemas reais."
     },
     "s2_stack": {
       "title": "Core Stack & Ambiente",
@@ -26,18 +26,18 @@
       "left_p2": "Gosto de sistemas previsíveis, que não escondem complexidade sob camadas mágicas e que respeitam a performance do dispositivo de quem está usando.",
       "window_title": "profile.md",
       "readme_header": "Olá, eu sou o Vitor 👋",
-      "readme_intro": "Engenheiro de Software com base acadêmica sólida pela UFSM e vivência prática na concepção e entrega de produtos escaláveis e sistemas offline-first.",
+      "readme_intro": "Programador na Arpa Sistemas, formado técnico em Informática para Internet pelo IFC. Venci o 1º Hackathon Agro do IFC e a 1ª Feira de Ciências do Consórcio Itá, e levo essa vontade de resolver problemas reais para projetos próprios e freelas.",
       "quick_specs_title": "Especificações & Ambiente",
       "spec_os": "Sistema: Linux Mint (Cinnamon / Debian)",
       "spec_editor": "Editor: VS Code & CLI Tools",
       "spec_focus": "Foco: Arquitetura Modular & Web Systems",
-      "readme_pillars_title": "Filosofia de Engenharia",
-      "readme_pillar_1": "Offline-First & Resiliência: Softwares projetados para funcionar perfeitamente mesmo com conexão instável.",
-      "readme_pillar_2": "Arquitetura por Domínio: Separação rigorosa de responsabilidades e contratos previsíveis entre camadas.",
-      "readme_pillar_3": "Performance & Acessibilidade: Interfaces fluidas com contraste refinado e respeito a movimento reduzido.",
-      "readme_pillar_4": "Pragmatismo Técnico: A melhor solução é aquela que resolve a dor real sem introduzir dívida técnica oculta.",
+      "readme_pillars_title": "O que me guia",
+      "readme_pillar_1": "Problema real primeiro: AgroInsights, Prisma, CICC e Energin nasceram de desafios concretos, de produtores, empreendedores e de uma usina.",
+      "readme_pillar_2": "Do sensor à tela: sistemas completos, com hardware lendo os dados, uma API no meio e um painel que qualquer pessoa entende.",
+      "readme_pillar_3": "Reaproveitar antes de comprar: o Next Signage roda em telas que iriam para o descarte, e a CICC transforma trajetos em árvores a plantar.",
+      "readme_pillar_4": "Informação acessível: o FAIF junta dados abertos do governo num lugar só, e ensinar programação na SuperGeeks seguiu a mesma ideia.",
       "readme_now_title": "O que estou explorando agora",
-      "readme_now_text": "Aprofundando em microsserviços distribuídos, inferência de modelos neurais em dispositivos edge e novas primitivas reativas do ecossistema Vue 3."
+      "readme_now_text": "Processamento de dados com Apache Spark na Databricks, arquitetura serverless na AWS e, no trabalho, Angular, Laravel e Supabase."
     },
     "s4_timeline": {
       "label": "Trajetória",

@@ -10,11 +10,11 @@
     "subtitle": "Journey, technical mindset and software engineering evolution.",
     "s1_profile": {
       "name": "Vitor Mignoni",
-      "role": "Software Engineer — Fullstack & Systems",
-      "location": "Santa Maria, RS — Brazil",
-      "education": "Computer Science — UFSM",
+      "role": "Software Developer — Full-stack & Data",
+      "location": "Concórdia, SC — Brazil",
+      "education": "Technical Course in Web Development — IFC",
       "years_old": "years old",
-      "bio_short": "Software engineer focused on decoupled systems, reactive interfaces, and domain-driven architectures. Bridging low-level performance with seamless user experiences."
+      "bio_short": "Full-stack developer and data scientist. I build complete systems, from API architecture to data analysis, and I like using technology to solve real problems."
     },
     "s2_stack": {
       "title": "Core Stack & Environment",
@@ -26,18 +26,18 @@
       "left_p2": "I appreciate predictable systems that avoid hiding complexity beneath magic layers, and that genuinely respect the device resources of whoever is using them.",
       "window_title": "profile.md",
       "readme_header": "Hi, I'm Vitor 👋",
-      "readme_intro": "Software Engineer with a solid academic background from UFSM and hands-on experience architecting scalable applications and offline-first systems.",
+      "readme_intro": "Developer at Arpa Sistemas, with a technical degree in Web Development from IFC. I won IFC's 1st Agro Hackathon and Consórcio Itá's 1st Science Fair, and I bring that drive to solve real problems to my own projects and freelance work.",
       "quick_specs_title": "Specifications & Workflow",
       "spec_os": "OS: Linux Mint (Cinnamon / Debian)",
       "spec_editor": "Editor: VS Code & CLI Tools",
       "spec_focus": "Focus: Modular Architecture & Web Systems",
-      "readme_pillars_title": "Engineering Philosophy",
-      "readme_pillar_1": "Offline-First & Resilience: Software designed to operate seamlessly without depending on a perfect connection.",
-      "readme_pillar_2": "Domain-Driven Architecture: Strict separation of concerns and predictable contracts across layers.",
-      "readme_pillar_3": "Performance & Accessibility: 60fps responsive interfaces with crisp typography and reduced-motion support.",
-      "readme_pillar_4": "Technical Pragmatism: The best solution is the one that solves the real bottleneck without accumulating hidden technical debt.",
+      "readme_pillars_title": "What guides me",
+      "readme_pillar_1": "Real problems first: AgroInsights, Prisma, CICC and Energin came from concrete challenges, from farmers, business owners and a power plant.",
+      "readme_pillar_2": "From sensor to screen: complete systems, with hardware reading the data, an API in the middle and a dashboard anyone can understand.",
+      "readme_pillar_3": "Reuse before buying: Next Signage runs on screens headed for disposal, and CICC turns commutes into trees to plant.",
+      "readme_pillar_4": "Accessible information: FAIF gathers open government data in one place, and teaching programming at SuperGeeks followed the same idea.",
       "readme_now_title": "What I'm currently exploring",
-      "readme_now_text": "Deepening into distributed microservices, on-device edge neural inference, and reactive primitives in Vue 3."
+      "readme_now_text": "Data processing with Apache Spark on Databricks, serverless architecture on AWS and, at work, Angular, Laravel and Supabase."
     },
     "s4_timeline": {
       "label": "Journey",
