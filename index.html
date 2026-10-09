@@ -16,9 +16,79 @@
     <meta name="twitter:card" content="summary_large_image" />
 
     <title>Vitor /// Software Engineering</title>
+
+    <!-- Tema antes do primeiro quadro (mesma chave do useTheme): a tela de carregamento
+         e o app já nascem no tema certo, sem piscar o escuro padrão -->
+    <script>
+      try {
+        var mode = localStorage.getItem('user-theme-preference')
+        if (mode === 'auto') mode = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+        if (mode === 'light' || mode === 'dark') document.documentElement.setAttribute('data-theme', mode)
+      } catch (e) {}
+    </script>
+
+    <!-- Tela de carregamento (n18): CSS puro, antes do JavaScript chegar. Fica dentro do
+         #app, e o Vue a substitui ao montar (o main.js só monta com a primeira página pronta).
+         Só aparece se a carga passar de 0,3s, para não piscar em conexão rápida -->
+    <style>
+      .boot {
+        --boot-bg: #080711;
+        --boot-ink: #f8fafc;
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: var(--boot-bg);
+        opacity: 0;
+        animation: boot-in 0.3s ease 0.3s forwards;
+      }
+      [data-theme='light'] .boot {
+        --boot-bg: #f8f9fe;
+        --boot-ink: #0f172a;
+      }
+      body {
+        margin: 0;
+        background: #080711;
+      }
+      [data-theme='light'] body {
+        background: #f8f9fe;
+      }
+      /* O logo NEAT em 3×3, acendendo em sequência */
+      .boot-logo {
+        display: grid;
+        grid-template-columns: repeat(3, 18px);
+        grid-template-rows: repeat(3, 18px);
+      }
+      .boot-logo span {
+        animation: boot-pulse 1.2s ease-in-out infinite;
+      }
+      .boot-logo .p { background: #5d1de7; }
+      .boot-logo .b { background: #3a31d8; }
+      .boot-logo .k { background: var(--boot-ink); }
+      .boot-logo span:nth-child(2) { animation-delay: 0.1s; }
+      .boot-logo span:nth-child(3) { animation-delay: 0.2s; }
+      .boot-logo span:nth-child(4) { animation-delay: 0.3s; }
+      .boot-logo span:nth-child(6) { animation-delay: 0.5s; }
+      .boot-logo span:nth-child(7) { animation-delay: 0.6s; }
+      .boot-logo span:nth-child(8) { animation-delay: 0.7s; }
+      @keyframes boot-in { to { opacity: 1; } }
+      @keyframes boot-pulse { 50% { opacity: 0.35; } }
+      @media (prefers-reduced-motion: reduce) {
+        .boot { animation: none; opacity: 1; }
+        .boot-logo span { animation: none; }
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="boot" role="status" aria-label="Loading">
+        <div class="boot-logo" aria-hidden="true">
+          <i></i><span class="p"></span><span class="k"></span>
+          <span class="k"></span><i></i><span class="k"></span>
+          <span class="p"></span><span class="b"></span><i></i>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

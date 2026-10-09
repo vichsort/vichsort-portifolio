@@ -9,4 +9,6 @@ const app = createApp(App)
 app.use(router)
 app.use(i18n)
 
-app.mount('#app')
+// Monta só com a primeira página resolvida (o chunk dela já baixado): até lá fica a tela de
+// carregamento do index.html, em vez da navbar e do footer colados sem conteúdo no meio
+router.isReady().then(() => app.mount('#app'))
