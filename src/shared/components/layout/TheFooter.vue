@@ -111,8 +111,9 @@ function backToTop() {
                 <span class="external-mark" aria-hidden="true">↗</span>
               </a>
             </li>
-            <li data-ascii-safe>
-              <router-link to="/terminal" class="footer-link">
+            <!-- n25: o terminal é outra forma de ver o site, não um canal de contato; fica separado -->
+            <li class="footer-item-apart" data-ascii-safe>
+              <router-link to="/terminal" class="footer-link footer-link-terminal">
                 <SquareTerminal :size="15" />
                 <span>{{ t('footer.terminal') }}</span>
               </router-link>
@@ -241,6 +242,17 @@ function backToTop() {
   font-size: var(--text-sm);
   color: var(--text-secondary);
   transition: color var(--transition-fast);
+}
+
+.footer-item-apart {
+  align-self: stretch;
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-md);
+  border-top: 1px dashed var(--border-medium);
+}
+
+.footer-link-terminal {
+  font-family: var(--font-mono);
 }
 
 .footer-link:hover {
