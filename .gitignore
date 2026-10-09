@@ -23,7 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-terminal.md
 
 # Obsidian (vault em src/content)
 .obsidian/
