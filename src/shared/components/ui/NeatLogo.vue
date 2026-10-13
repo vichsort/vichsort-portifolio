@@ -48,7 +48,5 @@ const CELLS = ['', 'p', 'k', 'k', '', 'k', 'p', 'b', '']
   50% { opacity: 0.35; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .pulse span { animation: none !important; }
-}
+:global(.motion-off) .pulse span { animation: none !important; }
 </style>

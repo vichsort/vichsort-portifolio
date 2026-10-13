@@ -301,10 +301,8 @@ svg {
   color: var(--text-primary);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .edges line,
-  .node {
-    transition: none;
-  }
+:global(.motion-off) .edges line,
+:global(.motion-off) .node {
+  transition: none;
 }
 </style>

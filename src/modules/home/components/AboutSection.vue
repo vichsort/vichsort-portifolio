@@ -226,10 +226,8 @@ const barHeight = computed(() => {
   50% { scale: 1.04; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .decorative-circle {
-    animation: none;
-  }
+:global(.motion-off) .decorative-circle {
+  animation: none;
 }
 
 .fade-enter-active,

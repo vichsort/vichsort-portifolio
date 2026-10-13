@@ -11,9 +11,9 @@ const currentLang = useLocalStorage('user-lang', DEFAULT_LANG)
 const areAnimationsEnabled = useLocalStorage('user-animations-enabled', true, { writeDefaults: false })
 const systemMotion = usePreferredReducedMotion()
 
-// Mesma regra do CSS (utilities.css): sem movimento se o usuário desligou as
-// animações no site ou se o sistema operacional pede movimento reduzido
-const isMotionAllowed = computed(() => areAnimationsEnabled.value && systemMotion.value !== 'reduce')
+// O sistema só decide na primeira visita (initSettings, e o script do index.html);
+// depois vale o interruptor do site, inclusive para ligar as animações (n28)
+const isMotionAllowed = computed(() => areAnimationsEnabled.value)
 const fontSizeLevel = useLocalStorage('user-font-size-level', 0)
 // Trocas seguidas de idioma: vale a última, mesmo que a anterior termine de baixar depois
 let languageRequest = 0
@@ -46,13 +46,10 @@ export function useSettings() {
     updateAnimationClass()
   }
 
+  // html.motion-off: a classe que o CSS inteiro consulta (utilities.css e componentes)
   const updateAnimationClass = () => {
     if (typeof document !== 'undefined') {
-      if (!areAnimationsEnabled.value) {
-        document.body.classList.add('reduce-motion')
-      } else {
-        document.body.classList.remove('reduce-motion')
-      }
+      document.documentElement.classList.toggle('motion-off', !isMotionAllowed.value)
     }
   }
 

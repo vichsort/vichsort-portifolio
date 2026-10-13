@@ -47,22 +47,11 @@
   border-color: var(--border-accent);
 }
 
-/* Movimento reduzido, pelo sistema (media query) ou pelas configurações do site
-   (body.reduce-motion): animações e transições quase instantâneas */
-@media (prefers-reduced-motion: reduce) {
-  html:not(.force-motion) *,
-  html:not(.force-motion) *::before,
-  html:not(.force-motion) *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-body.reduce-motion *,
-body.reduce-motion *::before,
-body.reduce-motion *::after {
+/* Sem movimento (html.motion-off, do useSettings): animações e transições quase instantâneas.
+   O sistema só decide na primeira visita; depois vale o interruptor do site (n28) */
+.motion-off *,
+.motion-off *::before,
+.motion-off *::after {
   animation-duration: 0.01ms !important;
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;

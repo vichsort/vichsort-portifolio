@@ -466,13 +466,11 @@ onKeyStroke('Escape', (e) => {
   66.666% { filter: hue-rotate(-141deg) saturate(1.5) brightness(1.3); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .on-hero .nav-pill-link.is-active,
-  .on-hero .mobile-nav-link.is-active,
-  :root[data-theme="light"] .on-hero .nav-pill-link.is-active,
-  :root[data-theme="light"] .on-hero .mobile-nav-link.is-active {
-    animation: none;
-  }
+:global(.motion-off) .on-hero .nav-pill-link.is-active,
+:global(.motion-off) .on-hero .mobile-nav-link.is-active,
+:global(:root.motion-off[data-theme="light"]) .on-hero .nav-pill-link.is-active,
+:global(:root.motion-off[data-theme="light"]) .on-hero .mobile-nav-link.is-active {
+  animation: none;
 }
 
 /* Ações */

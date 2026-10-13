@@ -17,13 +17,17 @@
 
     <title>Vitor /// Software Engineering</title>
 
-    <!-- Tema antes do primeiro quadro (mesma chave do useTheme): a tela de carregamento
-         e o app já nascem no tema certo, sem piscar o escuro padrão -->
+    <!-- Tema e movimento antes do primeiro quadro (mesmas chaves do useTheme e do useSettings):
+         a tela de carregamento e o app já nascem no tema certo e com ou sem animação (n28) -->
     <script>
       try {
         var mode = localStorage.getItem('user-theme-preference')
         if (mode === 'auto') mode = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
         if (mode === 'light' || mode === 'dark') document.documentElement.setAttribute('data-theme', mode)
+        // A escolha feita no site vence o sistema; sem escolha, vale o sistema
+        var animations = localStorage.getItem('user-animations-enabled')
+        var motionOff = animations === null ? matchMedia('(prefers-reduced-motion: reduce)').matches : animations === 'false'
+        if (motionOff) document.documentElement.classList.add('motion-off')
       } catch (e) {}
     </script>
 
@@ -73,10 +77,8 @@
       .boot-logo span:nth-child(8) { animation-delay: 0.7s; }
       @keyframes boot-in { to { opacity: 1; } }
       @keyframes boot-pulse { 50% { opacity: 0.35; } }
-      @media (prefers-reduced-motion: reduce) {
-        .boot { animation: none; opacity: 1; }
-        .boot-logo span { animation: none; }
-      }
+      .motion-off .boot { animation: none; opacity: 1; }
+      .motion-off .boot-logo span { animation: none; }
     </style>
   </head>
   <body>
