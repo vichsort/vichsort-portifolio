@@ -145,7 +145,7 @@ As páginas vivem numa tabela só, [`core/router/pages.js`](src/core/router/page
 
 ## 5. Build e Publicação
 
-`npm run build` roda `vite build` e depois `scripts/meta.mjs`, que grava um `index.html` por rota (páginas, projetos e fotos) com título, descrição e imagem próprios, em inglês: é o que LinkedIn, WhatsApp e buscadores leem, sem rodar JavaScript. A imagem é a capa do nó ou o hero (`public/images/og-default.jpg`); a URL absoluta vem de `SITE_URL` (`core/config/profile.js` ou variável de ambiente).
+`npm run build` roda `vite build` e depois `scripts/meta.mjs`, que grava um `index.html` por rota (páginas, projetos e fotos) com título, descrição e imagem próprios, em inglês: é o que LinkedIn, WhatsApp e buscadores leem, sem rodar JavaScript. A imagem é a capa do nó ou o logo NEAT sobre o fundo do site (`public/images/og-default.png`, gerada por `npm run og-image`); a URL absoluta vem de `SITE_URL` (`core/config/profile.js` ou variável de ambiente).
 
 O site é publicado no Cloudflare Pages (`vichsort.com`): ele serve a pasta da rota (`/projects/plante/index.html`) e, para o resto, o `index.html` da raiz, onde o router resolve.
 

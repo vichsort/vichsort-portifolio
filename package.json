@@ -15,6 +15,7 @@
     "check:dist": "node scripts/dist.mjs",
     "content:index": "node scripts/content.mjs index",
     "content:new": "node scripts/content.mjs new",
+    "og-image": "node scripts/og-image.mjs",
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",

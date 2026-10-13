@@ -15,8 +15,8 @@ export const EMAIL = 'vitor@example.com'
  */
 export const SITE_URL = 'https://vichsort.com'
 
-/** Hero do site (1200×630): capa de projeto sem cover.jpg e imagem padrão das prévias de link. */
-export const DEFAULT_COVER = '/images/og-default.jpg'
+/** Prévia de link de toda página sem capa própria (1200×630, sem texto; gerada por scripts/og-image.mjs). */
+export const DEFAULT_OG_IMAGE = '/images/og-default.png'
 
 /**
  * Redes sociais. Os ícones ficam a cargo de cada componente (mapeados por `id`),

@@ -8,8 +8,8 @@
  * dist/projects/plante/index.html etc. O app sobe igual em todas.
  *
  * - Idioma: inglês (os robôs não dizem o idioma; conteúdo sem en cai no pt).
- * - Imagem: a capa do nó, copiada para dist/og/; sem capa, o hero
- *   (public/images/og-default.jpg).
+ * - Imagem: a capa do nó, copiada para dist/og/; sem capa, o logo
+ *   (public/images/og-default.png, gerada por scripts/og-image.mjs).
  * - URL absoluta: SITE_URL do ambiente ou de core/config/profile.js.
  */
 import { copyFile, mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
@@ -17,14 +17,13 @@ import { existsSync } from 'node:fs'
 import { dirname, extname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createBuildQueries } from '../src/core/content/render.ts'
-import { DEFAULT_COVER, SITE_URL } from '../src/core/config/profile.js'
+import { DEFAULT_OG_IMAGE, SITE_URL } from '../src/core/config/profile.js'
 import { PAGES as ROUTES, SITE_TITLE, pageTitle } from '../src/core/router/pages.js'
 import { ROOT, load } from './vault.mjs'
 
 const LANG = 'en'
 const DIST = fileURLToPath(new URL('../dist/', import.meta.url))
 const SRC = fileURLToPath(new URL('../src/', import.meta.url))
-const DEFAULT_IMAGE = DEFAULT_COVER
 
 const SITE_DESCRIPTION = 'Portfolio of Vitor Mignoni: web and app development, data science and software architecture.'
 
@@ -53,7 +52,7 @@ async function messages() {
 /** Copia a capa do nó para dist/og/<pasta>/<id>.<ext> e devolve o caminho público. */
 async function coverImage(content, id, folder) {
   const cover = content.cover(id)
-  if (!cover) return DEFAULT_IMAGE
+  if (!cover) return DEFAULT_OG_IMAGE
   const target = `/og/${folder}/${id}${extname(cover)}`
   await mkdir(join(DIST, 'og', folder), { recursive: true })
   await copyFile(join(ROOT, cover), join(DIST, target))
@@ -100,7 +99,7 @@ const pages = PAGES.map((page) => ({
   path: page.path,
   title: pageTitle(t(page.titleKey), page.name),
   description: t(page.descriptionKey) || SITE_DESCRIPTION,
-  image: DEFAULT_IMAGE
+  image: DEFAULT_OG_IMAGE
 }))
 
 for (const node of content.ofType('project')) {
