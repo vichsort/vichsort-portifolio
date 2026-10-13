@@ -54,10 +54,11 @@ const lang: Command = { name: 'lang', complete: (word) => ['pt', 'en', 'es'].fil
 /** Tradutor que mostra a chave e os parâmetros, para os testes lerem a mensagem. */
 const t = (key: string, params?: Record<string, unknown> | number) => (params === undefined ? key : `${key} ${JSON.stringify(params)}`)
 
-export function shell(): CommandContext {
+/** O shell de exemplo, com comandos de verdade a mais (os de arquivo, por exemplo). */
+export function shell(extra: Command[] = []): CommandContext {
   return createCommandContext({
     vfs: new VfsEngine(tree()),
-    registry: new CommandRegistry([echo, spy, upper, quiet, missing, broken, lang]),
+    registry: new CommandRegistry([echo, spy, upper, quiet, missing, broken, lang, ...extra]),
     t,
     globalState: { locale: ref('pt'), theme: ref('dark'), motionAllowed: ref(true), setTheme: () => {}, setLocale: () => {} }
   })
