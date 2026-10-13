@@ -1,4 +1,5 @@
 <script setup>
+import { vFitTitle } from '@/shared/directives/fitTitle'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useContent } from '@/core/content/useContent'
@@ -52,7 +53,7 @@ const toolbarFilters = computed(() => [
     <div class="page-container">
 
       <header class="page-header">
-        <h1 class="page-title">{{ t('certifications_page.title') }}</h1>
+        <h1 v-fit-title class="page-title">{{ t('certifications_page.title') }}</h1>
         <p class="page-subtitle">{{ t('certifications_page.subtitle') }}</p>
 
         <ListingToolbar
@@ -148,7 +149,7 @@ const toolbarFilters = computed(() => [
 
 .page-title {
   font-family: var(--font-heading);
-  font-size: var(--text-page-title);
+  font-size: var(--text-page-title-fit);
   line-height: 1;
   color: var(--text-primary);
   margin-bottom: var(--spacing-xs);
@@ -162,7 +163,7 @@ const toolbarFilters = computed(() => [
 
 .certifications-results.view-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr));
   gap: var(--spacing-md);
 }
 
@@ -318,8 +319,9 @@ const toolbarFilters = computed(() => [
     padding: 5rem var(--spacing-md) var(--spacing-xl) var(--spacing-md);
   }
 
+  /* minmax(0, ...): o card encolhe com a tela, e o emissor corta com reticências (n19) */
   .certifications-results.view-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 </style>
