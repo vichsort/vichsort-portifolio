@@ -24,7 +24,7 @@ export function validateGraph(graph: ContentGraph): Issue[] {
 
     for (const field of def.required || []) {
       const value = field in node.links ? node.links[field] : node.data[field]
-      if (isEmpty(value) && !(field === 'items' && node.groups?.length)) {
+      if (isEmpty(value) && !(field === 'items' && node.groups?.some((g) => g.items.length))) {
         report('error', 'missing-field', file, `campo obrigatório ausente: ${field}`)
       }
     }
