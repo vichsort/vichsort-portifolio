@@ -22,7 +22,7 @@ O que o visitante sente nos primeiros segundos, e o que impede divulgar o link. 
 
 Já decidido, melhora o site ou a base de código.
 
-Ordem combinada: `a12` → `c9` → documento de desenho do `n21` → `n21` → `a10`.
+Ordem combinada: `c9` → documento de desenho do `n21` → `n21` → `a10`. O `a12` (Playwright) entra junto com o `n19`.
 
 ### Interface
 
@@ -54,10 +54,7 @@ Ordem combinada: `a12` → `c9` → documento de desenho do `n21` → `n21` → 
 
 ### Fundação técnica
 
-- **`a12`** `[core]` `[terminal]` `[ci]` **Testes e CI.** Já existem o `npm run check` (`check:content`, `typecheck`, `test`, `build`), o Vitest no `core/content` (vault de exemplo em `__tests__/vault.ts`, e o vault real sem erros) e no lexer, histórico e sugestão do terminal, e a CI no GitHub Actions rodando o `check` em push e PR. O Cloudflare Pages continua publicando o `master`. Falta:
-  - **`master` protegido:** merge só por PR do `develop`, com a CI passando (configuração no GitHub, feita pelo Vitor). Sem isso, a CI avisa mas não segura o deploy.
-  - **Testes do resto do terminal:** dispatcher (pipes e `&&`), completion e VFS. Pedem um registro e um VFS de exemplo.
-  - Depois do básico: fumaça com Playwright em 390px, nenhuma rota com rolagem horizontal (trava o `n19` para não voltar).
+- **`a12`** `[ci]` **Fumaça com Playwright.** Em 390px, nenhuma rota com rolagem horizontal: trava o `n19` para não voltar. Roda no `npm run check` e na CI. O resto do `a12` já existe: Vitest no `core/content` e no núcleo do terminal, a CI no GitHub Actions e o `master` protegido (merge só por PR, com a CI passando).
 - **`a10`** `[docs]` **ARCHITECTURE.md como guia de construção.** Curto e normativo: o que **deve** e o que **nunca** se faz; camadas e quem importa quem (`core` não importa `shared`/`modules`; `shared` não importa `modules`; módulo não importa módulo, salvo exceções registradas); onde cada coisa mora; receitas (página, módulo, componente, tipo de nó, idioma, comando do terminal); definição de pronto (`npm run check` passando, PENDENCIAS, formato do commit). Não explica o funcionamento: aponta para o README da pasta (`a11`). O que der para checar entra no `npm run check` (`a12`): cor fixa, `aria-label`/`title`/`alt` escritos à mão, import entre módulos fora da lista, `height` fixo em `px` com texto.
 
 ## 3. Esperando material
