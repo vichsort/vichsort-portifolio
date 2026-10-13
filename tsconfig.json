@@ -26,6 +26,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.vue", "scripts/**/*.mjs"],
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.vue", "scripts/**/*.mjs", "e2e/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
