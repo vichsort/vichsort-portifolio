@@ -45,7 +45,7 @@ describe('projectSpans e techUsage', () => {
   })
 
   it('uso de cada tech: projetos, primeiro e último mês', () => {
-    expect(techUsage(q).map(({ id, projects, first, last }) => [id, projects.map((p: { id: string }) => p.id), first, last])).toEqual([
+    expect(techUsage(q).map(({ id, projects, first, last }) => [id, projects.map((p) => (p as { id: string }).id), first, last])).toEqual([
       ['python', ['gamma', 'alpha'], month(2023, 1), month(2025, 3)],
       ['vue', ['beta', 'alpha'], month(2024, 1), month(2025, 3)]
     ])
