@@ -54,7 +54,7 @@ Ordem combinada: `c9` → documento de desenho do `n21` → `n21` → `a10`. O `
 
 ### Fundação técnica
 
-- **`a12`** `[ci]` **Fumaça com Playwright.** Em 390px, nenhuma rota com rolagem horizontal: trava o `n19` para não voltar. Roda no `npm run check` e na CI. O resto do `a12` já existe: Vitest no `core/content` e no núcleo do terminal, a CI no GitHub Actions e o `master` protegido (merge só por PR, com a CI passando).
+- **`a12`** `[ci]` **Fumaça com Playwright.** Em 390px, nenhuma rota com rolagem horizontal: trava o `n19` para não voltar. Roda no `npm run check` e na CI. O resto do `a12` já existe: Vitest no `core/content` (grafo, validação, consultas, Markdown), nos dados do grafo, nos filtros das listagens e no terminal (núcleo e comandos de arquivo); o `check:dist`, que confere a prévia de link de cada rota no build; a CI no GitHub Actions e o `master` protegido (merge só por PR, com a CI passando). Sem teste de unidade, de propósito: as camadas ASCII e os composables de DOM, que ficam com o Playwright.
 - **`a10`** `[docs]` **ARCHITECTURE.md como guia de construção.** Curto e normativo: o que **deve** e o que **nunca** se faz; camadas e quem importa quem (`core` não importa `shared`/`modules`; `shared` não importa `modules`; módulo não importa módulo, salvo exceções registradas); onde cada coisa mora; receitas (página, módulo, componente, tipo de nó, idioma, comando do terminal); definição de pronto (`npm run check` passando, PENDENCIAS, formato do commit). Não explica o funcionamento: aponta para o README da pasta (`a11`). O que der para checar entra no `npm run check` (`a12`): cor fixa, `aria-label`/`title`/`alt` escritos à mão, import entre módulos fora da lista, `height` fixo em `px` com texto.
 
 ## 3. Esperando material
