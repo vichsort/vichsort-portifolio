@@ -10,10 +10,13 @@
     "dev": "vite",
     "build": "vite build && node scripts/meta.mjs",
     "preview": "vite preview",
+    "check": "npm run check:content && npm run typecheck && npm run test && npm run build",
     "check:content": "node scripts/content.mjs check",
     "content:index": "node scripts/content.mjs index",
     "content:new": "node scripts/content.mjs new",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@floating-ui/vue": "^2.0.1",
@@ -32,6 +35,7 @@
     "@vitejs/plugin-vue": "^6.0.1",
     "typescript": "^6.0.3",
     "vite": "^7.2.4",
+    "vitest": "^5.0.3",
     "vue-tsc": "^3.3.12"
   }
 }
