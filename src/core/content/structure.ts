@@ -35,7 +35,7 @@ export function backlinksOf(edges: Edge[]): Map<string, Edge[]> {
 }
 
 /**
- * Arestas a partir das ligações já resolvidas dos nós, na ordem em que o graph.ts as cria:
+ * Arestas a partir das ligações já resolvidas dos nós, no build (graph.ts) e no site:
  * campos na ordem de LINK_FIELDS (numa coleção, o grupo e depois os itens de cada grupo)
  * e, por último, as citações no corpo de cada idioma.
  */

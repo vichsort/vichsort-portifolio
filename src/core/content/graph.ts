@@ -1,8 +1,8 @@
 import frontMatter from 'front-matter'
 import { LANGS, TYPES, TYPE_BY_FOLDER, LINK_FIELDS } from './schema.ts'
 import { parseLink, parseLinkList, extractBodyLinks } from './links.ts'
-import { backlinksOf } from './structure.ts'
-import type { CollectionGroup, ContentGraph, ContentNode, Edge, Issue, NodeText, NodeType, Report } from './types.ts'
+import { backlinksOf, edgesOf } from './structure.ts'
+import type { CollectionGroup, ContentGraph, ContentNode, Issue, NodeText, NodeType, Report } from './types.ts'
 
 interface ParsedFile {
   attributes: Record<string, unknown>
@@ -134,7 +134,6 @@ export function buildGraph(files: Array<{ path: string; raw: string }>, assets: 
   }
 
   const resolve = (target: unknown): string | null => lookup.get(String(target).toLowerCase()) || null
-  const edges: Edge[] = []
 
   const link: Link = (node, field, target, expectedType, lang = null) => {
     const id = resolve(target)
@@ -147,7 +146,6 @@ export function buildGraph(files: Array<{ path: string; raw: string }>, assets: 
       report('error', 'wrong-link-type', where(node, lang), `[[${target}]] em "${field}" é ${targetType}, esperado ${expectedType}`)
       return null
     }
-    edges.push({ from: node.id, to: id, field, lang })
     return id
   }
 
@@ -178,6 +176,9 @@ export function buildGraph(files: Array<{ path: string; raw: string }>, assets: 
     }
   }
 
+  // As arestas saem das ligações já resolvidas, como no site (structure.ts): um nó citado
+  // duas vezes no mesmo texto é uma ligação só
+  const edges = edgesOf([...nodes.values()])
   return { nodes, edges, backlinks: backlinksOf(edges), resolve, issues }
 }
 
