@@ -60,7 +60,7 @@ router.onError(() => setNavigating(false))
 
 router.afterEach((to) => {
   setNavigating(false)
-  // Automatically close navigation sidebar
+  // A cada navegação, o menu do celular fecha
   const { closeNav } = useNavigation()
   closeNav()
 

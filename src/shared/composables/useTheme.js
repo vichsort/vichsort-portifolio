@@ -24,7 +24,7 @@ export function useTheme() {
   }
 
   const listenToSystemChanges = () => {
-    // Automatically handled by VueUse useColorMode
+    // Nada a fazer: o useColorMode do VueUse já acompanha o tema do sistema
   }
 
   return {

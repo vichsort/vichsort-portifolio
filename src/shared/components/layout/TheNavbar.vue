@@ -72,19 +72,18 @@ const showNavPage = async (page) => {
   pageEls[page].value?.querySelector('.nav-pill-arrow')?.focus()
 }
 
-// Lock background scroll when mobile menu is open
+// Com o menu aberto, a página atrás não rola
 const isLocked = useScrollLock(typeof document !== 'undefined' ? document.body : null)
 watch(isMobileNavOpen, (open) => {
   isLocked.value = open
 })
 
-// Auto close on route change; a pílula vai para a página da rota ativa
+// A cada navegação o menu fecha, e a pílula vai para a página da rota ativa
 watch(() => route.path, (path) => {
   closeMobileNav()
   navPage.value = isMorePath(path) ? 1 : 0
 })
 
-// Close with Escape key
 onKeyStroke('Escape', (e) => {
   if (isMobileNavOpen.value) {
     e.preventDefault()
