@@ -6,10 +6,6 @@ import type { CommandContext } from '../types.ts'
  * sugerir (complete do contrato) ou, por padrão, caminhos do VFS.
  * Um candidato: completa. Vários: avança até o prefixo comum; se não houver
  * o que avançar, devolve os candidatos para listar abaixo da linha, como o bash.
- *
- * @param line - Linha no prompt.
- * @param context - CommandContext (usa registry e vfs).
- * @returns Linha nova, opções a listar ou nada a fazer.
  */
 export function completeLine(line: string, context: CommandContext): { line: string } | { options: string[] } | null {
   const { registry, vfs } = context

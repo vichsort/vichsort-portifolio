@@ -33,14 +33,11 @@ export function createCommandContext({
     spawn,
     restart,
     shellHistory,
-    // Idioma ativo, lido na hora (um `lang en && about` já sai em inglês)
     get locale() {
       return globalState.locale.value
     },
-    // Saída do comando anterior num pipe (texto), ou null fora de um pipe.
-    // Preenchido pelo dispatchLine a cada comando.
+    // stdin e isPiped: preenchidos pelo dispatchLine a cada comando
     stdin: null,
-    // true quando a saída vai para outro comando (não é o último do pipe)
     isPiped: false
   }
 }

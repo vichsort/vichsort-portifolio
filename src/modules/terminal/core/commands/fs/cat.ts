@@ -3,7 +3,6 @@ import { VfsMimeType } from '../../vfs/types.ts'
 import type { Command } from '../../types.ts'
 
 /**
- * Comando 'cat'
  * Exibe o conteúdo de um arquivo: Markdown vai para o renderizador, PDF só avisa.
  */
 export const catCommand: Command = {

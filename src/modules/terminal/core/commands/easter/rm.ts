@@ -6,7 +6,6 @@ const GLITCH_MS = 2200
 const isRoot = (path: string) => path === '/' || path === '/*'
 
 /**
- * Comando 'rm'
  * O VFS é só leitura: qualquer remoção falha. A exceção é o clássico
  * `rm -rf /`, que "quebra" a janela por uns segundos e reinicia a sessão
  * (com movimento reduzido, reinicia direto, sem a animação).

@@ -35,7 +35,6 @@ function systemInfo({ t, locale, globalState }: CommandContext): [string, string
 }
 
 /**
- * Comando 'neofetch'
  * Informações do "sistema" ao lado do logo em ASCII, como o original.
  * Num pipe sai como texto puro, uma linha "Chave: valor" por informação.
  */

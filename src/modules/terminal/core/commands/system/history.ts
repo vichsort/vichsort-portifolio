@@ -1,7 +1,6 @@
 import type { Command } from '../../types.ts'
 
 /**
- * Comando 'history'
  * Linhas executadas na sessão, numeradas como no bash. `history -c` limpa.
  */
 export const historyCommand: Command = {

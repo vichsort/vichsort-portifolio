@@ -15,12 +15,7 @@ export class CommandHistory {
     this.resetNavigation()
   }
 
-  /**
-   * ↑: linha anterior.
-   *
-   * @param current - O que está no prompt (vira o rascunho na primeira ↑).
-   * @returns Nova linha do prompt, ou null se não há histórico.
-   */
+  /** ↑: a linha anterior, ou null sem histórico. Na primeira ↑, o que está no prompt vira o rascunho. */
   prev(current: string): string | null {
     if (!this.entries.length) return null
     if (this.index === null) {
@@ -32,11 +27,7 @@ export class CommandHistory {
     return this.entries[this.index]
   }
 
-  /**
-   * ↓: linha seguinte; depois da última, o rascunho.
-   *
-   * @returns Nova linha do prompt, ou null fora da navegação.
-   */
+  /** ↓: a linha seguinte; depois da última, o rascunho. null fora da navegação. */
   next(): string | null {
     if (this.index === null) return null
     if (this.index < this.entries.length - 1) return this.entries[++this.index]

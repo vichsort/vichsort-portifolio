@@ -1,10 +1,4 @@
-/**
- * Cálculo de distância de Levenshtein entre duas sequências de texto.
- *
- * @param a - Primeira string.
- * @param b - Segunda string.
- * @returns Distância de edição.
- */
+/** Distância de Levenshtein entre dois textos, sem diferenciar maiúsculas. */
 export function levenshteinDistance(a: string, b: string): number {
   if (a === b) return 0
   if (!a) return b ? b.length : 0
@@ -16,7 +10,6 @@ export function levenshteinDistance(a: string, b: string): number {
   const len1 = s1.length
   const len2 = s2.length
 
-  // Matriz de distâncias
   const matrix: number[][] = Array.from({ length: len1 + 1 }, () => new Array<number>(len2 + 1).fill(0))
 
   for (let i = 0; i <= len1; i++) matrix[i][0] = i
@@ -37,12 +30,8 @@ export function levenshteinDistance(a: string, b: string): number {
 }
 
 /**
- * Localiza o comando mais similar a partir de uma lista de candidatos válidos.
- *
- * @param input - Comando digitado que falhou.
- * @param candidates - Lista de comandos e aliases registrados.
- * @param maxDistance - Distância máxima de tolerância (padrão: 2).
- * @returns Nome do comando sugerido ou null caso nenhum satisfaça o limite.
+ * O comando mais parecido com o que foi digitado, a até maxDistance edições, ou null.
+ * No empate, fica o primeiro da lista.
  */
 export function findClosestCommand(input: string, candidates: Iterable<string> = [], maxDistance = 2): string | null {
   if (!input || typeof input !== 'string') return null

@@ -8,7 +8,6 @@ const toNodeKey = (arg: string) =>
   arg.replace(/\/README\.md$/i, '').split('/').filter(Boolean).pop()?.replace(/\.md$/i, '') || ''
 
 /**
- * Comando 'links'
  * Mostra para onde um nó do grafo aponta e quem aponta para ele.
  */
 export const linksCommand: Command = {

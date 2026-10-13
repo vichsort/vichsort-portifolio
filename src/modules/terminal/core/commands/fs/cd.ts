@@ -1,9 +1,6 @@
 import type { Command } from '../../types.ts'
 
-/**
- * Comando 'cd'
- * Altera o diretório de trabalho atual no VFS. Silencioso quando dá certo.
- */
+/** Silencioso quando dá certo, como no bash. */
 export const cdCommand: Command = {
   name: 'cd',
   aliases: ['chdir'],

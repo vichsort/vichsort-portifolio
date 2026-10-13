@@ -8,7 +8,6 @@ const onTerminalPage = (router: Router | null) => router?.currentRoute.value.nam
 const backToHome = () => navigateWithTransition({ path: '/', hash: '#terminal' }, { waitFor: 'terminal', center: true })
 
 /**
- * Comando 'exit'
  * Encerra a sessão, como o botão vermelho: tela, histórico e diretório voltam
  * ao início. Na página /terminal, também volta para a home.
  */
@@ -25,7 +24,6 @@ export const exitCommand: Command = {
 }
 
 /**
- * Comando 'gui'
  * Volta para a interface gráfica mantendo a sessão, como o botão amarelo.
  * Na home o terminal já está dentro da interface: só avisa.
  */

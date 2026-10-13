@@ -37,11 +37,7 @@ const projectDir = (slug: string) =>
     'info.json': file(VfsMimeType.APPLICATION_JSON, (locale) => getProjectMetadataJson(slug, locale))
   })
 
-/**
- * Cria a árvore declarativa do Virtual File System (VFS).
- *
- * @returns Árvore de nós a partir da raiz '/'.
- */
+/** A árvore do VFS, a partir da raiz. O conteúdo de cada arquivo é gerado só quando lido. */
 export function createVfsManifest(): VfsDir {
   return dir({
     about: dir({

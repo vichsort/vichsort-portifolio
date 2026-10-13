@@ -2,7 +2,6 @@ import type { Command } from '../../types.ts'
 import { resumeFor } from '../../resume.ts'
 
 /**
- * Comando 'resume'
  * Baixa o currículo em PDF no idioma ativo (ou no do fallback, se não houver).
  */
 export const resumeCommand: Command = {

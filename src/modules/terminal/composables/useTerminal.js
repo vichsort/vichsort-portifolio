@@ -20,12 +20,6 @@ const HOST = 'vichos'
 let session = null
 
 /**
- * Sessão do terminal interativo (VSH): tela, prompt, histórico e execução.
- * Criada na primeira chamada e compartilhada por todas as telas que mostram o terminal.
- *
- * @returns {Object} Estado reativo e métodos de controle do terminal.
- */
-/**
  * HTML das saídas markdown (cat *.md). O markdown-it só é baixado no primeiro arquivo
  * Markdown aberto, e não com o terminal: a seção da home não paga por ele (a13).
  */
@@ -35,6 +29,10 @@ async function renderMarkdownOutputs(outputs) {
   return outputs.map((output) => (output.type === 'markdown' ? { ...output, html: renderMarkdown(output.payload) } : output))
 }
 
+/**
+ * A sessão do terminal: tela, prompt, histórico e execução. Criada na primeira
+ * chamada e compartilhada por todas as telas que mostram o terminal.
+ */
 export function useTerminal() {
   session ??= createSession()
   return session
@@ -139,11 +137,6 @@ function createSession() {
     pushEntry(null, [{ type: 'text', payload: t('terminal.language_changed', { lang: label }) }])
   })
 
-  /**
-   * Submete e executa uma linha de comando no terminal.
-   *
-   * @param {string} rawCommand - Comando digitado pelo usuário.
-   */
   const execute = async (rawCommand) => {
     if (isExecuting.value) return
 

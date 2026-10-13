@@ -1,9 +1,6 @@
 import type { Command } from '../../types.ts'
 
-/**
- * Comando 'sudo'
- * Easter egg clássico do Unix simulando falta de privilégios de superusuário.
- */
+/** Nega sempre, com a mensagem do sudo de verdade. */
 export const sudoCommand: Command = {
   name: 'sudo',
   aliases: ['su', 'admin'],

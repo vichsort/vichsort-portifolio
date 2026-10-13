@@ -3,7 +3,6 @@ import { VfsNodeType } from '../../vfs/types.ts'
 import type { Command } from '../../types.ts'
 
 /**
- * Comando 'grep'
  * Busca um termo nas linhas dos arquivos do VFS, ou na entrada de um pipe.
  * Como o grep de verdade, diferencia maiúsculas; -i ignora.
  */

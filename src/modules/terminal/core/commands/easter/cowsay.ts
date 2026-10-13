@@ -64,10 +64,7 @@ export function formatCowsay(message: string): string {
   return [topBorder, ...bubble, bottomBorder, cowBody].join('\n')
 }
 
-/**
- * Comando 'cowsay'
- * Gera a vaca falante com o template ASCII lido diretamente de cowsay.txt.
- */
+/** A vaca vem de ascii/cowsay.txt. */
 export const cowsayCommand: Command = {
   name: 'cowsay',
   aliases: ['cow'],

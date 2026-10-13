@@ -22,10 +22,7 @@ export class CommandError extends Error {
   code: TerminalErrorCode
   params: Record<string, unknown>
 
-  /**
-   * @param code - Um dos TerminalError.
-   * @param params - Parâmetros da mensagem ({ path }, { arg }...).
-   */
+  /** params: os da mensagem ({ path }, { arg }...). */
   constructor(code: TerminalErrorCode, params: Record<string, unknown> = {}) {
     super(code)
     this.name = 'CommandError'

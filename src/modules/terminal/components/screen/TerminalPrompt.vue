@@ -50,7 +50,7 @@ const handlePaste = (event) => {
   const text = clipboardData ? clipboardData.getData('text') : ''
   if (!text) return
 
-  // Converte quebras de linha em espaços simples
+  // Colar várias linhas não executa nada: viram uma linha só
   const sanitized = text.replace(/[\r\n]+/g, ' ')
   const input = inputRef.value
   if (!input) {

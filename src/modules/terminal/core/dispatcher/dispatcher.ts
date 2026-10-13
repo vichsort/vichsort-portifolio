@@ -12,9 +12,6 @@ const errorOutput = (code: TerminalErrorCode, params: Record<string, unknown>, t
 
 /**
  * Saída de "comando não encontrado", com a sugestão do comando mais parecido.
- *
- * @param name - O que foi digitado.
- * @param context - CommandContext (usa registry e t).
  */
 export function commandNotFound(name: string, { registry, t }: Pick<CommandContext, 'registry' | 't'>): CommandOutput {
   const suggestion = findClosestCommand(name, registry.getAllNames(), 2)
@@ -25,9 +22,6 @@ export function commandNotFound(name: string, { registry, t }: Pick<CommandConte
  * Executa um comando cru (sem `|` nem `&&`).
  * Erros esperados (CommandError) viram a mensagem traduzida com o nome do comando;
  * qualquer outra exceção vira "falha na execução".
- *
- * @param input - Comando cru.
- * @param context - CommandContext.
  */
 export async function dispatch(input: string, context: CommandContext): Promise<CommandOutput | null> {
   const [name, ...rest] = tokenize(input)
@@ -58,9 +52,6 @@ const toText = (result: CommandOutput | null) => (result?.payload == null ? '' :
 /**
  * Executa um pipeline: a saída de cada comando vira o `context.stdin` do seguinte.
  * Um erro no meio interrompe o pipeline e é o que aparece.
- *
- * @param commands - Comandos crus, na ordem do `|`.
- * @param context - CommandContext.
  */
 async function runPipeline(commands: string[], context: CommandContext): Promise<CommandOutput | null> {
   let stdin: string | null = null
@@ -77,12 +68,8 @@ async function runPipeline(commands: string[], context: CommandContext): Promise
 }
 
 /**
- * Executa uma linha completa, com `&&` e `|`.
+ * Executa uma linha completa, com `&&` e `|`, e devolve a saída de cada pipeline.
  * Como no shell, o `&&` só segue se o pipeline anterior não terminou em erro.
- *
- * @param input - Linha de comando bruta.
- * @param context - CommandContext.
- * @returns Saídas de cada pipeline, na ordem.
  */
 export async function dispatchLine(input: string, context: CommandContext): Promise<CommandOutput[]> {
   const { chain, error } = splitLine(input)

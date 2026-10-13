@@ -1,7 +1,6 @@
 import type { Command } from '../../types.ts'
 
 /**
- * Comando 'whoami'
  * Usuário da sessão e o cargo do perfil (o mesmo do Sobre).
  */
 export const whoamiCommand: Command = {

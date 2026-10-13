@@ -3,7 +3,6 @@ import type { Command } from '../../types.ts'
 const THEMES = ['dark', 'light']
 
 /**
- * Comando 'theme'
  * Mostra ou troca o tema do site (a página do terminal não tem navbar nem configurações).
  * Uso: theme | theme dark | theme light | theme toggle
  */

@@ -4,9 +4,6 @@ import { projectView, type ProjectView } from '../../../../core/content/projects
 // Campos do projeto expostos no info.json do VFS
 const INFO_FIELDS: Array<keyof ProjectView> = ['title', 'category', 'techs', 'date', 'image', 'github', 'live', 'summary']
 
-/**
- * Lista os ids dos projetos do grafo de conteúdo.
- */
 export function getProjectSlugs(): string[] {
   return content.ofType('project').map((node) => node.id)
 }
@@ -14,9 +11,6 @@ export function getProjectSlugs(): string[] {
 /**
  * Markdown do projeto para o terminal: título, resumo e corpo (com os wikilinks já
  * trocados pelo nome do nó, no build). O corpo chega com requireBodies (useTerminal).
- *
- * @param slug - Identificador do projeto.
- * @param locale - Idioma.
  */
 export function loadRawMarkdown(slug: string, locale = 'pt'): string | null {
   const project = projectView(slug, locale)
@@ -27,12 +21,7 @@ export function loadRawMarkdown(slug: string, locale = 'pt'): string | null {
     .join('\n\n')
 }
 
-/**
- * Metadados do projeto como JSON (info.json no VFS).
- *
- * @param slug - Identificador do projeto.
- * @param locale - Idioma.
- */
+/** info.json do projeto no VFS. */
 export function getProjectMetadataJson(slug: string, locale = 'pt'): string {
   const project = projectView(slug, locale)
   if (!project) {

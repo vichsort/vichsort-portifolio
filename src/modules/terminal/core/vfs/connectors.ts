@@ -18,9 +18,7 @@ function linkedLabels(id: string, locale: string): string {
     .join(', ')
 }
 
-/**
- * Conector: Perfil biográfico e especificações (about/profile.txt)
- */
+/** about/profile.txt */
 export function getAboutProfile(locale = 'pt') {
   const t = translator(locale)
   const p = (key: string) => t(`about_page.s1_profile.${key}`)
@@ -48,10 +46,7 @@ export function getAboutProfile(locale = 'pt') {
   ].join('\n')
 }
 
-/**
- * Conector: Matriz de Tecnologias e Ferramentas (about/stack.txt)
- * Lê a coleção about-stack do grafo de conteúdo.
- */
+/** about/stack.txt: a coleção about-stack do grafo, a mesma do Sobre. */
 export function getAboutStack(locale = 'pt') {
   const t = translator(locale)
   const lines = [RULE, t('terminal.output.stack.title'), RULE]
@@ -66,9 +61,7 @@ export function getAboutStack(locale = 'pt') {
   return lines.join('\n')
 }
 
-/**
- * Conector: Linha do Tempo e Trajetória (about/timeline.txt)
- */
+/** about/timeline.txt */
 export function getAboutTimeline(locale = 'pt') {
   const t = translator(locale)
   const lines = [RULE, t('terminal.output.timeline.title'), RULE]
@@ -88,9 +81,7 @@ export function getAboutTimeline(locale = 'pt') {
   return lines.join('\n')
 }
 
-/**
- * Conector: Lista de Certificações (certifications/list.txt)
- */
+/** certifications/list.txt */
 export function getCertificationsList(locale = 'pt') {
   const t = translator(locale)
   const o = (key: string) => t(`terminal.output.certifications.${key}`)
@@ -112,9 +103,7 @@ export function getCertificationsList(locale = 'pt') {
   return lines.join('\n')
 }
 
-/**
- * Conector: Lista de Pesquisas e Artigos (researches/list.txt)
- */
+/** researches/list.txt */
 export function getResearchesList(locale = 'pt') {
   const t = translator(locale)
   const o = (key: string) => t(`terminal.output.researches.${key}`)
@@ -139,9 +128,7 @@ export function getResearchesList(locale = 'pt') {
   return lines.join('\n')
 }
 
-/**
- * Conector: Informações de Contato (contact.txt)
- */
+/** contact.txt */
 export function getContact(locale = 'pt') {
   const t = translator(locale)
 

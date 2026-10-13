@@ -2,10 +2,7 @@ import { TerminalError, CommandError } from '../../errors/codes.ts'
 import { VfsNodeType } from '../../vfs/types.ts'
 import type { Command } from '../../types.ts'
 
-/**
- * Comando 'find'
- * Localiza arquivos e diretórios recursivamente pelo nome no VFS.
- */
+/** Arquivos e pastas do VFS cujo nome contém o termo, em toda a árvore abaixo do caminho. */
 export const findCommand: Command = {
   name: 'find',
   aliases: ['search'],

@@ -6,7 +6,6 @@ const usageOf = (cmd: Command, t: Translate) => t(`terminal.commands.${cmd.name}
 const descriptionOf = (cmd: Command, t: Translate) => t(`terminal.commands.${cmd.name}.description`)
 
 /**
- * Comando 'help' / 'man'
  * Sem argumento, lista os comandos; com um nome, mostra o manual dele.
  */
 export const helpCommand: Command = {

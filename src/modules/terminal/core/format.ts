@@ -5,9 +5,5 @@
 // Linha que abre e fecha os blocos
 export const RULE = '='.repeat(80)
 
-/**
- * "Rótulo:" alinhado numa coluna fixa, seguido do valor.
- *
- * @param width - Largura da coluna do rótulo (com os dois-pontos).
- */
+/** "Rótulo:" numa coluna de `width` caracteres (com os dois-pontos), seguido do valor. */
 export const row = (label: string, value: unknown, width = 14): string => `${`${label}:`.padEnd(width)} ${value}`

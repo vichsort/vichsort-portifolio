@@ -16,7 +16,6 @@ const longLine = (entry: LsEntry) => {
 }
 
 /**
- * Comando 'ls'
  * Lista arquivos e diretórios do VFS (pastas primeiro), com -l (detalhes) e -a (. e ..).
  */
 export const lsCommand: Command = {

@@ -2,7 +2,6 @@ import { LANGUAGES, isLang } from '@/core/i18n/languages'
 import type { Command } from '../../types.ts'
 
 /**
- * Comando 'lang' (ou 'language')
  * Lista os idiomas ou troca o idioma do site. A resposta já sai no idioma novo;
  * o que estava na tela continua no idioma em que rodou.
  * Uso: lang | lang en

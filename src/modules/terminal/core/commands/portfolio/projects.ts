@@ -5,7 +5,6 @@ import type { Command } from '../../types.ts'
 const WIDTH = 13
 
 /**
- * Comando 'projects'
  * Lista os projetos (só os destaques com --featured, filtrando por tecnologia com --stack) ou mostra a ficha de um projeto.
  */
 export const projectsCommand: Command = {

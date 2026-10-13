@@ -1,7 +1,6 @@
 import type { Command } from '../../types.ts'
 
 /**
- * Comando 'matrix'
  * Chuva de caracteres ocupando a janela inteira, até um Ctrl+C (ou toque).
  * É um processo em primeiro plano: o prompt espera ele acabar.
  * Com movimento reduzido, não anima: só avisa.
