@@ -1,5 +1,6 @@
 <script setup>
 import UntranslatedNote from '@/shared/components/ui/UntranslatedNote.vue'
+import NeatLogo from '@/shared/components/ui/NeatLogo.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { formatDateRange } from '../composables/useProjects'
@@ -55,8 +56,9 @@ const renderedDescription = computed(() => props.project?.summaryHtml || '')
         loading="lazy"
         class="card-img"
       />
+      <!-- Sem cover.jpg: o fundo do site com o logo, nas cores do tema (s11) -->
       <div v-else class="placeholder-bg">
-        <span class="placeholder-text">{{ projectName }}</span>
+        <NeatLogo size="12px" />
       </div>
       <div class="image-overlay"></div>
 
@@ -165,16 +167,7 @@ const renderedDescription = computed(() => props.project?.summaryHtml || '')
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--bg-surface-2), var(--accent-subtle));
-}
-
-.placeholder-text {
-  font-family: var(--font-body);
-  font-weight: 800;
-  font-size: var(--text-lg);
-  color: var(--primary);
-  opacity: 0.75;
-  letter-spacing: 0.5px;
+  background: var(--bg-canvas);
 }
 
 .image-overlay {
@@ -394,10 +387,6 @@ const renderedDescription = computed(() => props.project?.summaryHtml || '')
 @media (max-width: 640px) {
   .variant-list .card-image-wrapper {
     width: 96px;
-  }
-
-  .variant-list .placeholder-text {
-    font-size: var(--text-xs);
   }
 
   .variant-list .card-body {

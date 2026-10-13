@@ -1,5 +1,4 @@
 import { content } from './index.ts'
-import { DEFAULT_COVER } from '../config/profile.js'
 import type { DateValue } from './types.ts'
 
 /** Projeto no formato que as telas e o terminal consomem. */
@@ -49,8 +48,8 @@ export function projectView(id: string, lang = 'pt'): ProjectView | null {
     techs: techIds.map((t) => content.label(t, lang)),
     techIds,
     date: node.data.date || [],
-    // Sem cover.jpg na pasta, o hero do site
-    image: content.cover(id) || DEFAULT_COVER,
+    // Sem cover.jpg na pasta, vazio: o card desenha o logo (s11) e o detalhe fica sem capa
+    image: content.cover(id),
     github: node.data.github || '',
     live: node.data.live || '',
     featured: node.data.featured === true,
