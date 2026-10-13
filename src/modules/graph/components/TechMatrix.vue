@@ -101,6 +101,9 @@ const readout = computed(() => {
 
 /* Só a matriz rola na horizontal; a página nunca */
 .matrix-scroll {
+  /* Bloco de referência dos .sr-only das células: sem ele, eles escapam do recorte
+     da rolagem e alargam a página no celular (n19) */
+  position: relative;
   overflow-x: auto;
   max-width: 100%;
 }

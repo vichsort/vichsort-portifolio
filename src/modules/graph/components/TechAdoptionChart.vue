@@ -166,22 +166,25 @@ const openMenu = (row, event) => toggle(row.id, event.currentTarget)
     <!-- Tabela: o mesmo conteúdo sem depender de hover nem de cor -->
     <details class="table-view">
       <summary>{{ t('graph.table_view') }}</summary>
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">{{ t('graph.adoption.col_tech') }}</th>
-            <th scope="col">{{ t('graph.adoption.col_period') }}</th>
-            <th scope="col">{{ t('graph.adoption.col_projects') }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="row in rows" :key="row.id">
-            <th scope="row">{{ row.name }}</th>
-            <td class="num">{{ period(row.first, row.last) }}</td>
-            <td>{{ row.projects.map((p) => label(p.id)).join(', ') }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- No celular, a tabela rola dentro do card em vez de alargar a página (n19) -->
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">{{ t('graph.adoption.col_tech') }}</th>
+              <th scope="col">{{ t('graph.adoption.col_period') }}</th>
+              <th scope="col">{{ t('graph.adoption.col_projects') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="row in rows" :key="row.id">
+              <th scope="row">{{ row.name }}</th>
+              <td class="num">{{ period(row.first, row.last) }}</td>
+              <td>{{ row.projects.map((p) => label(p.id)).join(', ') }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </details>
   </div>
 </template>
@@ -294,9 +297,14 @@ svg {
   color: var(--text-primary);
 }
 
+.table-scroll {
+  position: relative;
+  overflow-x: auto;
+  margin-top: var(--spacing-sm);
+}
+
 .table-view table {
   width: 100%;
-  margin-top: var(--spacing-sm);
   border-collapse: collapse;
 }
 
