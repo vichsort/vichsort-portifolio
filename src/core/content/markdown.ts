@@ -59,8 +59,6 @@ const nodeTrigger = (id: string, text: string, source: string | undefined) => {
  * - href: caminho da página do alvo, ou null
  * - menu: id do nó, se o alvo (sem página) abre o menu de nó; ou null
  * - source: id do nó dono do texto, que o menu aberto daqui deixa de fora
- *
- * @returns HTML
  */
 export function renderBody(body: string, options: RenderBodyOptions = {}): string {
   const { assets = {}, label = (t: string) => t, href = () => null, menu = () => null, source } = options
@@ -77,8 +75,6 @@ export function renderBody(body: string, options: RenderBodyOptions = {}): strin
 
 /**
  * Renderiza Markdown solto, fora de um nó (resumos, saída do terminal).
- *
- * @returns HTML
  */
 export function renderMarkdown(text: string): string {
   return text ? md.render(text) : ''

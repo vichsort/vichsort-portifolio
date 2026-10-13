@@ -12,10 +12,7 @@ const WIKILINK = /^\[\[([^\]|#]+)(?:[#|][^\]]*)?\]\]$/
 const BODY_WIKILINK = /(!?)\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|([^\]]*))?\]\]/g
 
 /**
- * Extrai o alvo de um valor de ligação do frontmatter.
- *
- * @param {unknown} value
- * @returns {string|null} alvo como escrito (sem colchetes), ou null se vazio
+ * Alvo de um valor de ligação do frontmatter, como escrito (sem colchetes), ou null se vazio.
  */
 export function parseLink(value: unknown): string | null {
   let v = value
@@ -30,10 +27,7 @@ export function parseLink(value: unknown): string | null {
 }
 
 /**
- * Normaliza um campo de ligação múltipla para uma lista de alvos.
- *
- * @param {unknown} value
- * @returns {string[]}
+ * Alvos de um campo de ligação múltipla; aceita valor único e ignora os vazios.
  */
 export function parseLinkList(value: unknown): string[] {
   if (value === undefined || value === null || value === '') return []
@@ -42,10 +36,7 @@ export function parseLinkList(value: unknown): string[] {
 }
 
 /**
- * Lista os wikilinks de um corpo Markdown (sem embeds).
- *
- * @param {string} body
- * @returns {string[]} alvos como escritos
+ * Alvos dos wikilinks de um corpo Markdown, como escritos, sem os embeds.
  */
 export function extractBodyLinks(body: string): string[] {
   const targets: string[] = []
@@ -57,11 +48,7 @@ export function extractBodyLinks(body: string): string[] {
 }
 
 /**
- * Substitui os wikilinks de um corpo usando uma função.
- *
- * @param {string} body
- * @param {(target: string, label: string|undefined, embed: boolean) => string} replacer
- * @returns {string}
+ * Troca cada wikilink do corpo pelo que o replacer devolver (embeds inclusive).
  */
 export function replaceBodyLinks(
   body: string,
