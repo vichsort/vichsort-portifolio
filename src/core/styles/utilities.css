@@ -1,7 +1,4 @@
-/* ==========================================================================
-   SHARED UI UTILITIES & PATTERNS
-   ========================================================================== */
-/* Glassmorphism Panel */
+/* Painel de vidro: fundo translúcido com desfoque */
 .glass-panel {
   background-color: var(--bg-glass);
   backdrop-filter: blur(12px);
@@ -50,7 +47,8 @@
   border-color: var(--border-accent);
 }
 
-/* Accessible Motion Management */
+/* Movimento reduzido, pelo sistema (media query) ou pelas configurações do site
+   (body.reduce-motion): animações e transições quase instantâneas */
 @media (prefers-reduced-motion: reduce) {
   html:not(.force-motion) *,
   html:not(.force-motion) *::before,

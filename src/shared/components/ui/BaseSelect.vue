@@ -227,7 +227,7 @@ const selectOption = (value) => {
   color: var(--primary);
 }
 
-/* Dropdown Panel */
+/* Painel */
 .dropdown-panel {
   position: absolute;
   top: calc(100% + 6px);
@@ -278,7 +278,7 @@ const selectOption = (value) => {
   flex-shrink: 0;
 }
 
-/* Transitions */
+/* Transições */
 .dropdown-fade-enter-active,
 .dropdown-fade-leave-active {
   transition: opacity var(--transition-fast), transform var(--transition-fast);

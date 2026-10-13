@@ -1,6 +1,3 @@
-/* ==========================================================================
-   FONTS & TYPOGRAPHY DEFINITIONS
-   ========================================================================== */
 @font-face {
   font-family: 'Arcade Gamer';
   src: url('@/assets/fonts/arcade.woff2') format('woff2');

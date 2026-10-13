@@ -162,7 +162,7 @@ const galleryItems = computed(() => allPhotos(locale.value).slice(0, 4))
   box-shadow: var(--shadow-glow);
 }
 
-/* Bento Grid */
+/* Grade bento */
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

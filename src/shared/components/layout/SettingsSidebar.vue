@@ -398,7 +398,7 @@ const openTerminal = () => {
   color: var(--accent);
 }
 
-/* Transitions */
+/* Transições */
 .slide-fade-enter-active,
 .slide-fade-leave-active {
   transition: opacity var(--transition-base);

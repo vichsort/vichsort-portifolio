@@ -169,7 +169,6 @@ const hasPhotos = allPhotos('pt').length > 0
   color: var(--text-secondary);
 }
 
-/* CTA Section */
 .cta-section {
   padding: var(--spacing-2xl);
   border-radius: var(--radius-lg);

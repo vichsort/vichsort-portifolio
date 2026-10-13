@@ -94,7 +94,7 @@ const onDrillEntered = () => {
   pendingFocus = null
 }
 
-/* ---------- abrir e fechar ---------- */
+/* Abrir e fechar */
 
 const openMenu = async () => {
   state.open()
@@ -129,7 +129,7 @@ watch(() => route.fullPath, () => closeMenu({ restoreFocus: false }))
 
 onBeforeUnmount(() => state.close())
 
-/* ---------- submenu ---------- */
+/* Submenu */
 
 const openSubmenu = (item, anchor, { lock = false, focus = false } = {}) => {
   submenuAnchor.value = anchor
@@ -149,7 +149,7 @@ const closeSubmenu = ({ focusGroup = false } = {}) => {
   }
 }
 
-/* ---------- mouse ---------- */
+/* Mouse */
 
 const onRootEnter = (item, el) => {
   el.focus({ preventScroll: true })
@@ -183,7 +183,7 @@ const onSubmenuEnter = (item, el) => {
 
 const onSelect = () => closeMenu({ restoreFocus: false })
 
-/* ---------- teclado ---------- */
+/* Teclado */
 
 const onRootKeydown = useMenuKeyboard({
   onRight: (el) => {

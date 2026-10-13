@@ -290,7 +290,7 @@ onKeyStroke('Escape', (e) => {
   margin: 0 auto;
 }
 
-/* Brand Group */
+/* Logo */
 .brand-group {
   display: flex;
   align-items: center;
@@ -325,7 +325,7 @@ onKeyStroke('Escape', (e) => {
   border-left: 1px solid var(--border-subtle);
 }
 
-/* Apple-Style Navigation Pill */
+/* Pílula de navegação */
 .desktop-nav {
   display: flex;
   align-items: center;
@@ -412,12 +412,10 @@ onKeyStroke('Escape', (e) => {
   box-shadow: 0 2px 10px var(--primary-glow);
 }
 
-/* --------------------------------------------------------------------------
-   Sobre o hero: o item ativo passeia entre as cores neon do hero, uma de
+/* Sobre o hero: o item ativo passeia entre as cores neon do hero, uma de
    cada vez (A -> B -> C -> A), com ease-in-out em cada passagem.
    A cor fica num ::before para o fade de entrada/saída do hero ser suave
-   sem disputar com a animação.
-   -------------------------------------------------------------------------- */
+   sem disputar com a animação. */
 .nav-pill-link.is-active,
 .mobile-nav-link.is-active {
   position: relative;
@@ -478,7 +476,7 @@ onKeyStroke('Escape', (e) => {
   }
 }
 
-/* Actions Group */
+/* Ações */
 .actions-group {
   display: flex;
   align-items: center;
@@ -510,7 +508,7 @@ onKeyStroke('Escape', (e) => {
   color: var(--text-primary);
 }
 
-/* Mobile Dropdown Sheet */
+/* Menu do celular */
 .mobile-menu-overlay {
   position: fixed;
   top: 100%;
@@ -609,7 +607,7 @@ onKeyStroke('Escape', (e) => {
   color: var(--text-muted);
 }
 
-/* Transitions */
+/* Transições */
 .mobile-sheet-enter-active,
 .mobile-sheet-leave-active {
   transition: opacity var(--transition-fast);
@@ -638,7 +636,6 @@ onKeyStroke('Escape', (e) => {
   opacity: 0;
 }
 
-/* Responsive Breakpoints */
 /* Compacta: decidido no script (isCompact), não por largura fixa. A pílula
    sai de vista mas segue no layout, para a medida dela continuar valendo. */
 .is-compact .desktop-only {

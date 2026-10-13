@@ -128,7 +128,6 @@ const renderedDescription = computed(() => props.project?.summaryHtml || '')
 </template>
 
 <style scoped>
-/* Base Project Card */
 .project-card {
   overflow: hidden;
   border-radius: var(--radius-lg);
@@ -142,7 +141,7 @@ const renderedDescription = computed(() => props.project?.summaryHtml || '')
   box-shadow: var(--shadow-card-hover);
 }
 
-/* Image Wrapper */
+/* Imagem */
 .card-image-wrapper {
   position: relative;
   background-color: var(--bg-surface-2);
@@ -194,7 +193,7 @@ const renderedDescription = computed(() => props.project?.summaryHtml || '')
   z-index: 2;
 }
 
-/* Card Body */
+/* Corpo */
 .card-body {
   padding: var(--spacing-lg);
   display: flex;
@@ -261,7 +260,7 @@ const renderedDescription = computed(() => props.project?.summaryHtml || '')
   font-style: normal;
 }
 
-/* Card Footer */
+/* Rodapé */
 .card-footer {
   display: flex;
   justify-content: space-between;
@@ -323,9 +322,7 @@ const renderedDescription = computed(() => props.project?.summaryHtml || '')
   transform: translateX(3px);
 }
 
-/* ==========================================================================
-   VARIANT: GRID (Used in ProjectsListView)
-   ========================================================================== */
+/* Variante grid: a listagem de projetos */
 .variant-grid {
   display: flex;
   flex-direction: column;
@@ -346,9 +343,7 @@ const renderedDescription = computed(() => props.project?.summaryHtml || '')
   background: linear-gradient(to bottom, transparent 65%, var(--bg-surface-1) 100%);
 }
 
-/* ==========================================================================
-   VARIANT: LIST (ProjectsListView no modo lista): linha com miniatura à esquerda
-   ========================================================================== */
+/* Variante list: a listagem no modo lista, uma linha com miniatura à esquerda */
 .variant-list {
   display: flex;
   flex-direction: row;
@@ -400,9 +395,7 @@ const renderedDescription = computed(() => props.project?.summaryHtml || '')
   }
 }
 
-/* ==========================================================================
-   VARIANT: CAROUSEL (Used in HomeView Showcase)
-   ========================================================================== */
+/* Variante carousel: a vitrine da home */
 .variant-carousel {
   width: 860px;
   max-width: 88vw;

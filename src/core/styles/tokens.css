@@ -1,8 +1,6 @@
-/* ==========================================================================
-   DESIGN TOKENS - LIGHT & DARK THEMES
-   ========================================================================== */
+/* Tokens de design (tabela e regras no DESIGN.md). Primeiro o que não muda com o tema */
 :root {
-  /* Font Families */
+  /* Fontes */
   --font-heading: 'Arcade Gamer', monospace, sans-serif;
   --font-body: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
@@ -21,7 +19,7 @@
   --text-5xl: 3.75rem;   /* 60px */
   --text-page-title: clamp(2.5rem, 6vw, 4.5rem); /* título das páginas internas */
 
-  /* Spacing Scale */
+  /* Espaçamento */
   --spacing-xs: 0.5rem;
   --spacing-sm: 0.75rem;
   --spacing-md: 1rem;
@@ -32,13 +30,13 @@
   /* Largura do conteúdo das páginas (listagens, Sobre, grafo): todas com a mesma borda */
   --page-width: 1100px;
 
-  /* Border Radii */
+  /* Raios */
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 24px;
   --radius-full: 9999px;
 
-  /* Transitions */
+  /* Transições */
   --transition-fast: 0.15s ease;
   --transition-base: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -59,12 +57,10 @@
   --logo-blue: #3a31d8;
 }
 
-/* --------------------------------------------------------------------------
-   DARK THEME (Default / Signature Experience)
-   -------------------------------------------------------------------------- */
+/* Tema escuro: o padrão */
 :root[data-theme="dark"],
 :root:not([data-theme]) {
-  /* Brand Core Colors */
+  /* Marca */
   --primary: #3a31d8;
   --primary-hover: #4f46e5;
   --primary-glow: rgba(58, 49, 216, 0.4);
@@ -76,7 +72,7 @@
   --accent-glow: rgba(93, 29, 231, 0.35);
   --accent-subtle: rgba(93, 29, 231, 0.15);
 
-  /* Layered Surfaces */
+  /* Superfícies, do fundo para a frente */
   --bg-canvas: #080711;
   --bg-surface-1: #110f22;
   --bg-surface-2: #191632;
@@ -96,7 +92,7 @@
   --border-medium: rgba(255, 255, 255, 0.15);
   --border-accent: rgba(93, 29, 231, 0.4);
 
-  /* Shadows */
+  /* Sombras */
   --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
   --shadow-card-hover: 0 20px 40px -15px rgba(58, 49, 216, 0.25), 0 0 25px rgba(93, 29, 231, 0.15);
   --shadow-glow: 0 0 30px rgba(58, 49, 216, 0.35);
@@ -132,11 +128,9 @@
   --viz-research: #199e70;
 }
 
-/* --------------------------------------------------------------------------
-   LIGHT THEME
-   -------------------------------------------------------------------------- */
+/* Tema claro */
 :root[data-theme="light"] {
-  /* Brand Core Colors */
+  /* Marca */
   --primary: #2f27ce;
   --primary-hover: #261fa8;
   --primary-glow: rgba(47, 39, 206, 0.25);
@@ -148,7 +142,7 @@
   --accent-glow: rgba(88, 24, 226, 0.2);
   --accent-subtle: rgba(88, 24, 226, 0.08);
 
-  /* Layered Surfaces */
+  /* Superfícies, do fundo para a frente */
   --bg-canvas: #f8f9fe;
   --bg-surface-1: #ffffff;
   --bg-surface-2: #f0f2fa;
@@ -168,7 +162,7 @@
   --border-medium: rgba(15, 23, 42, 0.15);
   --border-accent: rgba(88, 24, 226, 0.3);
 
-  /* Shadows */
+  /* Sombras */
   --shadow-card: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
   --shadow-card-hover: 0 20px 35px -10px rgba(47, 39, 206, 0.15), 0 0 15px rgba(88, 24, 226, 0.08);
   --shadow-glow: 0 0 25px rgba(47, 39, 206, 0.2);

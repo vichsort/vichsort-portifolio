@@ -1,6 +1,6 @@
 <script setup>
 /**
- * O logo NEAT: grade 3×3 de quadrados, nas cores do tema. Desenhado em CSS para
+ * O logo NEAT: grade 3x3 de quadrados, nas cores do tema. Desenhado em CSS para
  * acompanhar o tema claro e o escuro. O mesmo desenho está no index.html (tela de
  * carregamento antes do JavaScript) e no scripts/og-image.mjs (prévia de link).
  *
