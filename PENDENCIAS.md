@@ -54,11 +54,9 @@ Ordem combinada: `a12` → `c9` → documento de desenho do `n21` → `n21` → 
 
 ### Fundação técnica
 
-- **`a12`** `[core]` `[terminal]` `[ci]` **Testes e CI.** Não há teste nem CI: o `check:content` e o `typecheck` só rodam se alguém lembrar, e o Cloudflare Pages publica cada push no `master` mesmo com o conteúdo quebrado. O deploy fica como está; falta o portão antes dele.
-  - **`npm run check`** como comando único: `check:content`, `typecheck`, `test` e `build`. A CI só chama ele, e o mesmo roda local.
-  - **Vitest** na lógica pura, começando pelo que quebra sem ninguém ver: `core/content` (montagem do grafo, validação, consultas, fallback de idioma, menu de nó, as contagens da home); depois o núcleo do terminal (lexer, pipes e `&&`, dispatcher, completion, histórico, VFS). A biblioteca do mapa e as análises do `n21` já nascem com teste.
-  - **GitHub Actions** rodando `npm run check` em push e PR, com o Node do `.node-version`.
-  - **`master` protegido:** merge só por PR do `develop`, com a CI passando. Deploy pelo wrangler no Actions fica fora: mais configuração e segredos para o mesmo resultado.
+- **`a12`** `[core]` `[terminal]` `[ci]` **Testes e CI.** Já existem o `npm run check` (`check:content`, `typecheck`, `test`, `build`), o Vitest no `core/content` (vault de exemplo em `__tests__/vault.ts`, e o vault real sem erros) e no lexer, histórico e sugestão do terminal, e a CI no GitHub Actions rodando o `check` em push e PR. O Cloudflare Pages continua publicando o `master`. Falta:
+  - **`master` protegido:** merge só por PR do `develop`, com a CI passando (configuração no GitHub, feita pelo Vitor). Sem isso, a CI avisa mas não segura o deploy.
+  - **Testes do resto do terminal:** dispatcher (pipes e `&&`), completion e VFS. Pedem um registro e um VFS de exemplo.
   - Depois do básico: fumaça com Playwright em 390px, nenhuma rota com rolagem horizontal (trava o `n19` para não voltar).
 - **`a10`** `[docs]` **ARCHITECTURE.md como guia de construção.** Curto e normativo: o que **deve** e o que **nunca** se faz; camadas e quem importa quem (`core` não importa `shared`/`modules`; `shared` não importa `modules`; módulo não importa módulo, salvo exceções registradas); onde cada coisa mora; receitas (página, módulo, componente, tipo de nó, idioma, comando do terminal); definição de pronto (`npm run check` passando, PENDENCIAS, formato do commit). Não explica o funcionamento: aponta para o README da pasta (`a11`). O que der para checar entra no `npm run check` (`a12`): cor fixa, `aria-label`/`title`/`alt` escritos à mão, import entre módulos fora da lista, `height` fixo em `px` com texto.
 
