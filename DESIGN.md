@@ -133,8 +133,7 @@ Animação que não para (`infinite`) só em `transform` (ou `translate`/`scale`
 - Borda sutil de 1px para delimitação luminosa.
 
 ### D. Acessibilidade & Movimento Reduzido
-- Suporte nativo à media query `@media (prefers-reduced-motion: reduce)`.
-- Classe `body.reduce-motion` controlada de forma reativa nas configurações de acessibilidade.
+- Movimento: o sistema (`prefers-reduced-motion`) decide só na primeira visita; depois vale o interruptor das configurações, que pode ligar as animações mesmo com o sistema pedindo movimento reduzido. Todo o CSS consulta uma classe só, `html.motion-off` (em componente, `:global(.motion-off) .x`), nunca a media query; o JS consulta `isMotionAllowed`. O `npm run test:e2e` confere as duas direções.
 - Tamanho de fonte (configurações): nenhum texto pode cortar nem gerar rolagem horizontal em −1, 0 e +3. Alturas com texto dentro ficam em `rem` ou crescem (`minmax(15rem, auto)`, `min-height`), nunca em `height` fixo em `px`. Seção presa na rolagem (`sticky`) cresce com o texto e rola até o fim antes de prender (ver `AboutSection`).
 - Navbar: vira o menu mobile quando a pílula não cabe entre o logo e as ações, o que depende do idioma (em espanhol ela é bem mais larga) e do tamanho de fonte, não só de uma largura fixa de tela.
 - Todo `aria-label`, `title` e `alt` vem dos dicionários, nunca escrito no componente.

@@ -118,7 +118,7 @@ Formato, regras e API completos em [GRAPH.md](GRAPH.md). Validação: `npm run c
 ### C. Gestão de Estado & Acessibilidade
 
 - O tema é persistido e sincronizado via `@vueuse/core` (`useColorMode`), com `data-theme="dark"` ou `data-theme="light"` na raiz `<html>`.
-- Idioma, tamanho de fonte e animações ficam em `localStorage` (`useSettings`). Animações respeitam também `prefers-reduced-motion`; o idioma ativo vai para o atributo `lang` do `<html>`.
+- Idioma, tamanho de fonte e animações ficam em `localStorage` (`useSettings`). Animações seguem `prefers-reduced-motion` até o visitante escolher no site (`html.motion-off`, aplicada também pelo script do `index.html`, antes do primeiro quadro); o idioma ativo vai para o atributo `lang` do `<html>`.
 
 ---
 
