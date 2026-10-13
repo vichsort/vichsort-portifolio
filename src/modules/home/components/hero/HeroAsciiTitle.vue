@@ -153,7 +153,7 @@ watch(layout, paint, { flush: 'post' })
   display: block;
   font-family: var(--font-mono);
   font-weight: 700;
-  /* 41 colunas × ~0.6em por caractere: cabe em 343px no mobile e ~1000px no desktop */
+  /* 41 colunas x ~0.6em por caractere: cabe em 343px no mobile e ~1000px no desktop */
   /* O mínimo também cede ao vw: com fonte ampliada num celular, o desenho cabe na tela */
   font-size: clamp(min(0.7rem, 3.4vw), 3.4vw, 2.6rem);
   line-height: 1;

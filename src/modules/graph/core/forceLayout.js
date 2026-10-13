@@ -3,7 +3,7 @@
  *
  * Determinístico: as posições iniciais saem de uma espiral na ordem dos nós,
  * então o mesmo grafo sempre gera o mesmo desenho. Roda inteiro de uma vez
- * (sem animação), e o resultado é esticado para caber em width × height.
+ * (sem animação), e o resultado é esticado para caber em width x height.
  *
  * @param {{ id: string, radius?: number }[]} nodes
  * @param {{ source: string, target: string }[]} edges

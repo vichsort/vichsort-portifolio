@@ -7,7 +7,7 @@ import { useNodeMenuHost } from '@/shared/composables/useNodeMenuHost'
 import { projectSpans, techUsage } from '../core/graphData'
 
 /**
- * Matriz tech × projeto: linhas são techs (da mais à menos usada), colunas
+ * Matriz tech x projeto: linhas são techs (da mais à menos usada), colunas
  * são projetos (do mais antigo ao mais recente). Uma <table> de verdade, então
  * já é a própria versão acessível. Hover e foco destacam linha e coluna, e a
  * leitura aparece acima da matriz.

@@ -15,7 +15,7 @@ export const EMAIL = 'vitor@example.com'
  */
 export const SITE_URL = 'https://vichsort.com'
 
-/** Prévia de link de toda página sem capa própria (1200×630, sem texto; gerada por scripts/og-image.mjs). */
+/** Prévia de link de toda página sem capa própria (1200x630, sem texto; gerada por scripts/og-image.mjs). */
 export const DEFAULT_OG_IMAGE = '/images/og-default.png'
 
 /**
