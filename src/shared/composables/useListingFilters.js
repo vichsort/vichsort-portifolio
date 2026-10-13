@@ -11,17 +11,26 @@ const normalize = (value) =>
     .toLowerCase()
     .trim()
 
-/** Anos (AAAA) citados num valor de data: '2024-08', ['2023', '2024-02']... */
-export const yearsOf = (date) => [...new Set(String([date].flat().join(' ')).match(/\b\d{4}\b/g) || [])]
+/**
+ * Anos (AAAA) de um valor de data: '2024-08', ['2023', '2024-02']... Um período vale
+ * todos os anos entre o início e o fim: [2024-11, 2026-09] aparece também no filtro de 2025.
+ */
+export function yearsOf(date) {
+  const years = (String([date].flat().join(' ')).match(/\b\d{4}\b/g) || []).map(Number)
+  if (!years.length) return []
+  const first = Math.min(...years)
+  return Array.from({ length: Math.max(...years) - first + 1 }, (_, i) => String(first + i))
+}
 
 /**
  * Busca e filtros de uma listagem (projetos, pesquisas, certificações).
  *
- * @param {import('vue').MaybeRef<object[]>} itemsSource
+ * @template T
+ * @param {import('vue').MaybeRef<T[]>} itemsSource
  * @param {{
- *   search: (item: object) => Array<string|undefined>,
- *   filters: Record<string, { values: (item: object) => string[], order?: 'asc'|'desc' }>,
- *   predicates?: Array<(item: object) => boolean>
+ *   search: (item: T) => Array<string|undefined>,
+ *   filters: Record<string, { values: (item: T) => string[], order?: 'asc'|'desc' }>,
+ *   predicates?: Array<(item: T) => boolean>
  * }} config
  *   search: textos de cada item em que a busca procura.
  *   filters: para cada filtro, os valores do item (um item pode ter vários, como techs);
