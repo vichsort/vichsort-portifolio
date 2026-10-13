@@ -137,6 +137,7 @@ const openTerminal = () => {
                   @click="toggleAnimations"
                   class="toggle-btn"
                   :class="{ active: areAnimationsEnabled }"
+                  :aria-pressed="areAnimationsEnabled"
                 >
                   {{ areAnimationsEnabled ? t('settings.accessibility.on') : t('settings.accessibility.off') }}
                 </button>
