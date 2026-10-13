@@ -8,12 +8,13 @@ const md = new MarkdownIt({
   typographer: true
 })
 
-// Imagens relativas (![](screenshot.png)) apontam para os arquivos da pasta do nó
+// Imagens relativas (![](screenshot.png)) apontam para os arquivos da pasta do nó.
+// O markdown-it codifica o caminho: "Pasted image.png", como o Obsidian salva, chega como "Pasted%20image.png"
 const defaultImage = md.renderer.rules.image!
 md.renderer.rules.image = (tokens, idx, options, env, self) => {
   const token = tokens[idx]
   const src = token.attrGet('src')
-  const url = src ? env?.assets?.[src] : undefined
+  const url = src ? (env?.assets?.[src] ?? env?.assets?.[safeDecode(src)]) : undefined
   if (url) token.attrSet('src', url)
   return defaultImage(tokens, idx, options, env, self)
 }
@@ -24,6 +25,14 @@ export interface RenderBodyOptions {
   href?: (target: string) => string | null
   menu?: (target: string) => string | null
   source?: string
+}
+
+const safeDecode = (path: string) => {
+  try {
+    return decodeURI(path)
+  } catch {
+    return path
+  }
 }
 
 // Colchetes no texto do link fechariam o [rótulo] antes da hora
