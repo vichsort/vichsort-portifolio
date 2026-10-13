@@ -137,6 +137,7 @@ Animação que não para (`infinite`) só em `transform` (ou `translate`/`scale`
 - Tamanho de fonte (configurações): nenhum texto pode cortar nem gerar rolagem horizontal em −1, 0 e +3. Alturas com texto dentro ficam em `rem` ou crescem (`minmax(15rem, auto)`, `min-height`), nunca em `height` fixo em `px`. Seção presa na rolagem (`sticky`) cresce com o texto e rola até o fim antes de prender (ver `AboutSection`).
 - Navbar: vira o menu mobile quando a pílula não cabe entre o logo e as ações, o que depende do idioma (em espanhol ela é bem mais larga) e do tamanho de fonte, não só de uma largura fixa de tela.
 - Todo `aria-label`, `title` e `alt` vem dos dicionários, nunca escrito no componente.
+- Seleção de texto: o que é controle não seleciona (botões, filtros, `nav`, `.badge`: regra no `reset.css`); o que é conteúdo seleciona, inclusive títulos e o e-mail. A seleção é ciano (`--neon-cyan`) com o texto na cor do fundo, nos dois temas. Componente que arrasta (carrossel) ou moldura de janela tira a seleção no próprio CSS.
 
 ---
 

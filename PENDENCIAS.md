@@ -43,7 +43,6 @@ Ordem combinada: `c9` → documento de desenho do `n21` → `n21` → `a10`.
        Comunidades e centralidade também desenham o mapa: as comunidades viram regiões e a centralidade, o tamanho do nó. Ciência e arte na mesma peça.
     3. **A biblioteca do mapa**, com teste (`a12`).
     4. **A página.** O mapa interativo como protagonista, em largura total, com o painel lateral; embaixo, as análises, que filtram junto com a seleção no mapa. Período e tipo como filtros; techs agrupadas por área, nas cores das stacks.
-- **`n27`** `[core]` **Seleção de texto restrita e colorida.** Moldura sem seleção (navbar, footer, botões, badges, títulos pixel); seleção só no texto corrido (markdown, resumos, terminal), com `::selection` no neon da área. Hoje: um `::selection` global em `reset.css` e alguns `user-select: none` soltos.
 - **`n7`** `[contact]` **Redesenhar a tela de contato** na identidade do hero e do footer.
 
 ### Conteúdo
