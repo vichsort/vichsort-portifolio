@@ -25,10 +25,24 @@ body {
   min-height: 100vh;
 }
 
-/* Seleção de texto */
+/* Seleção de texto em ciano, a cor do prompt do terminal (n27). O texto vai no fundo do
+   site: escuro sobre o ciano claro do tema escuro, claro sobre o ciano escuro do tema claro */
 ::selection {
-  background-color: var(--primary);
-  color: var(--text-on-primary);
+  background-color: var(--neon-cyan);
+  color: var(--bg-canvas);
+}
+
+/* Controles não selecionam: duplo clique ou arrasto num botão, filtro ou link de navegação
+   não marca texto (n27). Conteúdo (títulos, resumos, o e-mail) continua selecionável */
+button,
+summary,
+select,
+nav,
+[role='button'],
+[role='tab'],
+.badge {
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* Links & Lists */
