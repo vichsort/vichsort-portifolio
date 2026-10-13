@@ -1,4 +1,5 @@
 <script setup>
+import { vFitTitle } from '@/shared/directives/fitTitle'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Mail, Github, Linkedin, Send, Copy, Check } from 'lucide-vue-next'
@@ -7,6 +8,8 @@ import { EMAIL, SOCIALS } from '@/core/config/profile'
 const { t } = useI18n()
 const copied = ref(false)
 const email = EMAIL
+// No celular, o endereço quebra antes do @ (n19)
+const [emailUser, emailDomain] = email.split('@')
 
 const copyToClipboard = () => {
   if (navigator.clipboard) {
@@ -33,7 +36,7 @@ const channels = SOCIALS.map(social => ({
     <div class="page-container">
 
       <header class="page-header">
-        <h1 class="page-title">{{ t('contact_page.title') }}</h1>
+        <h1 v-fit-title class="page-title">{{ t('contact_page.title') }}</h1>
         <p class="page-subtitle">{{ t('contact_page.subtitle') }}</p>
       </header>
 
@@ -44,7 +47,7 @@ const channels = SOCIALS.map(social => ({
           </div>
           <div class="email-info">
             <span class="email-label">{{ t('contact_page.email_label') }}</span>
-            <span class="email-address">{{ email }}</span>
+            <span class="email-address">{{ emailUser }}<wbr />@{{ emailDomain }}</span>
           </div>
 
           <button @click="copyToClipboard" class="btn-copy">
@@ -95,7 +98,7 @@ const channels = SOCIALS.map(social => ({
 
 .page-title {
   font-family: var(--font-heading);
-  font-size: var(--text-page-title);
+  font-size: var(--text-page-title-fit);
   line-height: 1;
   color: var(--text-primary);
   margin-bottom: var(--spacing-xs);
@@ -137,6 +140,7 @@ const channels = SOCIALS.map(social => ({
   flex-direction: column;
   gap: 0.25rem;
   flex: 1;
+  min-width: 0;
 }
 
 .email-label {
@@ -151,6 +155,8 @@ const channels = SOCIALS.map(social => ({
   font-family: var(--font-heading);
   font-size: var(--text-lg);
   color: var(--text-primary);
+  /* Quebra antes do @ (<wbr>); um endereço longo demais quebra em qualquer ponto em vez de sair do card (n19) */
+  overflow-wrap: anywhere;
 }
 
 .btn-copy {
