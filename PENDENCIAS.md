@@ -20,7 +20,7 @@ O que o visitante sente nos primeiros segundos, e o que impede divulgar o link. 
 
 Já decidido, melhora o site ou a base de código.
 
-Ordem combinada: `c9` → documento de desenho do `n21` → `n21` → `a10`.
+Ordem combinada: `c9` → documento de desenho do `n21` → `n21`. A fundação técnica tem ordem própria (abaixo); entre as duas, ainda não decidido.
 
 ### Interface
 
@@ -51,7 +51,24 @@ Ordem combinada: `c9` → documento de desenho do `n21` → `n21` → `a10`.
 
 ### Fundação técnica
 
-- **`a10`** `[docs]` **ARCHITECTURE.md como guia de construção.** Curto e normativo: o que **deve** e o que **nunca** se faz; camadas e quem importa quem (`core` não importa `shared`/`modules`; `shared` não importa `modules`; módulo não importa módulo, salvo exceções registradas); onde cada coisa mora; receitas (página, módulo, componente, tipo de nó, idioma, comando do terminal); definição de pronto (`npm run check` passando, PENDENCIAS, formato do commit). Não explica o funcionamento: aponta para o README da pasta (`a11`). O que der para checar entra no `npm run check` (`a12`): cor fixa, `aria-label`/`title`/`alt` escritos à mão, import entre módulos fora da lista, `height` fixo em `px` com texto.
+Decidido em 2026-10-13, no brainstorm do `a10` (padrão de mercado, recortado para um portfólio de uma pessoa só). Ordem: a estrutura primeiro, depois o lint que a protege, depois a documentação, que descreve o resultado: `a18` → `a19` → `a20` → `a22` com `a10` e `a21` → `a23` com `a15`. O `a24` e o `a25` entram a qualquer momento.
+
+- **`a18`** `[core]` **Router fora de `core`: `src/router/index.ts`.** Ele monta o app (conhece as páginas de todos os módulos), então fica com o `main.js` e o `App.vue`, acima das camadas. Fica em `core` o que é dado puro: o `pages.js` (lido pela navbar, pelo footer e pelos scripts de build). O `scrollToHash.js` vai com o router ou fica, conforme quem usa. Quem hoje importa o arquivo do router (`useViewTransition`, a diretiva `contentLinks`, o `useTerminal`) passa a pegá-lo pelo Vue (`useRouter()`, ou pela instância na diretiva): isso desfaz o import circular router → `useViewTransition` → router.
+- **`a19`** `[core]` **Camadas com API pública por módulo.** Camadas: app (`main`, `App`, `router`) → `modules` → `shared` → `core`; cada uma só importa as de baixo, e `core` só importa `core`. Cada módulo tem um `index.ts` que exporta o que os outros podem usar; import de dentro da pasta de outro módulo é proibido. `home` e `about` são módulos de página: compõem os módulos de área pela API pública (vitrine de projetos, depoimentos, terminal, prévia do grafo); o contrário não vale. Sem camada `widgets/` (considerada e descartada: separaria a vitrine do resto de projetos). O `graphData.js` vai para `core/content/` (cálculo sobre o grafo, base das análises do `n21`), e a exceção do `neofetch` deixa de existir.
+- **`a20`** `[ci]` **Lint e formatação no `npm run check` e na CI.**
+  - ESLint (flat config) com `eslint-plugin-vue`, `typescript-eslint`, `eslint-plugin-boundaries` (as camadas e a API pública do `a19`) e `@intlify/eslint-plugin-vue-i18n` (`no-raw-text`: texto e `aria-label`/`title`/`alt` escritos à mão).
+  - Stylelint com `stylelint-declaration-strict-value`: cor só existe em `tokens.css`, sem exceção. Antes, as cores que hoje são exceção viram tokens que não mudam com o tema (botões da janela do macOS, texto e degradê sobre foto, sombra em preto translúcido).
+  - Prettier: ponto e vírgula, aspas simples, 80 colunas, vírgula no fim (`trailingComma: "all"`, o padrão). Um commit só de formatação, registrado no `.git-blame-ignore-revs` (o `git blame` pula esse commit; no GitHub é automático, localmente `git config blame.ignoreRevsFile .git-blame-ignore-revs`).
+  - Depende do `n29` (o `VITOR` escrito à mão sai dos templates).
+- **`a22`** `[docs]` **Código e documentação em inglês.** Comentários (cerca de 800 blocos) e documentos (ARCHITECTURE, DESIGN, GRAPH, READMEs, ADRs). O conteúdo do site continua nos quatro idiomas; o PENDENCIAS continua em português (é lista de trabalho, não documentação). As regras de comentário continuam: dizer o porquê, nada que repita o código.
+- **`a10`** `[docs]` **ARCHITECTURE.md como guia de construção**, em inglês, no formato que virou referência (o do matklad): visão de cima, mapa do código (uma linha por pasta) e invariantes (as regras de camada do `a19`, cor só em token, texto só de dicionário, conteúdo no grafo, título com `v-fit-title`, movimento pela `motion-off`). Mais as receitas (página, módulo, componente, tipo de nó, idioma, comando do terminal) e o fluxo de trabalho: definição de pronto (`npm run check` passando, PENDENCIAS e documento da área atualizados), formato do commit. Não repete DESIGN e GRAPH: aponta para eles. O que hoje explica o funcionamento (i18n, conteúdo) fica num parágrafo curto até os READMEs de pasta (`a11`). O texto atual tem o tom que limpamos nos comentários e sai inteiro.
+- **`a21`** `[docs]` **ADRs em `docs/adr/`**: uma decisão por arquivo (contexto, decisão, consequências), numerados, nunca editados; uma decisão nova substitui a antiga. Daqui em diante, decisão vira ADR em vez de ficar só no item do PENDENCIAS, que some quando é concluído. Retroativos: conteúdo como vault do Obsidian; vault lido no build (`a13`); router fora de `core` (`a18`); camadas com API pública (`a19`); cor só em token; interruptor de animação vence o sistema (`n28`); seleção (`n27`); código e documentação em inglês (`a22`); licença (`a23`).
+- **`a23`** `[docs]` **Licença e contribuições.** MIT para o código e o NEAT (tokens, componentes, logo, o `///`). Com todos os direitos reservados: `src/content/`, as imagens de `public/` e os textos sobre o Vitor nos dicionários (Sobre, depoimentos). `LICENSE` na raiz e o recorte explicado no README (`a15`). O projeto não aceita PRs (o `master` protegido já garante que só o Vitor aprova); um `CONTRIBUTING.md` curto diz isso e convida para issues e conversas: o código está aberto para quem quiser aprender.
+- **`a24`** `[ci]` **Acessibilidade com o axe no Playwright** (`@axe-core/playwright`): uma auditoria por rota, no teste que já percorre todas.
+- **`a25`** `[ci]` **CI em jobs separados e Dependabot.** Lint, typecheck, unit, e2e e build em paralelo, para dizer de cara o que quebrou; o Dependabot abre PR para atualizar dependências.
+- **`n29`** `[ui]` **`NeatWordmark`**: o `VITOR.` do NEAT como componente, irmão do `NeatLogo`. Hoje está escrito à mão na navbar, no footer e no texto para leitor de tela do hero.
+
+Considerados e descartados no mesmo brainstorm: husky (a CI já barra o que importa; trabalhando sozinho, pre-commit só atrasa), Lighthouse CI (nos runners do GitHub a nota oscila; o que travaria de forma estável já está coberto pelo `check:dist`, pelo Playwright e pelo axe), meta de cobertura (vira número de vaidade) e camada `widgets/` (ver `a19`). Pinia ficou sem decisão.
 
 ## 3. Esperando material
 
@@ -63,7 +80,7 @@ Depende do Vitor, não de código.
 - **`c7`** `[terminal]` **Currículo em PDF**, um por idioma, em `src/assets/resume/resume.<idioma>.pdf`. O comando `resume` e o `resume.pdf` do VFS aparecem sozinhos.
 - **`n8`** `[certifications]` **Modal de certificação** (decidido): o que foi estudado (conteúdo, carga horária, techs) e a imagem da credencial, sem obrigar a baixar nada. As certificações reais já estão no site.
 - **`a5`** `[i18n]` **Revisar as traduções es/it**, feitas por IA a partir do pt; principalmente o Sobre e os depoimentos. Depois do `c8`, para não revisar texto que vai sair. Os depoimentos ficam nos dicionários (`testimonials/locales`), não no grafo: cada idioma novo traduz esses itens também.
-- **`a11`** `[docs]` **README por pasta**, no tom do Beta (Atena): o que a pasta é, como funciona, por quê, armadilhas e como estender. Existem `about`, `graph`, `projects` e `researches` (o GRAPH.md faz o papel do de `core/content`). Faltam:
+- **`a11`** `[docs]` **README por pasta**, em inglês (`a22`), no tom do Beta (Atena); o de cada módulo descreve a API pública dele (`a19`): o que a pasta é, como funciona, por quê, armadilhas e como estender. Existem `about`, `graph`, `projects` e `researches` (o GRAPH.md faz o papel do de `core/content`). Faltam:
   - `core/i18n`, `core/router`, `core/styles`, `core/config`;
   - `shared/ascii`, `shared/components/ui/menu`, `shared/components/node`, `shared/composables`;
   - os módulos `home`, `gallery`, `certifications`, `contact`, `testimonials` e `terminal` (o do terminal herda o antigo `terminal.md`: princípios, pipeline do interpretador, contrato do comando e catálogo);
