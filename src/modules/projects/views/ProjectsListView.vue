@@ -1,4 +1,5 @@
 <script setup>
+import { vFitTitle } from '@/shared/directives/fitTitle'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { allProjects } from '@/core/content/projects'
@@ -38,7 +39,7 @@ const toolbarFilters = computed(() => [
   <main class="projects-page">
     <header class="page-header">
 
-      <h1 class="page-title">{{ t('projects_page.title') }}</h1>
+      <h1 v-fit-title class="page-title">{{ t('projects_page.title') }}</h1>
       <p class="page-subtitle">{{ t('projects_page.subtitle') }}</p>
 
       <ListingToolbar
@@ -92,7 +93,7 @@ const toolbarFilters = computed(() => [
 
 .page-title {
   font-family: var(--font-heading);
-  font-size: var(--text-page-title);
+  font-size: var(--text-page-title-fit);
   line-height: 1;
   color: var(--text-primary);
   margin-bottom: var(--spacing-xs);

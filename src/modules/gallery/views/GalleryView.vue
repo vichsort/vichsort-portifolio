@@ -1,4 +1,5 @@
 <script setup>
+import { vFitTitle } from '@/shared/directives/fitTitle'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useLocalStorage } from '@vueuse/core'
@@ -28,7 +29,7 @@ const photos = computed(() => allPhotos(locale.value))
   <main class="gallery-page">
     <header class="page-header">
 
-      <h1 class="page-title">{{ t('gallery_page.title') }}</h1>
+      <h1 v-fit-title class="page-title">{{ t('gallery_page.title') }}</h1>
       <p class="page-subtitle">{{ t('gallery_page.subtitle') }}</p>
 
       <div class="toolbar">
@@ -76,7 +77,7 @@ const photos = computed(() => allPhotos(locale.value))
 
 .page-title {
   font-family: var(--font-heading);
-  font-size: var(--text-page-title);
+  font-size: var(--text-page-title-fit);
   line-height: 1;
   color: var(--text-primary);
   margin-bottom: var(--spacing-xs);

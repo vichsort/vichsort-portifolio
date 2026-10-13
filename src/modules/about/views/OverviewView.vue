@@ -1,4 +1,5 @@
 <script setup>
+import { vFitTitle } from '@/shared/directives/fitTitle'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useContent } from '@/core/content/useContent'
@@ -82,7 +83,7 @@ const hasPhotos = allPhotos('pt').length > 0
 
       <!-- Cabeçalho Principal -->
       <header class="page-header">
-        <h1 class="page-title">{{ t('about_page.title') }}</h1>
+        <h1 v-fit-title class="page-title">{{ t('about_page.title') }}</h1>
         <p class="page-subtitle">{{ t('about_page.subtitle') }}</p>
       </header>
 
@@ -157,7 +158,7 @@ const hasPhotos = allPhotos('pt').length > 0
 
 .page-title {
   font-family: var(--font-heading);
-  font-size: var(--text-page-title);
+  font-size: var(--text-page-title-fit);
   line-height: 1;
   color: var(--text-primary);
   margin-bottom: var(--spacing-xs);

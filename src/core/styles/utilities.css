@@ -183,3 +183,9 @@ body.reduce-motion *::after {
 :root.listing-morph::view-transition-new(root) {
   animation: none;
 }
+
+/* Título das páginas internas: no celular, nunca mais largo que a tela (v-fit-title, n19).
+   No desktop vale o --text-page-title de sempre */
+.page-title {
+  --text-page-title-fit: min(var(--text-page-title), calc((100vw - 2 * var(--spacing-md)) / var(--title-chars, 1)));
+}
