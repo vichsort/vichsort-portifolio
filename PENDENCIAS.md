@@ -12,7 +12,6 @@ O que falta, em ordem de prioridade. Revisada em 2026-10-13 contra o código.
 
 O que o visitante sente nos primeiros segundos, e o que impede divulgar o link. Prioridade, não ordem de execução: o que depende de material espera o material, e enquanto isso segue o Próximo.
 
-- **`n19`** `[graph]` `[contact]` **Mobile.** Em 390px, o Grafo fica com 530px (a matriz não tem contêiner de rolagem) e o Contato com 417px (um ícone 3px para fora). O `overflow-x: hidden` do `body` não impede o arrasto lateral no iOS. O toque no mapa e nos gráficos fica no `n21`.
 - **`c1`** `[config]` **Contato e redes reais** em `core/config/profile.js` (placeholders, há um `TODO`).
 - **`s11`** `[config]` **Capa padrão sem texto.** É a prévia do link no momento de divulgar. O `og-default.jpg` é o hero em inglês: no site em pt, os projetos sem capa mostram "Hello! My name is". Decidido: o fundo do site com o logo NEAT pequeno no centro, como na tela de carregamento. Sem texto, serve aos quatro idiomas e sobrevive aos cortes dos cards. Atenção: é também a prévia de link (WhatsApp, LinkedIn) de toda página sem capa própria, e um logo pequeno pode parecer imagem quebrada ali; avaliar o logo maior só na versão de prévia.
 - **`a15`** `[docs]` **README do repositório.** Ainda é o do template do Vite, e quem recebe o link costuma abrir o GitHub. Deve dizer o que o site é e mostrar um print, a stack, como rodar e publicar; e apontar para ARCHITECTURE, DESIGN e GRAPH. Com o badge da CI (`a12`).
@@ -22,7 +21,7 @@ O que o visitante sente nos primeiros segundos, e o que impede divulgar o link. 
 
 Já decidido, melhora o site ou a base de código.
 
-Ordem combinada: `c9` → documento de desenho do `n21` → `n21` → `a10`. O `a12` (Playwright) entra junto com o `n19`.
+Ordem combinada: `c9` → documento de desenho do `n21` → `n21` → `a10`.
 
 ### Interface
 
@@ -30,7 +29,7 @@ Ordem combinada: `c9` → documento de desenho do `n21` → `n21` → `a10`. O `
 
   Antes de código, um documento de desenho curto para aprovar: o modelo de interação, as perguntas que a página responde e a biblioteca do mapa. Em aberto: o que é mais importante mostrar (define a hierarquia) e quais análises são mais "o Vitor".
 
-  - **Problemas de hoje.** O clique leva à página quando o nó tem uma e abre o menu quando não tem (tech, tópico): quem usa não prevê. O layout é calculado uma vez e desenhado parado, sem zoom, arrastar nem movimento: parece travado. Tudo depende de hover e não funciona no toque. Na matriz tech × projeto, as colunas giram e cortam nomes ("Cemitério Caboclo" vira "Cemitério") e ela estoura no celular; a adoção no tempo tem 39 linhas sem agrupamento; os gráficos não conversam entre si.
+  - **Problemas de hoje.** O clique leva à página quando o nó tem uma e abre o menu quando não tem (tech, tópico): quem usa não prevê. O layout é calculado uma vez e desenhado parado, sem zoom, arrastar nem movimento: parece travado. Tudo depende de hover e não funciona no toque. Na matriz tech × projeto, as colunas giram e cortam nomes ("Cemitério Caboclo" vira "Cemitério") e, no celular, ela só cabe rolando de lado; a adoção no tempo tem 39 linhas sem agrupamento; os gráficos não conversam entre si.
   - **Interação, no estilo Obsidian.** Clique esquerdo seleciona (destaca os vizinhos e abre um painel lateral com resumo, ligações e "abrir"), nunca navega direto; duplo clique ou o botão do painel abre a página; clique direito abre o menu de nó do site; roda dá zoom, arrastar o fundo move a vista, arrastar um nó mexe nele e a simulação reage e assenta; grafo local (o nó e os vizinhos de 1 ou 2 níveis). No toque: tocar seleciona, pinça dá zoom, pressionar e segurar abre o menu.
   - **Biblioteca do mapa.** Em TS puro, sem Vue nem imports do site (física, canvas, zoom e arrastar, eventos), escrita como se já fosse biblioteca. Proposta para o documento de desenho: a física pelo `d3-force` (pequeno, sem DOM) e o resto à mão (canvas, zoom, eventos, toque), que é a parte que mostra trabalho; o componente Vue só a envolve. Fica neste repositório, numa pasta isolada, enquanto a API muda; extrair para um repositório próprio (e publicar) quando estabilizar, e ela vira um projeto de portfólio por si. Um clone do Obsidian inteiro (editor, vault, plugins) fica fora: é outro produto.
   - **Etapas, nesta ordem:**
@@ -54,7 +53,6 @@ Ordem combinada: `c9` → documento de desenho do `n21` → `n21` → `a10`. O `
 
 ### Fundação técnica
 
-- **`a12`** `[ci]` **Fumaça com Playwright.** Em 390px, nenhuma rota com rolagem horizontal: trava o `n19` para não voltar. Roda no `npm run check` e na CI. O resto do `a12` já existe: Vitest no `core/content` (grafo, validação, consultas, Markdown), nos dados do grafo, nos filtros das listagens e no terminal (núcleo e comandos de arquivo); o `check:dist`, que confere a prévia de link de cada rota no build; a CI no GitHub Actions e o `master` protegido (merge só por PR, com a CI passando). Sem teste de unidade, de propósito: as camadas ASCII e os composables de DOM, que ficam com o Playwright.
 - **`a10`** `[docs]` **ARCHITECTURE.md como guia de construção.** Curto e normativo: o que **deve** e o que **nunca** se faz; camadas e quem importa quem (`core` não importa `shared`/`modules`; `shared` não importa `modules`; módulo não importa módulo, salvo exceções registradas); onde cada coisa mora; receitas (página, módulo, componente, tipo de nó, idioma, comando do terminal); definição de pronto (`npm run check` passando, PENDENCIAS, formato do commit). Não explica o funcionamento: aponta para o README da pasta (`a11`). O que der para checar entra no `npm run check` (`a12`): cor fixa, `aria-label`/`title`/`alt` escritos à mão, import entre módulos fora da lista, `height` fixo em `px` com texto.
 
 ## 3. Esperando material

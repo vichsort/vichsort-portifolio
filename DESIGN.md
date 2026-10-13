@@ -77,9 +77,11 @@ Este documento consolida os princípios visuais, o sistema de tokens, as camadas
 | `--text-3xl` | `2rem` | `32px` | Títulos de seção principais (H2) |
 | `--text-4xl` | `2.75rem` | `44px` | Destaques numéricos e títulos de página |
 | `--text-5xl` | `3.75rem` | `60px` | Título do Hero e display principal |
-| `--text-page-title` | `clamp(2.5rem, 6vw, 4.5rem)` | `40–72px` | Título (h1) das páginas internas |
+| `--text-page-title` | `clamp(2.5rem, 6vw, 4.5rem)` | `40–72px` | Título (h1) das páginas internas, sempre com `v-fit-title` e `font-size: var(--text-page-title-fit)`: no celular, encolhe até a palavra mais longa caber ("Investigaciones" a 24px) |
 
 Fora da escala, só três coisas: títulos de seção fluidos (`clamp` com `vw`, e o valor fixo que os substitui no celular), que ficam no componente; texto decorativo (o ano gigante ao fundo da linha do tempo, `8rem`); e tamanhos relativos em `em` onde o elemento acompanha o texto em volta (código inline no Markdown do terminal, `0.92em`; o sufixo dos números da home, `0.5em`). Num `clamp`, o mínimo em `rem` precisa caber na tela mais estreita com a fonte no máximo; se não couber, use `min(<rem>, <vw>)` no mínimo (ver `HeroAsciiTitle`).
+
+Nada rola para o lado no celular: o `npm run test:e2e` confere todas as rotas a 390px, nos quatro idiomas. Tabela larga rola dentro de um contêiner com `overflow-x: auto` e `position: relative` (sem o `relative`, os `.sr-only` das células escapam do recorte e alargam a página); palavra longa sem espaço (e-mail, URL) leva `overflow-wrap: anywhere`; coluna de grid que encolhe com a tela usa `minmax(0, 1fr)`.
 
 ### Espaçamento, raios e layout
 
